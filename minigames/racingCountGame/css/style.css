@@ -1,0 +1,47 @@
+body {
+    background-color: rgb(36, 36, 36);
+    background-image: url(../images/backgrounds/game_board.png);
+}
+
+#game-field {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+}
+
+.runner {
+    position: absolute;
+    right: 101vw;
+    transition-property: right, left;
+    transition-timing-function: linear;
+    top: var(--runner-top);
+}
+
+.run {
+    animation-duration: var(--runner-speed);
+    animation-name: race;
+    animation-timing-function: linear;
+    animation-iteration-count: var(--runner-speed);
+}
+
+#result {
+    display: none;
+    color: #fff;
+    font-size: 2rem;
+    justify-content: center;
+    flex-flow: column;
+    text-align: center;
+}
+
+#result.show {
+    display: flex;
+}
+
+@keyframes race {
+    from {
+        right: 101vw;
+    }
+    to {
+        right: -50px;
+    }
+}

@@ -1,0 +1,18 @@
+Bug=Fire, Flying, Rock
+Dark=Bug, Fairy, Fighting
+Dragon=Dragon, Fairy, Ice
+Electric=Ground
+Fairy=Poison, Steel
+FightingFairy, Flying, Psychic
+Fire=Ground, Rock, Water
+Flying=Electric, Ice, Rock
+Ghost=Dark, Ghost
+Grass=Bug, Fire, Flying, Ice, Poison
+Ground=Grass, Ice, Water
+Ice=Fighting, Fire, Rock, Steel
+Normal=Fighting
+Poison=Ground, Psychic
+Psychic=Bug, Dark, Ghost
+Rock=Fighting, Grass, Ground, Steel, Water
+Steel=Fighting, Fire, Ground
+Water=Electric, Grass
