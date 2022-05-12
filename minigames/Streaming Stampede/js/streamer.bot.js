@@ -57,7 +57,7 @@ function bindEvents() {
     }
 
     ws.onmessage = function(event) {
-        // grab message and parse JSON 
+        // grab message and parse JSON
         const msg = event.data;
         const wsdata = JSON.parse(msg);
 
@@ -84,6 +84,12 @@ function bindEvents() {
                 sprites = wsdata.data.arguments.sprites;
                 buildGameLogic();
                 break;
+            case "Countdown":
+                // Display a x secound countdown
+            break;
+            case "Start Game":
+                startRace();
+            break;
             case "Clear Game":
                 clearResultField();
                 break;
@@ -103,7 +109,7 @@ function bindEvents() {
 }
 
 /****************
- *  Game Logic  * 
+ *  Game Logic  *
  ****************/
 
 /**
@@ -213,7 +219,7 @@ function endRace() {
 
 /**
  * Sends in chat that voting is open
- * Enable Voting command 
+ * Enable Voting command
  */
 function callForVoting() {
     ws.send(JSON.stringify({
