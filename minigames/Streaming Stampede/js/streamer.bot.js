@@ -240,7 +240,7 @@ function showWinner(winnerUsername) {
     $("#winner").append(winnerUsername);
     $("#result").addClass("show");
 
-    $("#game-field").children().remove();
+    $("#gameField").children().remove();
 }
 
 /**

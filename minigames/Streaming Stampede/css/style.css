@@ -3,10 +3,12 @@ body {
     background-image: url(../images/backgrounds/game_board.png);
 }
 
-#game-field {
+#gameField {
     width: 100vw;
     height: 100vh;
-    position: fixed;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .runner {
@@ -24,6 +26,100 @@ body {
     animation-iteration-count: var(--runner-speed);
 }
 
+
+@keyframes race {
+    from {
+        right: 101vw;
+    }
+
+    to {
+        right: -50px;
+    }
+}
+
+
+/**
+ * Overlay
+ */
+#overlay {
+    justify-content: center;
+    display: grid;
+    margin-top: 15%;
+}
+
+/**
+ * Player Selection
+ */
+
+#playerSelection {
+    width: 800px;
+    height: auto;
+    background-color: azure;
+    padding: 1%;
+}
+
+#playerSelection h1 {
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+#players {
+    display: flex;
+    gap: 1%;
+    margin-bottom: 15px;
+}
+
+#playerAvatars {
+    width: 53%;
+    display: flex;
+    gap: 2%;
+}
+
+#playerNames {
+    display: flex;
+    flex-flow: column;
+    position: relative;
+    width: 45%;
+}
+
+.username {
+    width: 100%;
+    height: 25px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    color: #fff;
+    font-weight: bold;
+    line-height: 25px;
+  }
+
+
+.player-1{
+    background-color: blue;
+}
+.player-2{
+    background-color: green;
+}
+.player-3{
+    background-color: red;
+}
+.player-4{
+    background-color: orange;
+}
+
+
+#gameDescription {
+    font-size: 1.7rem;
+  }
+
+/**
+   * Questions
+   */
+
+
+/**
+   * Result
+   */
+
 #result {
     display: none;
     color: #fff;
@@ -35,13 +131,4 @@ body {
 
 #result.show {
     display: flex;
-}
-
-@keyframes race {
-    from {
-        right: 101vw;
-    }
-    to {
-        right: -50px;
-    }
 }
