@@ -16,4 +16,8 @@ Please be so kind and give me credit or let me know if you implement OBS Overlay
 - Show last clip
 - Shoutout
 ## Actions
+- PulseClip [Pulsoid](https://pulsoid.net)
 ## Examples
+- Discord
+- Media
+    - [Random Video from Folder](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/examples/Files/RandomVideo)
