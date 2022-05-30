@@ -1,0 +1,68 @@
+body {
+    background-color: black;
+}
+
+#poll {
+    background-color: #444;
+    color: #fff;
+    padding: 1rem;
+    display: none;
+}
+
+#time {
+    height: 5px;
+    background-color: #5b5b5b;
+}
+
+#timeleft {
+    animation-duration: var(--timer);
+    animation-name: timer;
+    animation-timing-function: linear;
+    height: 100%;
+    background-color: purple;
+}
+
+@keyframes timer {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+#poll-title {
+    font-size: 1.8rem;
+}
+
+.choice {
+    background-color: #353535;
+    margin: .5rem;
+    border-radius: 1rem;
+    padding: .2rem 0;
+    position: relative;
+}
+
+.info {
+    position: relative;
+    padding: 0 0.4rem;
+}
+
+.choice strong,
+.choice span {
+    z-index: 999;
+    position: relative;
+}
+
+.choice span {
+    float: right;
+}
+
+.percent {
+    border-radius: 1rem;
+    background-color: #ac008f;
+    width: var(--percent);
+    position: absolute;
+    height: 100%;
+    top: 0;
+}
