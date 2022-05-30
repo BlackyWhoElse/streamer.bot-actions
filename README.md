@@ -21,3 +21,5 @@ Please be so kind and give me credit or let me know if you implement OBS Overlay
 - Discord
 - Media
     - [Random Video from Folder](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/examples/Files/RandomVideo)
+- Database
+    - MongoDB
