@@ -16,6 +16,7 @@ Please be so kind and give me credit or let me know if you implement OBS Overlay
 - Polls
 - Random Clips
 - Shoutout
+- Magische Miesmuschell
 ## Actions
 - PulseClip [Pulsoid](https://pulsoid.net)
 ## Examples

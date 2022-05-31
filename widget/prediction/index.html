@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twitch Prediction</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <div id="prediction" class="multi">
+        <div class="prediction-header">
+            <h2>Bekommt Blacky Punkte oder verliert er wieder</h2>
+            <h4>400 Kanalpunkte an 1 Zuschauer vergeben.</h4>
+        </div>
+        <div id="choices">
+            <div id="outcome-1" class="outcome">
+                <h3>Plus</h3>
+                <div class="info">
+                    <div class="stats">
+                        <div class="points">0</div>
+                        <div class="win-ratio">-:-</div>
+                        <div class="beter">0</div>
+                        <div class="points">0</div>
+                    </div>
+                    <div class="percent-wrapper">
+                        <p class="percent">0%</p>
+                        <div class="percent-bar" style="--percent:0%"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="outcome-2" class="outcome">
+                <h3>Minus</h3>
+                <div class="info">
+                    <div class="stats">
+                        <div class="points">400</div>
+                        <div class="win-ratio">1:1</div>
+                        <div class="beter">1</div>
+                        <div class="highest-points">400</div>
+                    </div>
+                    <div class="percent-wrapper">
+                        <p class="percent">100%</p>
+                        <div class="percent-bar" style="--percent:100%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

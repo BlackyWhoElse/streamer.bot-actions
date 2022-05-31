@@ -1,0 +1,139 @@
+:root {
+    --background-color: #2b2b2b;
+    --choice-1-color: #4ca3ff;
+    --choice-2-color: #f763ed;
+    --choice-3-color: #f7c863;
+    --choice-4-color: #68f763;
+    --choice-5-color: #f76363;
+    --choice-6-color: #63edf7;
+    --choice-7-color: #8b63f7;
+    --choice-8-color: #f7ed63;
+    --choice-9-color: #6392f7;
+    --choice-10-color: #f76363;
+    --choice-count: 3;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+/**
+ * Default Prediction Styles
+ */
+
+#prediction {
+    background-color: var(--background-color);
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 1rem;
+}
+
+.prediction-header h2 {
+    margin-bottom: 0;
+}
+
+.prediction-header h4 {
+    margin-top: 0;
+    font-weight: normal;
+}
+
+#choices {
+    display: flex;
+    flex: 0 1 auto;
+    flex-flow: row wrap;
+    margin: 0;
+}
+
+#choices>div {
+    border-right: 1px solid #5c5c5c;
+}
+
+#choices>div:last-child {
+    border-right: none;
+}
+
+.outcome {
+    flex: 0 1 50%;
+    max-width: 50%;
+    box-sizing: border-box;
+    padding: 0 1rem;
+}
+
+#outcome-1 {
+    color: var(--choice-1-color);
+}
+
+#outcome-2 {
+    color: var(--choice-2-color);
+}
+
+
+h3 {
+    padding: 0 1rem;
+}
+
+#outcome-1 h3 {
+    text-align: right;
+}
+
+
+.info {
+    display: flex;
+    flex-flow: row;
+}
+
+#outcome-2 .info {
+    display: flex;
+    flex-flow: row-reverse;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+}
+
+#outcome-2 .stats {
+    flex: initial;
+}
+
+#outcome-2 .percent-wrapper {
+    flex: auto;
+}
+
+.stats div {
+    align-self: baseline;
+    display: flex;
+    margin-bottom: .1rem;
+}
+
+.percent-wrapper {
+    display: inline-flex;
+    flex-flow: column;
+}
+
+.percent {
+    width: 7rem;
+    line-height: 1.2rem;
+    font-size: 3.6rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+#outcome-1 .percent {
+    text-align: right;
+}
+
+
+#outcome-2 .percent {
+    text-align: right;
+}
+
+.percent-bar {
+    height: 10px;
+    min-width: 10px;
+    transition: width 2s;
+    transition-timing-function: ease;
+    transition-timing-function: cubic-bezier(.33, 0, .1, 1);
+    width: var(--percent);
+}

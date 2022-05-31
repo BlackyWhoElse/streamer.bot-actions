@@ -24,7 +24,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function() {
+    ws.onopen = function () {
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
@@ -40,7 +40,7 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function(event) {
+    ws.onmessage = function (event) {
         // grab message and parse JSON
         const msg = event.data;
         const wsdata = JSON.parse(msg);
@@ -57,15 +57,16 @@ function bindEvents() {
         // check for events to trigger
         switch (wsdata.data.name) {
             case "Created Poll":
-                BuildPoll();
+                CreatePoll();
                 break;
             case "Updated Poll":
                 // Todo: Check if Poll has been refreshed and lost if so rebuild
                 UpdatePoll();
                 break;
             case "Completed Poll":
-                // Delete all choices after x sec
-                // and hide again
+                ClearPool();
+                break;
+            case "Terminated Poll":
                 break;
             default:
                 console.log(wsdata.data.name);
@@ -73,16 +74,14 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
 }
 
-/**
- * Build Poll Basic structure
- */
-function BuildPoll() {
+
+function CreatePoll() {
     title = args["poll.Title"];
     $('#poll-title').html(title);
     duration = args["poll.Duration"];
@@ -90,34 +89,44 @@ function BuildPoll() {
     choices = args["poll.choices.count"];
     totalVotes = args["poll.totalVotes"];
 
-    // Create Choice entry
+    // Create Choice entrys
     for (let index = 0; index < choices; index++) {
-        /**
-         * "poll.choice0.bitVotes": 0
-​​         * "poll.choice0.rewardVotes": 0
-​​​         * "poll.choice0.title": "Choice 1"
-         * "poll.choice0.votes": 1
-         */
-        $("#choices").append('<div id="choice-' + index + '" class="choice"><div class="info"><strong>' + args["poll.choice" + index + ".title"] + '</strong><span>0% (0)</span></div><div class="percent" style="--percent:0%"></div></div>');
+        $("#choices").append(renderChoice(index,args[`"poll.choice${index}.title"`]));
     }
 
     // Show Poll after filling
     $('#poll').css('display', "block");
 }
 
-/**
- * Update Choices with live data so it can be animated
- */
 function UpdatePoll() {
     totalVotes = args["poll.totalVotes"];
 
     // Create Choice entry
     for (let index = 0; index < choices; index++) {
-        // Update Values 
-        perc = percentage(args["poll.choice0.votes"], totalVotes)
-        $('#choice-' + index + ' info span').html(perc + "% (" + args["poll.choice0.votes"] + ")");
-        $('#choice-' + index + ' percent').css('--percent', perc + "%");
+        // Update Values
+        updateChoice(index,args["poll.choice0.votes"]);
     }
+}
+
+function ClearPool() {
+    $("#choices").empty();
+}
+
+function renderChoice(index,title){
+   return ({ url, title }) => `
+   <div id="choice-${index}" class="choice">
+    <div class="info">
+    <strong>${title}</strong><span>0% (0)</span>
+    </div>
+    <div class="percent" style="--percent:0%"></div>
+   </div>`;
+
+}
+
+function updateChoice(index,votes){
+    perc = percentage(args["poll.choice0.votes"], totalVotes)
+    $(`#choice-${index} info span`).html(perc + `% (${votes})`);
+    $(`#choice-${index} percent`).css('--percent', perc + "%");
 }
 
 function percentage(partialValue, totalValue) {
