@@ -2,12 +2,13 @@
  * Websocket Stuff
  */
 
-var poll;
+var prediction;
+var args;
 
 var title;
 var duration;
-var choices;
-var totalVotes;
+var totalOutcomes;
+var totalPoints;
 
 window.addEventListener('load', (event) => {
     console.log('page is fully loaded');
@@ -24,7 +25,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function () {
+    ws.onopen = function() {
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
@@ -40,7 +41,7 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function (event) {
+    ws.onmessage = function(event) {
         // grab message and parse JSON
         const msg = event.data;
         const wsdata = JSON.parse(msg);
@@ -57,7 +58,7 @@ function bindEvents() {
         // check for events to trigger
         switch (wsdata.data.name) {
             case "Created Prediction":
-
+                CreatePrediction();
                 break;
             case "Updated Prediction":
 
@@ -77,21 +78,58 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
 }
 
-function CreatePrediction(){
+function CreatePrediction() {
+
+    let prediction = JSON.parse(args["prediction._json"]);
+
+    title = prediction.Title;
+    $('#title').html(title);
+    $('#summery').html(`0 Punkte wurden von 0 Teilnehemern bis jetzt gewettet`);
+    duration = prediction.PredictionWindow;
+    $('#timeleft').css('--timer', duration + "s");
+    index = 0;
+    prediction.Outcomes.forEach(outcome => {
+        index++;
+        $("#outcomes").append(renderOutcome(index, outcome));
+    });
 
 }
 
-function UpdatePrediction(){
+function UpdatePrediction() {
 
 }
 
+function renderOutcome(index, outcome) {
 
-function percentage(partialValue, totalValue) {
+    var title = outcome.Title;
+    var total_points = outcome.total_points;
+    var total_users = outcome.total_users;
+
+    return `
+    <div id="outcome-${index}" class="outcome">
+                <h3>${title}</h3>
+                <div class="info">
+                    <div class="stats">
+                        <div class="points">${total_points}</div>
+                        <div class="win-ratio">-:-</div>
+                        <div class="beter">${total_users}</div>
+                        <div class="top"></div>
+                    </div>
+                    <div class="percent-wrapper">
+                        <p class="percent">0%</p>
+                        <div class="percent-bar" style="--percent:0"></div>
+                    </div>
+                </div>
+            </div>`;
+}
+
+
+function percentage(partialValue, totalValue = 0) {
     return (100 * partialValue) / totalValue;
 }

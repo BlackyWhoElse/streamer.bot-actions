@@ -1,0 +1,44 @@
+prediction.Id = "2e6994c8-4db0-473a-a4c8-03cd74da2b19"
+prediction.CreatedAt = 31.05 .2022 13: 33: 49
+prediction.Title = asdasdasdsa
+prediction.PredictionWindow = 60
+prediction.outcome0.id = f0e2fe61 - 511 f - 4361 - 89 c3 - 5 f91189822b7
+prediction.outcome0.title = asdasdasd
+prediction.outcome0.users = 0
+prediction.outcome0.points = 0
+prediction.outcome0.color = BLUE
+prediction.outcome1.id = cff11516 - 1308 - 43 cc - 96 bf - 8 a8b14f33a54
+prediction.outcome1.title = sdasdasdas
+prediction.outcome1.users = 0
+prediction.outcome1.points = 0
+prediction.outcome1.color = PINK
+prediction._json = {
+    "Outcomes": [{
+        "Id": "f0e2fe61-511f-4361-89c3-5f91189822b7",
+        "Color": "BLUE",
+        "Title": "asdasdasd",
+        "total_points": 0,
+        "total_users": 0,
+        "top_predictors": []
+    }, {
+        "Id": "cff11516-1308-43cc-96bf-8a8b14f33a54",
+        "Color": "PINK",
+        "Title": "sdasdasdas",
+        "total_points": 0,
+        "total_users": 0,
+        "top_predictors": []
+    }],
+    "DateTime": "2022-05-31T15:33:51.0336196+02:00",
+    "ChannelId": 27638012,
+    "Type": 1,
+    "Status": 1,
+    "Id": "2e6994c8-4db0-473a-a4c8-03cd74da2b19",
+    "Title": "asdasdasdsa",
+    "CreatedAt": "2022-05-31T13:33:49.4777131Z",
+    "EndedAt": null,
+    "LockedAt": null,
+    "CreatedBy": { "Type": "USER", "user_id": 27638012, "user_display_name": "Blackywersonst" },
+    "EndedBy": null,
+    "LockedBy": null,
+    "PredictionWindow": 60
+}

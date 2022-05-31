@@ -17,6 +17,7 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+
 /**
  * Default Prediction Styles
  */
@@ -37,18 +38,40 @@ body {
     font-weight: normal;
 }
 
-#choices {
+#time {
+    height: 5px;
+    background-color: #5b5b5b;
+}
+
+#timeleft {
+    animation-duration: var(--timer);
+    animation-name: timer;
+    animation-timing-function: linear;
+    height: 100%;
+    background-color: purple;
+}
+
+@keyframes timer {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+#outcomes {
     display: flex;
     flex: 0 1 auto;
     flex-flow: row wrap;
     margin: 0;
 }
 
-#choices>div {
+#outcomes>div {
     border-right: 1px solid #5c5c5c;
 }
 
-#choices>div:last-child {
+#outcomes>div:last-child {
     border-right: none;
 }
 
@@ -67,7 +90,6 @@ body {
     color: var(--choice-2-color);
 }
 
-
 h3 {
     padding: 0 1rem;
 }
@@ -75,7 +97,6 @@ h3 {
 #outcome-1 h3 {
     text-align: right;
 }
-
 
 .info {
     display: flex;
@@ -110,27 +131,35 @@ h3 {
 #outcome-1 .points::before {
     content: url('../img/point.svg');
 }
+
 #outcome-1 .win-ratio::before {
     content: url('../img/trophy.svg');
 }
+
 #outcome-1 .beter::before {
     content: url('../img/votes.svg');
 }
+
 #outcome-1 .top::before {
     content: url('../img/top.svg');
 }
+
 #outcome-2 .points::after {
     content: url('../img/point.svg');
 }
+
 #outcome-2 .win-ratio::after {
     content: url('../img/trophy.svg');
 }
+
 #outcome-2 .beter::after {
     content: url('../img/votes.svg');
 }
+
 #outcome-2 .top::after {
     content: url('../img/top.svg');
 }
+
 .percent-wrapper {
     display: inline-flex;
     flex-flow: column;
@@ -147,7 +176,6 @@ h3 {
 #outcome-1 .percent {
     text-align: right;
 }
-
 
 #outcome-2 .percent {
     text-align: right;

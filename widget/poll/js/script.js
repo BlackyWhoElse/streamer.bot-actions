@@ -3,6 +3,7 @@
  */
 
 var poll;
+var args;
 
 var title;
 var duration;
@@ -24,7 +25,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function () {
+    ws.onopen = function() {
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
@@ -40,7 +41,7 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function (event) {
+    ws.onmessage = function(event) {
         // grab message and parse JSON
         const msg = event.data;
         const wsdata = JSON.parse(msg);
@@ -74,7 +75,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
@@ -91,7 +92,7 @@ function CreatePoll() {
 
     // Create Choice entrys
     for (let index = 0; index < choices; index++) {
-        $("#choices").append(renderChoice(index,args[`"poll.choice${index}.title"`]));
+        $("#choices").append(renderChoice(index, args[`"poll.choice${index}.title"`]));
     }
 
     // Show Poll after filling
@@ -104,7 +105,7 @@ function UpdatePoll() {
     // Create Choice entry
     for (let index = 0; index < choices; index++) {
         // Update Values
-        updateChoice(index,args["poll.choice0.votes"]);
+        updateChoice(index, args["poll.choice0.votes"]);
     }
 }
 
@@ -112,8 +113,8 @@ function ClearPool() {
     $("#choices").empty();
 }
 
-function renderChoice(index,title){
-   return ({ url, title }) => `
+function renderChoice(index, title) {
+    return `
    <div id="choice-${index}" class="choice">
     <div class="info">
     <strong>${title}</strong><span>0% (0)</span>
@@ -123,7 +124,7 @@ function renderChoice(index,title){
 
 }
 
-function updateChoice(index,votes){
+function updateChoice(index, votes) {
     perc = percentage(args["poll.choice0.votes"], totalVotes)
     $(`#choice-${index} info span`).html(perc + `% (${votes})`);
     $(`#choice-${index} percent`).css('--percent', perc + "%");
