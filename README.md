@@ -10,10 +10,11 @@ Please be so kind and give me credit or let me know if you implement OBS Overlay
 - Shy Guy Says [Mario Party]
 - Roll Call [Mario Party]
 - BOWSER’S Big Blast [Mario Party]
+- Who's That Pokemon?
 ## Widgets
 - Predictions
 - Polls
-- Show last clip
+- Random Clips
 - Shoutout
 ## Actions
 - PulseClip [Pulsoid](https://pulsoid.net)
