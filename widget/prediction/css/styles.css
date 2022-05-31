@@ -24,7 +24,7 @@ body {
 #prediction {
     background-color: var(--background-color);
     color: #fff;
-    padding: 1rem 2rem;
+    padding: 1rem;
     border-radius: 1rem;
 }
 
@@ -107,6 +107,30 @@ h3 {
     margin-bottom: .1rem;
 }
 
+#outcome-1 .points::before {
+    content: url('../img/point.svg');
+}
+#outcome-1 .win-ratio::before {
+    content: url('../img/trophy.svg');
+}
+#outcome-1 .beter::before {
+    content: url('../img/votes.svg');
+}
+#outcome-1 .top::before {
+    content: url('../img/top.svg');
+}
+#outcome-2 .points::after {
+    content: url('../img/point.svg');
+}
+#outcome-2 .win-ratio::after {
+    content: url('../img/trophy.svg');
+}
+#outcome-2 .beter::after {
+    content: url('../img/votes.svg');
+}
+#outcome-2 .top::after {
+    content: url('../img/top.svg');
+}
 .percent-wrapper {
     display: inline-flex;
     flex-flow: column;
