@@ -56,7 +56,6 @@ body {
     from {
         width: 100%;
     }
-
     to {
         width: 0%;
     }
@@ -90,10 +89,6 @@ body {
 
 #outcome-2 {
     color: var(--choice-2-color);
-}
-
-h3 {
-    padding: 0 1rem;
 }
 
 #outcome-1 h3 {
@@ -130,41 +125,47 @@ h3 {
     margin-bottom: .1rem;
 }
 
-#outcome-1 .stats div::before, #outcome-2 .stats div::after {
+#outcome-1 .stats div::before,
+#outcome-2 .stats div::after {
     width: 16px;
     height: 16px;
     content: '';
     background-repeat: no-repeat;
 }
 
-#outcome-1 .points::before, #outcome-2 .points::after {
+#outcome-1 .points::before,
+#outcome-2 .points::after {
     -webkit-mask-image: url('../img/point.svg');
     mask-image: url('../img/point.svg');
 }
 
-#outcome-1 .win-ratio::before, #outcome-2 .win-ratio::after {
+#outcome-1 .win-ratio::before,
+#outcome-2 .win-ratio::after {
     -webkit-mask-image: url('../img/trophy.svg');
     mask-image: url('../img/trophy.svg');
 }
 
-#outcome-1 .beter::before, #outcome-2 .beter::after {
+#outcome-1 .beter::before,
+#outcome-2 .beter::after {
     -webkit-mask-image: url('../img/votes.svg');
     mask-image: url('../img/votes.svg');
 }
 
-#outcome-1 .top::before, #outcome-2 .top::after {
+#outcome-1 .top::before,
+#outcome-2 .top::after {
     -webkit-mask-image: url('../img/top.svg');
     mask-image: url('../img/top.svg');
 }
 
 #outcome-1 div::before {
     background-color: var(--choice-1-color);
+    margin-right: 5px;
 }
 
 #outcome-2 div::after {
     background-color: var(--choice-2-color);
+    margin-left: 5px;
 }
-
 
 .percent-wrapper {
     display: inline-flex;
@@ -184,7 +185,7 @@ h3 {
 }
 
 #outcome-2 .percent {
-    text-align: right;
+    text-align: left;
 }
 
 .percent-bar {

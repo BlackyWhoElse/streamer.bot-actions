@@ -10,8 +10,10 @@ var duration;
 var choices;
 var totalVotes;
 
+var stringDefaultTitle = "There is no poll running right now";
+
 window.addEventListener('load', (event) => {
-    console.log('page is fully loaded');
+    $('#title').html(stringDefaultTitle);
     connectws();
 });
 
@@ -84,7 +86,7 @@ function bindEvents() {
 
 function CreatePoll() {
     title = args["poll.Title"];
-    $('#poll-title').html(title);
+    $('#title').html(title);
     duration = args["poll.Duration"];
     $('#timeleft').css('--timer', duration + "s");
     choices = args["poll.choices.count"];

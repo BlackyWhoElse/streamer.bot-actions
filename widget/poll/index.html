@@ -8,16 +8,20 @@
     <title>Twitch Polls</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/script.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
     <div id="poll">
+        <h2 id="title"></h2>
         <div id="time">
-            <div id="timeleft" style="--timer:50s"></div>
+            <div id="timeleft" style="--timer:0s"></div>
         </div>
-        <h1 id="poll-title">Ich bins 1# Poll</h1>
         <div id="choices">
             <!-- Filled by JS -->
         </div>
