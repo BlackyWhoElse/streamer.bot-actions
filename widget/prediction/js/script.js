@@ -61,7 +61,7 @@ function bindEvents() {
                 CreatePrediction();
                 break;
             case "Updated Prediction":
-
+                UpdatePrediction();
                 break;
             case "Locked Prediction":
 
@@ -90,7 +90,7 @@ function CreatePrediction() {
 
     title = prediction.Title;
     $('#title').html(title);
-    $('#summery').html(`0 Punkte wurden von 0 Teilnehemern bis jetzt gewettet`);
+    $('#summery').html(`0 Punkte wurden von 0 Teilnehmern bis jetzt gewettet`);
     duration = prediction.PredictionWindow;
     $('#timeleft').css('--timer', duration + "s");
     index = 0;
@@ -102,7 +102,15 @@ function CreatePrediction() {
 }
 
 function UpdatePrediction() {
+    let prediction = JSON.parse(args["prediction._json"]);
 
+    $('#summery').html(`0 Punkte wurden von 0 Teilnehmern bis jetzt gewettet`);
+
+    index = 0;
+    prediction.Outcomes.forEach(outcome => {
+        index++;
+        updateOutcome(index, outcome);
+    });
 }
 
 function renderOutcome(index, outcome) {
@@ -127,6 +135,15 @@ function renderOutcome(index, outcome) {
                     </div>
                 </div>
             </div>`;
+}
+
+function updateOutcome(index, outcome){
+    $(`#outcome-${index} .points`).html(outcome.total_points);
+    $(`#outcome-${index} .beter`).html(outcome.total_users);
+}
+
+function updateSummery(){
+
 }
 
 
