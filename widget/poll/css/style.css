@@ -78,9 +78,49 @@ body {
 
 .percent {
     border-radius: 1rem;
-    background-color: var(--choice-1-color);
     width: var(--percent);
     position: absolute;
     height: 100%;
     top: 0;
+    transition: all .5s linear;
+}
+
+#choice-1 .percent {
+    background-color: var(--choice-1-color);
+}
+
+#choice-2 .percent {
+    background-color: var(--choice-2-color);
+}
+
+#choice-3 .percent {
+    background-color: var(--choice-3-color);
+}
+
+#choice-4 .percent {
+    background-color: var(--choice-4-color);
+}
+
+#choice-5 .percent {
+    background-color: var(--choice-5-color);
+}
+
+#choice-6 .percent {
+    background-color: var(--choice-6-color);
+}
+
+#choice-7 .percent {
+    background-color: var(--choice-7-color);
+}
+
+#choice-8 .percent {
+    background-color: var(--choice-8-color);
+}
+
+#choice-9 .percent {
+    background-color: var(--choice-9-color);
+}
+
+#choice-10 .percent {
+    background-color: var(--choice-10-color);
 }

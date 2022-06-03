@@ -7,7 +7,6 @@ var args;
 
 var title;
 var duration;
-var choices;
 var totalVotes;
 
 var stringDefaultTitle = "There is no poll running right now";
@@ -56,6 +55,7 @@ function bindEvents() {
 
         console.debug(wsdata);
         args = wsdata.data.arguments;
+        poll = JSON.parse(args["poll._json"]);
 
         // check for events to trigger
         switch (wsdata.data.name) {
@@ -83,53 +83,66 @@ function bindEvents() {
     };
 }
 
-
+/**
+ * Action Controller Functions
+ */
 function CreatePoll() {
-    title = args["poll.Title"];
+    title = poll.Title;
     $('#title').html(title);
-    duration = args["poll.Duration"];
+    duration = poll.duration;
     $('#timeleft').css('--timer', duration + "s");
-    choices = args["poll.choices.count"];
-    totalVotes = args["poll.totalVotes"];
+    totalVotes = poll.totalVotes;
 
-    // Create Choice entrys
-    for (let index = 0; index < choices; index++) {
-        $("#choices").append(renderChoice(index, args[`"poll.choice${index}.title"`]));
-    }
-
-    // Show Poll after filling
-    $('#poll').css('display', "block");
+    index = 0;
+    poll.choices.forEach(choice => {
+        index++;
+        $("#choices").append(renderChoice(index, choice));
+    });
 }
 
 function UpdatePoll() {
-    totalVotes = args["poll.totalVotes"];
-
+    totalVotes = poll.totalVotes;
     // Create Choice entry
-    for (let index = 0; index < choices; index++) {
+    index = 0;
+    poll.choices.forEach(choice => {
+        index++;
         // Update Values
-        updateChoice(index, args["poll.choice0.votes"]);
-    }
+        updateChoice(index, choice);
+    });
 }
 
 function ClearPool() {
-    $("#choices").empty();
+    //$("#choices").empty();
 }
 
-function renderChoice(index, title) {
+
+/**
+ * This will render the Choice with everything in it
+ * @param {int} index 
+ * @param {object} choice 
+ * @returns 
+ */
+function renderChoice(index, choice) {
     return `
-   <div id="choice-${index}" class="choice">
+   <div id="choice-${index}" class="choice" >
     <div class="info">
-    <strong>${title}</strong><span>0% (0)</span>
+    <strong>${choice.title}</strong><span>0% (0)</span>
     </div>
-    <div class="percent" style="--percent:0%"></div>
+    <div class="percent" style="--percent:0%;"></div>
    </div>`;
 
 }
 
-function updateChoice(index, votes) {
-    perc = percentage(args["poll.choice0.votes"], totalVotes)
-    $(`#choice-${index} info span`).html(perc + `% (${votes})`);
-    $(`#choice-${index} percent`).css('--percent', perc + "%");
+/**
+ * Updates a choice with new data to animate 
+ * percentige bar and how many votes have been cast
+ * @param {int} index 
+ * @param {object} choice 
+ */
+function updateChoice(index, choice) {
+    perc = percentage(choice.total_voters, totalVotes)
+    $(`#choice-${index} .info span`).html(perc + `% (${choice.total_voters})`);
+    $(`#choice-${index} .percent`).css('--percent', perc + "%");
 }
 
 function percentage(partialValue, totalValue) {

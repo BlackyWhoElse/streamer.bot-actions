@@ -1,0 +1,3 @@
+# Poll Widget
+### Todo: 
+- Documentation
