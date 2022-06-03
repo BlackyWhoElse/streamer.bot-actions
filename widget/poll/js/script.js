@@ -67,6 +67,7 @@ function bindEvents() {
                 UpdatePoll();
                 break;
             case "Completed Poll":
+                // Todo: Add delay to this so we can animate a hide animation before clearing
                 ClearPoll();
                 break;
             case "Terminated Poll":
