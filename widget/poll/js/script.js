@@ -67,7 +67,7 @@ function bindEvents() {
                 UpdatePoll();
                 break;
             case "Completed Poll":
-                ClearPool();
+                ClearPoll();
                 break;
             case "Terminated Poll":
                 break;
@@ -111,8 +111,8 @@ function UpdatePoll() {
     });
 }
 
-function ClearPool() {
-    //$("#choices").empty();
+function ClearPoll() {
+    $("#choices").empty();
 }
 
 
