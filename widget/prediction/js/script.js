@@ -93,17 +93,18 @@ function CreatePrediction() {
 
     let prediction = JSON.parse(args["prediction._json"]);
 
-    title = prediction.Title;
+    title = prediction.title;
     $('#title').html(title);
-    $('#summery').html(`0 Punkte wurden von 0 Teilnehmern bis jetzt gewettet`);
-    duration = prediction.PredictionWindow;
+    $('#summery').html(stringSummery);
+    duration = prediction.predictionWindow;
     $('#timeleft').css('--timer', duration + "s");
     index = 0;
-    prediction.Outcomes.forEach(outcome => {
+    prediction.outcomes.forEach(outcome => {
         index++;
         $("#outcomes").append(renderOutcome(index, outcome));
     });
 
+    $('#timeleft').addClass("animate");
 }
 
 function UpdatePrediction() {
@@ -129,7 +130,7 @@ function CancelPrediction() {
 
 function renderOutcome(index, outcome) {
 
-    var title = outcome.Title;
+    var title = outcome.title;
     var total_points = outcome.total_points;
     var total_users = outcome.total_users;
 
