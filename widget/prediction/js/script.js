@@ -133,6 +133,8 @@ function renderOutcome(index, outcome) {
     var total_points = outcome.total_points;
     var total_users = outcome.total_users;
 
+    console.debug(outcome.top_predictors);
+
     return `
     <div id="outcome-${index}" class="outcome">
                 <h3>${title}</h3>

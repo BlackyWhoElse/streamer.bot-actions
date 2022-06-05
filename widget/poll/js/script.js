@@ -9,7 +9,14 @@ var title;
 var duration;
 var totalVotes;
 
+// Milliseconds
+var clearDelay = 5000;
 var stringDefaultTitle = "There is no poll running right now";
+
+
+/**
+ * DO NOT EDIT BELOW IF YOU DONT KNOW WHAT YOU ARE DOING
+ */
 
 window.addEventListener('load', (event) => {
     $('#title').html(stringDefaultTitle);
@@ -47,8 +54,6 @@ function bindEvents() {
         const msg = event.data;
         const wsdata = JSON.parse(msg);
 
-        //console.debug(event);
-
         if (wsdata.data == null) {
             return;
         }
@@ -67,7 +72,8 @@ function bindEvents() {
                 UpdatePoll();
                 break;
             case "Completed Poll":
-                // Todo: Add delay to this so we can animate a hide animation before clearing
+                // This will add poll.winningChoice
+                // Todo: Add a winner screen
                 ClearPoll();
                 break;
             case "Terminated Poll":
@@ -88,7 +94,7 @@ function bindEvents() {
  * Action Controller Functions
  */
 function CreatePoll() {
-    title = poll.Title;
+    title = poll.title;
     $('#title').html(title);
     duration = poll.duration;
     $('#timeleft').css('--timer', duration + "s");
@@ -99,6 +105,9 @@ function CreatePoll() {
         index++;
         $("#choices").append(renderChoice(index, choice));
     });
+
+    $('#timeleft').addClass("animate");
+
 }
 
 function UpdatePoll() {
@@ -112,9 +121,18 @@ function UpdatePoll() {
     });
 }
 
-function ClearPoll() {
-    $("#choices").empty();
+function ShowWinner() {
+
 }
+
+function ClearPoll() {
+    setTimeout(function() {
+        $("#choices").empty();
+        $('#timeleft').removeClass("animate");
+        $('#title').html(stringDefaultTitle);
+    }, clearDelay);
+}
+
 
 
 /**

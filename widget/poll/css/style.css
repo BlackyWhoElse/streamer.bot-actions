@@ -1,7 +1,7 @@
 :root {
-    --background-color: #2b2b2b;
-    --timer-color: purple;
-    --timer-background: #5b5b5b;
+    --background-color: #0e0e10;
+    --timer-color: #9146FF;
+    --timer-background: #1f1f23;
     --choice-1-color: #4ca3ff;
     --choice-2-color: #f763ed;
     --choice-3-color: #f7c863;
@@ -12,8 +12,7 @@
     --choice-8-color: #f7ed63;
     --choice-9-color: #6392f7;
     --choice-10-color: #f76363;
-    --choice-background: #5b5b5b;
-    --choice-count: 3;
+    --choice-background: #18181b;
 }
 
 body {
@@ -33,11 +32,14 @@ body {
 }
 
 #timeleft {
+    height: 100%;
+    background-color: var(--timer-color);
+}
+
+#timeleft.animate {
     animation-duration: var(--timer);
     animation-name: timer;
     animation-timing-function: linear;
-    height: 100%;
-    background-color: var(--timer-color);
 }
 
 @keyframes timer {

@@ -1,5 +1,8 @@
 :root {
-    --background-color: #2b2b2b;
+    --background-color: #0e0e10;
+    --timer-color: #9146FF;
+    --timer-background: #1f1f23;
+    --spacer-color: #18181b;
     --choice-1-color: #4ca3ff;
     --choice-2-color: #f763ed;
     --choice-3-color: #f7c863;
@@ -10,7 +13,6 @@
     --choice-8-color: #f7ed63;
     --choice-9-color: #6392f7;
     --choice-10-color: #f76363;
-    --choice-count: 3;
 }
 
 body {
@@ -44,12 +46,15 @@ body {
     margin-bottom: 1rem;
 }
 
-#timeleft {
+#timeleft.animate {
     animation-duration: var(--timer);
     animation-name: timer;
     animation-timing-function: linear;
+}
+
+#timeleft {
     height: 100%;
-    background-color: purple;
+    background-color: var(--timer-color);
 }
 
 @keyframes timer {
@@ -69,7 +74,7 @@ body {
 }
 
 #outcomes>div {
-    border-right: 1px solid #5c5c5c;
+    border-right: 1px solid var(--spacer-color);
 }
 
 #outcomes>div:last-child {
