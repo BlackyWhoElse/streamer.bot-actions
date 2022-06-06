@@ -210,5 +210,5 @@ function updatePercent(index, outcome) {
  * @returns int
  */
 function percentage(partialValue, totalValue = 0) {
-    return (100 * partialValue) / totalValue;
+    return Math.round((100 * partialValue) / totalValue);
 }
