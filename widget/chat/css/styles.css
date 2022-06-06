@@ -36,11 +36,20 @@ body {
     margin-right: 1rem;
 }
 
+.badges img {
+    width: 15px;
+    margin-left: 2px;
+}
+
 .message {
     padding: 1rem;
     background-color: var(--background-color);
     color: var(--font-color);
     font-size: var(--font-size);
+}
+
+.message .emote {
+    height: 25px;
 }
 
 .name {

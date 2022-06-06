@@ -64,8 +64,7 @@ function bindEvents() {
         }
 
         if (wsdata.event.source === 'Twitch' && wsdata.event.type === 'ChatMessage') {
-            msg = wsdata.data.message;
-            add_message();
+            add_message(wsdata.data.message);
         } else {
             console.log(['Event not implemented', event]);
         }
@@ -79,43 +78,61 @@ function bindEvents() {
     };
 }
 
-async function add_message() {
-    getProfileImage(msg.username).then(data => {
-
-    }).finally(response => {
-        $("#chat").append(renderMessage());
-    });
-
+async function add_message(message) {
+    const msg = new Promise((resolve, reject) => {
+            resolve(getProfileImage(message.username));
+        }).then(avatar => {
+            message.avatar = avatar;
+            return renderBadges(message);
+        }).then(bages => {
+            message.badges.markup = bages;
+            return renderEmotes(message);
+        })
+        .then(msg => {
+            $("#chat").append(renderMessage(msg));
+        }).catch(function(error) {
+            console.error(error);
+            //handle any error that may occur before this point 
+        });
 }
 
-function renderMessage() {
+function renderMessage(message) {
 
-    if (!msg.color) {
-        msg.color = defaultChatColor;
+    if (!message.color) {
+        message.color = defaultChatColor;
     }
 
     return `
     <li class="msg">
             <div class="avatar">
-                <img src="${msg.avatar}">
+                <img src="${message.avatar}">
             </div>
             <div class="message ">
-                <span class="badges"></span>
-                <span class="name" style="--userColor:${msg.color}">${msg.displayName}</span>
-                <div class="content">${msg.message}</div>
+                <span class="badges">${message.badges.markup}</span>
+                <span class="name" style="--userColor:${message.color}">${message.displayName}</span>
+                <div class="content">${message.message}</div>
             </div>
         </li>
         `;
 }
 
-async function renderBadges() {
+async function renderBadges(message) {
     var badges = "";
 
-    msg.badges.forEach(badge => {
-        badges.concat(`<img class="${badge.name}" title="${badge.name}" src="${badge.imageUrl}">`)
+    message.badges.forEach(badge => {
+        badges += `<img class="${badge.name}" title="${badge.name}" src="${badge.imageUrl}">`;
     });
 
     return badges;
+}
+
+async function renderEmotes(message) {
+
+    message.emotes.forEach(emote => {
+        message.message = message.message.replace(emote.name, `<img class="emote ${emote.name}"  title="${emote.name}" src="${emote.imageUrl}">`)
+    });
+
+    return message;
 }
 
 async function getProfileImage(username) {
@@ -125,13 +142,13 @@ async function getProfileImage(username) {
         return avatars.username;
     }
 
-    await fetch(`https://decapi.me/twitch/avatar/${username}`)
+    return fetch(`https://decapi.me/twitch/avatar/${username}`)
         .then(response => {
             return response.text();
         })
-        .then(data => {
-            msg.avatar = data;
-            avatars[username] = data;
+        .then(avatar => {
+            avatars[username] = avatar;
+            return avatar;
         });
 
 }
