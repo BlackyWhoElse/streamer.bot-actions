@@ -10,6 +10,7 @@ I hope you find that stuff usefull.
 
 ## 🕹 Games
 - [Streaming Stampede](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/minigames/Streaming%20Stampede) [Pokemon Stadium 2]
+    - This is not working fully right now!!!
     - Example: https://www.youtube.com/watch?v=w3KY8Th7YhY
 - Shy Guy Says [Mario Party]
 - Roll Call [Mario Party]
@@ -23,7 +24,7 @@ I hope you find that stuff usefull.
 - Shoutout
 - Magische Miesmuschell
 ## ⚙ Actions
-- PulseClip [Pulsoid](https://pulsoid.net)
+- PulseClip 
 ## 📃 Examples
 - Discord
 - Media
