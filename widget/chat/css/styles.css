@@ -1,0 +1,49 @@
+:root {
+    --background-color: #18181b;
+    --avatar-size: 80px;
+    --font-color: #fff;
+    --font-size: 1rem;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+#chat {
+    height: 100vh;
+    position: fixed;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+.msg {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.avatar img {
+    width: var(--avatar-size);
+}
+
+.avatar {
+    margin-right: 1rem;
+}
+
+.message {
+    padding: 1rem;
+    background-color: var(--background-color);
+    color: var(--font-color);
+    font-size: var(--font-size);
+}
+
+.name {
+    color: var(--userColor);
+    font-weight: bold;
+}
