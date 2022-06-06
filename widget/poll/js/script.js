@@ -74,9 +74,10 @@ function bindEvents() {
             case "Completed Poll":
                 // This will add poll.winningChoice
                 // Todo: Add a winner screen
-                ClearPoll();
+                ShowWinner(poll.winningChoice);
                 break;
             case "Terminated Poll":
+                ClearPoll();
                 break;
             default:
                 console.log(wsdata.data.name);
@@ -121,13 +122,17 @@ function UpdatePoll() {
     });
 }
 
-function ShowWinner() {
-
+function ShowWinner(choice) {
+    $("#choices").addClass("showWinner");
+    $(`#${choice.choice_id}`).css('--percent', 100 + "%");
+    $(`#${choice.choice_id}`).addClass("winner");
+    ClearPoll();
 }
 
 function ClearPoll() {
     setTimeout(function() {
         $("#choices").empty();
+        $("#choices").removeClass("showWinner");
         $('#timeleft').removeClass("animate");
         $('#title').html(stringDefaultTitle);
     }, clearDelay);
@@ -143,7 +148,7 @@ function ClearPoll() {
  */
 function renderChoice(index, choice) {
     return `
-   <div id="choice-${index}" class="choice" >
+   <div id="${choice.choice_id}" class="choice choice-${index}" >
     <div class="info">
     <strong>${choice.title}</strong><span>0% (0)</span>
     </div>
@@ -160,10 +165,10 @@ function renderChoice(index, choice) {
  */
 function updateChoice(index, choice) {
     perc = percentage(choice.total_voters, totalVotes)
-    $(`#choice-${index} .info span`).html(perc + `% (${choice.total_voters})`);
-    $(`#choice-${index} .percent`).css('--percent', perc + "%");
+    $(`.choice-${index} .info span`).html(perc + `% (${choice.total_voters})`);
+    $(`.choice-${index} .percent`).css('--percent', perc + "%");
 }
 
 function percentage(partialValue, totalValue) {
-    return (100 * partialValue) / totalValue;
+    return Math.round((100 * partialValue) / totalValue);
 }

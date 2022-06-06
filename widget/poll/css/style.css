@@ -12,6 +12,7 @@
     --choice-8-color: #f7ed63;
     --choice-9-color: #6392f7;
     --choice-10-color: #f76363;
+    --choice-winner: #20961c;
     --choice-background: #18181b;
 }
 
@@ -87,42 +88,54 @@ body {
     transition: all .5s linear;
 }
 
-#choice-1 .percent {
+.choice-1 .percent {
     background-color: var(--choice-1-color);
 }
 
-#choice-2 .percent {
+.choice-2 .percent {
     background-color: var(--choice-2-color);
 }
 
-#choice-3 .percent {
+.choice-3 .percent {
     background-color: var(--choice-3-color);
 }
 
-#choice-4 .percent {
+.choice-4 .percent {
     background-color: var(--choice-4-color);
 }
 
-#choice-5 .percent {
+.choice-5 .percent {
     background-color: var(--choice-5-color);
 }
 
-#choice-6 .percent {
+.choice-6 .percent {
     background-color: var(--choice-6-color);
 }
 
-#choice-7 .percent {
+.choice-7 .percent {
     background-color: var(--choice-7-color);
 }
 
-#choice-8 .percent {
+.choice-8 .percent {
     background-color: var(--choice-8-color);
 }
 
-#choice-9 .percent {
+.choice-9 .percent {
     background-color: var(--choice-9-color);
 }
 
-#choice-10 .percent {
+.choice-10 .percent {
     background-color: var(--choice-10-color);
+}
+
+#choices.showWinner .choice .percent {
+    background-color: var(--choice-background);
+}
+
+.choice.winner .info::before {
+    content: '';
+}
+
+#choices.showWinner .choice.winner .percent {
+    background-color: var(--choice-winner);
 }

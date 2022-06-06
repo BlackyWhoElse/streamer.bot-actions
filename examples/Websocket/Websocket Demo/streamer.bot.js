@@ -52,7 +52,11 @@ function bindEvents() {
         const msg = event.data;
         const wsdata = JSON.parse(msg);
 
-        //console.debug(msg);
+        if (wsdata.data == null) {
+            return;
+        }
+
+        console.debug(msg);
         console.debug(wsdata);
 
         if (wsdata.event.type == "Action") {

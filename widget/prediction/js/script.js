@@ -51,8 +51,6 @@ function bindEvents() {
         const msg = event.data;
         const wsdata = JSON.parse(msg);
 
-        //console.debug(event);
-
         if (wsdata.data == null) {
             return;
         }
@@ -89,21 +87,26 @@ function bindEvents() {
     };
 }
 
+
+/**
+ * Action Controller Functions
+ */
 function CreatePrediction() {
 
     let prediction = JSON.parse(args["prediction._json"]);
 
-    title = prediction.Title;
+    title = prediction.title;
     $('#title').html(title);
-    $('#summery').html(`0 Punkte wurden von 0 Teilnehmern bis jetzt gewettet`);
-    duration = prediction.PredictionWindow;
+    $('#summery').html(stringSummery);
+    duration = prediction.predictionWindow;
     $('#timeleft').css('--timer', duration + "s");
     index = 0;
-    prediction.Outcomes.forEach(outcome => {
+    prediction.outcomes.forEach(outcome => {
         index++;
         $("#outcomes").append(renderOutcome(index, outcome));
     });
 
+    $('#timeleft').addClass("animate");
 }
 
 function UpdatePrediction() {
@@ -112,7 +115,7 @@ function UpdatePrediction() {
     totalUsers = 0;
     index = 0;
 
-    prediction.Outcomes.forEach(outcome => {
+    prediction.outcomes.forEach(outcome => {
         index++;
         updateOutcome(index, outcome);
     });
@@ -124,12 +127,20 @@ function CancelPrediction() {
     // Remove Outcomes and set everything back to default
     $("#outcomes").empty();
     $('#title').html('There is no Prediction running right now!');
-    $('#summery').html('-');
+    $('#summery').html('');
+    $('#timeleft').css('--timer', "0s");
 }
 
+
+/**
+ * 
+ * @param {int} index 
+ * @param {object} outcome 
+ * @returns 
+ */
 function renderOutcome(index, outcome) {
 
-    var title = outcome.Title;
+    var title = outcome.title;
     var total_points = outcome.total_points;
     var total_users = outcome.total_users;
 
@@ -153,6 +164,11 @@ function renderOutcome(index, outcome) {
             </div>`;
 }
 
+/**
+ * 
+ * @param {int} index 
+ * @param {object} outcome 
+ */
 function updateOutcome(index, outcome) {
 
     totalPoints += outcome.total_points;
@@ -161,25 +177,38 @@ function updateOutcome(index, outcome) {
     $(`#outcome-${index} .beter`).html(outcome.total_users);
 }
 
+/**
+ * 
+ */
 function updateSummery() {
     $('#summery').html(stringSummery);
 
     // Update % based Values
     index = 0;
-    prediction.Outcomes.forEach(outcome => {
+    prediction.outcomes.forEach(outcome => {
         index++;
         updatePercent(index, outcome);
     });
 }
-
+/**
+ * 
+ * @param {int} index 
+ * @param {object} outcome  
+ */
 function updatePercent(index, outcome) {
 
     let perc = percentage(outcome.total_points, totalPoints);
-
-    $(`#outcome-${index} .percent`).html(`${perc}`);
+    $('#summery').html(stringSummery);
+    $(`#outcome-${index} .percent`).html(`${perc}%`);
     $(`#outcome-${index} .percent-bar`).css('--percent', perc + "%");;
 }
 
+/**
+ * 
+ * @param {int} partialValue 
+ * @param {int} totalValue 
+ * @returns int
+ */
 function percentage(partialValue, totalValue = 0) {
-    return (100 * partialValue) / totalValue;
+    return Math.round((100 * partialValue) / totalValue);
 }

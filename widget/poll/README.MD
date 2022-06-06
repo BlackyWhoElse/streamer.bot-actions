@@ -1,6 +1,9 @@
 # Poll Widget
 This Widget will show if a Poll is created and auto hide once it's done.
 
+## Todo
+- Winning Screen
+
 ## Install
 #### OBS
 - Add index.html to OBS as Browser Source
