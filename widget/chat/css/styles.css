@@ -1,15 +1,15 @@
 :root {
     --avatar-size: 80px;
-    --avatar-gap-right:1rem;
+    --avatar-gap-right:16px;
 
-    --message-padding:1rem;
-    --message-gap-bottom:1rem;
+    --message-padding:16px;
+    --message-gap-bottom:16px;
     --message-background-color: #18181b;
 
     --badge-size:15px;
     --badge-spacing:2px;
 
-    --emote-size:15px;
+    --emote-size:16px;
 
     --font-color: #fff;
     --font-size: 16px;
