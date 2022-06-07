@@ -3,7 +3,6 @@
  */
 
 var poll;
-var args;
 
 var title;
 var duration;
@@ -33,59 +32,54 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function() {
+    ws.onopen = function () {
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
-                "general": [
-                    "Custom"
-                ],
-                "raw": [
-                    "Action",
-                    "Sub-Action"
+                "Twitch": [
+                    "PollCreated",
+                    "PollUpdated",
+                    "PollCompleted",
                 ]
             },
-            "id": "1"
+            "id": "twitchPolls"
         }));
     }
 
-    ws.onmessage = function(event) {
+    ws.onmessage = function (event) {
         // grab message and parse JSON
         const msg = event.data;
-        const wsdata = JSON.parse(msg);
+        const data = JSON.parse(msg);
 
-        if (wsdata.data == null) {
+        console.debug(data);
+
+        if(!data.event){
             return;
         }
 
-        console.debug(wsdata);
-        args = wsdata.data.arguments;
-        poll = JSON.parse(args["poll._json"]);
+        poll = data.data;
 
         // check for events to trigger
-        switch (wsdata.data.name) {
-            case "Created Poll":
+        switch (data.event.type) {
+            case "PollCreated":
                 CreatePoll();
                 break;
-            case "Updated Poll":
+            case "PollUpdated":
                 // Todo: Check if Poll has been refreshed and lost if so rebuild
                 UpdatePoll();
                 break;
-            case "Completed Poll":
+            case "PollCompleted":
                 // This will add poll.winningChoice
                 // Todo: Add a winner screen
                 ShowWinner(poll.winningChoice);
                 break;
-            case "Terminated Poll":
-                ClearPoll();
-                break;
             default:
-                console.log(wsdata.data.name);
+                console.log(data.event.type);
 
         }
     };
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
@@ -123,6 +117,7 @@ function UpdatePoll() {
 }
 
 function ShowWinner(choice) {
+    console.debug(choice);
     $("#choices").addClass("showWinner");
     $(`#${choice.choice_id}`).css('--percent', 100 + "%");
     $(`#${choice.choice_id}`).addClass("winner");
@@ -130,7 +125,7 @@ function ShowWinner(choice) {
 }
 
 function ClearPoll() {
-    setTimeout(function() {
+    setTimeout(function () {
         $("#choices").empty();
         $("#choices").removeClass("showWinner");
         $('#timeleft').removeClass("animate");
@@ -142,9 +137,9 @@ function ClearPoll() {
 
 /**
  * This will render the Choice with everything in it
- * @param {int} index 
- * @param {object} choice 
- * @returns 
+ * @param {int} index
+ * @param {object} choice
+ * @returns
  */
 function renderChoice(index, choice) {
     return `
@@ -158,10 +153,10 @@ function renderChoice(index, choice) {
 }
 
 /**
- * Updates a choice with new data to animate 
+ * Updates a choice with new data to animate
  * percentige bar and how many votes have been cast
- * @param {int} index 
- * @param {object} choice 
+ * @param {int} index
+ * @param {object} choice
  */
 function updateChoice(index, choice) {
     perc = percentage(choice.total_voters, totalVotes)
