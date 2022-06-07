@@ -1,12 +1,13 @@
 <h1 align="center">BlackyWerSonst Streamer.Bot Collection</h1>
 <p align="center">
-    Wellcome to my Streamer.Bot Collection. Inside this project you will find Actions and OBS Widgets that I use and create on my <a href="https://twitch.tv/blackywersonst">Livestreams</a>.
+    Welcome to my Streamer.Bot Collection. Inside this project, you will find Actions and OBS Widgets that I use and create on my <a href="https://twitch.tv/blackywersonst">Livestreams</a>.
 </p>
 
 ## 📝 Notes
-Please be so kind and give me credit or let me know if you implement these overlays or widgets. 
-This Project is under active maintainance so star or watch this project to be notified if im uploading new stuff. 
-I hope you find that stuff usefull. 
+Please be so kind and give me credit or let me know if you implement these overlays or widgets.
+
+This Project is under active maintenance so star or watch this project to be notified if I'm uploading new stuff.
+I hope you find that stuff useful.
 
 ## 🕹 Games
 - [Streaming Stampede](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/minigames/Streaming%20Stampede) [Pokemon Stadium 2]
@@ -24,7 +25,7 @@ I hope you find that stuff usefull.
 - Shoutout
 - Magische Miesmuschell
 ## ⚙ Actions
-- PulseClip 
+- PulseClip
 ## 📃 Examples
 - Discord
     -  [Send a Clip to Discord ](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/examples/Discord/Send%20Clip%20to%20Discord)

@@ -5,8 +5,9 @@
 
 ## 📝 Notes
 Please be so kind and give me credit or let me know if you implement these overlays or widgets.
-This Project is under active maintainance so star or watch this project to be notified if im uploading new stuff.
-I hope you find that stuff usefull.
+
+This Project is under active maintenance so star or watch this project to be notified if I'm uploading new stuff.
+I hope you find that stuff useful.
 
 
 ## ✔️ Todos
@@ -29,12 +30,12 @@ Streamerbot Import String
   - Set under Platform > Twitch > Prediction the new actions to the Events [Created Prediction, Updated Prediction, Locked Prediction, Resolved Prediction, Canceled Prediction]
 - Inside the 'Created Prediction' and 'Completed Prediction' action you can show and hide your Source for the transitions to be applied.
 - Make sure that Streamer Bot is running while using it and Websocket Server is running on port 8080
-  - If it is not possible to run port 8080 swtich the port in script.js
+  - If it is not possible to run port 8080 switch the port in script.js
 
 ## 🎨 Customize
-You can change the apperience of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and pase this css there and make your adjustment.
+You can change the appearance of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and paste this CSS there and make your adjustment.
 
-For an easier time costumising your widget open index.html inside a browser and press F12 to open up the Developer console.
+For an easier time customizing your widget open index.html inside a browser and press F12 to open up the Developer console.
 
 ```css
 :root {
