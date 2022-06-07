@@ -17,6 +17,7 @@ I hope you find that stuff useful.
 - Roll Call [Mario Party]
 - BOWSER’S Big Blast [Mario Party]
 - Who's That Pokemon?
+- 1v1 Coin toss
 ## 🧩 Widgets
 - [Predictions](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/prediction)
 - [Polls](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/poll)
