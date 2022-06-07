@@ -12,8 +12,6 @@ I hope you find that stuff useful.
 
 ## ✔️ Todos
 - Summery not updating
-- Percent not rounded
-- Percent not calc correct
 - Calc Win Ratio s
 
 ## ⬇️ Install

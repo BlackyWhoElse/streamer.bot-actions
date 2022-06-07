@@ -179,14 +179,14 @@ function updateOutcome(index, outcome) {
  *
  */
 function updateSummery() {
-    $('#summery').html(stringSummery);
-
     // Update % based Values
     index = 0;
     prediction.outcomes.forEach(outcome => {
         index++;
         updatePercent(index, outcome);
     });
+
+    $('#summery').html(stringSummery);
 }
 /**
  *
