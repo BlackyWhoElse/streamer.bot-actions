@@ -27,6 +27,7 @@ I hope you find that stuff usefull.
 - PulseClip 
 ## 📃 Examples
 - Discord
+    -  [Send a Clip to Discord ](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/examples/Discord/Send%20Clip%20to%20Discord)
 - Media
     - [Random Video from Folder](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/examples/Files/RandomVideo)
 - Database
