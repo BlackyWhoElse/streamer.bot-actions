@@ -34,12 +34,12 @@ function bindEvents() {
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
-                "general": [
-                    "Custom"
-                ],
-                "raw": [
-                    "Action",
-                    "Sub-Action"
+                "Twitch": [
+                    "PredictionCreated",
+                    "PredictionUpdated",
+                    "PredictionCompleted",
+                    "PredictionCanceled",
+                    "PredictionLocked"
                 ]
             },
             "id": "1"
@@ -49,34 +49,33 @@ function bindEvents() {
     ws.onmessage = function(event) {
         // grab message and parse JSON
         const msg = event.data;
-        const wsdata = JSON.parse(msg);
+        const data = JSON.parse(msg);
 
-        if (wsdata.data == null) {
+        if (!data.event) {
             return;
         }
 
-        console.debug(wsdata);
-        args = wsdata.data.arguments;
+        prediction = data.data;
 
         // check for events to trigger
-        switch (wsdata.data.name) {
-            case "Created Prediction":
+        switch (data.event.type) {
+            case "PredictionCreated":
                 CreatePrediction();
                 break;
-            case "Updated Prediction":
+            case "PredictionUpdated":
                 UpdatePrediction();
                 break;
-            case "Locked Prediction":
-
+            case "PredictionLocked":
+                // Todo: Add a function here
                 break;
-            case "Resolved Prediction":
+            case "PredictionCompleted":
                 // Todo: Show Winner and maybe the top winner?
                 break;
-            case "Canceled Prediction":
+            case "PredictionCanceled":
                 CancelPrediction();
                 break;
             default:
-                console.log(wsdata.data.name);
+                console.log(data.event.type);
 
         }
     };
@@ -92,8 +91,6 @@ function bindEvents() {
  * Action Controller Functions
  */
 function CreatePrediction() {
-
-    let prediction = JSON.parse(args["prediction._json"]);
 
     title = prediction.title;
     $('#title').html(title);
@@ -112,6 +109,7 @@ function CreatePrediction() {
 function UpdatePrediction() {
     prediction = JSON.parse(args["prediction._json"]);
 
+    totalPoints = 0;
     totalUsers = 0;
     index = 0;
 
@@ -133,10 +131,10 @@ function CancelPrediction() {
 
 
 /**
- * 
- * @param {int} index 
- * @param {object} outcome 
- * @returns 
+ *
+ * @param {int} index
+ * @param {object} outcome
+ * @returns
  */
 function renderOutcome(index, outcome) {
 
@@ -165,9 +163,9 @@ function renderOutcome(index, outcome) {
 }
 
 /**
- * 
- * @param {int} index 
- * @param {object} outcome 
+ *
+ * @param {int} index
+ * @param {object} outcome
  */
 function updateOutcome(index, outcome) {
 
@@ -178,7 +176,7 @@ function updateOutcome(index, outcome) {
 }
 
 /**
- * 
+ *
  */
 function updateSummery() {
     $('#summery').html(stringSummery);
@@ -191,9 +189,9 @@ function updateSummery() {
     });
 }
 /**
- * 
- * @param {int} index 
- * @param {object} outcome  
+ *
+ * @param {int} index
+ * @param {object} outcome
  */
 function updatePercent(index, outcome) {
 
@@ -204,9 +202,9 @@ function updatePercent(index, outcome) {
 }
 
 /**
- * 
- * @param {int} partialValue 
- * @param {int} totalValue 
+ *
+ * @param {int} partialValue
+ * @param {int} totalValue
  * @returns int
  */
 function percentage(partialValue, totalValue = 0) {
