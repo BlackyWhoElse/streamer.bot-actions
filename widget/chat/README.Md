@@ -4,9 +4,17 @@
 </p>
 
 ## 📝 Notes
-## Todos
-- Clear Command
-## Install
+Please be so kind and give me credit or let me know if you implement these overlays or widgets.
+This Project is under active maintainance so star or watch this project to be notified if im uploading new stuff.
+I hope you find that stuff usefull.
+
+---
+
+## ✔️ Todos
+- Clear Chat Command
+- Seperated ChatMessage template for easier editing
+
+## ⬇️ Install
 ### Streamer.Bot
 - This Widget requiers Streamer.Bot 0.18+
 - Start Websocket Server under 8080
@@ -14,7 +22,7 @@
 ### OBS
 - Add index.html as a '**Browser Source**' and set the width and height to your likeing.
 
-## Customize
+## 🎨 Customize
 You can change the apperience of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and pase this css there and make your adjustment.
 
 For an easier time costumising your widget open index.html inside a browser and press F12 to open up the Developer console.

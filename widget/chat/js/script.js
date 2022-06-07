@@ -4,10 +4,10 @@
  * badges: Array [ {…}, {…} ]
  * bits: 0
  * channel: "blackywersonst"
- * cheerEmotes: Array []
+ * cheerEmotes: Array [{…}, {…}]
  * color: "#B33B19"
  * displayName: "Blackywersonst"
- * emotes: Array []
+ * emotes: Array [{…}, {…}]
  * firstMessage: false
  * hasBits: false
  * internal: false
@@ -92,7 +92,7 @@ async function add_message(message) {
             $("#chat").append(renderMessage(msg));
         }).catch(function(error) {
             console.error(error);
-            //handle any error that may occur before this point 
+            //handle any error that may occur before this point
         });
 }
 
@@ -129,7 +129,8 @@ async function renderBadges(message) {
 async function renderEmotes(message) {
 
     message.emotes.forEach(emote => {
-        message.message = message.message.replace(emote.name, `<img class="emote ${emote.name}"  title="${emote.name}" src="${emote.imageUrl}">`)
+            message.message = message.message.replace(emote.name, `<img class="emote "   src="${emote.imageUrl}">`)
+
     });
 
     return message;
