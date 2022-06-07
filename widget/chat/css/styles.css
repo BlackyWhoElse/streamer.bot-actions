@@ -1,12 +1,24 @@
 :root {
-    --background-color: #18181b;
     --avatar-size: 80px;
+    --avatar-gap-right:1rem;
+
+    --message-padding:1rem;
+    --message-gap-bottom:1rem;
+    --message-background-color: #18181b;
+
+    --badge-size:15px;
+    --badge-spacing:2px;
+
+    --emote-size:15px;
+
     --font-color: #fff;
-    --font-size: 1rem;
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family);
     margin: 0;
     padding: 0;
 }
@@ -25,7 +37,7 @@ body {
 
 .msg {
     display: flex;
-    margin-bottom: 1rem;
+    margin-bottom: var(--message-gap-bottom);
 }
 
 .avatar img {
@@ -33,23 +45,23 @@ body {
 }
 
 .avatar {
-    margin-right: 1rem;
+    margin-right: var(--avatar-gap-right);
 }
 
 .badges img {
-    width: 15px;
-    margin-left: 2px;
+    width: var(--badge-size);
+    margin-left: var(--badge-spacing);
 }
 
 .message {
-    padding: 1rem;
-    background-color: var(--background-color);
+    padding: var(--message-padding);
+    background-color: var(--message-background-color);
     color: var(--font-color);
     font-size: var(--font-size);
 }
 
 .message .emote {
-    height: 25px;
+    height: var(--emote-size);
 }
 
 .name {
