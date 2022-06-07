@@ -1,4 +1,4 @@
-<h1 align="center">Poll Widget</h1>
+<h1 align="center">Prediction Widget</h1>
 <p align="center">
     his Widget will show if a Poll is created and auto hide once it's done.
 </p>
