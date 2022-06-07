@@ -23,12 +23,8 @@ I hope you find that stuff useful.
 
 ### Streamer.Bot
 ```
-Streamerbot Import String
+Streamerbot Import String coming soon
 ```
-
-- Import Streamer.Bot Actions and Commands
-  - Set under Platform > Twitch > Prediction the new actions to the Events [Created Prediction, Updated Prediction, Locked Prediction, Resolved Prediction, Canceled Prediction]
-- Inside the 'Created Prediction' and 'Completed Prediction' action you can show and hide your Source for the transitions to be applied.
 - Make sure that Streamer Bot is running while using it and Websocket Server is running on port 8080
   - If it is not possible to run port 8080 switch the port in script.js
 
