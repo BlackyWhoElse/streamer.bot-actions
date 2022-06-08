@@ -86,10 +86,10 @@ function bindEvents() {
                 break;
             case "Countdown":
                 // Display a x secound countdown
-            break;
+                break;
             case "Start Game":
                 startRace();
-            break;
+                break;
             case "Clear Game":
                 clearResultField();
                 break;
@@ -116,7 +116,6 @@ function bindEvents() {
  * Spawning Objects
  */
 function buildGameLogic() {
-
     decoys = getRandomInt(maxDecoy, minDecoy);
 
     console.log("Creating " + correctCount + " Elements to count");
@@ -129,7 +128,10 @@ function buildGameLogic() {
         createObjects("decoy");
     }
 
-    startRace();
+    // TODO: Display timer on overlay and start it 
+    setTimeout(() => {
+        startRace();
+    }, 10000);
 }
 
 /**
@@ -165,13 +167,26 @@ function setCountSprite(sprite) {
     $("#countSprite").append('<div class="sprite" style="' + spriteVar + '")"></div>');
 }
 
+function startRace() {
+    console.log("Start the race");
+    $(`#overlay`).css("display", "none");
+    startRound();
+}
+
+function addPlayer($username) {
+
+}
+
+
 /**
  * Creates an interval
  * Add .run to random element on field
  * to trigger css animation
  */
-function startRace() {
-    console.log("Start the race");
+function startRound() {
+
+    // Todo: Show what to Count
+
     raceProgress = 0;
     // Get all runners
     runners = $("#game-field").children();
@@ -201,9 +216,19 @@ function startRace() {
     var progress = setInterval(() => {
         if (raceProgress == (decoys + correctCount)) {
             clearInterval(progress);
-            endRace();
+            endRound();
         }
     }, 1000);
+}
+
+function endRound() {
+
+    // Show correct count
+
+    // Check if there is another round to be played
+
+    // End Race
+    endRace();
 }
 
 /**
@@ -214,7 +239,7 @@ function endRace() {
     // Show Finish animation
     console.log("Race has ended");
     console.log("Start Voting now");
-    callForVoting();
+    //callForVoting();
 }
 
 /**
@@ -251,6 +276,7 @@ function clearResultField() {
     $("#result").removeClass("show")
     $("#count").empty();
     $("#winner").empty();
+    $(`#overlay`).css("display", "block");
 }
 
 function getRandomInt(max, min = 0) {

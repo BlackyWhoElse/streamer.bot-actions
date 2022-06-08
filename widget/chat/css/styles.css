@@ -1,20 +1,17 @@
 :root {
+    /** Left: row Right: row-reverse */
+    --chat-align: row;
     --avatar-size: 80px;
-    --avatar-gap-right:16px;
-
-    --message-padding:16px;
-    --message-gap-bottom:16px;
+    --avatar-gap: 16px;
+    --message-padding: 16px;
+    --message-gap-bottom: 16px;
     --message-background-color: #18181b;
-
-    --badge-size:15px;
-    --badge-spacing:2px;
-
-    --emote-size:16px;
-
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
     --font-color: #fff;
     --font-size: 16px;
     --font-family: 'Roboto', sans-serif;
-
 }
 
 body {
@@ -38,6 +35,7 @@ body {
 .msg {
     display: flex;
     margin-bottom: var(--message-gap-bottom);
+    flex-direction: var(--chat-align);
 }
 
 .avatar img {
@@ -45,7 +43,7 @@ body {
 }
 
 .avatar {
-    margin-right: var(--avatar-gap-right);
+    margin: 0 var(--avatar-gap);
 }
 
 .badges img {

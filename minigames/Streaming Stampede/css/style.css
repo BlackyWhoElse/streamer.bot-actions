@@ -1,6 +1,14 @@
+:root {
+    --player-1: #1e88b5;
+    --player-2: #bb2a29;
+    --player-3: #308219;
+    --player-4: #aa3fb9;
+}
+
 body {
     background-color: rgb(36, 36, 36);
     background-image: url(../images/backgrounds/game_board.png);
+    background-repeat: no-repeat;
 }
 
 #gameField {
@@ -26,12 +34,10 @@ body {
     animation-iteration-count: var(--runner-speed);
 }
 
-
 @keyframes race {
     from {
         right: 101vw;
     }
-
     to {
         right: -50px;
     }
@@ -41,27 +47,36 @@ body {
 /**
  * Overlay
  */
+
 #overlay {
     justify-content: center;
     display: grid;
     margin-top: 15%;
 }
 
+
 /**
  * Player Selection
  */
 
+#textbox {
+    background-image: url("../images/ui/textbox_full.png");
+    width: 950px;
+    height: 400px;
+    padding: 0 65px;
+    box-sizing: border-box;
+}
+
 #playerSelection {
-    width: 800px;
+    width: 100%;
     height: auto;
-    background-color: azure;
     padding: 1%;
 }
 
 #playerSelection h1 {
     text-align: center;
     text-transform: uppercase;
-  }
+}
 
 #players {
     display: flex;
@@ -83,33 +98,36 @@ body {
 }
 
 .username {
-    width: 100%;
+    width: auto;
     height: 25px;
     border-radius: 5px;
     margin-bottom: 5px;
     color: #fff;
     font-weight: bold;
     line-height: 25px;
-  }
-
-
-.player-1{
-    background-color: blue;
-}
-.player-2{
-    background-color: green;
-}
-.player-3{
-    background-color: red;
-}
-.player-4{
-    background-color: orange;
+    padding-left: 5px;
 }
 
+.player-1 {
+    background-color: var(--player-1);
+}
+
+.player-2 {
+    background-color: var(--player-2);
+}
+
+.player-3 {
+    background-color: var(--player-3);
+}
+
+.player-4 {
+    background-color: var(--player-4);
+}
 
 #gameDescription {
     font-size: 1.7rem;
-  }
+}
+
 
 /**
    * Questions

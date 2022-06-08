@@ -51,6 +51,9 @@ function bindEvents() {
             "request": "Subscribe",
             "id": "obs-chat",
             "events": {
+                "general": [
+                    "Custom"
+                ],
                 "Twitch": [
                     "ChatMessage"
                 ]
@@ -64,6 +67,8 @@ function bindEvents() {
         if (wsdata.event == null) {
             return;
         }
+
+        // Todo: Add ClearChat function 
 
         if (wsdata.event.source === 'Twitch' && wsdata.event.type === 'ChatMessage') {
             add_message(wsdata.data.message);
@@ -150,7 +155,7 @@ async function renderBadges(message) {
 async function renderEmotes(message) {
 
     message.emotes.forEach(emote => {
-            message.message = message.message.replace(emote.name, `<img class="emote "   src="${emote.imageUrl}">`)
+        message.message = message.message.replace(emote.name, `<img class="emote "   src="${emote.imageUrl}">`)
 
     });
 
@@ -177,5 +182,10 @@ async function getProfileImage(username) {
             avatars[username] = avatar;
             return avatar;
         });
+
+}
+
+
+function ClearChat() {
 
 }
