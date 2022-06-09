@@ -25,6 +25,7 @@ I hope you find that stuff useful.
 - Random Clips
 - Shoutout
 - Magische Miesmuschell
+- Countdown
 ## ⚙ Actions
 - PulseClip
 ## 📃 Examples
