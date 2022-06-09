@@ -1,0 +1,38 @@
+:root {
+    --timer-rounded-corner: 1rem;
+    --timer-color: #FFFFFF;
+    --timer-background: #1f1f23;
+
+    --font-family: 'Roboto', sans-serif;
+}
+
+html{
+    font-size: 38px;
+}
+
+body {
+    font-family: var(--font-family);
+    font-size: 87px;
+}
+
+#timer {
+    border-radius: var(--timer-rounded-corner);
+    display: flex;
+    flex-direction: column;
+    color: var(--timer-color);
+    background-color: var(--timer-background);
+}
+
+#timer div {
+    justify-content: center;
+    display: flex;
+}
+
+#timeleft {
+    font-weight: bold;
+    font-size: 3.5rem;
+}
+
+#description {
+    font-size: 1.5rem;
+}
