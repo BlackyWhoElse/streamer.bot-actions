@@ -3,6 +3,7 @@ var currentTimer;
 var remainingSeconds;
 var timer;
 var timerDoneText = "<h1>Countdown is done!</h1>"
+var desc;
 
 window.addEventListener('load', (event) => {
     $('#timeleft').html("00:00");
@@ -33,18 +34,39 @@ function bindEvents() {
     ws.onmessage = function (event) {
         // grab message and parse JSON
         const msg = event.data;
-        const data = JSON.parse(msg);
+        const wsdata = JSON.parse(msg);
 
-        if (!data.event) {
+
+        console.debug(event);
+
+        if (wsdata.data == null) {
             return;
         }
 
-        prediction = data.data;
-
         // check for events to trigger
-        switch (data.event.type) {
-            case "Start Timer":
-                startTimer(300);
+        switch (wsdata.data.name) {
+            case "SetupTimer":
+                console.debug(wsdata.data.arguments);
+
+                time = wsdata.data.arguments.time;
+                desc = wsdata.data.arguments.description;
+
+                setupTimer(parseInt(wsdata.data.arguments.time), desc.substring(100, time.length));
+                break;
+            case "StartTimer":
+                startTimer();
+                break;
+            case "RestartTimer":
+                restartTimer();
+                break;
+            case "AddTime":
+                addTime(parseInt(wsdata.data.arguments.time));
+                break;
+            case "PauseTimer":
+                pauseTimer();
+                break;
+            case "StopTimer":
+                stopTimer();
                 break;
             default:
                 console.log(data.event.type);
@@ -61,7 +83,7 @@ function bindEvents() {
 function setupTimer(time, description = "") {
 
     if (timer) {
-        stopTimer();
+        pauseTimer();
     }
 
     // Setting up timer
@@ -102,11 +124,11 @@ function addTime(time) {
     remainingSeconds = remainingSeconds + time;
 }
 
-function stopTimer() {
+function pauseTimer() {
     clearInterval(timer);
 }
 
-function clearTimer() {
+function stopTimer() {
     remainingSeconds = 0;
 }
 
@@ -123,3 +145,4 @@ function timerDone() {
     }));
 
 }
+
