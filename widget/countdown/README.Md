@@ -11,7 +11,7 @@ I hope you find that stuff useful.
 
 
 ## 📃 Commands
-- !cd set {seconds}
+- !cd set {seconds} {description}
   > Set time in secounds for the countdown
 - !cd add {seconds}
   > Adds seconds to the current countdown
