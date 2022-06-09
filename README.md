@@ -25,7 +25,7 @@ I hope you find that stuff useful.
 - Random Clips
 - Shoutout
 - Magische Miesmuschell
-- Countdown
+- [Countdown](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/countdown)
 ## ⚙ Actions
 - PulseClip
 ## 📃 Examples
