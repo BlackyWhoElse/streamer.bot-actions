@@ -1,13 +1,13 @@
 /**
- * Message Sample
+ * Message Sample data
  * avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/a88dd690-f653-435e-ae3f-cd312ee5b736-profile_image-300x300.png"
  * badges: Array [ {…}, {…} ]
  * bits: 0
  * channel: "blackywersonst"
- * cheerEmotes: Array []
+ * cheerEmotes: Array [{…}, {…}]
  * color: "#B33B19"
  * displayName: "Blackywersonst"
- * emotes: Array []
+ * emotes: Array [{…}, {…}]
  * firstMessage: false
  * hasBits: false
  * internal: false
@@ -26,10 +26,12 @@
  */
 
 // General Variables
-var msg;
 var defaultChatColor = "#fff";
 
-// username: imageURL
+/**
+ * Storing avatars that have been called to save api calls
+ * username: imageURL
+ */
 var avatars = {}
 
 window.addEventListener('load', (event) => {
@@ -49,6 +51,9 @@ function bindEvents() {
             "request": "Subscribe",
             "id": "obs-chat",
             "events": {
+                "general": [
+                    "Custom"
+                ],
                 "Twitch": [
                     "ChatMessage"
                 ]
@@ -62,6 +67,8 @@ function bindEvents() {
         if (wsdata.event == null) {
             return;
         }
+
+        // Todo: Add ClearChat function 
 
         if (wsdata.event.source === 'Twitch' && wsdata.event.type === 'ChatMessage') {
             add_message(wsdata.data.message);
@@ -78,6 +85,10 @@ function bindEvents() {
     };
 }
 
+/**
+ * Adding content to message and then render it on screen
+ * @param {object} message
+ */
 async function add_message(message) {
     const msg = new Promise((resolve, reject) => {
             resolve(getProfileImage(message.username));
@@ -90,12 +101,17 @@ async function add_message(message) {
         })
         .then(msg => {
             $("#chat").append(renderMessage(msg));
+            // This could also call an Streamer.bot Action
         }).catch(function(error) {
             console.error(error);
-            //handle any error that may occur before this point 
         });
 }
 
+/**
+ * Render message with template
+ * @param {object} message
+ * @returns
+ */
 function renderMessage(message) {
 
     if (!message.color) {
@@ -116,6 +132,11 @@ function renderMessage(message) {
         `;
 }
 
+/**
+ * Creates a markup of all Badges so it can be renderd as one
+ * @param {object} message
+ * @returns
+ */
 async function renderBadges(message) {
     var badges = "";
 
@@ -126,15 +147,26 @@ async function renderBadges(message) {
     return badges;
 }
 
+/**
+ * Swaping Emote names for emote images
+ * @param {object} message
+ * @returns
+ */
 async function renderEmotes(message) {
 
     message.emotes.forEach(emote => {
-        message.message = message.message.replace(emote.name, `<img class="emote ${emote.name}"  title="${emote.name}" src="${emote.imageUrl}">`)
+        message.message = message.message.replace(emote.name, `<img class="emote "   src="${emote.imageUrl}">`)
+
     });
 
     return message;
 }
 
+/**
+ * Calling decapi.me to recive avatar link as string
+ * @param {string} username
+ * @returns
+ */
 async function getProfileImage(username) {
 
     // Check if avatar is already stored
@@ -150,5 +182,10 @@ async function getProfileImage(username) {
             avatars[username] = avatar;
             return avatar;
         });
+
+}
+
+
+function ClearChat() {
 
 }

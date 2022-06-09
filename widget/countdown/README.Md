@@ -1,0 +1,48 @@
+<h1 align="center">Countdown Widget</h1>
+<p align="center">
+    Displays a Countdown with optional description.
+</p>
+
+## 📝 Notes
+Please be so kind and give me credit or let me know if you implement these overlays or widgets.
+
+This Project is under active maintenance so star or watch this project to be notified if I'm uploading new stuff.
+I hope you find that stuff useful.
+
+
+## 📃 Commands
+- !cd set {seconds}
+  > Set time in secounds for the countdown
+- !cd add {seconds}
+  > Adds seconds to the current countdown
+- !cd start
+- !cd pause
+- !cd resume
+- !cd stop
+
+## ⬇️ Install
+### OBS
+- Add index.html to OBS as Browser Source
+- Add Show and Hide Transition to your Source
+
+### Streamer.Bot
+```
+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
+```
+- Make sure that Streamer Bot is running while using it and Websocket Server is running on port 8080
+  - If it is not possible to run port 8080 switch the port in script.js
+
+## 🎨 Customize
+You can change the appearance of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and paste this CSS there and make your adjustment.
+
+For an easier time customizing your widget open index.html inside a browser and press F12 to open up the Developer console.
+
+```css
+:root {
+    --timer-rounded-corner: 1rem;
+    --timer-color: #FFFFFF;
+    --timer-background: #1f1f23;
+
+    --font-family: 'Roboto', sans-serif;
+}
+```

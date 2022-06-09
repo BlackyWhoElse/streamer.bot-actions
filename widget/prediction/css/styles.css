@@ -3,20 +3,22 @@
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
     --spacer-color: #18181b;
-    --choice-1-color: #4ca3ff;
-    --choice-2-color: #f763ed;
-    --choice-3-color: #f7c863;
-    --choice-4-color: #68f763;
-    --choice-5-color: #f76363;
-    --choice-6-color: #63edf7;
-    --choice-7-color: #8b63f7;
-    --choice-8-color: #f7ed63;
-    --choice-9-color: #6392f7;
-    --choice-10-color: #f76363;
+    --outcome-1-color: #4ca3ff;
+    --outcome-2-color: #f763ed;
+    --outcome-3-color: #f7c863;
+    --outcome-4-color: #68f763;
+    --outcome-5-color: #f76363;
+    --outcome-6-color: #63edf7;
+    --outcome-7-color: #8b63f7;
+    --outcome-8-color: #f7ed63;
+    --outcome-9-color: #6392f7;
+    --outcome-10-color: #f76363;
+
+    --font-family: 'Roboto', sans-serif;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family);
 }
 
 
@@ -89,11 +91,11 @@ body {
 }
 
 #outcome-1 {
-    color: var(--choice-1-color);
+    color: var(--outcome-1-color);
 }
 
 #outcome-2 {
-    color: var(--choice-2-color);
+    color: var(--outcome-2-color);
 }
 
 #outcome-1 h3 {
@@ -163,12 +165,12 @@ body {
 }
 
 #outcome-1 div::before {
-    background-color: var(--choice-1-color);
+    background-color: var(--outcome-1-color);
     margin-right: 5px;
 }
 
 #outcome-2 div::after {
-    background-color: var(--choice-2-color);
+    background-color: var(--outcome-2-color);
     margin-left: 5px;
 }
 

@@ -41,7 +41,8 @@ function bindEvents() {
                 "raw": [
                     "Action",
                     "SubAction"
-                ]
+                ],
+                "Custom":[]
             },
             "id": "100"
         }));
@@ -52,14 +53,9 @@ function bindEvents() {
         const msg = event.data;
         const wsdata = JSON.parse(msg);
 
-        if (wsdata.data == null) {
-            return;
-        }
-
-        console.debug(msg);
         console.debug(wsdata);
 
-        if (wsdata.event.type == "Action") {
+        if (wsdata.event == "Raw" && wsdata.event.type == "Action") {
             // Checking for Action names
             switch (wsdata.data.name) {
                 case "Websocket Test":
@@ -146,11 +142,11 @@ function doAction() {
     ws.send(JSON.stringify({
         "request": "DoAction",
         "action": {
-            "id": "af252804-ed46-49f8-bba9-9cd447c49d99",
+            "id": "af252804-ed46-49f8-bba9-9cd447c49d99", // Can be found in context menu of action
             "name": "Websocket Test"
         },
         "args": {
-            "raceWinner": "Max Mustermann",
+            "argument": "Max Mustermann",
         },
         "id": "201"
     }));
