@@ -35,10 +35,17 @@ var template;
 var avatars = {}
 
 // Load settings, template and connect to ws
-$.getJSON("js/settings.json", function (json) {
+$.getJSON("js/settings.json", function(json) {
     settings = json;
     template = document.querySelector('#message');
-    connectws();
+
+    if (!settings.debug) {
+        connectws();
+    } else {
+        debugMessages();
+    }
+
+
 });
 
 function connectws() {
@@ -64,7 +71,7 @@ function bindEvents() {
         }));
     };
 
-    ws.onmessage = async (event) => {
+    ws.onmessage = async(event) => {
         const wsdata = JSON.parse(event.data);
 
         if (wsdata.event == null) {
@@ -73,7 +80,7 @@ function bindEvents() {
 
         // Todo: Add ClearChat function
 
-        if(wsdata.data.name == "ClearChat"){
+        if (wsdata.data.name == "ClearChat") {
             ClearChat();
         }
 
@@ -86,7 +93,7 @@ function bindEvents() {
     };
 
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         console.log("Reconnecting")
         setTimeout(connectws, 10000);
     };
@@ -104,18 +111,18 @@ async function add_message(message) {
     message.time = today.getHours() + ":" + today.getMinutes();
 
     const msg = new Promise((resolve, reject) => {
-        resolve(getProfileImage(message.username));
-    }).then(avatar => {
-        message.avatar = avatar;
-        return renderBadges(message);
-    }).then(bages => {
-        message.badges = bages;
-        return renderEmotes(message);
-    })
+            resolve(getProfileImage(message.username));
+        }).then(avatar => {
+            message.avatar = avatar;
+            return renderBadges(message);
+        }).then(bages => {
+            message.badges = bages;
+            return renderEmotes(message);
+        })
         .then(msg => {
             $("#chat").append(renderMessage(msg));
             // Todo: Add a fade out option
-        }).catch(function (error) {
+        }).catch(function(error) {
             console.error(error);
         });
 }
@@ -210,7 +217,47 @@ async function getProfileImage(username) {
 
 }
 
-
 function ClearChat() {
     $("#chat").html("");
+}
+
+function debugMessages() {
+
+    setInterval(() => {
+        const message = {
+            avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/a88dd690-f653-435e-ae3f-cd312ee5b736-profile_image-300x300.png",
+            bits: 0,
+            badges: [{
+                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
+                    name: "broadcaster",
+                },
+                {
+                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
+                    name: "subscriber",
+                },
+            ],
+            emotes: [],
+            channel: "blackywersonst",
+            color: "#B33B19",
+            displayName: "Blackywersonst",
+            firstMessage: false,
+            hasBits: false,
+            internal: false,
+            isAnonymous: false,
+            isCustomReward: false,
+            isHighlighted: false,
+            isMe: false,
+            isReply: false,
+            message: "Chat box is in Debug mode",
+            monthsSubscribed: 57,
+            msgId: "337d6353-d43a-4d21-b734-94d04688ff01",
+            role: 4,
+            subscriber: true,
+            userId: 27638012,
+            username: "blackywersonst",
+            time: "19:36",
+        }
+
+        add_message(message)
+    }, 3000);
 }
