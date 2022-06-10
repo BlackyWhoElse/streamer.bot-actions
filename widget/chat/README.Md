@@ -18,11 +18,55 @@ I hope you find that stuff useful.
 ### Streamer.Bot
 - This Widget requiers Streamer.Bot 0.18+
 - Start Websocket Server under 8080
-    - If that is not possible match the port in js/script.js
+    - If that is not possible match the port in js/settings.json
 ### OBS
 - Add index.html as a '**Browser Source**' and set the width and height to your liking.
 
 ## 🎨 Customize
+
+### **Settings**
+
+A settings file found inside the js folder. This can be used to alter animations and core settings.
+
+Note: If you want to use other animations check [here](https://animate.style/)
+
+```json
+{
+    "websocketURL": "ws://localhost:8080/",
+    "blacklist": {
+        "user": [
+            "Nightbot"
+        ],
+        "words:": []
+    },
+    "animations": {
+        "animation" : true,
+        "hidedelay": 0,
+        "hideAnimation": "fadeOut",
+        "showAnimation": "bounceInLeft"
+    },
+    "template": "message"
+}
+```
+### **Templates**
+
+Inside the index.hmtl you can find a template for messages. If you want to customise your template you can use the following variables inside the template.
+
+| Variable         | Example                              | Description                               |
+|------------------|--------------------------------------|-------------------------------------------|
+| avatar           | <img src="..."\>                     | Userprofile image 300x300                 |
+| classes          | msg animate__animated                | Classes used by message wrapper           |
+| color            | #B33B19                              | Username color                            |
+| displayName      | Blackywersonst                       | Username that will be displayed in chat   |
+| message          | I'm a Message                        | Message text                              |
+| monthsSubscribed | 57                                   | How long the user is subed to the channel |
+| msgId            | 337d6353-d43a-4d21-b734-94d04688ff01 | Message id provided by twitch             |
+| role             | 4                                    | Role of the user provided by Streamer.bot |
+| userId           | 27638012                             | User id provided by twitch                |
+| username         | blackywersonst                       | Base username                             |
+| time             | 19:36                                | Time when the message was send            |
+
+### **CSS**
 You can change the appearance of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and paste this CSS there and make your adjustment.
 
 For an easier time customizing your widget open index.html inside a browser and press F12 to open up the Developer console.
@@ -44,6 +88,5 @@ For an easier time customizing your widget open index.html inside a browser and 
     --font-color: #fff;
     --font-size: 16px;
     --font-family: 'Roboto', sans-serif;
-
 }
 ```
