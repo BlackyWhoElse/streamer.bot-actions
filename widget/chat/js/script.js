@@ -73,6 +73,10 @@ function bindEvents() {
 
         // Todo: Add ClearChat function
 
+        if(wsdata.data.name == "ClearChat"){
+            ClearChat();
+        }
+
         if (wsdata.event.source === 'Twitch' && wsdata.event.type === 'ChatMessage') {
             add_message(wsdata.data.message);
         } else {
@@ -208,5 +212,5 @@ async function getProfileImage(username) {
 
 
 function ClearChat() {
-
+    $("#chat").html("");
 }
