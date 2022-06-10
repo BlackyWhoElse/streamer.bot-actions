@@ -161,7 +161,7 @@ function renderMessage(message = {}) {
 
     }
 
-    if (message.subscriber) {
+    if (message.subscriber === true) {
         message.classes += " subscriber"
     }
 
@@ -205,7 +205,6 @@ async function renderEmotes(message) {
 
     message.emotes.forEach(emote => {
         message.message = message.message.replace(emote.name, `<img class="emote "   src="${emote.imageUrl}">`);
-
     });
 
     return message;
