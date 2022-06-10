@@ -3,9 +3,9 @@
     "debug": false,
     "blacklist": {
         "user": [
-            "Nightbot"
         ],
-        "words:": []
+        "words": [
+        ]
     },
     "animations": {
         "animation" : true,

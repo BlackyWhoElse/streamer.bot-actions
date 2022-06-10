@@ -105,6 +105,10 @@ function bindEvents() {
  */
 async function add_message(message) {
 
+    // Blacklist Filter
+    if (settings.blacklist.user.includes(message.displayName)) {
+        return;
+    }
 
     // Adding time variable
     var today = new Date();
@@ -121,7 +125,6 @@ async function add_message(message) {
         })
         .then(msg => {
             $("#chat").append(renderMessage(msg));
-            // Todo: Add a fade out option
         }).catch(function(error) {
             console.error(error);
         });
@@ -157,6 +160,14 @@ function renderMessage(message = {}) {
 
     }
 
+    // Blacklist word filter
+    if (settings.blacklist.words) {
+        settings.blacklist.words.forEach(word => {
+            message.message = message.message.replace(word, "****");
+        });
+    }
+
+
     // Get template and populate
     var tpl = template;
 
@@ -187,7 +198,7 @@ async function renderBadges(message) {
 async function renderEmotes(message) {
 
     message.emotes.forEach(emote => {
-        message.message = message.message.replace(emote.name, `<img class="emote "   src="${emote.imageUrl}">`)
+        message.message = message.message.replace(emote.name, `<img class="emote "   src="${emote.imageUrl}">`);
 
     });
 
@@ -248,7 +259,7 @@ function debugMessages() {
             isHighlighted: false,
             isMe: false,
             isReply: false,
-            message: "Chat box is in Debug mode",
+            message: "Chat box is in Debug mode Asshole",
             monthsSubscribed: 57,
             msgId: "337d6353-d43a-4d21-b734-94d04688ff01",
             role: 4,
