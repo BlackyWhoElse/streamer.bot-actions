@@ -66,6 +66,22 @@ Inside the index.hmtl you can find a template for messages. If you want to custo
 | username         | blackywersonst                       | Base username                             |
 | time             | 19:36                                | Time when the message was send            |
 
+```html
+<template id="message">
+    <li id="{{msgId}}" class="{{classes}}">
+        <div class="avatar">
+            {{avatar}}
+        </div>
+        <div class="message ">
+            <span class="badges">{{badges}}</span>
+            <span class="name" style="--userColor:{{color}}">{{displayName}}</span>
+            <div class="content">{{message}}</div>
+            <div class="time">{{time}}</div>
+        </div>
+    </li>
+  </temlate>
+```
+
 ### **CSS**
 You can change the appearance of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and paste this CSS there and make your adjustment.
 
