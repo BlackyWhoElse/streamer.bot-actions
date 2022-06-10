@@ -79,7 +79,7 @@ Inside the index.hmtl you can find a template for messages. If you want to custo
             <div class="time">{{time}}</div>
         </div>
     </li>
-  </temlate>
+  </template>
 ```
 
 ### **CSS**
