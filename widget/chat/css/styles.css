@@ -12,6 +12,9 @@
     --font-color: #fff;
     --font-size: 16px;
     --font-family: 'Roboto', sans-serif;
+
+    --time-size: 12px;
+    --time-align: right;
 }
 
 body {
@@ -66,3 +69,8 @@ body {
     color: var(--userColor);
     font-weight: bold;
 }
+
+.time {
+    font-size: var(--time-size);
+    float: var(--time-align);
+  }
