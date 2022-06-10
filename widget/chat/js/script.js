@@ -34,6 +34,7 @@ var template;
  */
 var avatars = {}
 
+
 // Load settings, template and connect to ws
 $.getJSON("js/settings.json", function(json) {
     settings = json;
@@ -44,8 +45,8 @@ $.getJSON("js/settings.json", function(json) {
     } else {
         debugMessages();
     }
-
-
+}).fail(function() {
+    console.log("Could not load settings");
 });
 
 function connectws() {
@@ -112,7 +113,7 @@ async function add_message(message) {
 
     // Adding time variable
     var today = new Date();
-    message.time = today.getHours() + ":" + today.getMinutes();
+    message.time = today.getHours() + ":" + String(today.getMinutes()).padStart(2, '0');
 
     const msg = new Promise((resolve, reject) => {
             resolve(getProfileImage(message.username));
@@ -159,6 +160,11 @@ function renderMessage(message = {}) {
         }
 
     }
+
+    if (message.subscriber) {
+        message.classes += " subscriber"
+    }
+
 
     // Blacklist word filter
     if (settings.blacklist.words) {
@@ -259,7 +265,7 @@ function debugMessages() {
             isHighlighted: false,
             isMe: false,
             isReply: false,
-            message: "Chat box is in Debug mode Asshole",
+            message: "Chat box is in Debug mode. Chat box is in Debug mode. ",
             monthsSubscribed: 57,
             msgId: "337d6353-d43a-4d21-b734-94d04688ff01",
             role: 4,

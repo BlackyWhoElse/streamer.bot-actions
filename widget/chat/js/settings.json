@@ -1,14 +1,12 @@
 {
     "websocketURL": "ws://localhost:8080/",
-    "debug": false,
+    "debug": true,
     "blacklist": {
-        "user": [
-        ],
-        "words": [
-        ]
+        "user": [],
+        "words": []
     },
     "animations": {
-        "animation" : true,
+        "animation": true,
         "hidedelay": 0,
         "hideAnimation": "fadeOut",
         "showAnimation": "bounceInLeft"
