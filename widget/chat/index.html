@@ -11,7 +11,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
@@ -20,4 +21,19 @@
     </ul>
 </body>
 
+<!-- Message template - All variables can be found here: -->
+
+<template id="message">
+    <li id="{{msgId}}" class="{{classes}}">
+        <div class="avatar">
+            {{avatar}}
+        </div>
+        <div class="message ">
+            <span class="badges">{{badges}}</span>
+            <span class="name" style="--userColor:{{color}}">{{displayName}}</span>
+            <div class="content">{{message}}</div>
+            <div class="time">{{time}}</div>
+        </div>
+    </li>
+  </template>
 </html>

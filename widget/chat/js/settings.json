@@ -1,0 +1,16 @@
+{
+    "websocketURL": "ws://localhost:8080/",
+    "blacklist": {
+        "user": [
+            "Nightbot"
+        ],
+        "words:": []
+    },
+    "animations": {
+        "animation" : true,
+        "hidedelay": 0,
+        "hideAnimation": "fadeOut",
+        "showAnimation": "bounceInLeft"
+    },
+    "template": "message"
+}
