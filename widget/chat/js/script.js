@@ -144,27 +144,26 @@ function renderMessage(message = {}) {
     }
 
     // Add classes for animation to message
-    message.classes = "msg";
+    classes = ["msg"];
 
     if (settings.animations.animation) {
-        message.classes += " animate__animated";
+        classes.push("animate__animated");
 
         if (settings.animations.showAnimation) {
-            message.classes += " animate__" + settings.animations.showAnimation;
+            classes.push(" animate__" + settings.animations.showAnimation);
         }
 
         if (settings.animations.hidedelay != 0) {
             // Todo: Add hide animation after
             // message.classes += " animate__" + settings.animations.hideAnimation;
-
         }
-
     }
 
     if (message.subscriber === true) {
-        message.classes += " subscriber"
+        classes.push("subscriber");
     }
 
+    message.classes = classes.join(" ")
 
     // Blacklist word filter
     if (settings.blacklist.words) {
