@@ -96,6 +96,9 @@ function bindEvents() {
             case "Show Winner":
                 showWinner(wsdata.data.arguments.user);
                 break;
+            case "Add Player":
+                addPlayer(wsdata.data.arguments.user);
+                break;
             default:
                 console.log(wsdata.data.name);
 
@@ -135,48 +138,13 @@ function buildGameLogic() {
 }
 
 /**
- * Create Count Objects
- * @var type string
- * @var useSprite string
+ * Hides control overlay and starts the game
  */
-
-function createObjects(type) {
-
-    height = getRandomInt(maxHeight, minHeight);
-    speed = getRandomInt(maxSpeed, minSpeed);
-
-    if (type == "count") {
-        useSprite = CountSpriteUrl;
-    } else {
-        useSprite = sprites[getRandomInt(0, sprites.length)];
-    }
-    // Set SpriteUrl
-    spriteVar = spriteUrl(useSprite);
-
-    $("#game-field").append('<div class="runner ' + type + '" style="--runner-speed: ' + speed + 's;--runner-top:' + height + 'vh;"><div class="sprite" style="' + spriteVar + '")"></div></div>');
-}
-
-function spriteUrl(sprite) {
-    return "--sprite:url('../" + sprite.replaceAll(/\\/g, "/").replace("C:/Users/BlackyWerSonst/Documents/Gitlab/OBS-Overlays/counting game/", "") + "')";
-}
-
-function setCountSprite(sprite) {
-    // Set CountSpriteUrl
-    spriteVar = spriteUrl(sprite);
-    // Show preview on screen of what to count
-    $("#countSprite").append('<div class="sprite" style="' + spriteVar + '")"></div>');
-}
-
 function startRace() {
     console.log("Start the race");
     $(`#overlay`).css("display", "none");
     startRound();
 }
-
-function addPlayer($username) {
-
-}
-
 
 /**
  * Creates an interval
@@ -221,13 +189,13 @@ function startRound() {
     }, 1000);
 }
 
+/**
+ * Show correct count
+ * Check if there is another round to be played
+ * End Race
+ */
 function endRound() {
 
-    // Show correct count
-
-    // Check if there is another round to be played
-
-    // End Race
     endRace();
 }
 
@@ -241,6 +209,7 @@ function endRace() {
     console.log("Start Voting now");
     //callForVoting();
 }
+
 
 /**
  * Sends in chat that voting is open
@@ -278,6 +247,65 @@ function clearResultField() {
     $("#winner").empty();
     $(`#overlay`).css("display", "block");
 }
+
+
+/***************
+ * Sprite Code *
+ ***************/
+
+/**
+ * Create Count Objects
+ * @var type string
+ * @var useSprite string
+ */
+function createObjects(type) {
+
+    height = getRandomInt(maxHeight, minHeight);
+    speed = getRandomInt(maxSpeed, minSpeed);
+
+    if (type == "count") {
+        useSprite = CountSpriteUrl;
+    } else {
+        useSprite = sprites[getRandomInt(0, sprites.length)];
+    }
+    // Set SpriteUrl
+    spriteVar = spriteUrl(useSprite);
+
+    $("#game-field").append('<div class="runner ' + type + '" style="--runner-speed: ' + speed + 's;--runner-top:' + height + 'vh;"><div class="sprite" style="' + spriteVar + '")"></div></div>');
+}
+
+/**
+ * Converts sprite name into url
+ * @param {string} sprite 
+ * @returns 
+ */
+function spriteUrl(sprite) {
+    return "--sprite:url('../" + sprite.replaceAll(/\\/g, "/").replace("C:/Users/BlackyWerSonst/Documents/Gitlab/OBS-Overlays/counting game/", "") + "')";
+}
+
+/**
+ * Sets the sprite for counting
+ * @param {string} sprite 
+ */
+function setCountSprite(sprite) {
+    // Set CountSpriteUrl
+    spriteVar = spriteUrl(sprite);
+    // Show preview on screen of what to count
+    $("#countSprite").append('<div class="sprite" style="' + spriteVar + '")"></div>');
+}
+
+
+/***************
+ * Player Code *
+ ***************/
+
+function addPlayer($username) {
+
+}
+
+/***************
+ * Helper Code *
+ ***************/
 
 function getRandomInt(max, min = 0) {
     min = Math.ceil(min);
