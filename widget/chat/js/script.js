@@ -39,12 +39,13 @@ var avatars = {}
 $.getJSON("js/settings.json", function(json) {
     settings = json;
     template = document.querySelector('#message');
+    connectws();
 
-    if (!settings.debug) {
-        connectws();
-    } else {
+    if (settings.debug) {
+
         debugMessages();
     }
+
 }).fail(function() {
     console.log("Could not load settings");
 });
@@ -126,6 +127,11 @@ async function add_message(message) {
         })
         .then(msg => {
             $("#chat").append(renderMessage(msg));
+
+            if (settings.animations.hidedelay > 0) {
+                hideMessage(message.msgId);
+            }
+
         }).catch(function(error) {
             console.error(error);
         });
@@ -144,27 +150,26 @@ function renderMessage(message = {}) {
     }
 
     // Add classes for animation to message
-    message.classes = "msg";
+    classes = ["msg"];
 
     if (settings.animations.animation) {
-        message.classes += " animate__animated";
+        classes.push("animate__animated");
 
         if (settings.animations.showAnimation) {
-            message.classes += " animate__" + settings.animations.showAnimation;
+            classes.push(" animate__" + settings.animations.showAnimation);
         }
 
         if (settings.animations.hidedelay != 0) {
             // Todo: Add hide animation after
             // message.classes += " animate__" + settings.animations.hideAnimation;
-
         }
-
     }
 
     if (message.subscriber === true) {
-        message.classes += " subscriber"
+        classes.push("subscriber");
     }
 
+    message.classes = classes.join(" ")
 
     // Blacklist word filter
     if (settings.blacklist.words) {
@@ -179,6 +184,25 @@ function renderMessage(message = {}) {
 
     const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
     return tpl.innerHTML.replace(pattern, (_, token) => message[token] || '');
+}
+
+/**
+ * Hides a message after an amount of time and deletes it aferwards
+ * @param {string} msgId 
+ */
+function hideMessage(msgId) {
+    const msg = new Promise((resolve, reject) => {
+            delay(settings.animations.hidedelay).then(function() {
+                $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
+                $("#" + msgId).bind("animationend", function() {
+                    $("#" + msgId).remove()
+                });
+                resolve();
+            });
+        })
+        .catch(function(error) {
+            console.error(error);
+        });
 }
 
 /**
@@ -232,10 +256,22 @@ async function getProfileImage(username) {
         });
 
 }
+// Command Code
 
 function ClearChat() {
     $("#chat").html("");
 }
+
+// Helper Code
+
+function delay(t, v) {
+    return new Promise(function(resolve) {
+        setTimeout(resolve.bind(null, v), t)
+    });
+}
+
+
+// Debug Code
 
 function debugMessages() {
 
@@ -266,7 +302,7 @@ function debugMessages() {
             isReply: false,
             message: "Chat box is in Debug mode. Chat box is in Debug mode. ",
             monthsSubscribed: 57,
-            msgId: "337d6353-d43a-4d21-b734-94d04688ff01",
+            msgId: makeid(12),
             role: 4,
             subscriber: true,
             userId: 27638012,
@@ -275,5 +311,16 @@ function debugMessages() {
         }
 
         add_message(message)
-    }, 3000);
+    }, 8000);
+}
+
+function makeid(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
+    }
+    return result;
 }
