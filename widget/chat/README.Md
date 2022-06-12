@@ -41,29 +41,38 @@ Note: If you want to use other animations check [here](https://animate.style/)
     },
     "animations": {
         "animation" : true,
-        "hidedelay": 0,
+        "hidedelay": 0, 
         "hideAnimation": "fadeOut",
         "showAnimation": "bounceInLeft"
     },
     "template": "message"
 }
 ```
+
+| Variable      | Default      | Description                                    |
+| ------------- | ------------ | ---------------------------------------------- |
+| animation     | true         |                                                |
+| hidedelay     | 0            | Delay in ms when the message should be removed |
+| hideAnimation | fadeOut      |                                                |
+| showAnimation | bounceInLeft |                                                |
+
+
 ### **Templates**
 
 Inside the index.hmtl you can find a template for messages. If you want to customise your template you can use the following variables inside the template.
 
-| Variable         | Example                              | Description                               |
-|------------------|--------------------------------------|-------------------------------------------|
-| avatar           | <img src="..."\>                     | Userprofile image 300x300                 |
-| classes          | msg animate__animated                | Classes used by message wrapper           |
-| color            | #B33B19                              | Username color                            |
-| displayName      | Blackywersonst                       | Username that will be displayed in chat   |
-| message          | I'm a Message                        | Message text                              |
-| monthsSubscribed | 57                                   | How long the user is subed to the channel |
-| msgId            | 337d6353-d43a-4d21-b734-94d04688ff01 | Message id provided by twitch             |
-| role             | 4                                    | Role of the user provided by Streamer.bot |
-| userId           | 27638012                             | User id provided by twitch                |
-| time             | 19:36                                | Time when the message was send            |
+| Variable         | Example               | Description                               |
+| ---------------- | --------------------- | ----------------------------------------- |
+| avatar           | <img src="..."\>      | Userprofile image 300x300                 |
+| classes          | msg animate__animated | Classes used by message wrapper           |
+| color            | #B33B19               | Username color                            |
+| displayName      | Blackywersonst        | Username that will be displayed in chat   |
+| message          | I'm a Message         | Message text                              |
+| monthsSubscribed | 57                    | How long the user is subed to the channel |
+| msgId            | MessageID             | Message id provided by twitch             |
+| role             | 4                     | Role of the user provided by Streamer.bot |
+| userId           | 27638012              | User id provided by twitch                |
+| time             | 19:36                 | Time when the message was send            |
 
 ```html
 <template id="message">
@@ -103,5 +112,8 @@ For an easier time customizing your widget open index.html inside a browser and 
     --font-color: #fff;
     --font-size: 16px;
     --font-family: 'Roboto', sans-serif;
+    
+    --time-size: 12px;
+    --time-align: right;
 }
 ```
