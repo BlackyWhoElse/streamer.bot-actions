@@ -5,14 +5,15 @@
     --choice-1-color: #4ca3ff;
     --choice-2-color: #f763ed;
     --choice-3-color: #f7c863;
-    --choice-4-color: #68f763;
+    --choice-4-color: #636df7;
     --choice-5-color: #f76363;
     --choice-6-color: #63edf7;
     --choice-7-color: #8b63f7;
     --choice-8-color: #f7ed63;
     --choice-9-color: #6392f7;
     --choice-10-color: #f76363;
-    --choice-winner: #20961c;
+    --choice-winner-background: #00db84;
+    --choice-winner-color: #0e0e10;
     --choice-background: #18181b;
 }
 
@@ -132,10 +133,22 @@ body {
     background-color: var(--choice-background);
 }
 
-.choice.winner .info::before {
-    content: '';
+.choice.winner {
+    color: var(--choice-winner-color);
+}
+
+.choice.winner #trophy {
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-image: url('../img/trophy.svg');
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    top: 2px;
+    left: 2px;
 }
 
 #choices.showWinner .choice.winner .percent {
-    background-color: var(--choice-winner);
+    background-color: var(--choice-winner-background);
 }

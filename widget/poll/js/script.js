@@ -7,18 +7,17 @@ var poll;
 var title;
 var duration;
 var totalVotes;
-
+var template;
 // Milliseconds
 var clearDelay = 5000;
 var stringDefaultTitle = "There is no poll running right now";
 
 
-/**
- * DO NOT EDIT BELOW IF YOU DONT KNOW WHAT YOU ARE DOING
- */
-
 window.addEventListener('load', (event) => {
     $('#title').html(stringDefaultTitle);
+
+    template = document.querySelector('#choice');
+
     connectws();
 });
 
@@ -32,7 +31,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function () {
+    ws.onopen = function() {
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
@@ -46,14 +45,14 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function (event) {
+    ws.onmessage = function(event) {
         // grab message and parse JSON
         const msg = event.data;
         const data = JSON.parse(msg);
 
         console.debug(data);
 
-        if(!data.event){
+        if (!data.event) {
             return;
         }
 
@@ -65,12 +64,9 @@ function bindEvents() {
                 CreatePoll();
                 break;
             case "PollUpdated":
-                // Todo: Check if Poll has been refreshed and lost if so rebuild
                 UpdatePoll();
                 break;
             case "PollCompleted":
-                // This will add poll.winningChoice
-                // Todo: Add a winner screen
                 ShowWinner(poll.winningChoice);
                 break;
             default:
@@ -79,7 +75,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
@@ -98,7 +94,8 @@ function CreatePoll() {
     index = 0;
     poll.choices.forEach(choice => {
         index++;
-        $("#choices").append(renderChoice(index, choice));
+        choice.index = index;
+        $("#choices").append(renderChoice(choice));
     });
 
     $('#timeleft').addClass("animate");
@@ -116,16 +113,24 @@ function UpdatePoll() {
     });
 }
 
+/**
+ * Show Winner and add winning animation class
+ * @param {object} choice 
+ */
 function ShowWinner(choice) {
     console.debug(choice);
     $("#choices").addClass("showWinner");
     $(`#${choice.choice_id}`).css('--percent', 100 + "%");
     $(`#${choice.choice_id}`).addClass("winner");
+    $(`#${choice.choice_id} .info`).prepend('<div id="trophy" class="animate__animated animate__infinite animate__tada"></div>');
     ClearPoll();
 }
 
+/**
+ * Remove choices and reset timer
+ */
 function ClearPoll() {
-    setTimeout(function () {
+    setTimeout(function() {
         $("#choices").empty();
         $("#choices").removeClass("showWinner");
         $('#timeleft').removeClass("animate");
@@ -134,21 +139,19 @@ function ClearPoll() {
 }
 
 
-
 /**
  * This will render the Choice with everything in it
  * @param {int} index
  * @param {object} choice
  * @returns
  */
-function renderChoice(index, choice) {
-    return `
-   <div id="${choice.choice_id}" class="choice choice-${index}" >
-    <div class="info">
-    <strong>${choice.title}</strong><span>0% (0)</span>
-    </div>
-    <div class="percent" style="--percent:0%;"></div>
-   </div>`;
+function renderChoice(choice) {
+
+    // Get template and populate
+    var tpl = template;
+
+    const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
+    return tpl.innerHTML.replace(pattern, (_, token) => choice[token] || '');
 
 }
 
