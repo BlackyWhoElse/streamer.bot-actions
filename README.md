@@ -21,7 +21,7 @@ I hope you find that stuff useful.
 ## 🧩 Widgets
 - [Predictions](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/prediction)
 - [Polls](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/poll)
-- [Advanced Chat](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/chat)
+- [Advanced Chat](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Advanced-Chat)
 - Random Clips
 - Shoutout
 - Magische Miesmuschell
