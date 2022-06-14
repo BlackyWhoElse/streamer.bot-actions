@@ -1,4 +1,3 @@
-
 var currentTimer;
 var remainingSeconds;
 var timer;
@@ -18,7 +17,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function () {
+    ws.onopen = function() {
         console.debug('Websocket connected');
         ws.send(JSON.stringify({
             "request": "Subscribe",
@@ -27,11 +26,11 @@ function bindEvents() {
                     "Custom"
                 ],
             },
-            "id": "100"
+            "id": "countdown"
         }));
     }
 
-    ws.onmessage = function (event) {
+    ws.onmessage = function(event) {
         // grab message and parse JSON
         const msg = event.data;
         const wsdata = JSON.parse(msg);
@@ -51,7 +50,12 @@ function bindEvents() {
                 time = wsdata.data.arguments.time;
                 desc = wsdata.data.arguments.description;
 
-                setupTimer(parseInt(wsdata.data.arguments.time), desc.substring(100, time.length));
+                // Check if time is contained inside description
+                if (time == desc.substring(0, 2)) {
+                    desc = desc.substring(100, time.length);
+                }
+
+                setupTimer(parseInt(wsdata.data.arguments.time), desc);
                 break;
             case "StartTimer":
                 startTimer();
@@ -74,7 +78,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
@@ -97,7 +101,7 @@ function setupTimer(time, description = "") {
 }
 
 function startTimer() {
-    timer = setInterval(function () {
+    timer = setInterval(function() {
 
         if (remainingSeconds === 0) {
             clearInterval(timer);
@@ -141,8 +145,7 @@ function timerDone() {
             "id": "f600902f-0b5d-454d-8487-f51ff8a9e6e8", // Can be found in context menu of action
             "name": "Timer Finished"
         },
-        "id": "201"
+        "id": "countdown-finished"
     }));
 
 }
-
