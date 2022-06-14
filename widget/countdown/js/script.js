@@ -50,7 +50,12 @@ function bindEvents() {
                 time = wsdata.data.arguments.time;
                 desc = wsdata.data.arguments.description;
 
-                setupTimer(parseInt(wsdata.data.arguments.time), desc.substring(100, time.length));
+                // Check if time is contained inside description
+                if (time == desc.substring(0, 2)) {
+                    desc = desc.substring(100, time.length);
+                }
+
+                setupTimer(parseInt(wsdata.data.arguments.time), desc);
                 break;
             case "StartTimer":
                 startTimer();
