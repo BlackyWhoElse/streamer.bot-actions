@@ -19,6 +19,9 @@ I hope you find that stuff useful.
 - Who's That Pokemon?
 - 1v1 Coin toss
 ## 🧩 Widgets
+<p align="center">
+    Easy 'Plug and Play' overlay widgets. Just drag the index.html into you OBS Preview and you are good to go. There are some aditional steps for some of the widgets. Check out the ReadMe inside the folders or check the wiki below. 
+</p>
 - [Predictions](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/prediction)
 - [Polls](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/poll)
 - [Advanced Chat](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Advanced-Chat)
