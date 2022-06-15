@@ -10,7 +10,8 @@ This Project is under active maintenance so star or watch this project to be not
 I hope you find that stuff useful.
 
 
-## 📃 Commands
+## 📃 Commands/Actions
+**Commands**
 - !cd set {seconds} {description}
   > Set time in secounds for the countdown
 - !cd add {seconds}
@@ -19,6 +20,9 @@ I hope you find that stuff useful.
 - !cd pause
 - !cd resume
 - !cd stop
+**Action**
+Set Timer 60
+- Set input0 to the secounds you want and rawInput to the descriptinon you want
 
 ## ⬇️ Install
 ### OBS
