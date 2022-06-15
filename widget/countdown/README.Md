@@ -22,7 +22,7 @@ I hope you find that stuff useful.
 - !cd stop
 **Action**
 Set Timer 60
-- Set input0 to the secounds you want and rawInput to the descriptinon you want
+- Set input0 to the secounds you want and rawInput to the descriptinon you want  
 ![Set Timer 60](https://media.discordapp.net/attachments/878288822620782612/986317247461076992/unknown.png)
 ## ⬇️ Install
 ### OBS
