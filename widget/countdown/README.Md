@@ -11,6 +11,7 @@ I hope you find that stuff useful.
 
 
 ## 📃 Commands/Actions
+
 **Commands**
 - !cd set {seconds} {description}
   > Set time in secounds for the countdown
@@ -20,7 +21,8 @@ I hope you find that stuff useful.
 - !cd pause
 - !cd resume
 - !cd stop
-**Action**
+
+**Action**  
 Set Timer 60
 - Set input0 to the secounds you want and rawInput to the descriptinon you want  
 ![Set Timer 60](https://media.discordapp.net/attachments/878288822620782612/986317247461076992/unknown.png)
