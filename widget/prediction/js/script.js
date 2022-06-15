@@ -11,6 +11,7 @@ var totalOutcomes = 0;
 var totalPoints = 0;
 var totalUsers = 0;
 
+var template
 
 // Text Variables
 var stringDefaultTitle = `There is no Prediction running right now!`;
@@ -18,6 +19,8 @@ var stringSummery = `${totalPoints} points have been bet by ${totalUsers} viewer
 
 window.addEventListener('load', (event) => {
     $('#title').html(stringDefaultTitle);
+
+    template = document.querySelector('#outcome');
     connectws();
 });
 
@@ -97,25 +100,22 @@ function CreatePrediction() {
     $('#summery').html(stringSummery);
     duration = prediction.predictionWindow;
     $('#timeleft').css('--timer', duration + "s");
-    index = 0;
+
     prediction.outcomes.forEach(outcome => {
-        index++;
-        $("#outcomes").append(renderOutcome(index, outcome));
+        $("#outcomes").append(renderOutcome(outcome));
     });
 
     $('#timeleft').addClass("animate");
 }
 
 function UpdatePrediction() {
-    prediction = JSON.parse(args["prediction._json"]);
 
     totalPoints = 0;
     totalUsers = 0;
     index = 0;
 
     prediction.outcomes.forEach(outcome => {
-        index++;
-        updateOutcome(index, outcome);
+        updateOutcome(outcome);
     });
 
     updateSummery();
@@ -136,30 +136,15 @@ function CancelPrediction() {
  * @param {object} outcome
  * @returns
  */
-function renderOutcome(index, outcome) {
+function renderOutcome(outcome) {
 
-    var title = outcome.title;
-    var total_points = outcome.total_points;
-    var total_users = outcome.total_users;
+    // Todo: Check if prediction is multi or only 1v1
 
-    console.debug(outcome.top_predictors);
+    // Get template and populate
+    var tpl = template;
 
-    return `
-    <div id="outcome-${index}" class="outcome">
-                <h3>${title}</h3>
-                <div class="info">
-                    <div class="stats">
-                        <div class="points">${total_points}</div>
-                        <div class="win-ratio">-:-</div>
-                        <div class="beter">${total_users}</div>
-                        <div class="top">0</div>
-                    </div>
-                    <div class="percent-wrapper">
-                        <p class="percent">0%</p>
-                        <div class="percent-bar" style="--percent:0"></div>
-                    </div>
-                </div>
-            </div>`;
+    const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
+    return tpl.innerHTML.replace(pattern, (_, token) => outcome[token] || '');
 }
 
 /**
@@ -167,7 +152,7 @@ function renderOutcome(index, outcome) {
  * @param {int} index
  * @param {object} outcome
  */
-function updateOutcome(index, outcome) {
+function updateOutcome(outcome) {
 
     totalPoints += outcome.total_points;
     totalUsers += outcome.total_users;
@@ -180,10 +165,8 @@ function updateOutcome(index, outcome) {
  */
 function updateSummery() {
     // Update % based Values
-    index = 0;
     prediction.outcomes.forEach(outcome => {
-        index++;
-        updatePercent(index, outcome);
+        updatePercent(outcome);
     });
 
     $('#summery').html(stringSummery);
@@ -193,12 +176,28 @@ function updateSummery() {
  * @param {int} index
  * @param {object} outcome
  */
-function updatePercent(index, outcome) {
+function updatePercent(outcome) {
+
+    var top = { points: 0, name: "" };
+
+    if (outcome.top_predictors) {
+        outcome.top_predictors.forEach(predictors => {
+            if (top.points < predictors.points) {
+                top.points = predictors.points;
+                top.name = predictors.user_display_name;
+            }
+        });
+    }
+
 
     let perc = percentage(outcome.total_points, totalPoints);
     $('#summery').html(stringSummery);
-    $(`#outcome-${index} .percent`).html(`${perc}%`);
-    $(`#outcome-${index} .percent-bar`).css('--percent', perc + "%");;
+    $(`#${outcome.id} .percent`).html(`${perc}%`);
+    $(`#${outcome.id} .percent-bar`).css('--percent', perc + "%");
+
+    $(`#${outcome.id} .points`).html(`${outcome.total_points}`);
+    $(`#${outcome.id} .beter`).html(`${outcome.total_users}`);
+    $(`#${outcome.id} .top`).html(`${top.name}`);
 }
 
 /**
