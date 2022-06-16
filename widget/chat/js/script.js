@@ -24,9 +24,23 @@
  */
 
 // General Variables
-import * as settings from 'settings.json';
+var settings = {
+    "websocketURL": "ws://localhost:8080/",
+    "debug": false,
+    "blacklist": {
+        "user": [],
+        "words": []
+    },
+    "animations": {
+        "animation": true,
+        "hidedelay": 0,
+        "hideAnimation": "fadeOut",
+        "showAnimation": "bounceInLeft"
+    },
+    "defaultChatColor": "#fff",
+    "template": "message"
+};
 var template;
-var defaultChatColor = "#fff";
 
 
 /**
@@ -35,16 +49,11 @@ var defaultChatColor = "#fff";
  */
 var avatars = {}
 
+
 window.addEventListener('load', (event) => {
-    $('#title').html(stringDefaultTitle);
-
-    template = document.querySelector('#outcome');
+    template = document.querySelector('#message');
     connectws();
-    if (settings.debug) {
-        debugMessages();
-    }
 });
-
 
 function connectws() {
     if ("WebSocket" in window) {
@@ -142,7 +151,7 @@ async function add_message(message) {
 function renderMessage(message = {}) {
 
     if (!message.color) {
-        message.color = defaultChatColor;
+        message.color = settings.defaultChatColor;
     }
 
     // Add classes for animation to message
