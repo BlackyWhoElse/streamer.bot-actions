@@ -24,9 +24,24 @@
  */
 
 // General Variables
-var defaultChatColor = "#fff";
-var settings;
+var settings = {
+    "websocketURL": "ws://localhost:8080/",
+    "debug": false,
+    "blacklist": {
+        "user": [],
+        "words": []
+    },
+    "animations": {
+        "animation": true,
+        "hidedelay": 0,
+        "hideAnimation": "fadeOut",
+        "showAnimation": "bounceInLeft"
+    },
+    "defaultChatColor": "#fff",
+    "template": "message"
+};
 var template;
+
 
 /**
  * Storing avatars that have been called to save api calls
@@ -34,20 +49,14 @@ var template;
  */
 var avatars = {}
 
+window.addEventListener('load', (event) => {
+    $('#title').html(stringDefaultTitle);
 
-// Load settings, template and connect to ws
-$.getJSON("js/settings.json", function(json) {
-    settings = json;
     template = document.querySelector('#message');
     connectws();
-
     if (settings.debug) {
-
         debugMessages();
     }
-
-}).fail(function() {
-    console.log("Could not load settings");
 });
 
 function connectws() {
