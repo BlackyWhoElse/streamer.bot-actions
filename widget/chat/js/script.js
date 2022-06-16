@@ -53,6 +53,12 @@ var avatars = {}
 window.addEventListener('load', (event) => {
     template = document.querySelector('#message');
     connectws();
+
+    if (settings.debug) {
+        console.debug("Debug mode is enabled");
+        debugMessages();
+    }
+
 });
 
 function connectws() {
