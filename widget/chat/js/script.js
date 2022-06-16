@@ -49,14 +49,16 @@ var template;
  */
 var avatars = {}
 
-window.addEventListener('load', (event) => {
-    $('#title').html(stringDefaultTitle);
 
+window.addEventListener('load', (event) => {
     template = document.querySelector('#message');
     connectws();
+
     if (settings.debug) {
+        console.debug("Debug mode is enabled");
         debugMessages();
     }
+
 });
 
 function connectws() {
@@ -155,7 +157,7 @@ async function add_message(message) {
 function renderMessage(message = {}) {
 
     if (!message.color) {
-        message.color = defaultChatColor;
+        message.color = settings.defaultChatColor;
     }
 
     // Add classes for animation to message
