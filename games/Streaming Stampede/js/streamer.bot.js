@@ -15,6 +15,8 @@ var correctCount = 0;
 var decoys = 0;
 var raceProgress = 0;
 var winnerUsername = "None"
+var maxRounds = 1;
+var currentRound = 0;
 
 // Board Vars
 var minSpeed = 2;
@@ -52,7 +54,7 @@ function bindEvents() {
                     "Sub-Action"
                 ]
             },
-            "id": "1"
+            "id": "StreamingStampede"
         }));
     }
 
@@ -96,8 +98,8 @@ function bindEvents() {
             case "Show Winner":
                 showWinner(wsdata.data.arguments.user);
                 break;
-            case "Add Player":
-                addPlayer(wsdata.data.arguments.user);
+            case "AddPlayer":
+                addPlayer(wsdata.data.arguments);
                 break;
             default:
                 console.log(wsdata.data.name);
@@ -195,6 +197,9 @@ function startRound() {
  * End Race
  */
 function endRound() {
+    if (currentRound <= maxRounds) {
+        callForVoting();
+    }
 
     endRace();
 }
@@ -298,9 +303,21 @@ function setCountSprite(sprite) {
 /***************
  * Player Code *
  ***************/
+var players = {};
+var playerIndex = 1;
+var maxPlayers = 4;
 
-function addPlayer($username) {
+function addPlayer(player) {
+    if (maxPlayers >= playerIndex) {
+        console.debug(player);
+        $(`.player-${playerIndex}.username`).html(player.username);
+        $(`.player-${playerIndex}.avatar`).html(`<img src="${player.avatar}"\>`);
+        playerIndex++;
+    } else {
+        console.log("No more space for player");
+        // Todo: Disable join command
 
+    }
 }
 
 /***************
