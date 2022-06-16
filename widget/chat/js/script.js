@@ -24,23 +24,9 @@
  */
 
 // General Variables
-var settings = {
-    "websocketURL": "ws://localhost:8080/",
-    "debug": false,
-    "blacklist": {
-        "user": [],
-        "words": []
-    },
-    "animations": {
-        "animation": true,
-        "hidedelay": 0,
-        "hideAnimation": "fadeOut",
-        "showAnimation": "bounceInLeft"
-    },
-    "defaultChatColor": "#fff",
-    "template": "message"
-};
+import * as settings from 'settings.json';
 var template;
+var defaultChatColor = "#fff";
 
 
 /**
@@ -52,12 +38,13 @@ var avatars = {}
 window.addEventListener('load', (event) => {
     $('#title').html(stringDefaultTitle);
 
-    template = document.querySelector('#message');
+    template = document.querySelector('#outcome');
     connectws();
     if (settings.debug) {
         debugMessages();
     }
 });
+
 
 function connectws() {
     if ("WebSocket" in window) {
