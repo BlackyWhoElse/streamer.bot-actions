@@ -1,6 +1,5 @@
 // General Variables
 var prediction;
-var args;
 
 // Info Variables
 var title;
@@ -13,20 +12,29 @@ var totalUsers = 0;
 
 var template
 
-// Text Variables
-var stringDefaultTitle = `There is no Prediction running right now!`;
-var stringSummery = `${totalPoints} points have been bet by ${totalUsers} viewers so far`;
+var settings = {
+    websocketURL: "ws://localhost:8080/",
+    debug: false,
+    text: {
+        "stringDefaultTitle": `There is no Prediction running right now!`,
+        "stringSummery": `So far nobody has voteted yet`
+    },
+    animations: {
+        clearDelay: 5000
+    },
+};
+
+
 
 window.addEventListener('load', (event) => {
-    $('#title').html(stringDefaultTitle);
-
+    $('#title').html(settings.text.stringDefaultTitle);
     template = document.querySelector('#outcome');
     connectws();
 });
 
 function connectws() {
     if ("WebSocket" in window) {
-        ws = new WebSocket("ws://localhost:8080/");
+        ws = new WebSocket(settings.websocketURL);
         bindEvents();
     }
 }
@@ -45,7 +53,7 @@ function bindEvents() {
                     "PredictionLocked"
                 ]
             },
-            "id": "1"
+            "id": "Predictions"
         }));
     }
 
@@ -73,6 +81,7 @@ function bindEvents() {
                 break;
             case "PredictionCompleted":
                 // Todo: Show Winner and maybe the top winner?
+                CompletePrediction(prediction.winningOutcome)
                 break;
             case "PredictionCanceled":
                 CancelPrediction();
@@ -97,7 +106,7 @@ function CreatePrediction() {
 
     title = prediction.title;
     $('#title').html(title);
-    $('#summery').html(stringSummery);
+    $('#summery').html(settings.text.stringSummery);
     duration = prediction.predictionWindow;
     $('#timeleft').css('--timer', duration + "s");
 
@@ -129,6 +138,12 @@ function CancelPrediction() {
     $('#timeleft').css('--timer', "0s");
 }
 
+function CompletePrediction(outcome) {
+    console.debug(outcome);
+
+    ClearPrediction();
+}
+
 
 /**
  *
@@ -137,8 +152,6 @@ function CancelPrediction() {
  * @returns
  */
 function renderOutcome(outcome) {
-
-    // Todo: Check if prediction is multi or only 1v1
 
     // Get template and populate
     var tpl = template;
@@ -168,8 +181,7 @@ function updateSummery() {
     prediction.outcomes.forEach(outcome => {
         updatePercent(outcome);
     });
-
-    $('#summery').html(stringSummery);
+    $('#summery').html(`${totalPoints} points have been bet by ${totalUsers} viewers so far`);
 }
 /**
  *
@@ -191,13 +203,23 @@ function updatePercent(outcome) {
 
 
     let perc = percentage(outcome.total_points, totalPoints);
-    $('#summery').html(stringSummery);
     $(`#${outcome.id} .percent`).html(`${perc}%`);
     $(`#${outcome.id} .percent-bar`).css('--percent', perc + "%");
 
     $(`#${outcome.id} .points`).html(`${outcome.total_points}`);
     $(`#${outcome.id} .beter`).html(`${outcome.total_users}`);
     $(`#${outcome.id} .top`).html(`${top.name}`);
+}
+
+/**
+ * Readys widget for the next Prediction
+ */
+function ClearPrediction() {
+    setTimeout(function() {
+        $("#outcomes").empty();
+        $('#title').html(settings.text.stringDefaultTitle);
+        $('#summery').html('');
+    }, settings.animations.clearDelay);
 }
 
 /**
