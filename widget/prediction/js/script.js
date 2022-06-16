@@ -15,7 +15,7 @@ var template
 
 // Text Variables
 var stringDefaultTitle = `There is no Prediction running right now!`;
-var stringSummery = `${totalPoints} points have been bet by ${totalUsers} viewers so far`;
+var stringSummery = `So far nobody has voteted yet`;
 
 window.addEventListener('load', (event) => {
     $('#title').html(stringDefaultTitle);
@@ -138,8 +138,6 @@ function CancelPrediction() {
  */
 function renderOutcome(outcome) {
 
-    // Todo: Check if prediction is multi or only 1v1
-
     // Get template and populate
     var tpl = template;
 
@@ -168,8 +166,7 @@ function updateSummery() {
     prediction.outcomes.forEach(outcome => {
         updatePercent(outcome);
     });
-
-    $('#summery').html(stringSummery);
+    $('#summery').html(`${totalPoints} points have been bet by ${totalUsers} viewers so far`);
 }
 /**
  *
@@ -191,7 +188,6 @@ function updatePercent(outcome) {
 
 
     let perc = percentage(outcome.total_points, totalPoints);
-    $('#summery').html(stringSummery);
     $(`#${outcome.id} .percent`).html(`${perc}%`);
     $(`#${outcome.id} .percent-bar`).css('--percent', perc + "%");
 

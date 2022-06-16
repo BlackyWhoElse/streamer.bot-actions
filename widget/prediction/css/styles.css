@@ -12,7 +12,7 @@
     --outcome-7-color: #8b63f7;
     --outcome-8-color: #f7ed63;
     --outcome-9-color: #6392f7;
-    --outcome-10-color: #f76363;
+    --outcome-10-color: #63f7ad;
     --font-family: 'Roboto', sans-serif;
 }
 
@@ -30,6 +30,7 @@ body {
     color: #fff;
     padding: 1rem;
     border-radius: 1rem;
+    min-width: 600px
 }
 
 .prediction-header h2 {
@@ -74,7 +75,7 @@ body {
     margin: 0;
 }
 
-#outcomes>div {
+#outcomes .outcome:nth-child(odd) {
     border-right: 1px solid var(--spacer-color);
 }
 
@@ -87,6 +88,14 @@ body {
     max-width: 50%;
     box-sizing: border-box;
     padding: 0 1rem;
+}
+
+#outcomes h3 {
+    margin-bottom: 0;
+}
+
+#outcomes .outcome:nth-child(odd) h3 {
+    text-align: right;
 }
 
 .info {
@@ -126,12 +135,18 @@ body {
     align-self: flex-end;
 }
 
+
+/**
+ * Colors / Icons
+ */
+
 #outcomes .outcome:nth-child(odd) .stats div::before,
 #outcomes .outcome:nth-child(even) .stats div::after {
     width: 16px;
     height: 16px;
     content: '';
     background-repeat: no-repeat;
+    margin: 0 5px;
 }
 
 #outcomes .outcome:nth-child(odd) .points::before,
@@ -198,57 +213,61 @@ body {
     color: var(--outcome-10-color);
 }
 
-#outcomes .outcome:nth-child(even) h3 {
-    text-align: right;
-}
-
-#outcomes .outcome:nth-child(odd) div::before {
-    margin-right: 5px;
-}
-
-#outcomes .outcome:nth-child(odd) div::after {
-    margin-left: 5px;
-}
-
-#outcomes .outcome:nth-child(1) div::after {
+#outcomes .outcome:nth-child(1) div::before,
+#outcomes .outcome:nth-child(1) .percent-bar {
     background-color: var(--outcome-1-color);
 }
 
-#outcomes .outcome:nth-child(2) div::after {
+#outcomes .outcome:nth-child(2) div::after,
+#outcomes .outcome:nth-child(2) .percent-bar {
     background-color: var(--outcome-2-color);
 }
 
-#outcomes .outcome:nth-child(3) div::after {
+#outcomes .outcome:nth-child(3) div::before,
+#outcomes .outcome:nth-child(3) .percent-bar {
     background-color: var(--outcome-3-color);
 }
 
-#outcomes .outcome:nth-child(4) div::after {
+#outcomes .outcome:nth-child(4) div::after,
+#outcomes .outcome:nth-child(4) .percent-bar {
     background-color: var(--outcome-4-color);
 }
 
-#outcomes .outcome:nth-child(5) div::after {
+#outcomes .outcome:nth-child(5) div::before,
+#outcomes .outcome:nth-child(5) .percent-bar {
     background-color: var(--outcome-5-color);
 }
 
-#outcomes .outcome:nth-child(6) div::after {
+#outcomes .outcome:nth-child(6) div::after,
+#outcomes .outcome:nth-child(6) .percent-bar {
     background-color: var(--outcome-6-color);
 }
 
-#outcomes .outcome:nth-child(7) div::after {
+#outcomes .outcome:nth-child(7) div::before,
+#outcomes .outcome:nth-child(7) .percent-bar {
     background-color: var(--outcome-7-color);
 }
 
-#outcomes .outcome:nth-child(8) div::after {
+#outcomes .outcome:nth-child(8) div::after,
+#outcomes .outcome:nth-child(8) .percent-bar {
     background-color: var(--outcome-8-color);
 }
 
-#outcomes .outcome:nth-child(9) div::after {
+#outcomes .outcome:nth-child(9) div::before,
+#outcomes .outcome:nth-child(9) .percent-bar {
     background-color: var(--outcome-9-color);
 }
 
-#outcomes .outcome:nth-child(10) div::after {
+#outcomes .outcome:nth-child(10) div::after,
+#outcomes .outcome:nth-child(10) .percent-bar {
     background-color: var(--outcome-10-color);
 }
+
+
+/**
+ * 
+ * Percent
+ */
 
 .percent-wrapper {
     display: inline-flex;
@@ -257,8 +276,7 @@ body {
 
 .percent {
     width: 7rem;
-    line-height: 1.2rem;
-    font-size: 3.6rem;
+    font-size: 2.6rem;
     font-weight: 700;
     margin: 0;
 }
@@ -278,4 +296,6 @@ body {
     transition-timing-function: ease;
     transition-timing-function: cubic-bezier(.33, 0, .1, 1);
     width: var(--percent);
+    max-width: 100px;
+    border-radius: 5px;
 }
