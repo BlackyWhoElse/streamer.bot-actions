@@ -14,6 +14,11 @@
     --outcome-9-color: #6392f7;
     --outcome-10-color: #63f7ad;
     --font-family: 'Roboto', sans-serif;
+    --font-size: 16px;
+    --title-font-size: 30px;
+    --summery-font-size: 20px;
+    --outcome-font-size: 30px;
+    --percent-font-size: 40px;
 }
 
 body {
@@ -73,6 +78,7 @@ body {
     flex: 0 1 auto;
     flex-flow: row wrap;
     margin: 0;
+    font-size: var(--font-size);
 }
 
 #outcomes .outcome:nth-child(odd) {
@@ -92,6 +98,12 @@ body {
 
 #outcomes h3 {
     margin-bottom: 0;
+    font-size: var(--outcome-font-size);
+}
+
+#outcomes .outcome:nth-child(1) h3,
+#outcomes .outcome:nth-child(2) h3 {
+    margin-top: 0;
 }
 
 #outcomes .outcome:nth-child(odd) h3 {
@@ -275,8 +287,8 @@ body {
 }
 
 .percent {
-    width: 7rem;
-    font-size: 2.6rem;
+    width: 100px;
+    font-size: var(--percent-font-size);
     font-weight: 700;
     margin: 0;
 }
