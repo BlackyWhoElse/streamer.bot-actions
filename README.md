@@ -23,13 +23,13 @@ I hope you find that stuff useful.
     Easy 'Plug and Play' overlay widgets. Just drag the index.html into you OBS Preview and you are good to go. There are some aditional steps for some of the widgets. Check out the ReadMe inside the folders or check the wiki below. 
 </p>
 
-- [Predictions](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/prediction)
-- [Polls](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/poll)
+- [Predictions](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Predictions)
+- [Polls](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/poll)
 - [Advanced Chat](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Advanced-Chat)
 - Random Clips
 - Shoutout
 - Magische Miesmuschell
-- [Countdown](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/countdown)
+- [Countdown]((https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/countdown)
 ## ⚙ Actions
 - PulseClip
 ## 📃 Examples
