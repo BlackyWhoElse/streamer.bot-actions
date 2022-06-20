@@ -31,6 +31,7 @@ For an easier time customizing your widget open index.html inside a browser and 
 
 ```css
 :root {
+    :root {
     --background-color: #0e0e10;
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
@@ -44,8 +45,12 @@ For an easier time customizing your widget open index.html inside a browser and 
     --outcome-7-color: #8b63f7;
     --outcome-8-color: #f7ed63;
     --outcome-9-color: #6392f7;
-    --outcome-10-color: #f76363;
-
+    --outcome-10-color: #63f7ad;
     --font-family: 'Roboto', sans-serif;
+    --font-size: 16px;
+    --title-font-size: 30px;
+    --summery-font-size: 20px;
+    --outcome-font-size: 30px;
+    --percent-font-size: 40px;
 }
 ```
