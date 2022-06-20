@@ -29,7 +29,7 @@ I hope you find that stuff useful.
 - Random Clips
 - Shoutout
 - Magische Miesmuschell
-- [Countdown]((https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/countdown)
+- [Countdown](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/countdown)
 ## ⚙ Actions
 - PulseClip
 ## 📃 Examples
