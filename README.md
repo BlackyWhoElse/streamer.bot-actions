@@ -1,6 +1,6 @@
-<h1 align="center">BlackyWerSonst Streamer.Bot Collection</h1>
+<h1 align="center">BlackyWerSonst [Streamer.Bot](https://streamer.bot/) Collection</h1>
 <p align="center">
-    Welcome to my Streamer.Bot Collection. Inside this project, you will find Actions and OBS Widgets that I use and create on my <a href="https://twitch.tv/blackywersonst">Livestreams</a>.
+    Welcome to my [Streamer.Bot](https://streamer.bot/) Collection. Inside this project, you will find Actions and OBS Widgets that I use and create on my <a href="https://twitch.tv/blackywersonst">Livestreams</a>.
 </p>
 
 ## 📝 Notes
