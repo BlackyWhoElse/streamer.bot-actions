@@ -1,0 +1,7 @@
+*.autosave
+*.user
+todo
+*.zip
+*.rar
+*.vscode/
+.idea/*

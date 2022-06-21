@@ -65,6 +65,19 @@ body {
     height: 400px;
     padding: 0 65px;
     box-sizing: border-box;
+    position: relative;
+}
+
+.countdown {
+    font-size: 40px;
+    background-color: #ebe7d4;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #3f3229;
+    position: absolute;
+    top: -20px;
+    left: 25px;
 }
 
 #playerSelection {
@@ -88,6 +101,10 @@ body {
     width: 53%;
     display: flex;
     gap: 2%;
+}
+
+.avatar img {
+    max-width: 100px;
 }
 
 #playerNames {

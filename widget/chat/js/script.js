@@ -63,6 +63,8 @@ window.addEventListener('load', (event) => {
 
 function connectws() {
     if ("WebSocket" in window) {
+
+        console.log("Connecting to Streamer.Bot");
         ws = new WebSocket(settings.websocketURL);
         bindEvents();
     }
@@ -91,8 +93,6 @@ function bindEvents() {
             return;
         }
 
-        // Todo: Add ClearChat function
-
         if (wsdata.data.name == "ClearChat") {
             ClearChat();
         }
@@ -107,7 +107,6 @@ function bindEvents() {
 
 
     ws.onclose = function() {
-        console.log("Reconnecting")
         setTimeout(connectws, 10000);
     };
 }
@@ -126,6 +125,9 @@ async function add_message(message) {
     // Adding time variable
     var today = new Date();
     message.time = today.getHours() + ":" + String(today.getMinutes()).padStart(2, '0');
+
+    // Adding default classes
+    message.classes = ["msg"];
 
     const msg = new Promise((resolve, reject) => {
             resolve(getProfileImage(message.username));
@@ -160,27 +162,18 @@ function renderMessage(message = {}) {
         message.color = settings.defaultChatColor;
     }
 
-    // Add classes for animation to message
-    classes = ["msg"];
 
     if (settings.animations.animation) {
-        classes.push("animate__animated");
+        message.classes.push("animate__animated");
 
         if (settings.animations.showAnimation) {
-            classes.push(" animate__" + settings.animations.showAnimation);
-        }
-
-        if (settings.animations.hidedelay != 0) {
-            // Todo: Add hide animation after
-            // message.classes += " animate__" + settings.animations.hideAnimation;
+            message.classes.push("animate__" + settings.animations.showAnimation);
         }
     }
 
     if (message.subscriber === true) {
-        classes.push("subscriber");
+        message.classes.push("subscriber");
     }
-
-    message.classes = classes.join(" ")
 
     // Blacklist word filter
     if (settings.blacklist.words) {
@@ -189,6 +182,7 @@ function renderMessage(message = {}) {
         });
     }
 
+    message.classes = message.classes.join(" ");
 
     // Get template and populate
     var tpl = template;
@@ -238,8 +232,13 @@ async function renderBadges(message) {
  */
 async function renderEmotes(message) {
 
+    // Check if Message is emote only 
+    if (message.message.split(' ').length == message.emotes.length) {
+        message.classes.push("emoteonly");
+    }
+
     message.emotes.forEach(emote => {
-        message.message = message.message.replace(emote.name, `<img class="emote "   src="${emote.imageUrl}">`);
+        message.message = message.message.replace(emote.name, `<img class="emote" src="${emote.imageUrl}">`);
     });
 
     return message;
@@ -311,7 +310,7 @@ function debugMessages() {
             isHighlighted: false,
             isMe: false,
             isReply: false,
-            message: "Chat box is in Debug mode. Chat box is in Debug mode. ",
+            message: "Chat box is in Debug mode. Chat box is in Debug mode.",
             monthsSubscribed: 57,
             msgId: makeid(12),
             role: 4,
