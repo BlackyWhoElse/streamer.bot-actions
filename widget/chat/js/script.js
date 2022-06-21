@@ -93,8 +93,6 @@ function bindEvents() {
             return;
         }
 
-        // Todo: Add ClearChat function
-
         if (wsdata.data.name == "ClearChat") {
             ClearChat();
         }
@@ -312,7 +310,7 @@ function debugMessages() {
             isHighlighted: false,
             isMe: false,
             isReply: false,
-            message: "Chat box is in Debug mode. Chat box is in Debug mode. ",
+            message: "Chat box is in Debug mode. Chat box is in Debug mode.",
             monthsSubscribed: 57,
             msgId: makeid(12),
             role: 4,
