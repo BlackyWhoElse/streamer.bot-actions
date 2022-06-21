@@ -9,6 +9,7 @@
     --badge-size: 15px;
     --badge-spacing: 2px;
     --emote-size: 16px;
+    --emote-only-size: 32px;
     --font-color: #fff;
     --font-size: 16px;
     --font-family: 'Roboto', sans-serif;
@@ -62,6 +63,10 @@ body {
 
 .message .emote {
     height: var(--emote-size);
+}
+
+.emoteonly .message .emote {
+    height: var(--emote-only-size);
 }
 
 .name {
