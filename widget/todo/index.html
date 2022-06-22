@@ -18,30 +18,16 @@
 
 <body>
     <ul id="list">
-        <h1>My todo list 1#</h1>
-        <li>
-            <label>
-                <input class="state" type="checkbox" name="">
-                <i></i>
-                <span class="value">Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
-            </label>
-        </li>
-        <li>
-            <label>
-                <input class="state" type="checkbox" name="">
-                <i></i>
-                <span class="value">Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
-            </label>
-        </li>
+        <h1></h1>
     </ul>
 </body>
 
 <template id="todo">
-    <li>
+    <li id="item-{{id}}">
         <label>
-            <input class="state" type="checkbox" name="">
+            <input class="state" type="checkbox" name="value-{{id}}">
             <i></i>
-            <span class="value">Lorem ipsum dolor sit amet consectetur adipisicing elit.</span>
+            <span class="value">{{value}}</span>
         </label>
     </li>
 </template>
