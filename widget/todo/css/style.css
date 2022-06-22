@@ -1,0 +1,103 @@
+:root{
+
+    --font-family: 'Roboto', sans-serif;
+    --header-color: #0b7cb4;
+    --header-height: 30px;
+    --background-color: #042b3e;
+
+    --headline-color: #fff;
+    --headline-font-size: 36px;
+    --headline-border-color: #fff;
+
+    --list-item-color: #fff;
+    --list-item-checked-color: #095175;
+    --list-item-stroke-color: #fff;
+    --list-item-font-size:20px;
+    --list-item-spacing:40px;
+
+    --checkbox-color: #fff;
+    --checkbox-checkmark-color: #fff;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#list {
+    padding: 30px 75px 10px 30px;
+    position: relative;
+    background-color: var(--background-color);
+    border-top: var(--header-height) solid var(--header-color);
+    list-style: none;
+    font-family: var(--font-family);
+}
+
+#list h1 {
+    color: var(--headline-color);
+    font-size: var(--headline-font-size);
+    padding: 10px 0;
+    margin-left: 10px;
+    display: inline-block;
+    border-bottom: 4px solid var(--headline-border-color);
+}
+
+#list li {
+    margin: var(--list-item-spacing) 0;
+    color: var(--list-item-color);
+    font-size: var(--list-item-font-size);
+    position: relative;
+}
+
+#list input[type="checkbox"] {
+    display: none;
+}
+
+#list li i {
+    position: absolute;
+    top: 2px;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    border: 2px solid var(--checkbox-color);
+}
+
+#list li input[type="checkbox"]:checked~i {
+    top: 1px;
+    border-top: none;
+    border-right: none;
+    height: 15px;
+    width: 25px;
+    transform: rotate(-45deg);
+}
+
+#list li span {
+    position: relative;
+    left: 40px;
+    transition: 0.5s;
+}
+
+#list li span::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--list-item-stroke-color);
+    transform: translateY(-50%) scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s;
+}
+
+#list li input[type="checkbox"]:checked~span::before {
+    transform: translateY(-50%) scaleX(1);
+    transform-origin: left;
+    transition: transform 0.5s;
+}
+
+#list li input[type="checkbox"]:checked~span {
+    color: var(--list-item-checked-color);
+}
