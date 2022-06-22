@@ -83,23 +83,17 @@ function bindEvents() {
 
 
 
-// Command: !todo create Lorem ipsum dolor | Input : Lorem ipsum dolor
-// Command: !todo delete 3 | Input : 3
-// Command: !todo toggle 3 | Input : 3
-// Command: !todo edit 3 Lorem ipsum dolor | Input : 3, Lorem ipsum dolor
+// Command: !todo create Lorem ipsum dolor  | Input : Lorem ipsum dolor
+// Command: !todo delete 3                  | Input : 3
+// Command: !todo toggle 3                  | Input : 3
+// Command: !todo edit 3 Lorem ipsum dolor  | Input : 3, Lorem ipsum dolor
 
 
-// Command: !list create Lorem ipsum dolor | Input : Lorem ipsum dolor
-// Command: !list delete Lorem ipsum dolor | Input : Lorem ipsum dolor
+// Command: !list create Lorem ipsum dolor  | Input : Lorem ipsum dolor
+// Command: !list delete Lorem ipsum dolor  | Input : Lorem ipsum dolor
 // Command: !list list
 // Command: !list reload
-// Command: !list load Lorem ipsum dolor | Input : Lorem ipsum dolor
-
-// Add Item
-// Remove Item
-// Toggle Item
-// Create new list
-// Load other list
+// Command: !list load Lorem ipsum dolor    | Input : Lorem ipsum dolor
 
 function reloadList(json) {
     // Json to Lists
