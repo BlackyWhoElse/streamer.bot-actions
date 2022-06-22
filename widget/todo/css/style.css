@@ -62,6 +62,8 @@
     width: 25px;
     height: 25px;
     border: 2px solid var(--checkbox-color);
+
+    transition: transform 0.5s;
 }
 
 #list li input[type="checkbox"]:checked~i {
@@ -71,6 +73,7 @@
     height: 15px;
     width: 25px;
     transform: rotate(-45deg);
+    border-color:var(--checkbox-checkmark-color);
 }
 
 #list li span {
@@ -96,8 +99,4 @@
     transform: translateY(-50%) scaleX(1);
     transform-origin: left;
     transition: transform 0.5s;
-}
-
-#list li input[type="checkbox"]:checked~span {
-    color: var(--list-item-checked-color);
 }
