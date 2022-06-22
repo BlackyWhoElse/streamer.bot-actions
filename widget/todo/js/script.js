@@ -1,4 +1,3 @@
-
 var settings = {
     "websocketURL": "ws://localhost:8080/",
 };
@@ -6,41 +5,21 @@ var settings = {
 var currentList;
 
 // Todo: Fill this with data from Streamer.bot
-var lists = [
-    {
-        id: "default",
-        headline: "My default todo list",
-        items: {
-            0: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 0 },
-            1: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 1 },
-            2: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 0 },
-            3: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 0 },
-            4: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 1 },
-            5: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 0 },
-        }
-    },
-    {
-        id: 0,
-        headline: "My todo list 2#",
-        items: {
-            0: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 0 },
-            1: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 0 },
-            2: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 1 },
-            3: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 0 },
-            4: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 0 },
-            5: { value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", state: 0 },
-        }
-    }
-];
+var lists;
 
 
 window.addEventListener('load', (event) => {
-    template = document.querySelector('#todo');
-    // Init first list
-    currentList = lists[0];
-    renderList(currentList);
 
-    //connectws();
+    $.getJSON("./todo.json", function(json) {
+        lists = json; // this will show the info it in firebug console
+
+        template = document.querySelector('#todo');
+        // Init first list
+        currentList = lists[0];
+        renderList(currentList);
+
+        connectws();
+    });
 });
 
 function connectws() {
@@ -65,27 +44,45 @@ function bindEvents() {
         }));
     };
 
-    ws.onmessage = async (event) => {
+    ws.onmessage = async(event) => {
         const wsdata = JSON.parse(event.data);
+
+        console.debug(wsdata);
 
         if (wsdata.event == null) {
             return;
         }
 
+        switch (wsdata.data.name) {
+            case "CreateItem":
+                createItem(wsdata.data.arguments);
+                break;
+
+            case "DeleteItem":
+                deleteItem(wsdata.data.arguments.id);
+                break;
+            case "ToggleItem":
+                toggleItem(wsdata.data.arguments.id);
+                break;
+
+
+            default:
+                console.log(wsdata.data.name)
+                break;
+        }
 
     };
 
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         setTimeout(connectws, 10000);
     };
 }
 
 
-
-// Command: !todo create Lorem ipsum dolor  | Input : Lorem ipsum dolor
-// Command: !todo delete 3                  | Input : 3
-// Command: !todo toggle 3                  | Input : 3
+// Done Command: !todo create Lorem ipsum dolor  | Input : Lorem ipsum dolor
+// Done Command: !todo delete 3                  | Input : 3
+// Done Command: !todo toggle 3                  | Input : 3
 // Command: !todo edit 3 Lorem ipsum dolor  | Input : 3, Lorem ipsum dolor
 
 
@@ -104,8 +101,6 @@ function reloadList(json) {
 
 function loadList(id) {
     if (lists[id]) {
-        saveList(currentList);
-
         $(`#list li`).remove();
 
         currentList = lists[id];
@@ -132,22 +127,37 @@ function renderList(list) {
 
 }
 
-function saveList(list) {
-    listid = lists.findIndex((obj => obj.id == list.id));
+function saveList() {
 
-    lists[listid] = list;
+    lists[listIdtoIndex(currentList.id)] = currentList;
+
+    ws.send(JSON.stringify({
+        "request": "DoAction",
+        "action": {
+            "id": "a9dc14fb-6781-4599-a32f-021cb93d6a88",
+            "name": "Update List"
+        },
+        "args": {
+            "list": JSON.stringify(lists),
+        },
+        "id": "UpdateList"
+    }));
 }
+
 
 function deleteList(list) {
     if (list.id != "default") {
-        listid = lists.findIndex((obj => obj.id == list.id));
+        listid = listIdtoIndex(list.id);
 
         lists[listid] = list;
-    } else{
+    } else {
         console.error("Default list can not be deleted")
     }
 }
 
+function listIdtoIndex(id) {
+    return lists.findIndex((obj => obj.id == id));
+}
 
 /**
  * Item Contorller
@@ -157,7 +167,7 @@ function deleteList(list) {
  * Alters a exsisting item
  * @param {object} changes  {index:1, value:"Hello world"}
  */
-function setItem(changes) {
+function updateItem(changes) {
     $(`#item-${changes.index} .value`).html(changes.value);
 }
 
@@ -167,7 +177,16 @@ function setItem(changes) {
  */
 function createItem(input) {
 
-    console.debug(lists[currentList]);
+    if (input.value == 'undefined' || input.state == 'undefined') {
+        console.error("Invalid Input");
+        return;
+    }
+
+    id = getNewId();
+    input["id"] = id;
+    currentList.items[id] = input;
+    saveList();
+
 
     $("#list").append(renderItem(input));
 }
@@ -180,17 +199,21 @@ function renderItem(item) {
     return tpl.innerHTML.replace(pattern, (_, token) => item[token] || '')
 }
 
-function deleteItem(id) {
+function deleteItem(index) {
+
+    id = itemIndexToID(index);
     $(`#item-${id}`).remove();
-    listid = lists.findIndex((obj => obj.id == currentList.id));
     delete currentList.items[id];
+
+    saveList();
 }
 
 /**
  * Toggles a specific item
  * @param {int} index
  */
-function toggleItem(id) {
+function toggleItem(index) {
+    id = itemIndexToID(index);
 
     // Find Checkbox
     checkbox = $(`#item-${id} .state`);
@@ -200,4 +223,20 @@ function toggleItem(id) {
     } else {
         checkbox[0].checked = true;
     }
+}
+
+function itemIndexToID(index) {
+
+    // -1 the id because normal users count from 1
+    index = index - 1;
+    return Object.keys(currentList.items)[index];
+}
+
+function getNewId() {
+    count = Object.keys(currentList.items).length;
+    id = itemIndexToID(count);
+    if (!id) {
+        id = 0;
+    }
+    return parseInt(id) + 1
 }
