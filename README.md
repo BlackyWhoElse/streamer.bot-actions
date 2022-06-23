@@ -29,7 +29,7 @@ I hope you find that stuff useful.
 - [Advanced Chat](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Advanced-Chat)
 - Random Clips
 - Shoutout
-- Todo List
+- [Todo list](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Todo-List)
 - [Countdown](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/countdown)
 ## ⚙ Actions
 - PulseClip
