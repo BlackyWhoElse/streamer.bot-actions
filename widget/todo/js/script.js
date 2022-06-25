@@ -77,7 +77,9 @@ function bindEvents() {
             case "ListDelete":
                 deleteList(wsdata.data.arguments.index);
                 break;
-
+            case "ListEdit":
+                editList(wsdata.data.arguments);
+                break;
             default:
                 console.log(wsdata.data.name);
                 break;
@@ -90,18 +92,6 @@ function bindEvents() {
         setTimeout(connectws, 10000);
     };
 }
-
-
-// Done Command: !todo create Lorem ipsum dolor  | Input : Lorem ipsum dolor
-// Done Command: !todo delete 3                  | Input : 3
-// Done Command: !todo toggle 3                  | Input : 3
-// Done Command: !todo edit 3 Lorem ipsum dolor  | Input : 3, Lorem ipsum dolor
-
-
-// Done Command: !list create Lorem ipsum dolor  | Input : Lorem ipsum dolor
-// Done Command: !list delete 1  | Input : Lorem ipsum dolor
-// Done Command: !list all
-// Done Command: !list load 1    | Input : 1
 
 function reloadList(json) {
     // Json to Lists
@@ -197,6 +187,11 @@ function deleteList(index) {
         errorMessage("Default and current selected lists can not be deleted");
         console.error("Default and current selected lists can not be deleted");
     }
+}
+
+function editList(list) {
+    lists[list.index].headline = list.name.substring(2);
+    saveList();
 }
 
 function listIdtoIndex(id) {
