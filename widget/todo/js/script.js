@@ -3,15 +3,11 @@ var settings = {
 };
 
 var currentList;
-
-// Todo: Fill this with data from Streamer.bot
 var lists;
 
-
-window.addEventListener('load', (event) => {
-
+$(document).ready(function() {
     $.getJSON("./todo.json", function(json) {
-        lists = json; // this will show the info it in firebug console
+        lists = json;
 
         template = document.querySelector('#todo');
         // Init first list
@@ -21,6 +17,7 @@ window.addEventListener('load', (event) => {
         connectws();
     });
 });
+
 
 function connectws() {
     if ("WebSocket" in window) {
@@ -54,20 +51,37 @@ function bindEvents() {
         }
 
         switch (wsdata.data.name) {
-            case "CreateItem":
+            case "ItemCreate":
                 createItem(wsdata.data.arguments);
                 break;
 
-            case "DeleteItem":
+            case "ItemDelete":
                 deleteItem(wsdata.data.arguments.id);
                 break;
-            case "ToggleItem":
+            case "ItemToggle":
                 toggleItem(wsdata.data.arguments.id);
                 break;
+            case "ItemEdit":
+                editItem(wsdata.data.arguments);
+                break;
 
-
+            case "ListLoad":
+                loadList(wsdata.data.arguments.index);
+                break;
+            case "ListPrint":
+                printList();
+                break;
+            case "ListCreate":
+                createList(wsdata.data.arguments.headline);
+                break;
+            case "ListDelete":
+                deleteList(wsdata.data.arguments.index);
+                break;
+            case "ListEdit":
+                editList(wsdata.data.arguments);
+                break;
             default:
-                console.log(wsdata.data.name)
+                console.log(wsdata.data.name);
                 break;
         }
 
@@ -79,19 +93,6 @@ function bindEvents() {
     };
 }
 
-
-// Done Command: !todo create Lorem ipsum dolor  | Input : Lorem ipsum dolor
-// Done Command: !todo delete 3                  | Input : 3
-// Done Command: !todo toggle 3                  | Input : 3
-// Command: !todo edit 3 Lorem ipsum dolor  | Input : 3, Lorem ipsum dolor
-
-
-// Command: !list create Lorem ipsum dolor  | Input : Lorem ipsum dolor
-// Command: !list delete Lorem ipsum dolor  | Input : Lorem ipsum dolor
-// Command: !list list
-// Command: !list reload
-// Command: !list load Lorem ipsum dolor    | Input : Lorem ipsum dolor
-
 function reloadList(json) {
     // Json to Lists
     currentList = lists[id];
@@ -99,11 +100,12 @@ function reloadList(json) {
     loadList(currentList);
 }
 
-function loadList(id) {
-    if (lists[id]) {
+function loadList(index) {
+
+    if (lists[index]) {
         $(`#list li`).remove();
 
-        currentList = lists[id];
+        currentList = lists[index];
         renderList(currentList);
     }
 }
@@ -135,7 +137,7 @@ function saveList() {
         "request": "DoAction",
         "action": {
             "id": "a9dc14fb-6781-4599-a32f-021cb93d6a88",
-            "name": "Update List"
+            "name": "List Update"
         },
         "args": {
             "list": JSON.stringify(lists),
@@ -144,15 +146,52 @@ function saveList() {
     }));
 }
 
-
-function deleteList(list) {
-    if (list.id != "default") {
-        listid = listIdtoIndex(list.id);
-
-        lists[listid] = list;
-    } else {
-        console.error("Default list can not be deleted")
+function printList() {
+    message = "";
+    for (let index = 0; index < lists.length; index++) {
+        const element = lists[index];
+        console.debug(element);
+        message += `[${index}] ${element.headline}, `;
     }
+
+    ws.send(JSON.stringify({
+        "request": "DoAction",
+        "action": {
+            "id": "2fbc6f75-530f-442b-9052-3bda4942662e",
+            "name": "List Message"
+        },
+        "args": {
+            "message": message,
+        },
+        "id": "TodoMessage"
+    }));
+}
+
+function createList(name) {
+
+    newList = {
+        headline: name,
+        id: lists.length,
+        items: {}
+    }
+
+    lists.push(newList);
+    saveList();
+}
+
+function deleteList(index) {
+    if (lists[index].id != "default" && lists[index].id != currentList.id) {
+        lists.splice(index, 1);
+        saveList();
+    } else {
+        errorMessage("Default and current selected lists can not be deleted");
+        console.error("Default and current selected lists can not be deleted");
+    }
+}
+
+function editList(list) {
+    lists[list.index].headline = list.name.substring(2);
+    saveList();
 }
 
 function listIdtoIndex(id) {
@@ -167,8 +206,21 @@ function listIdtoIndex(id) {
  * Alters a exsisting item
  * @param {object} changes  {index:1, value:"Hello world"}
  */
-function updateItem(changes) {
-    $(`#item-${changes.index} .value`).html(changes.value);
+function editItem(changes) {
+
+    // Loading old item
+    id = itemIndexToID(changes.index);
+    item = currentList.items[id];
+
+    // Remove index from value
+    value = changes.value.substring(2);
+    item.value = value;
+
+    // Saving to List 
+    currentList.items[id] = item;
+    saveList();
+
+    $(`#item-${changes.index} .value`).html(value);
 }
 
 /**
@@ -239,4 +291,19 @@ function getNewId() {
         id = 0;
     }
     return parseInt(id) + 1
+}
+
+
+function errorMessage(message) {
+    ws.send(JSON.stringify({
+        "request": "DoAction",
+        "action": {
+            "id": "2fbc6f75-530f-442b-9052-3bda4942662e",
+            "name": "List Message"
+        },
+        "args": {
+            "message": message,
+        },
+        "id": "TodoMessage"
+    }));
 }
