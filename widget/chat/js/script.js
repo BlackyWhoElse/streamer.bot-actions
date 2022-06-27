@@ -80,33 +80,58 @@ function bindEvents() {
                     "Custom"
                 ],
                 "Twitch": [
-                    "ChatMessage"
+                    "ChatMessage",
+                    "ChatMessageDeleted"
+                ],
+                "YouTube": [
+                    "Message",
+                    "MessageDeleted"
                 ]
             }
         }));
     };
 
-    ws.onmessage = async(event) => {
+    ws.onmessage = async (event) => {
         const wsdata = JSON.parse(event.data);
 
         if (wsdata.event == null) {
             return;
         }
-
+        // Custom
         if (wsdata.data.name == "ClearChat") {
             ClearChat();
         }
-
-        if (wsdata.event.source === 'Twitch' && wsdata.event.type === 'ChatMessage') {
-            add_message(wsdata.data.message);
-        } else {
-            console.log(['Event not implemented', event]);
+        // Twitch
+        if (wsdata.event.source === 'Twitch') {
+            switch (wsdata.event.type) {
+                case 'ChatMessage':
+                    add_message(wsdata.data.message);
+                    break;
+                case 'ChatMessageDeleted':
+                    console.debug(wsdata.data.message);
+                    break;
+                default:
+                    break;
+            }
         }
 
+        // Youtube
+        if (wsdata.event.source === 'Youtube') {
+            switch (wsdata.event.type) {
+                case 'Message':
+                    add_message(wsdata.data.message);
+                    break;
+                case 'MessageDeleted':
+                    console.debug(wsdata.data.message);
+                    break;
+                default:
+                    break;
+            }
+        }
     };
 
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         setTimeout(connectws, 10000);
     };
 }
@@ -130,14 +155,14 @@ async function add_message(message) {
     message.classes = ["msg"];
 
     const msg = new Promise((resolve, reject) => {
-            resolve(getProfileImage(message.username));
-        }).then(avatar => {
-            message.avatar = avatar;
-            return renderBadges(message);
-        }).then(bages => {
-            message.badges = bages;
-            return renderEmotes(message);
-        })
+        resolve(getProfileImage(message.username));
+    }).then(avatar => {
+        message.avatar = avatar;
+        return renderBadges(message);
+    }).then(bages => {
+        message.badges = bages;
+        return renderEmotes(message);
+    })
         .then(msg => {
             $("#chat").append(renderMessage(msg));
 
@@ -145,12 +170,14 @@ async function add_message(message) {
                 hideMessage(message.msgId);
             }
 
-        }).catch(function(error) {
+        }).catch(function (error) {
             console.error(error);
         });
 }
 
-
+function remove_message(message){
+    // Remove message based on message id
+}
 /**
  * Render message with template
  * @param {object} message
@@ -193,19 +220,19 @@ function renderMessage(message = {}) {
 
 /**
  * Hides a message after an amount of time and deletes it aferwards
- * @param {string} msgId 
+ * @param {string} msgId
  */
 function hideMessage(msgId) {
     const msg = new Promise((resolve, reject) => {
-            delay(settings.animations.hidedelay).then(function() {
-                $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
-                $("#" + msgId).bind("animationend", function() {
-                    $("#" + msgId).remove()
-                });
-                resolve();
+        delay(settings.animations.hidedelay).then(function () {
+            $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
+            $("#" + msgId).bind("animationend", function () {
+                $("#" + msgId).remove()
             });
-        })
-        .catch(function(error) {
+            resolve();
+        });
+    })
+        .catch(function (error) {
             console.error(error);
         });
 }
@@ -232,7 +259,7 @@ async function renderBadges(message) {
  */
 async function renderEmotes(message) {
 
-    // Check if Message is emote only 
+    // Check if Message is emote only
     if (message.message.split(' ').length == message.emotes.length) {
         message.classes.push("emoteonly");
     }
@@ -275,7 +302,7 @@ function ClearChat() {
 // Helper Code
 
 function delay(t, v) {
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
         setTimeout(resolve.bind(null, v), t)
     });
 }
@@ -290,13 +317,13 @@ function debugMessages() {
             avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/a88dd690-f653-435e-ae3f-cd312ee5b736-profile_image-300x300.png",
             bits: 0,
             badges: [{
-                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
-                    name: "broadcaster",
-                },
-                {
-                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
-                    name: "subscriber",
-                },
+                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
+                name: "broadcaster",
+            },
+            {
+                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
+                name: "subscriber",
+            },
             ],
             emotes: [],
             channel: "blackywersonst",
