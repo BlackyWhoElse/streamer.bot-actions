@@ -33,8 +33,6 @@ I hope you find that stuff useful.
 - Shoutout
 - [Todo list](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Todo-List)
 - [Countdown](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/countdown)
-## ⚙ Actions
-- PulseClip
 ## 📃 Examples
 - Discord
     -  [Send a Clip to Discord ](https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/examples/Discord/Send%20Clip%20to%20Discord)
