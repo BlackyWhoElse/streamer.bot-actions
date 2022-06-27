@@ -59,6 +59,7 @@ body {
     background-color: var(--message-background-color);
     color: var(--font-color);
     font-size: var(--font-size);
+    overflow-wrap: anywhere;
 }
 
 .message .emote {
