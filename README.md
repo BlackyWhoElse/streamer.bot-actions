@@ -9,7 +9,9 @@ Please be so kind and give me credit or let me know if you implement these overl
 
 This Project is under active maintenance so star or watch this project to be notified if I'm uploading new stuff.
 I hope you find that stuff useful.
-
+## Actions
+- [Streamlabels](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Streamlables)
+- 
 ## 🕹 Games
 - Streaming Stampede
     - Status: Development
