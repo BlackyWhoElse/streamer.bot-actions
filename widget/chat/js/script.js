@@ -108,7 +108,7 @@ function bindEvents() {
                     add_message(wsdata.data.message);
                     break;
                 case 'ChatMessageDeleted':
-                    console.debug(wsdata.data.message);
+                    hideMessage(wsdata.data.targetMessageId);
                     break;
                 default:
                     break;
@@ -175,9 +175,6 @@ async function add_message(message) {
         });
 }
 
-function remove_message(message){
-    // Remove message based on message id
-}
 /**
  * Render message with template
  * @param {object} message
