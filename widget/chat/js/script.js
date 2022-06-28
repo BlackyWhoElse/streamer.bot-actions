@@ -33,15 +33,19 @@ var settings = {
     },
     "animations": {
         "animation": true,
-        "hidedelay": 0,
-        "hideAnimation": "fadeOut",
+        "hidedelay": 5000,
+        "hideAnimation": "bounceOutLeft",
         "showAnimation": "bounceInLeft"
     },
-    "defaultChatColor": "#fff",
-    "template": "message"
+    "YouTube": {
+        "defaultChatColor": "#f20000",
+    },
+    "Twitch": {
+        "defaultChatColor": "#9147ff",
+    },
 };
 var template;
-
+var YTtemplate;
 
 /**
  * Storing avatars that have been called to save api calls
@@ -52,6 +56,7 @@ var avatars = {}
 
 window.addEventListener('load', (event) => {
     template = document.querySelector('#message');
+    YTtemplate = document.querySelector('#YTmessage');
     connectws();
 
     if (settings.debug) {
@@ -82,65 +87,53 @@ function bindEvents() {
                 "Twitch": [
                     "ChatMessage",
                     "ChatMessageDeleted"
-<<<<<<< Updated upstream
                 ],
                 "YouTube": [
                     "Message",
-                    "MessageDeleted"
-=======
->>>>>>> Stashed changes
+                    "MessageDeleted",
+                    "SuperChat"
                 ]
             }
         }));
     };
 
-    ws.onmessage = async (event) => {
+    ws.onmessage = async(event) => {
         const wsdata = JSON.parse(event.data);
 
-        if (wsdata.event == null) {
+        if (wsdata.status == "ok" || wsdata.event.source == null) {
             return;
         }
+
         // Custom
         if (wsdata.data.name == "ClearChat") {
             ClearChat();
         }
-<<<<<<< Updated upstream
         // Twitch
-=======
 
->>>>>>> Stashed changes
+
+        console.debug(wsdata.event.source + ": " + wsdata.event.type);
+
         if (wsdata.event.source === 'Twitch') {
             switch (wsdata.event.type) {
                 case 'ChatMessage':
                     add_message(wsdata.data.message);
                     break;
                 case 'ChatMessageDeleted':
-<<<<<<< Updated upstream
                     hideMessage(wsdata.data.targetMessageId);
                     break;
                 default:
                     break;
             }
-=======
-                    delete_message(wsdata.data.message);
-                    break;
-
-                default:
-                    break;
-            }
-        } else {
-            console.log(['Event not implemented', event]);
->>>>>>> Stashed changes
         }
 
         // Youtube
-        if (wsdata.event.source === 'Youtube') {
+        if (wsdata.event.source === 'YouTube') {
             switch (wsdata.event.type) {
                 case 'Message':
-                    add_message(wsdata.data.message);
+                    add_YTmessage(wsdata.data);
                     break;
                 case 'MessageDeleted':
-                    console.debug(wsdata.data.message);
+                    hideMessage(wsdata.data.targetMessageId);
                     break;
                 default:
                     break;
@@ -149,7 +142,7 @@ function bindEvents() {
     };
 
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         setTimeout(connectws, 10000);
     };
 }
@@ -173,44 +166,97 @@ async function add_message(message) {
     message.classes = ["msg"];
 
     const msg = new Promise((resolve, reject) => {
-        resolve(getProfileImage(message.username));
-    }).then(avatar => {
-        message.avatar = avatar;
-        return renderBadges(message);
-    }).then(bages => {
-        message.badges = bages;
-        return renderEmotes(message);
-    })
+            resolve(getProfileImage(message.username));
+        }).then(avatar => {
+            message.avatar = avatar;
+            return renderBadges(message);
+        }).then(bages => {
+            message.badges = bages;
+            return renderEmotes(message);
+        })
         .then(msg => {
-            $("#chat").append(renderMessage(msg));
+            $("#chat").append(renderMessage("Twitch", msg));
 
             if (settings.animations.hidedelay > 0) {
                 hideMessage(message.msgId);
             }
 
-        }).catch(function (error) {
+        }).catch(function(error) {
             console.error(error);
         });
 }
 
-<<<<<<< Updated upstream
-=======
+/**
+ * Adding content to message and then render it on screen
+ * @param {object} message
+ */
+async function add_YTmessage(message) {
 
-function remove_message(message) {
-    $("#" + message.msgId).remove()
+    message = jQuery.extend(message, message.user);
+    // Blacklist Filter
+    if (settings.blacklist.user.includes(message.user.name)) {
+        return;
+    }
+
+    // Adding time variable
+    var today = new Date();
+    message.time = today.getHours() + ":" + String(today.getMinutes()).padStart(2, '0');
+
+    // Adding default classes
+    message.classes = ["msg"];
+
+
+    const msg = new Promise((resolve, reject) => {
+            resolve(`<img src="${message.user.profileImageUrl}"\></img>`);
+        }).then(avatar => {
+            message.avatar = avatar;
+            return renderYTEmotes(message);
+        })
+        .then(msg => {
+            $("#chat").append(renderYTMessage("YouTube", msg));
+
+            if (settings.animations.hidedelay > 0) {
+                hideMessage(message.eventId);
+            }
+
+        }).catch(function(error) {
+            console.error(error);
+        });
 }
 
->>>>>>> Stashed changes
 /**
  * Render message with template
  * @param {object} message
  * @returns
  */
-function renderMessage(message = {}) {
+function renderMessage(platform, message = {}) {
 
-    if (!message.color) {
-        message.color = settings.defaultChatColor;
+    switch (platform) {
+        case "Twitch":
+            if (!message.color) {
+                message.color = settings.Twitch.defaultChatColor;
+            }
+
+            if (message.subscriber === true) {
+                message.classes.push("subscriber");
+            }
+
+            var tpl = template;
+
+            break;
+
+        case "YouTube":
+            message.color = settings.YouTube.defaultChatColor;
+
+            // Todo: Add classes for Members/Moderators?
+
+            var tpl = YTtemplate;
+            break;
+
+        default:
+            break;
     }
+
 
 
     if (settings.animations.animation) {
@@ -219,10 +265,6 @@ function renderMessage(message = {}) {
         if (settings.animations.showAnimation) {
             message.classes.push("animate__" + settings.animations.showAnimation);
         }
-    }
-
-    if (message.subscriber === true) {
-        message.classes.push("subscriber");
     }
 
     // Blacklist word filter
@@ -234,12 +276,10 @@ function renderMessage(message = {}) {
 
     message.classes = message.classes.join(" ");
 
-    // Get template and populate
-    var tpl = template;
-
     const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
     return tpl.innerHTML.replace(pattern, (_, token) => message[token] || '');
 }
+
 
 /**
  * Hides a message after an amount of time and deletes it aferwards
@@ -247,15 +287,15 @@ function renderMessage(message = {}) {
  */
 function hideMessage(msgId) {
     const msg = new Promise((resolve, reject) => {
-        delay(settings.animations.hidedelay).then(function () {
-            $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
-            $("#" + msgId).bind("animationend", function () {
-                $("#" + msgId).remove()
+            delay(settings.animations.hidedelay).then(function() {
+                $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
+                $("#" + msgId).bind("animationend", function() {
+                    $("#" + msgId).remove()
+                });
+                resolve();
             });
-            resolve();
-        });
-    })
-        .catch(function (error) {
+        })
+        .catch(function(error) {
             console.error(error);
         });
 }
@@ -295,6 +335,16 @@ async function renderEmotes(message) {
 }
 
 /**
+ * Swaping Emote names for emote images
+ * @param {object} message
+ * @returns
+ */
+async function renderYTEmotes(message) {
+    // Todo: Find a way to get Emotes
+    return message;
+}
+
+/**
  * Calling decapi.me to recive avatar link as string
  * @param {string} username
  * @returns
@@ -317,22 +367,19 @@ async function getProfileImage(username) {
 
 }
 // Command Code
-
 function ClearChat() {
     $("#chat").html("");
 }
 
 // Helper Code
-
 function delay(t, v) {
-    return new Promise(function (resolve) {
+    return new Promise(function(resolve) {
         setTimeout(resolve.bind(null, v), t)
     });
 }
 
 
 // Debug Code
-
 function debugMessages() {
 
     setInterval(() => {
@@ -340,13 +387,13 @@ function debugMessages() {
             avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/a88dd690-f653-435e-ae3f-cd312ee5b736-profile_image-300x300.png",
             bits: 0,
             badges: [{
-                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
-                name: "broadcaster",
-            },
-            {
-                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
-                name: "subscriber",
-            },
+                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
+                    name: "broadcaster",
+                },
+                {
+                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
+                    name: "subscriber",
+                },
             ],
             emotes: [],
             channel: "blackywersonst",
