@@ -44,7 +44,7 @@ function bindEvents() {
                 ],
                 "Custom":[]
             },
-            "id": "100"
+            "id": "WebsocketDemo"
         }));
     }
 
@@ -81,7 +81,7 @@ function bindEvents() {
 function subscribe() {
     ws.send(JSON.stringify({
         "request": "Subscribe",
-        "id": "100",
+        "id": "NewSubscribe",
         "events": {
             "Twitch": [
                 "Follow",
@@ -101,7 +101,7 @@ function subscribe() {
 function unSubscribe() {
     ws.send(JSON.stringify({
         "request": "UnSubscribe",
-        "id": "101",
+        "id": "WSEUnSubscribe",
         "events": {
             "Twitch": [
                 "Follow",
@@ -121,7 +121,7 @@ function unSubscribe() {
 function getEvents() {
     ws.send(JSON.stringify({
         "request": "GetEvents",
-        "id": "102",
+        "id": "WSEGetEvents",
     }));
 }
 
@@ -131,7 +131,7 @@ function getEvents() {
 function getActions() {
     ws.send(JSON.stringify({
         "request": "GetActions",
-        "id": "200",
+        "id": "WSEGetActions",
     }));
 }
 
@@ -148,6 +148,6 @@ function doAction() {
         "args": {
             "argument": "Max Mustermann",
         },
-        "id": "201"
+        "id": "WSEDoAction"
     }));
 }
