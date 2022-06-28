@@ -82,10 +82,13 @@ function bindEvents() {
                 "Twitch": [
                     "ChatMessage",
                     "ChatMessageDeleted"
+<<<<<<< Updated upstream
                 ],
                 "YouTube": [
                     "Message",
                     "MessageDeleted"
+=======
+>>>>>>> Stashed changes
                 ]
             }
         }));
@@ -101,18 +104,33 @@ function bindEvents() {
         if (wsdata.data.name == "ClearChat") {
             ClearChat();
         }
+<<<<<<< Updated upstream
         // Twitch
+=======
+
+>>>>>>> Stashed changes
         if (wsdata.event.source === 'Twitch') {
             switch (wsdata.event.type) {
                 case 'ChatMessage':
                     add_message(wsdata.data.message);
                     break;
                 case 'ChatMessageDeleted':
+<<<<<<< Updated upstream
                     hideMessage(wsdata.data.targetMessageId);
                     break;
                 default:
                     break;
             }
+=======
+                    delete_message(wsdata.data.message);
+                    break;
+
+                default:
+                    break;
+            }
+        } else {
+            console.log(['Event not implemented', event]);
+>>>>>>> Stashed changes
         }
 
         // Youtube
@@ -175,6 +193,14 @@ async function add_message(message) {
         });
 }
 
+<<<<<<< Updated upstream
+=======
+
+function remove_message(message) {
+    $("#" + message.msgId).remove()
+}
+
+>>>>>>> Stashed changes
 /**
  * Render message with template
  * @param {object} message
