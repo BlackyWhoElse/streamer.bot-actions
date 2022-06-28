@@ -133,7 +133,7 @@ function buildGameLogic() {
         createObjects("decoy");
     }
 
-    // TODO: Display timer on overlay and start it 
+    // TODO: Display timer on overlay and start it
     setTimeout(() => {
         startRace();
     }, 10000);
@@ -227,7 +227,7 @@ function callForVoting() {
             "id": "8ef38869-0d9b-47de-baac-461707d9de94",
             "name": "Answers Enable"
         },
-        "id": "201"
+        "id": "StreamingStampedeEnableAnswers"
     }));
 }
 
@@ -281,8 +281,8 @@ function createObjects(type) {
 
 /**
  * Converts sprite name into url
- * @param {string} sprite 
- * @returns 
+ * @param {string} sprite
+ * @returns
  */
 function spriteUrl(sprite) {
     return "--sprite:url('../" + sprite.replaceAll(/\\/g, "/").replace("C:/Users/BlackyWerSonst/Documents/Gitlab/OBS-Overlays/counting game/", "") + "')";
@@ -290,7 +290,7 @@ function spriteUrl(sprite) {
 
 /**
  * Sets the sprite for counting
- * @param {string} sprite 
+ * @param {string} sprite
  */
 function setCountSprite(sprite) {
     // Set CountSpriteUrl
