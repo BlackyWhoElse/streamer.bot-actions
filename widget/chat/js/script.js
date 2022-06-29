@@ -45,7 +45,7 @@ var settings = {
     },
 };
 var template;
-var YTtemplate;
+var template_youtube;
 
 /**
  * Storing avatars that have been called to save api calls
@@ -55,8 +55,8 @@ var avatars = {}
 
 
 window.addEventListener('load', (event) => {
-    template = document.querySelector('#message');
-    YTtemplate = document.querySelector('#YTmessage');
+    template_twitch = document.querySelector('#message_twitch');
+    template_youtube = document.querySelector('#message_youtube');
     connectws();
 
     if (settings.debug) {
@@ -192,7 +192,6 @@ async function add_message(message) {
  */
 async function add_YTmessage(message) {
 
-    message = jQuery.extend(message, message.user);
     // Blacklist Filter
     if (settings.blacklist.user.includes(message.user.name)) {
         return;
@@ -241,16 +240,32 @@ function renderMessage(platform, message = {}) {
                 message.classes.push("subscriber");
             }
 
-            var tpl = template;
+            var tpl = template_twitch;
 
             break;
 
         case "YouTube":
+
+            message.displayName = message.user.name;
+            message.userId = message.user.id;
+            message.msgId = message.eventId;
+
             message.color = settings.YouTube.defaultChatColor;
 
-            // Todo: Add classes for Members/Moderators?
+            if (message.user.isOwner === true) {
+                message.classes.push("owner");
+            }
+            if (message.user.isModerator === true) {
+                message.classes.push("moderator");
+            }
+            if (message.user.isSponsor === true) {
+                message.classes.push("sponsor");
+            }
+            if (message.user.isVerified === true) {
+                message.classes.push("verified");
+            }
 
-            var tpl = YTtemplate;
+            var tpl = template_youtube;
             break;
 
         default:
