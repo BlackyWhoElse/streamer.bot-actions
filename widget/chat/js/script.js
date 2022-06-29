@@ -33,8 +33,8 @@ var settings = {
     },
     "animations": {
         "animation": true,
-        "hidedelay": 5000,
-        "hideAnimation": "bounceOutLeft",
+        "hidedelay": 0,
+        "hideAnimation": "fadeOut",
         "showAnimation": "bounceInLeft"
     },
     "YouTube": {
@@ -44,6 +44,7 @@ var settings = {
         "defaultChatColor": "#9147ff",
     },
 };
+
 var template;
 var template_youtube;
 
@@ -212,7 +213,7 @@ async function add_YTmessage(message) {
             return renderYTEmotes(message);
         })
         .then(msg => {
-            $("#chat").append(renderYTMessage("YouTube", msg));
+            $("#chat").append(renderMessage("YouTube", msg));
 
             if (settings.animations.hidedelay > 0) {
                 hideMessage(message.eventId);
@@ -246,6 +247,7 @@ function renderMessage(platform, message = {}) {
 
         case "YouTube":
 
+            // Setting general variabels
             message.displayName = message.user.name;
             message.userId = message.user.id;
             message.msgId = message.eventId;
