@@ -1,24 +1,22 @@
-:root{
-
+:root {
     --font-family: 'Roboto', sans-serif;
-    --header-color: #0b7cb4;
     --header-height: 30px;
-    --background-color: #042b3e;
-
-    --headline-color: #fff;
+    --background-color: #ffffff;
+    --background-line-color: teal;
+    --background-hline-color: rgba(255, 0, 0, 0.6);
+    --background-hline-left: 40px;
+    --headline-color: #000;
     --headline-font-size: 36px;
-    --headline-border-color: #fff;
-
-    --list-item-color: #fff;
-    --list-item-checked-color: #095175;
-    --list-item-stroke-color: #fff;
-    --list-item-font-size:20px;
-    --list-item-spacing:40px;
-
-    --checkbox-color: #fff;
-    --checkbox-checkmark-color: #fff;
+    --headline-border-color: #000;
+    --list-item-color: #000;
+    --list-item-checked-color: #000;
+    --list-item-stroke-color: #000;
+    --list-item-font-size: 20px;
+    --list-item-spacing: 10px;
+    --list-item-line-height: 24px;
+    --checkbox-color: #000;
+    --checkbox-checkmark-color: #000;
 }
-
 
 * {
     margin: 0;
@@ -26,11 +24,39 @@
     box-sizing: border-box;
 }
 
-#list {
-    padding: 30px 75px 10px 30px;
+#paper {
     position: relative;
+    margin: 20px auto;
+    padding-top: 40px;
+    padding-bottom: 40px;
     background-color: var(--background-color);
-    border-top: var(--header-height) solid var(--header-color);
+    box-shadow: 0px 0px 5px 0px #888;
+}
+
+
+/* styling red vertical line */
+
+#paper::before {
+    content: '';
+    width: 2px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 40px;
+    background-color: rgba(255, 0, 0, 0.6);
+}
+
+
+/* styling blue horizontal lines */
+
+#pattern {
+    height: 100%;
+    background-image: repeating-linear-gradient(var(--background-color) 0px, var(--background-color) 24px, var(--background-line-color) 25px);
+}
+
+#list {
+    padding: 24px 75px 10px 60px;
+    position: relative;
     list-style: none;
     font-family: var(--font-family);
 }
@@ -38,14 +64,13 @@
 #list h1 {
     color: var(--headline-color);
     font-size: var(--headline-font-size);
-    padding: 10px 0;
     margin-left: 10px;
     display: inline-block;
-    border-bottom: 4px solid var(--headline-border-color);
+    border-bottom: 2px solid var(--headline-border-color);
+    line-height: var(--list-item-line-height);
 }
 
 #list li {
-    margin: var(--list-item-spacing) 0;
     color: var(--list-item-color);
     font-size: var(--list-item-font-size);
     position: relative;
@@ -56,30 +81,28 @@
 }
 
 #list li i {
-    position: absolute;
-    top: 2px;
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     border: 2px solid var(--checkbox-color);
-
     transition: transform 0.5s;
+    position: relative;
 }
 
 #list li input[type="checkbox"]:checked~i {
-    top: 1px;
+    top: -6px;
     border-top: none;
     border-right: none;
-    height: 15px;
-    width: 25px;
+    height: 10px;
+    width: 20px;
     transform: rotate(-45deg);
-    border-color:var(--checkbox-checkmark-color);
+    border-color: var(--checkbox-checkmark-color);
 }
 
 #list li span {
     position: relative;
-    left: 40px;
     transition: 0.5s;
+    line-height: var(--list-item-line-height);
 }
 
 #list li span::before {
