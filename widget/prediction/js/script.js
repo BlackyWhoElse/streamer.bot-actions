@@ -22,13 +22,18 @@ var settings = {
         "stringResults": `These are the biggest winners of this prediction`,
     },
     animations: {
-        clearDelay: 5000
+        clearDelay: 0,
+        showWinnersTime: 10000,
     },
     showWinners: true,
     winnerAmount: 3,
 };
 
-
+/**
+ * Storing avatars that have been called to save api calls
+ * username: imageURL
+ */
+var avatars = {}
 
 window.addEventListener('load', (event) => {
     $('#title').html(settings.text.stringDefaultTitle);
@@ -122,7 +127,10 @@ function CreatePrediction() {
     });
 
     $('#timeleft').addClass("animate");
+
+    $('#results').css("display", "none");
     $('#prediction').css("display", "block");
+
 }
 
 function UpdatePrediction() {
@@ -148,9 +156,11 @@ function CancelPrediction() {
 
 function CompletePrediction(outcome) {
     console.debug(outcome);
+
     if (settings.showWinners === true) {
         showWinners(outcome);
     }
+
     ClearPrediction();
 }
 
@@ -238,15 +248,27 @@ function renderWinner(winner) {
 function showWinners(outcome) {
 
     // Get the 3 biggest winner
-
-    outcome.top_predictors
-    for (let index = 0; index <= settings.winnerAmount - 1; index++) {
+    for (let index = 0; index < outcome.top_predictors.length; index++) {
+        if (index === settings.winnerAmount - 1) {
+            break;
+        }
         const winner = outcome.top_predictors[index];
-        renderWinner(winner);
+        const promise = new Promise((resolve, reject) => {
+            resolve(getProfileImage(winner.user_display_name));
+        }).then(avatar => {
+            winner.avatar = avatar;
+            $("#winners").append(renderWinner(winner));
+        }).catch(function (error) {
+            console.error(error);
+        });
+
         console.debug(winner);
     }
-    $('#prediction').css("display", "none");
-    $('#results').css("display", "block");
+
+    setTimeout(function () {
+        $('#results').css("display", "none");
+    }, settings.animations.showWinnersTime);
+
 }
 
 /**
@@ -257,7 +279,11 @@ function ClearPrediction() {
         $("#outcomes").empty();
         $('#prediction .title').html(settings.text.stringDefaultTitle);
         $('#summery').html('');
+
+        $('#prediction').css("display", "none");
+        $('#results').css("display", "block");
     }, settings.animations.clearDelay);
+
 }
 
 /**
@@ -268,4 +294,27 @@ function ClearPrediction() {
  */
 function percentage(partialValue, totalValue = 0) {
     return Math.round((100 * partialValue) / totalValue);
+}
+
+/**
+ * Calling decapi.me to recive avatar link as string
+ * @param {string} username
+ * @returns
+ */
+async function getProfileImage(username) {
+
+    // Check if avatar is already stored
+    if (avatars.username) {
+        return `<img src="${avatars.username}"\>`;
+    }
+
+    return fetch(`https://decapi.me/twitch/avatar/${username}`)
+        .then(response => {
+            return response.text();
+        })
+        .then(avatar => {
+            avatars[username] = avatar;
+            return `<img src="${avatar}"\>`;
+        });
+
 }
