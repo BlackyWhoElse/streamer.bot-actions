@@ -18,7 +18,7 @@ I hope you find that stuff useful.
 - Add index.html to OBS as Browser Source
 - Add Show and Hide Transition to your Source
 
-### Streamer.Bot
+### Streamer.Bot (optional)
 ```
 Streamerbot Import String coming soon
 ```

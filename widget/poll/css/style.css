@@ -43,6 +43,7 @@ body {
     from {
         width: 100%;
     }
+
     to {
         width: 0%;
     }
@@ -52,27 +53,56 @@ body {
     font-size: 1.8rem;
 }
 
+#choices {
+    display: flex;
+    flex-direction: column;
+}
+
+#choices.vs {
+    flex-direction: row;
+}
+
 .choice {
     background-color: var(--choice-background);
     margin: .5rem;
     border-radius: 1rem;
     padding: .2rem 0;
     position: relative;
+    flex: 1;
+}
+
+
+.vs .choice-1 .info {
+    flex-direction: row-reverse;
+}
+
+.vs .choice-1 .percent {
+    right: 0;
+}
+
+.vs .choice-1 strong {
+    text-align: right;
+}
+
+.vs .choice-1 span {
+    text-align: left;
 }
 
 .info {
     position: relative;
     padding: 0 0.4rem;
+    display: flex;
 }
 
 .choice strong,
 .choice span {
     z-index: 999;
     position: relative;
+    flex: 1;
 }
 
 .choice span {
-    float: right;
+    text-align: right;
 }
 
 .percent {

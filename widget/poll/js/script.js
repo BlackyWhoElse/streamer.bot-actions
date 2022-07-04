@@ -31,7 +31,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function() {
+    ws.onopen = function () {
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
@@ -45,7 +45,7 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function(event) {
+    ws.onmessage = function (event) {
         // grab message and parse JSON
         const msg = event.data;
         const data = JSON.parse(msg);
@@ -75,7 +75,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
@@ -98,6 +98,11 @@ function CreatePoll() {
         $("#choices").append(renderChoice(choice));
     });
 
+    // Add vs class if there are only to choices and vs is enabled
+    if (poll.choices.length === 2) {
+        $('#choices').addClass("vs");
+    }
+
     $('#timeleft').addClass("animate");
 
 }
@@ -115,7 +120,7 @@ function UpdatePoll() {
 
 /**
  * Show Winner and add winning animation class
- * @param {object} choice 
+ * @param {object} choice
  */
 function ShowWinner(choice) {
     console.debug(choice);
@@ -130,7 +135,7 @@ function ShowWinner(choice) {
  * Remove choices and reset timer
  */
 function ClearPoll() {
-    setTimeout(function() {
+    setTimeout(function () {
         $("#choices").empty();
         $("#choices").removeClass("showWinner");
         $('#timeleft').removeClass("animate");
