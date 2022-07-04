@@ -2,13 +2,18 @@
     --background-color: #0e0e10;
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
+
     --choice-1-color: #4ca3ff;
     --choice-2-color: #f763ed;
     --choice-3-color: #f7c863;
-    --choice-4-color: #63f7eb;
+    --choice-4-color: #68f763;
     --choice-5-color: #f76363;
-    --choice-winner-background: #00db84;
-    --choice-winner-color: #0e0e10;
+    --choice-6-color: #63edf7;
+    --choice-7-color: #8b63f7;
+    --choice-8-color: #f7ed63;
+    --choice-9-color: #6392f7;
+    --choice-10-color: #f76363;
+    --choice-winner: #20961c;
     --choice-background: #18181b;
 }
 
@@ -21,6 +26,7 @@ body {
     color: #fff;
     padding: 1rem;
     border-radius: 1rem;
+    display: none;
 }
 
 #time {
