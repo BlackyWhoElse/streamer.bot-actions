@@ -10,25 +10,30 @@ var totalOutcomes = 0;
 var totalPoints = 0;
 var totalUsers = 0;
 
-var template
+var template_outcome;
+var template_winner;
 
 var settings = {
     websocketURL: "ws://localhost:8080/",
     debug: false,
     text: {
         "stringDefaultTitle": `There is no Prediction running right now!`,
-        "stringSummery": `So far nobody has voteted yet`
+        "stringSummery": `So far nobody has voteted yet`,
+        "stringResults": `These are the biggest winners of this prediction`,
     },
     animations: {
         clearDelay: 5000
     },
+    showWinners: true,
+    winnerAmount: 3,
 };
 
 
 
 window.addEventListener('load', (event) => {
     $('#title').html(settings.text.stringDefaultTitle);
-    template = document.querySelector('#outcome');
+    template_outcome = document.querySelector('#outcome');
+    template_winner = document.querySelector('#winner');
     connectws();
 });
 
@@ -40,7 +45,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function() {
+    ws.onopen = function () {
         console.debug('Websocket connected');
         ws.send(JSON.stringify({
             "request": "Subscribe",
@@ -57,7 +62,7 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function(event) {
+    ws.onmessage = function (event) {
         // grab message and parse JSON
         const msg = event.data;
         const data = JSON.parse(msg);
@@ -92,7 +97,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
@@ -105,16 +110,19 @@ function bindEvents() {
 function CreatePrediction() {
 
     title = prediction.title;
-    $('#title').html(title);
+    $('#prediction .title').html(title);
     $('#summery').html(settings.text.stringSummery);
     duration = prediction.predictionWindow;
     $('#timeleft').css('--timer', duration + "s");
+
+    $('#results .title').html(settings.text.stringResults);
 
     prediction.outcomes.forEach(outcome => {
         $("#outcomes").append(renderOutcome(outcome));
     });
 
     $('#timeleft').addClass("animate");
+    $('#prediction').css("display", "block");
 }
 
 function UpdatePrediction() {
@@ -140,21 +148,22 @@ function CancelPrediction() {
 
 function CompletePrediction(outcome) {
     console.debug(outcome);
-
+    if (settings.showWinners === true) {
+        showWinners(outcome);
+    }
     ClearPrediction();
 }
 
 
 /**
- *
- * @param {int} index
+ * Render Outcomes
  * @param {object} outcome
  * @returns
  */
 function renderOutcome(outcome) {
 
     // Get template and populate
-    var tpl = template;
+    const tpl = template_outcome;
 
     const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
     return tpl.innerHTML.replace(pattern, (_, token) => outcome[token] || '');
@@ -212,12 +221,41 @@ function updatePercent(outcome) {
 }
 
 /**
+ * Render Outcomes
+ * @param {object} outcome
+ * @returns
+ */
+function renderWinner(winner) {
+
+    // Get template and populate
+    const tpl = template_winner;
+
+    const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
+    return tpl.innerHTML.replace(pattern, (_, token) => winner[token] || '');
+}
+
+
+function showWinners(outcome) {
+
+    // Get the 3 biggest winner
+
+    outcome.top_predictors
+    for (let index = 0; index <= settings.winnerAmount - 1; index++) {
+        const winner = outcome.top_predictors[index];
+        renderWinner(winner);
+        console.debug(winner);
+    }
+    $('#prediction').css("display", "none");
+    $('#results').css("display", "block");
+}
+
+/**
  * Readys widget for the next Prediction
  */
 function ClearPrediction() {
-    setTimeout(function() {
+    setTimeout(function () {
         $("#outcomes").empty();
-        $('#title').html(settings.text.stringDefaultTitle);
+        $('#prediction .title').html(settings.text.stringDefaultTitle);
         $('#summery').html('');
     }, settings.animations.clearDelay);
 }

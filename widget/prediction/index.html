@@ -11,14 +11,15 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
     <div id="prediction">
         <div class="header">
-            <h2 id="title"></h2>
+            <h2 class="title"></h2>
             <h4 id="summery"></h4>
         </div>
         <div id="time">
@@ -26,6 +27,11 @@
         </div>
         <div id="outcomes">
 
+        </div>
+    </div>
+    <div id="results">
+        <h2 class="title"></h2>
+        <div id="winners">
         </div>
     </div>
     <template id="outcome">
@@ -44,6 +50,16 @@
             </div>
         </div>
     </template>
+
+    <template id="winner">
+        <div class="winner">
+            {{avatar}}
+            <span class="placement">{{placement}}</span>
+            <span class="displayname">{{user_display_name}}</span>
+            <span class="channelpoints">{{points}} Channelpoints</span>
+        </div>
+    </template>
+
 </body>
 
 </html>

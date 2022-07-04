@@ -30,12 +30,13 @@ body {
  * Default Prediction Styles
  */
 
-#prediction {
+#prediction, #results {
     background-color: var(--background-color);
     color: #fff;
     padding: 1rem;
     border-radius: 1rem;
-    min-width: 600px
+    min-width: 600px;
+    display: none;
 }
 
 .prediction-header h2 {
@@ -68,6 +69,7 @@ body {
     from {
         width: 100%;
     }
+
     to {
         width: 0%;
     }
@@ -84,6 +86,9 @@ body {
 #outcomes .outcome:nth-child(odd) {
     border-right: 1px solid var(--spacer-color);
 }
+#outcomes .outcome:nth-child(odd) .percent-wrapper {
+    align-items: end;
+  }
 
 #outcomes>div:last-child {
     border-right: none;
@@ -277,7 +282,7 @@ body {
 
 
 /**
- * 
+ *
  * Percent
  */
 
@@ -310,4 +315,31 @@ body {
     width: var(--percent);
     max-width: 100px;
     border-radius: 5px;
+}
+
+
+
+/**
+ * Winner Screen
+ */
+
+ #results.show{
+    display: block;
+ }
+
+#winners{
+    display: flex;
+    flex-direction: row;
+}
+
+.winner {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+  }
+
+.winner img {
+    width: 100px;
 }
