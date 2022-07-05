@@ -1,4 +1,6 @@
 :root {
+    /* Top - flex-start  Bottom - flex-end */
+    --widget-position:flex-end;
     --background-color: #0e0e10;
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
@@ -19,6 +21,12 @@
 
 body {
     font-family: 'Roboto', sans-serif;
+    display: flex;
+    justify-content: end;
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    margin: 0;
 }
 
 #poll {
@@ -29,6 +37,9 @@ body {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s, opacity 0.5s linear;
+    height: fit-content;
+    width: 100%;
+    align-self: var(--widget-position)
 }
 
 #poll.show {
