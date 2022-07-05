@@ -1,6 +1,6 @@
 :root {
     /* Top - flex-start  Bottom - flex-end */
-    --widget-position:flex-end;
+    --widget-grow-position:flex-end;
     --background-color: #0e0e10;
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
