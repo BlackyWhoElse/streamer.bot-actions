@@ -103,8 +103,7 @@ function CreatePoll() {
         $('#choices').addClass("vs");
     }
 
-    $('#poll').css("display","block");
-
+    $('#poll').addClass("show");
     $('#timeleft').addClass("animate");
 
 }
@@ -142,7 +141,7 @@ function ClearPoll() {
         $("#choices").removeClass("showWinner");
         $('#timeleft').removeClass("animate");
         $('#title').html(stringDefaultTitle);
-        $('#poll').css("display","none");
+        $('#poll').removeClass("show");
     }, clearDelay);
 }
 
