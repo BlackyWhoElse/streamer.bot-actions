@@ -1,4 +1,6 @@
 :root {
+     /* Top - flex-start  Bottom - flex-end */
+     --widget-grow-position:flex-end;
     --background-color: #0e0e10;
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
@@ -23,6 +25,11 @@
 
 body {
     font-family: var(--font-family);
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    margin: 0;
 }
 
 
@@ -36,7 +43,27 @@ body {
     padding: 1rem;
     border-radius: 1rem;
     min-width: 600px;
+
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+
+    height: fit-content;
+    width: 100%;
+    align-self: var(--widget-grow-position)
+}
+
+#results{
     display: none;
+}
+#results.show {
+    display: block;
+}
+
+#prediction.show, #results.show {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 0.5s linear;
 }
 
 .prediction-header h2 {
@@ -86,9 +113,10 @@ body {
 #outcomes .outcome:nth-child(odd) {
     border-right: 1px solid var(--spacer-color);
 }
+
 #outcomes .outcome:nth-child(odd) .percent-wrapper {
     align-items: end;
-  }
+}
 
 #outcomes>div:last-child {
     border-right: none;
@@ -323,11 +351,11 @@ body {
  * Winner Screen
  */
 
- #results.show{
+#results.show {
     display: block;
- }
+}
 
-#winners{
+#winners {
     display: flex;
     flex-direction: row;
 }
@@ -338,7 +366,7 @@ body {
     flex: 1;
     justify-content: center;
     align-items: center;
-  }
+}
 
 .winner img {
     width: 100px;

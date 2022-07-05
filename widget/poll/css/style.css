@@ -5,6 +5,8 @@
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
 
+    --font-family: 'Roboto', sans-serif;
+
     --choice-1-color: #4ca3ff;
     --choice-2-color: #f763ed;
     --choice-3-color: #f7c863;
@@ -20,9 +22,8 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family);
     display: flex;
-    justify-content: end;
     height: 100vh;
     width: 100vw;
     padding: 0;
@@ -39,7 +40,7 @@ body {
     transition: visibility 0s, opacity 0.5s linear;
     height: fit-content;
     width: 100%;
-    align-self: var(--widget-position)
+    align-self: var(--widget-grow-position)
 }
 
 #poll.show {

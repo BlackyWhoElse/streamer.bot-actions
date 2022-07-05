@@ -128,8 +128,8 @@ function CreatePrediction() {
 
     $('#timeleft').addClass("animate");
 
-    $('#results').css("display", "none");
-    $('#prediction').css("display", "block");
+    $('#results').removeClass("show");
+    $('#prediction').addClass("show");
 
 }
 
@@ -152,6 +152,7 @@ function CancelPrediction() {
     $('#title').html('There is no Prediction running right now!');
     $('#summery').html('');
     $('#timeleft').css('--timer', "0s");
+    $('#prediction').removeClass("show");
 }
 
 function CompletePrediction(outcome) {
@@ -266,9 +267,8 @@ function showWinners(outcome) {
     }
 
     setTimeout(function () {
-        $('#results').css("display", "none");
+        $('#results').removeClass("show");
     }, settings.animations.showWinnersTime);
-
 }
 
 /**
@@ -280,8 +280,9 @@ function ClearPrediction() {
         $('#prediction .title').html(settings.text.stringDefaultTitle);
         $('#summery').html('');
 
-        $('#prediction').css("display", "none");
-        $('#results').css("display", "block");
+
+        $('#prediction').removeClass("show");
+        $('#results').addClass("show");
     }, settings.animations.clearDelay);
 
 }
