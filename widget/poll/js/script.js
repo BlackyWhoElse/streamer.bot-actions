@@ -125,10 +125,12 @@ function UpdatePoll() {
  */
 function ShowWinner(choice) {
     console.debug(choice);
-    $("#choices").addClass("showWinner");
-    $(`#${choice.choice_id}`).css('--percent', 100 + "%");
-    $(`#${choice.choice_id}`).addClass("winner");
-    $(`#${choice.choice_id} .info`).prepend('<div id="trophy" class="animate__animated animate__infinite animate__tada"></div>');
+    if (choice.totalVotes != 0) {
+        $("#choices").addClass("showWinner");
+        $(`#${choice.choice_id}`).css('--percent', 100 + "%");
+        $(`#${choice.choice_id}`).addClass("winner");
+        $(`#${choice.choice_id} .info`).prepend('<div id="trophy" class="animate__animated animate__infinite animate__tada"></div>');
+    }
     ClearPoll();
 }
 
