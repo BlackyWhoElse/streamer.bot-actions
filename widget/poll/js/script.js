@@ -131,20 +131,22 @@ function ShowWinner(choice) {
         $(`#${choice.choice_id}`).addClass("winner");
         $(`#${choice.choice_id} .info`).prepend('<div id="trophy" class="animate__animated animate__infinite animate__tada"></div>');
     }
-    ClearPoll();
+
+    setTimeout(function () {
+        ClearPoll();
+    }, clearDelay);
+
 }
 
 /**
  * Remove choices and reset timer
  */
 function ClearPoll() {
-    setTimeout(function () {
         $("#choices").empty();
         $("#choices").removeClass("showWinner");
         $('#timeleft').removeClass("animate");
         $('#title').html(stringDefaultTitle);
         $('#poll').removeClass("show");
-    }, clearDelay);
 }
 
 
