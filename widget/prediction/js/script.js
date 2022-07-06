@@ -272,6 +272,7 @@ function showWinners(outcome) {
 
     setTimeout(function() {
         $('#results').removeClass("show");
+        $("#winners").html('');
     }, settings.animations.showWinnersTime);
 }
 
