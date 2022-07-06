@@ -191,7 +191,6 @@ function renderOutcome(outcome) {
  * @param {object} outcome
  */
 function updateOutcome(outcome) {
-
     totalPoints += outcome.total_points;
     totalUsers += outcome.total_users;
     $(`#outcome-${index} .points`).html(outcome.total_points);
@@ -284,7 +283,6 @@ function ClearPrediction() {
     $('#prediction .title').html(settings.text.stringDefaultTitle);
     $('#summery').html('');
 
-
     $('#prediction').removeClass("show");
     $('#results').addClass("show");
 }
@@ -308,7 +306,7 @@ async function getProfileImage(username) {
 
     // Check if avatar is already stored
     if (avatars.username) {
-        return `<img src="${avatars.username}"\>`;
+        return `${avatars.username}`;
     }
 
     return fetch(`https://decapi.me/twitch/avatar/${username}`)
@@ -317,7 +315,7 @@ async function getProfileImage(username) {
         })
         .then(avatar => {
             avatars[username] = avatar;
-            return `<img src="${avatar}"\>`;
+            return `${avatar}`;
         });
 
 }

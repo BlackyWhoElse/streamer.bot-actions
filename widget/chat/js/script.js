@@ -207,7 +207,7 @@ async function add_YTmessage(message) {
 
 
     const msg = new Promise((resolve, reject) => {
-            resolve(`<img src="${message.user.profileImageUrl}"\></img>`);
+            resolve(message.user.profileImageUrl);
         }).then(avatar => {
             message.avatar = avatar;
             return renderYTEmotes(message);
@@ -370,7 +370,7 @@ async function getProfileImage(username) {
 
     // Check if avatar is already stored
     if (avatars.username) {
-        return `<img src="${avatars.username}"\>`;
+        return avatars.username;
     }
 
     return fetch(`https://decapi.me/twitch/avatar/${username}`)
@@ -379,7 +379,7 @@ async function getProfileImage(username) {
         })
         .then(avatar => {
             avatars[username] = avatar;
-            return `<img src="${avatar}"\>`;
+            return avatar;
         });
 
 }
