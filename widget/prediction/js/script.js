@@ -15,7 +15,6 @@ var template_winner;
 
 var settings = {
     websocketURL: "ws://localhost:8080/",
-    debug: false,
     text: {
         "stringDefaultTitle": `There is no Prediction running right now!`,
         "stringSummery": `So far nobody has voteted yet`,
@@ -50,7 +49,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function () {
+    ws.onopen = function() {
         console.debug('Websocket connected');
         ws.send(JSON.stringify({
             "request": "Subscribe",
@@ -67,7 +66,7 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function (event) {
+    ws.onmessage = function(event) {
         // grab message and parse JSON
         const msg = event.data;
         const data = JSON.parse(msg);
@@ -102,7 +101,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
@@ -113,6 +112,9 @@ function bindEvents() {
  * Action Controller Functions
  */
 function CreatePrediction() {
+
+    ClearPrediction();
+
 
     title = prediction.title;
     $('#prediction .title').html(title);
@@ -162,7 +164,9 @@ function CompletePrediction(outcome) {
         showWinners(outcome);
     }
 
-    ClearPrediction();
+    setTimeout(function() {
+        ClearPrediction();
+    }, settings.animations.clearDelay + settings.animations.clearDelay);
 }
 
 
@@ -259,14 +263,14 @@ function showWinners(outcome) {
         }).then(avatar => {
             winner.avatar = avatar;
             $("#winners").append(renderWinner(winner));
-        }).catch(function (error) {
+        }).catch(function(error) {
             console.error(error);
         });
 
         console.debug(winner);
     }
 
-    setTimeout(function () {
+    setTimeout(function() {
         $('#results').removeClass("show");
     }, settings.animations.showWinnersTime);
 }
@@ -275,16 +279,13 @@ function showWinners(outcome) {
  * Readys widget for the next Prediction
  */
 function ClearPrediction() {
-    setTimeout(function () {
-        $("#outcomes").empty();
-        $('#prediction .title').html(settings.text.stringDefaultTitle);
-        $('#summery').html('');
+    $("#outcomes").empty();
+    $('#prediction .title').html(settings.text.stringDefaultTitle);
+    $('#summery').html('');
 
 
-        $('#prediction').removeClass("show");
-        $('#results').addClass("show");
-    }, settings.animations.clearDelay);
-
+    $('#prediction').removeClass("show");
+    $('#results').addClass("show");
 }
 
 /**
