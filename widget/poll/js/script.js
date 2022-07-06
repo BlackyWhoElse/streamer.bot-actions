@@ -8,16 +8,21 @@ var title;
 var duration;
 var totalVotes;
 var template;
-// Milliseconds
-var clearDelay = 5000;
-var stringDefaultTitle = "There is no poll running right now";
 
+var settings = {
+    websocketURL: "ws://localhost:8080/",
+    text: {
+        "stringDefaultTitle": `There is no poll running right now`,
+    },
+    animations: {
+        showWinnerTime: 15000,
+        hideLoosers: true,
+    },
+};
 
 window.addEventListener('load', (event) => {
-    $('#title').html(stringDefaultTitle);
-
+    $('#title').html(settings.text.stringDefaultTitle);
     template = document.querySelector('#choice');
-
     connectws();
 });
 
@@ -31,7 +36,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function () {
+    ws.onopen = function() {
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
@@ -45,12 +50,10 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function (event) {
+    ws.onmessage = function(event) {
         // grab message and parse JSON
         const msg = event.data;
         const data = JSON.parse(msg);
-
-        console.debug(data);
 
         if (!data.event) {
             return;
@@ -61,13 +64,14 @@ function bindEvents() {
         // check for events to trigger
         switch (data.event.type) {
             case "PollCreated":
-                CreatePoll();
+                PollCreated();
                 break;
             case "PollUpdated":
-                UpdatePoll();
+                PollUpdated();
                 break;
             case "PollCompleted":
-                ShowWinner(poll.winningChoice);
+                console.debug(poll);
+                PollCompleted(poll.winningChoice);
                 break;
             default:
                 console.log(data.event.type);
@@ -75,7 +79,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
@@ -84,7 +88,10 @@ function bindEvents() {
 /**
  * Action Controller Functions
  */
-function CreatePoll() {
+function PollCreated() {
+
+    clearPoll();
+
     title = poll.title;
     $('#title').html(title);
     duration = poll.duration;
@@ -108,7 +115,10 @@ function CreatePoll() {
 
 }
 
-function UpdatePoll() {
+/**
+ * Updates each choice on Update
+ */
+function PollUpdated() {
     totalVotes = poll.totalVotes;
     // Create Choice entry
     index = 0;
@@ -121,34 +131,33 @@ function UpdatePoll() {
 
 /**
  * Show Winner and add winning animation class
+ * After the set delay it will clear the pool and hide it
  * @param {object} choice
  */
-function ShowWinner(choice) {
-    console.debug(choice);
-    if (choice.totalVotes != 0) {
-        $("#choices").addClass("showWinner");
-        $(`#${choice.choice_id}`).css('--percent', 100 + "%");
-        $(`#${choice.choice_id}`).addClass("winner");
-        $(`#${choice.choice_id} .info`).prepend('<div id="trophy" class="animate__animated animate__infinite animate__tada"></div>');
+function PollCompleted(winner) {
+    // If no vote has been casted it will show 
+    if (winner.total_voters === 0) {
+        setTimeout(function() {
+            clearPoll();
+        }, settings.animations.showWinnerTime);
+        return;
     }
 
-    setTimeout(function () {
-        ClearPoll();
-    }, clearDelay);
+    const winners = [];
+
+    // Check if another choice has the same amount of votes
+    // Note: This has to be done because Streamer.Bot only gives one winner
+    poll.choices.forEach(choice => {
+        if (choice.votes.total === winner.total_voters) {
+            showWinner(choice);
+        }
+    });
+
+    setTimeout(function() {
+        clearPoll();
+    }, settings.animations.showWinnerTime);
 
 }
-
-/**
- * Remove choices and reset timer
- */
-function ClearPoll() {
-        $("#choices").empty();
-        $("#choices").removeClass("showWinner");
-        $('#timeleft').removeClass("animate");
-        $('#title').html(stringDefaultTitle);
-        $('#poll').removeClass("show");
-}
-
 
 /**
  * This will render the Choice with everything in it
@@ -177,6 +186,26 @@ function updateChoice(index, choice) {
     $(`.choice-${index} .info span`).html(perc + `% (${choice.total_voters})`);
     $(`.choice-${index} .percent`).css('--percent', perc + "%");
 }
+
+
+function showWinner(choice) {
+    $("#choices").addClass("showWinner");
+    $(`#${choice.choice_id}`).css('--percent', 100 + "%");
+    $(`#${choice.choice_id}`).addClass("winner");
+    $(`#${choice.choice_id} .info`).prepend('<div id="trophy" class="animate__animated animate__infinite animate__tada"></div>');
+};
+
+/**
+ * Remove choices and reset timer
+ */
+function clearPoll() {
+    $("#choices").empty();
+    $("#choices").removeClass("showWinner");
+    $('#timeleft').removeClass("animate");
+    $('#title').html(settings.text.stringDefaultTitle);
+    $('#poll').removeClass("show");
+}
+
 
 function percentage(partialValue, totalValue) {
     return Math.round((100 * partialValue) / totalValue);

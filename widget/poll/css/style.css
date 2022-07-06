@@ -1,12 +1,10 @@
 :root {
     /* Top - flex-start  Bottom - flex-end */
-    --widget-grow-position:flex-start;
+    --widget-grow-position: flex-start;
     --background-color: #0e0e10;
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
-
     --font-family: 'Roboto', sans-serif;
-
     --choice-1-color: #4ca3ff;
     --choice-2-color: #f763ed;
     --choice-3-color: #f7c863;
@@ -17,7 +15,7 @@
     --choice-8-color: #f7ed63;
     --choice-9-color: #6392f7;
     --choice-10-color: #f76363;
-    --choice-winner: #20961c;
+    --choice-winner-color: #20961c;
     --choice-background: #18181b;
 }
 
@@ -49,7 +47,6 @@ body {
     transition: visibility 0s, opacity 0.5s linear;
 }
 
-
 #time {
     height: 5px;
     background-color: var(--timer-background);
@@ -70,7 +67,6 @@ body {
     from {
         width: 100%;
     }
-
     to {
         width: 0%;
     }
@@ -97,7 +93,6 @@ body {
     position: relative;
     flex: 1;
 }
-
 
 .vs .choice-1 .info {
     flex-direction: row-reverse;
@@ -186,7 +181,7 @@ body {
 }
 
 .choice.winner {
-    color: var(--choice-winner-color);
+    background-color: var(--choice-winner-color);
 }
 
 .choice.winner #trophy {
@@ -199,6 +194,8 @@ body {
     z-index: 1;
     top: 2px;
     left: 2px;
+    ;
+    margin: 0 10px;
 }
 
 #choices.showWinner .choice.winner .percent {
