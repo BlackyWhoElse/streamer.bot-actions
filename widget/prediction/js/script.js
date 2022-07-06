@@ -161,12 +161,13 @@ function CompletePrediction(outcome) {
     console.debug(outcome);
 
     if (settings.showWinners === true) {
-        showWinners(outcome);
-    }
-
-    setTimeout(function() {
         ClearPrediction();
-    }, settings.animations.clearDelay + settings.animations.clearDelay);
+        showWinners(outcome);
+    } else {
+        setTimeout(function() {
+            ClearPrediction();
+        }, settings.animations.clearDelay);
+    }
 }
 
 

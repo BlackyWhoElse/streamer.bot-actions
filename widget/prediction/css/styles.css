@@ -1,6 +1,6 @@
 :root {
-     /* Top - flex-start  Bottom - flex-end */
-     --widget-grow-position:flex-start;
+    /* Top - flex-start  Bottom - flex-end */
+    --widget-grow-position: flex-start;
     --background-color: #0e0e10;
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
@@ -37,33 +37,28 @@ body {
  * Default Prediction Styles
  */
 
-#prediction, #results {
+#prediction,
+#results {
     background-color: var(--background-color);
     color: #fff;
     padding: 1rem;
     border-radius: 1rem;
     min-width: 600px;
-
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s, opacity 0.5s linear;
-
+    display: none;
     height: fit-content;
     width: 100%;
     align-self: var(--widget-grow-position)
 }
 
-#results{
-    display: none;
-}
+#prediction.show,
 #results.show {
-    display: block;
-}
-
-#prediction.show, #results.show {
     visibility: visible;
     opacity: 1;
     transition: visibility 0s, opacity 0.5s linear;
+    display: block;
 }
 
 .prediction-header h2 {
@@ -96,7 +91,6 @@ body {
     from {
         width: 100%;
     }
-
     to {
         width: 0%;
     }
@@ -344,7 +338,6 @@ body {
     max-width: 100px;
     border-radius: 5px;
 }
-
 
 
 /**
