@@ -1,7 +1,3 @@
-/**
- * Websocket Stuff
- */
-
 var poll;
 
 var title;
@@ -36,7 +32,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onopen = function() {
+    ws.onopen = function () {
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
@@ -50,7 +46,7 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function(event) {
+    ws.onmessage = function (event) {
         // grab message and parse JSON
         const msg = event.data;
         const data = JSON.parse(msg);
@@ -79,7 +75,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         // "connectws" is the function we defined previously
         setTimeout(connectws, 10000);
     };
@@ -135,9 +131,13 @@ function PollUpdated() {
  * @param {object} choice
  */
 function PollCompleted(winner) {
-    // If no vote has been casted it will show 
+    // If no vote has been casted it will show
     if (winner.total_voters === 0) {
-        setTimeout(function() {
+
+        $(`#choices`).addClass("noVotes");
+
+        setTimeout(function () {
+            $(`#choices`).removeClass("noVotes");
             clearPoll();
         }, settings.animations.showWinnerTime);
         return;
@@ -153,7 +153,7 @@ function PollCompleted(winner) {
         }
     });
 
-    setTimeout(function() {
+    setTimeout(function () {
         clearPoll();
     }, settings.animations.showWinnerTime);
 

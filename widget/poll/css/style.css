@@ -16,6 +16,7 @@
     --choice-9-color: #6392f7;
     --choice-10-color: #f76363;
     --choice-winner-color: #20961c;
+    --choice-no-votes-color: #d6452c;
     --choice-background: #18181b;
 }
 
@@ -33,8 +34,7 @@ body {
     color: #fff;
     padding: 1rem;
     border-radius: 1rem;
-    visibility: hidden;
-    opacity: 0;
+    display: none;
     transition: visibility 0s, opacity 0.5s linear;
     height: fit-content;
     width: 100%;
@@ -42,9 +42,7 @@ body {
 }
 
 #poll.show {
-    visibility: visible;
-    opacity: 1;
-    transition: visibility 0s, opacity 0.5s linear;
+    display: block;
 }
 
 #time {
@@ -67,6 +65,7 @@ body {
     from {
         width: 100%;
     }
+
     to {
         width: 0%;
     }
@@ -200,4 +199,9 @@ body {
 
 #choices.showWinner .choice.winner .percent {
     background-color: var(--choice-winner-background);
+}
+
+
+#choices.noVotes .choice .percent {
+    background-color: var(--choice-no-votes-color);
 }
