@@ -11,9 +11,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
@@ -21,33 +21,8 @@
     </ul>
 </body>
 
-<!-- Message template - All variables can be found here: https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/chat -->
+<div id="templates">
 
-<template id="message_twitch">
-    <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
-        <div class="avatar">
-            <img class="avatar" src="{{avatar}}" /> 
-        </div>
-        <div class="message ">
-            <span class="badges">{{badges}}</span>
-            <span class="name">{{displayName}}</span>
-            <div class="content">{{message}}</div>
-            <div class="time">{{time}}</div>
-        </div>
-    </li>
-</template>
-
-<template id="message_youtube">
-    <li id="{{eventId}}" class="{{classes}}" style="--userColor:{{color}}">
-        <div class="avatar">
-            <img class="avatar" src="{{avatar}}" /> 
-        </div>
-        <div class="message ">
-            <span class="name">{{displayName}}</span>
-            <div class="content">{{message}}</div>
-            <div class="time">{{time}}</div>
-        </div>
-    </li>
-</template>
+</div>
 
 </html>
