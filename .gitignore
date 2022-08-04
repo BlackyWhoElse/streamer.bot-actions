@@ -1,8 +1,12 @@
 *.autosave
 *.user
-todo
+
 *.zip
 *.rar
+
 *.vscode/
 .idea/*
+
+# Development Files
 .github
+dev.html
