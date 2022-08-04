@@ -89,7 +89,6 @@ function bindEvents() {
                 // Todo: Add a function here
                 break;
             case "PredictionCompleted":
-                // Todo: Show Winner and maybe the top winner?
                 CompletePrediction(prediction.winningOutcome)
                 break;
             case "PredictionCanceled":
