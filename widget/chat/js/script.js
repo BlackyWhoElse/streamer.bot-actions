@@ -36,7 +36,7 @@ var settings = {
         "animation": true,
         "hidedelay": 0,
         "hideAnimation": "fadeOut",
-        "showAnimation": "bounceInLeft"
+        "showAnimation": "bounceInRight"
     },
     "YouTube": {
         "defaultChatColor": "#f20000",
@@ -67,10 +67,14 @@ window.addEventListener('load', (event) => {
 
 });
 
+/**
+ * This will load all template,css files in theme/{{themename}}
+ * Check console for errors if you theme doesn't work
+ */
 function loadTemplates() {
 
     //  Loading message templates
-    $("#templates").load(`theme/${settings.template}/template.html`, function (response, status, xhr) {
+    $("#templates").load(`theme/${settings.template}/template.html`, function(response, status, xhr) {
         if (status == "error") {
             var msg = "Sorry but there was an error: ";
             console.error(msg + xhr.status + " " + xhr.statusText);
@@ -78,7 +82,7 @@ function loadTemplates() {
         console.log(status);
         if (status === "success") {
             // Loading template css
-            $('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', `theme/${settings.template}/css/styles.css`))
+            $('head').append(`<link rel="stylesheet" href="theme/${settings.template}/css/styles.css" type="text/css" />`);
 
             template_twitch = document.querySelector('#message_twitch');
             template_youtube = document.querySelector('#message_youtube');
@@ -118,7 +122,7 @@ function bindEvents() {
         }));
     };
 
-    ws.onmessage = async (event) => {
+    ws.onmessage = async(event) => {
         const wsdata = JSON.parse(event.data);
 
         if (wsdata.status == "ok" || wsdata.event.source == null) {
@@ -163,7 +167,7 @@ function bindEvents() {
     };
 
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         setTimeout(connectws, 10000);
     };
 }
@@ -187,14 +191,14 @@ async function add_message(message) {
     message.classes = ["msg"];
 
     const msg = new Promise((resolve, reject) => {
-        resolve(getProfileImage(message.username));
-    }).then(avatar => {
-        message.avatar = avatar;
-        return renderBadges(message);
-    }).then(bages => {
-        message.badges = bages;
-        return renderEmotes(message);
-    })
+            resolve(getProfileImage(message.username));
+        }).then(avatar => {
+            message.avatar = avatar;
+            return renderBadges(message);
+        }).then(bages => {
+            message.badges = bages;
+            return renderEmotes(message);
+        })
         .then(msg => {
             $("#chat").append(renderMessage("Twitch", msg));
 
@@ -202,7 +206,7 @@ async function add_message(message) {
                 hideMessage(message.msgId);
             }
 
-        }).catch(function (error) {
+        }).catch(function(error) {
             console.error(error);
         });
 }
@@ -227,11 +231,11 @@ async function add_YTmessage(message) {
 
 
     const msg = new Promise((resolve, reject) => {
-        resolve(message.user.profileImageUrl);
-    }).then(avatar => {
-        message.avatar = avatar;
-        return renderYTEmotes(message);
-    })
+            resolve(message.user.profileImageUrl);
+        }).then(avatar => {
+            message.avatar = avatar;
+            return renderYTEmotes(message);
+        })
         .then(msg => {
             $("#chat").append(renderMessage("YouTube", msg));
 
@@ -239,7 +243,7 @@ async function add_YTmessage(message) {
                 hideMessage(message.eventId);
             }
 
-        }).catch(function (error) {
+        }).catch(function(error) {
             console.error(error);
         });
 }
@@ -324,15 +328,15 @@ function renderMessage(platform, message = {}) {
  */
 function hideMessage(msgId) {
     const msg = new Promise((resolve, reject) => {
-        delay(settings.animations.hidedelay).then(function () {
-            $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
-            $("#" + msgId).bind("animationend", function () {
-                $("#" + msgId).remove()
+            delay(settings.animations.hidedelay).then(function() {
+                $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
+                $("#" + msgId).bind("animationend", function() {
+                    $("#" + msgId).remove()
+                });
+                resolve();
             });
-            resolve();
-        });
-    })
-        .catch(function (error) {
+        })
+        .catch(function(error) {
             console.error(error);
         });
 }
@@ -377,7 +381,7 @@ async function renderEmotes(message) {
  * @returns
  */
 async function renderYTEmotes(message) {
-    // Todo: Find a way to get Emotes
+    // Todo: Find a way to get Emotes https://github.com/BlackyWhoElse/streamer.bot-actions/issues/56
     return message;
 }
 
@@ -410,7 +414,7 @@ function ClearChat() {
 
 // Helper Code
 function delay(t, v) {
-    return new Promise(function (resolve) {
+    return new Promise(function(resolve) {
         setTimeout(resolve.bind(null, v), t)
     });
 }
@@ -424,13 +428,13 @@ function debugMessages() {
             avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/a88dd690-f653-435e-ae3f-cd312ee5b736-profile_image-300x300.png",
             bits: 0,
             badges: [{
-                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
-                name: "broadcaster",
-            },
-            {
-                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
-                name: "subscriber",
-            },
+                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
+                    name: "broadcaster",
+                },
+                {
+                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
+                    name: "subscriber",
+                },
             ],
             emotes: [],
             channel: "blackywersonst",

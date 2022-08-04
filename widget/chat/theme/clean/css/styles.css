@@ -1,0 +1,72 @@
+:root {
+    --message-background-color: #18181b18;
+    --badge-spacing: 2px;
+    --emote-spacing: 2px;
+    --font-size: 16px;
+    --font-color: #fff;
+    --font-family: 'Roboto', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+}
+
+#chat {
+    white-space: nowrap;
+    overflow: hidden;
+    background: var(--message-background-color);
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    justify-content: right;
+    display: flex;
+    flex-direction: column;
+    bottom: 0;
+    position: absolute;
+}
+
+.msg,
+.badges,
+.content,
+.time {
+    display: inline-block;
+}
+
+.msg {
+    bottom: 0;
+    right: 0;
+    padding: 4px 4px;
+}
+
+.message {
+    color: var(--font-color);
+    font-size: var(--font-size);
+    overflow-wrap: anywhere;
+}
+
+.badges img {
+    width: var(--font-size);
+    margin-left: var(--badge-spacing);
+    vertical-align: middle;
+}
+
+.name {
+    color: var(--userColor);
+    font-weight: bold;
+}
+
+.content {
+    text-shadow: 1px 1px #000000c7;
+}
+
+.emote {
+    vertical-align: middle;
+    height: var(--font-size);
+}
+
+.time {
+    font-size: var(--time-size);
+    float: var(--time-align);
+}

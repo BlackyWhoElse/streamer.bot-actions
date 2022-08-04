@@ -9,20 +9,50 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/script.js"></script>
 
+
+    <script>
+        /**
+         * # Chat Widget Settings
+         * | Alter these settings to your liking.
+         * | If you want multiple chat widgets with different 
+         * | looks then copy this file and alter this variable
+         */
+
+        var settings = {
+            "websocketURL": "ws://localhost:8080/",
+            "debug": true,
+            "template": "default",
+            "blacklist": {
+                "user": [],
+                "words": []
+            },
+            "animations": {
+                "animation": true,
+                "hidedelay": 0,
+                "hideAnimation": "fadeOut",
+                "showAnimation": "bounceInRight"
+            },
+            "YouTube": {
+                "defaultChatColor": "#f20000",
+            },
+            "Twitch": {
+                "defaultChatColor": "#9147ff",
+            },
+        };
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 
 <body>
     <ul id="chat">
     </ul>
+    <div id="templates">
+
+    </div>
 </body>
-
-<div id="templates">
-
-</div>
 
 </html>
