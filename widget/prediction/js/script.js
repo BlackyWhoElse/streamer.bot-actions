@@ -22,6 +22,7 @@ var settings = {
     },
     animations: {
         clearDelay: 0,
+        // If you plan on disabling with the "Resolved Event" please add an delay before you disable the source that matches this one
         showWinnersTime: 10000,
     },
     showWinners: true,
