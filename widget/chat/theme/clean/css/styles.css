@@ -1,5 +1,5 @@
 :root {
-    --message-background-color: #18181b18;
+    --message-background-color: transparent;
     --badge-spacing: 2px;
     --emote-spacing: 2px;
     --font-size: 16px;
