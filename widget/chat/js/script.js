@@ -172,6 +172,13 @@ async function add_message(message) {
     message.classes = ["msg"];
 
     const msg = new Promise((resolve, reject) => {
+            // Note: This is to prevent a streamer.bot message to not disappear.
+            // - This could be a bug and will maybe be removed on a later date.
+            if (message.msgId == undefined) {
+                console.debug("Message has no ID");
+                message.msgId = makeid(6);
+            }
+
             resolve(getProfileImage(message.username));
         }).then(avatar => {
             message.avatar = avatar;
@@ -181,6 +188,7 @@ async function add_message(message) {
             return renderEmotes(message);
         })
         .then(msg => {
+
             $("#chat").append(renderMessage("Twitch", msg));
 
             if (settings.animations.hidedelay > 0) {
