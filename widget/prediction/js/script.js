@@ -14,6 +14,7 @@ var template_outcome;
 var template_winner;
 
 var settings = {
+    template: "default",
     websocketURL: "ws://localhost:8080/",
     text: {
         "stringDefaultTitle": `There is no Prediction running right now!`,
@@ -36,11 +37,34 @@ var settings = {
 var avatars = {}
 
 window.addEventListener('load', (event) => {
+    loadTemplates();
     $('#title').html(settings.text.stringDefaultTitle);
-    template_outcome = document.querySelector('#outcome');
-    template_winner = document.querySelector('#winner');
     connectws();
 });
+
+/**
+ * This will load all template,css files in theme/{{themename}}
+ * Check console for errors if you theme doesn't work
+ */
+function loadTemplates() {
+
+    //  Loading message templates
+    $("#templates").load(`theme/${settings.template}/template.html`, function(response, status, xhr) {
+        if (status == "error") {
+            var msg = "Sorry but there was an error: ";
+            console.error(msg + xhr.status + " " + xhr.statusText);
+        }
+        console.log(status);
+        if (status === "success") {
+            // Loading template css
+            $('head').append(`<link rel="stylesheet" href="theme/${settings.template}/css/styles.css" type="text/css" />`);
+
+            template_outcome = document.querySelector('#outcome');
+            template_winner = document.querySelector('#winner');
+        }
+    });
+
+}
 
 function connectws() {
     if ("WebSocket" in window) {
@@ -118,6 +142,8 @@ function CreatePrediction() {
 
     title = prediction.title;
     $('#prediction .title').html(title);
+    $('#prediction .title').attr('id', 'newID');
+    (title);
     $('#summery').html(settings.text.stringSummery);
     duration = prediction.predictionWindow;
     $('#timeleft').css('--timer', duration + "s");
@@ -136,6 +162,14 @@ function CreatePrediction() {
 }
 
 function UpdatePrediction() {
+
+
+    // Check if a prediction is already rendered
+    // Then just update the value 
+    // If not rerender the whole thing
+
+
+
 
     totalPoints = 0;
     totalUsers = 0;
