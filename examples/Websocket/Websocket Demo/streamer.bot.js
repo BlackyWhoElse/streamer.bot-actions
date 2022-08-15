@@ -42,7 +42,7 @@ function bindEvents() {
                     "Action",
                     "SubAction"
                 ],
-                "Custom":[]
+                "Custom": []
             },
             "id": "WebsocketDemo"
         }));
@@ -142,7 +142,7 @@ function doAction() {
     ws.send(JSON.stringify({
         "request": "DoAction",
         "action": {
-            "id": "af252804-ed46-49f8-bba9-9cd447c49d99", // Can be found in context menu of action
+            "id": "fb64566c-89fe-441d-a80c-26a0d88ce6ab", // Can be found in context menu of action
             "name": "Websocket Test"
         },
         "args": {
