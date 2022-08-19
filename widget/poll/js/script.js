@@ -7,6 +7,7 @@ var template;
 
 var settings = {
     websocketURL: "ws://localhost:8080/",
+    template:"default",
     text: {
         "stringDefaultTitle": `There is no poll running right now`,
     },
@@ -17,8 +18,8 @@ var settings = {
 };
 
 window.addEventListener('load', (event) => {
+    loadTemplates();
     $('#title').html(settings.text.stringDefaultTitle);
-    template = document.querySelector('#choice');
     connectws();
 });
 
@@ -29,6 +30,29 @@ function connectws() {
         bindEvents();
         console.log('Websocket done');
     }
+}
+
+/**
+ * This will load all template,css files in theme/{{themename}}
+ * Check console for errors if you theme doesn't work
+ */
+ function loadTemplates() {
+
+    //  Loading message templates
+    $("#templates").load(`theme/${settings.template}/template.html`, function(response, status, xhr) {
+        if (status == "error") {
+            var msg = "Sorry but there was an error: ";
+            console.error(msg + xhr.status + " " + xhr.statusText);
+        }
+        console.log(status);
+        if (status === "success") {
+            // Loading template css
+            $('head').append(`<link rel="stylesheet" href="theme/${settings.template}/css/styles.css" type="text/css" />`);
+
+            template = document.querySelector('#choice');
+        }
+    });
+
 }
 
 function bindEvents() {
