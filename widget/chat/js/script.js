@@ -275,7 +275,7 @@ function renderMessage(platform, message = {}) {
             // Setting general variabels
             message.displayName = message.user.name;
             message.userId = message.user.id;
-            message.msgId = message.eventId;
+            message.msgId = message.messageId;
 
             message.color = settings.YouTube.defaultChatColor;
 
