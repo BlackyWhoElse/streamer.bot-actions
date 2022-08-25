@@ -39,7 +39,6 @@ var avatars = {};
 
 window.addEventListener("load", (event) => {
   loadTemplates();
-  //loadBlackList();
   connectws();
 
   if (settings.debug) {
@@ -73,16 +72,6 @@ function loadTemplates() {
       }
     }
   );
-}
-
-function loadBlackList() {
-  fetch("./blacklist.json")
-    .then((response) => {
-      return response.json();
-    })
-    .then((jsondata) => {
-      console.log(jsondata);
-    });
 }
 
 function connectws() {
@@ -292,8 +281,6 @@ function renderMessage(platform, message = {}) {
       break;
   }
 
-  console.log("Render ID " + message.msgId);
-
   if (settings.animations.animation) {
     message.classes.push("animate__animated");
 
@@ -405,12 +392,6 @@ async function getProfileImage(username) {
 function ClearChat() {
   $("#chat").html("");
 }
-
-function addBlacklist() {}
-
-function removeBlacklist() {}
-
-function saveBlacklist() {}
 
 // Helper Code
 function delay(t, v) {
