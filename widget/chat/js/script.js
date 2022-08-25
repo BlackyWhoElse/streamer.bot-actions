@@ -5,6 +5,7 @@
  ***************************************************/
 
 // General Variables
+var ws;
 var settings = {
     "websocketURL": "ws://localhost:8080/",
     "debug": false,
@@ -39,7 +40,7 @@ var avatars = {}
 
 window.addEventListener('load', (event) => {
     loadTemplates();
-    loadBlackList();
+    //loadBlackList();
     connectws();
 
     if (settings.debug) {
@@ -218,6 +219,9 @@ async function add_message(message) {
  */
 async function add_YTmessage(message) {
 
+
+    message.eventId = message.eventId.replace(".","")
+
     // Blacklist Filter
     if (settings.blacklist.user.includes(message.user.name)) {
         return;
@@ -236,17 +240,15 @@ async function add_YTmessage(message) {
     }).then(avatar => {
         message.avatar = avatar;
         return renderYTEmotes(message);
-    })
-        .then(msg => {
-            $("#chat").append(renderMessage("YouTube", msg));
-
-            if (settings.animations.hidedelay > 0) {
-                hideMessage(message.eventId);
-            }
-
-        }).catch(function (error) {
-            console.error(error);
-        });
+    }).then(msg => {
+        $("#chat").append(renderMessage("YouTube", msg));
+    }).then(render => {
+        if (settings.animations.hidedelay > 0) {
+            hideMessage(message.eventId);
+        }
+    }).catch(function (error) {
+        console.error(error);
+    });
 }
 
 /**
@@ -275,7 +277,7 @@ function renderMessage(platform, message = {}) {
             // Setting general variabels
             message.displayName = message.user.name;
             message.userId = message.user.id;
-            message.msgId = message.messageId;
+            message.msgId = message.eventId;
 
             message.color = settings.YouTube.defaultChatColor;
 
@@ -299,7 +301,7 @@ function renderMessage(platform, message = {}) {
             break;
     }
 
-
+    console.log("Render ID " + message.msgId);
 
     if (settings.animations.animation) {
         message.classes.push("animate__animated");
@@ -328,6 +330,9 @@ function renderMessage(platform, message = {}) {
  * @param {string} msgId
  */
 function hideMessage(msgId) {
+
+    console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
+
     const msg = new Promise((resolve, reject) => {
         delay(settings.animations.hidedelay).then(function () {
             $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
@@ -336,8 +341,7 @@ function hideMessage(msgId) {
             });
             resolve();
         });
-    })
-        .catch(function (error) {
+    }).catch(function (error) {
             console.error(error);
         });
 }
@@ -413,16 +417,16 @@ function ClearChat() {
     $("#chat").html("");
 }
 
-function addBlacklist(){
+function addBlacklist() {
 
 }
 
-function removeBlacklist(){
+function removeBlacklist() {
 
 }
 
-function saveBlacklist(){
-    
+function saveBlacklist() {
+
 }
 
 
