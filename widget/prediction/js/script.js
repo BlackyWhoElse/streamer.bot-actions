@@ -17,8 +17,8 @@ var settings = {
     template: "default",
     websocketURL: "ws://localhost:8080/",
     text: {
-        "stringDefaultTitle": `There is no Prediction running right now!`,
-        "stringSummery": `So far nobody has voteted yet`,
+        "stringDefaultTitle": `There is no prediction running right now!`,
+        "stringSummery": `So far nobody has voted yet`,
         "stringResults": `These are the biggest winners of this prediction`,
     },
     animations: {
