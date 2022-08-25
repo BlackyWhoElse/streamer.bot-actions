@@ -101,10 +101,7 @@ function bindEvents() {
         id: "obs-chat",
         events: {
           general: ["Custom"],
-          Twitch: [
-            "ChatMessage", 
-          "ChatMessageDeleted"
-        ],
+          Twitch: ["ChatMessage", "ChatMessageDeleted"],
           YouTube: ["Message", "MessageDeleted", "SuperChat"],
         },
       })
