@@ -1,13 +1,55 @@
-body{
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
     background-image: url(../assets/background.webp);
     background-repeat: no-repeat;
     background-size: cover;
+    width: 100vw;
+    position: relative;
+    aspect-ratio: 16 / 9;
 }
 
-#pokemon{
+#pokemon {
     filter: brightness(0%);
+    position: absolute;
+    scale: 1.5;
+    left: 15%;
+    top: 15%;
 }
 
-.show{
+#pokemon.show {
     filter: brightness(100%);
+}
+
+#choices {
+    width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    grid-template-rows: 1fr;
+    gap: 25px;
+    position: absolute;
+    bottom: 100px;
+    opacity: 0;
+}
+
+.choice {
+    background-color: #c2b59b;
+    font-size: 2rem;
+    justify-content: center;
+    display: flex;
+    align-content: center;
+    padding: 15px 0;
+    border-radius: 15px;
+    border: 4px solid #3f3229;
+    text-transform: capitalize;
+}
+
+.choice.correct {
+    border-color: yellowgreen;
+    background-color: darkgreen;
+    color: white;
 }
