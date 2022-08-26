@@ -38,6 +38,7 @@ body {
     from {
         right: 101vw;
     }
+
     to {
         right: -50px;
     }
@@ -78,6 +79,9 @@ body {
     position: absolute;
     top: -20px;
     left: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #playerSelection {
