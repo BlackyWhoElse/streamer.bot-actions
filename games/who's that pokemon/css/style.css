@@ -1,0 +1,13 @@
+body{
+    background-image: url(../assets/background.webp);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#pokemon{
+    filter: brightness(0%);
+}
+
+.show{
+    filter: brightness(100%);
+}
