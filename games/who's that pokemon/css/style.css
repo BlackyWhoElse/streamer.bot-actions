@@ -36,6 +36,14 @@ body {
     opacity: 0;
 }
 
+.choice:nth-child(odd) {
+    margin-left: 15px;
+}
+
+.choice:nth-child(even) {
+    margin-right: 15px;
+}
+
 .choice {
     background-color: #c2b59b;
     font-size: 2rem;
