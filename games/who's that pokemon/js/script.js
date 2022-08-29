@@ -17,6 +17,10 @@ var settings = {
     12 : pt-BR
   */
   language: 5,
+  pokemon: {
+    from: 1,
+    to: 151,
+  },
   animations: {
     revealeChoices: "animate__fadeIn",
     revealePokemon: "animate__tada",
@@ -103,7 +107,7 @@ function setupGame() {
   $("#choices").removeClass(settings.animations.revealeChoices);
 
   // Loading Pokedex Infos
-  currentID = getRandomInt(1, 151);
+  currentID = getRandomInt(settings.pokemon.from, settings.pokemon.to);
   if (pokemons[currentID] == undefined) {
     fetchPokeApi(currentID)
       .then((data) => {
@@ -147,7 +151,7 @@ function fetchPokeApi(pokeId) {
  */
 function setChoices() {
   for (let index = 0; index < 3; index++) {
-    let id = getRandomInt(1, 151);
+    let id = getRandomInt(settings.pokemon.from, settings.pokemon.to);
 
     if (pokemons[id] == undefined) {
       fetchPokeApi(id).then((data) => {
