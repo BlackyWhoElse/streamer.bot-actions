@@ -1,7 +1,15 @@
+:root {
+    --message-background-color: transparent;
+    --choice-spacing: 25px;
+    --choices-padding: 25px;
+    --font-size: 2rem;
+    --font-family: 'Roboto', sans-serif;
+}
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--font-family);
 }
 
 .container {
@@ -30,23 +38,23 @@ body {
     display: grid;
     grid-template-columns: repeat(2, auto);
     grid-template-rows: 1fr;
-    gap: 25px;
+    gap: var(--choice-spacing);
     position: absolute;
     bottom: 100px;
     opacity: 0;
 }
 
 .choice:nth-child(odd) {
-    margin-left: 15px;
+    margin-left: var(--choices-padding);
 }
 
 .choice:nth-child(even) {
-    margin-right: 15px;
+    margin-right: var(--choices-padding);
 }
 
 .choice {
     background-color: #c2b59b;
-    font-size: 2rem;
+    font-size: var(--font-size);
     justify-content: center;
     display: flex;
     align-content: center;

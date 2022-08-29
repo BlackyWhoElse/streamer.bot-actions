@@ -94,6 +94,9 @@ function bindEvents() {
     };
 }
 
+/**
+ * Starts a new game and resets a old one
+ */
 function setupGame() {
     // Setting up a clear game
     choices = [];
@@ -102,7 +105,7 @@ function setupGame() {
     $("#pokemon").removeClass(settings.animations.revealePokemon);
     $("#pokemon").attr(
         "src",
-        `` // TODO: Add default Chape
+        `` // TODO: Add default shape
     );
     $("#choices").removeClass(settings.animations.revealeChoices);
 
@@ -193,10 +196,17 @@ function setPokemon(pokedexID) {
     settings.intro.play();
 }
 
+/**
+ * Checking if the given string is one of the names 
+ * Todo: Check all languages
+ * Note: We remove the ♂ ♀ symbols for easier answering
+ * @param {string} username 
+ * @param {string} answer 
+ */
 function checkAnswer(username, answer) {
     if (
         answer.toLowerCase() ==
-        currentPokemon.names[settings.language].name.toLowerCase()
+        currentPokemon.names[settings.language].name.toLowerCase().replace('♀', '').replace('♂', '')
     ) {
         settings.end.play();
 
@@ -215,7 +225,7 @@ function endGame(user) {
         JSON.stringify({
             request: "DoAction",
             action: {
-                id: "fca089a2-38df-49b8-88c7-57ec59a5784f",
+                id: "862d601e-017a-4a6d-a2f2-24c41d84d4fd",
                 name: "End Game",
             },
             args: {
@@ -224,6 +234,17 @@ function endGame(user) {
             id: "WhosThatPokemonEND",
         })
     );
+
+    setTimeout(function() {
+        $("#pokemon").removeClass("show");
+        $("#pokemon").removeClass(settings.animations.revealePokemon);
+        $("#pokemon").attr(
+            "src",
+            `` // TODO: Add default Chape
+        );
+        $("#choices").removeClass(settings.animations.revealeChoices);
+    }, 1000);
+
 }
 
 /***************
@@ -236,10 +257,20 @@ function getRandomInt(max, min = 0) {
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
+/**
+ * Converts a normal int to a 3 diget on
+ * @param {*} id 
+ * @returns 
+ */
 function PokedDexID(id) {
     return ("000" + id).substr(-3);
 }
 
+/**
+ * Shuffles answers for choice output
+ * @param {sting} array 
+ * @returns 
+ */
 async function shuffle(array) {
     let currentIndex = array.length,
         randomIndex;
