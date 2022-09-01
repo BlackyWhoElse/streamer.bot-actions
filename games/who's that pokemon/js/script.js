@@ -3,7 +3,7 @@ var settings = {
   websocketURL: "ws://localhost:8080/",
   mode: "direct" /* direct,poll,auto */,
   showChoices: true,
-  /* language ids
+  /* Display Language
       1 : ja-Hrkt
       2 : roomaji
       3 : zh-Hant
