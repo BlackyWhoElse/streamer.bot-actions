@@ -1,9 +1,11 @@
 var settings = {
-  // Settings
+  // The URL to your streamer.bot ws server
   websocketURL: "ws://localhost:8080/",
-  mode: "direct" /* direct,poll,auto */,
+  // Switch between diffrent gamemodes direct,poll,auto
+  mode: "direct",
+  // Show 4 choices on screen so it's easier to guess correctly
   showChoices: true,
-  /* Display Language
+  /* Select one of the languages in the comment for name displaying 1-12
       1 : ja-Hrkt
       2 : roomaji
       3 : zh-Hant
@@ -19,15 +21,22 @@ var settings = {
     */
   language: 5,
   pokemon: {
+    // Select pokemons form pokeid X
     from: 1,
+    // Select pokemons till id Y
     to: 151,
   },
   animations: {
+    // Reveal animation for choices
     revealeChoices: "animate__fadeIn",
+    // Reveal animation for pokemon
     revealePokemon: "animate__tada",
+    // How long the revealed Pokemon should be shown
+    revealeTime: 1000,
   },
-  // Sounds
+  // Audio clip playing on game start
   intro: new Audio("assets/whos-that-pokemon.mp3"),
+  //Audio clip when a user guessed correctly
   end: new Audio("assets/correct.mp3"),
 };
 
@@ -258,10 +267,10 @@ function endGame(user) {
     $("#pokemon").removeClass(settings.animations.revealePokemon);
     $("#pokemon").attr(
       "src",
-      `` // TODO: Add default Chape
+      ``
     );
     $("#choices").removeClass(settings.animations.revealeChoices);
-  }, 1000);
+  }, settings.animations.revealeTime);
 }
 
 /***************
