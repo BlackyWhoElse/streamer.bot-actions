@@ -93,18 +93,14 @@ function bindEvents() {
       setupGame();
     }
     // Twitch
-
     switch (settings.mode) {
       case "direct":
-        if (
-          voting &&
-          wsdata.event.source === "Twitch" &&
-          wsdata.event.type === "ChatMessage"
-        ) {
-          checkAnswer(
-            wsdata.data.message.displayName,
-            wsdata.data.message.message
-          );
+        if (voting && wsdata.event.source === "Twitch" && wsdata.event.type === "ChatMessage") {
+
+          // Check if message is only one word
+          if (len(wsdata.data.message.message.split()) == 1) {
+            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
+          }
         }
         break;
       case "poll":
@@ -161,11 +157,12 @@ function setupGame() {
       setPokemon(PokedDexID(currentPokemon.id));
     }
   }
+
+  // Gamemode Auto
   if (settings.mode == "auto") {
     setTimeout(() => {
 
-      $("#pokemon").addClass("show " + settings.animations.revealePokemon);
-      settings.end.play();
+      revealPokemon(currentPokemon.name[settings.language].name);
 
       setTimeout(() => {
         setupGame();
@@ -287,6 +284,26 @@ function endGame(user) {
     );
     $("#choices").removeClass(settings.animations.revealeChoices);
   }, settings.animations.revealeTime);
+}
+
+function revealPokemon(PokemonName) {
+
+  $("#pokemon").addClass("show " + settings.animations.revealePokemon);
+  settings.end.play();
+
+  ws.send(
+    JSON.stringify({
+      request: "DoAction",
+      action: {
+        id: "862d601e-017a-4a6d-a2f2-24c41d84d4fd",
+        name: "Reveal Pokemon",
+      },
+      args: {
+        pokemon: PokemonName,
+      },
+      id: "WhosThatPokemonReveal",
+    })
+  );
 }
 
 /***************
