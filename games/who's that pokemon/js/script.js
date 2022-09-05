@@ -3,7 +3,7 @@ var settings = {
   websocketURL: "ws://localhost:8080/",
   // Switch between diffrent gamemodes direct,poll,auto
   mode: "direct",
-  // Show 4 choices on screen so it's easier to guess correctly
+  // Show 4 choices on screen so it's easier to guess correctly (Recommended false if mode is auto)
   showChoices: true,
   /* Select one of the languages in the comment for name displaying 1-12
       1 : ja-Hrkt
@@ -33,6 +33,10 @@ var settings = {
     revealePokemon: "animate__tada",
     // How long the revealed Pokemon should be shown
     revealeTime: 1000,
+    // How long the pokemon will be hidden on gamemode auto
+    autoHiddenTime: 10000,
+    // How long the pokemon will be revealed on gamemode auto
+    autoRevealTime: 5000,
   },
   // Audio clip playing on game start
   intro: new Audio("assets/whos-that-pokemon.mp3"),
@@ -104,6 +108,7 @@ function bindEvents() {
         }
         break;
       case "poll":
+        // Create a new poll and wait for results
         break;
       case "auto":
         break;
@@ -155,6 +160,17 @@ function setupGame() {
     } else {
       setPokemon(PokedDexID(currentPokemon.id));
     }
+  }
+  if (settings.mode == "auto") {
+    setTimeout(() => {
+
+      $("#pokemon").addClass("show " + settings.animations.revealePokemon);
+      settings.end.play();
+
+      setTimeout(() => {
+        setupGame();
+      }, settings.animations.autoRevealTime);
+    }, settings.animations.autoHiddenTime);
   }
 }
 
