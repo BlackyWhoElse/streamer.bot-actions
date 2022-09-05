@@ -20,7 +20,7 @@
             // The URL to your streamer.bot ws server
             websocketURL: "ws://localhost:8080/",
             // Switch between diffrent gamemodes direct,poll,auto
-            mode: "direct",
+            mode: "auto",
             // Show 4 choices on screen so it's easier to guess correctly (Recommended false if mode is auto)
             showChoices: true,
             /* Select one of the languages in the comment for name displaying 1-12
@@ -46,15 +46,23 @@
             },
             animations: {
                 // Reveal animation for choices
-                revealeChoices: "animate__fadeIn",
+                revealChoices: "animate__fadeIn",
                 // Reveal animation for pokemon
-                revealePokemon: "animate__tada",
-                // How long the revealed Pokemon should be shown
-                revealeTime: 1000,
-                // How long the pokemon will be hidden on gamemode auto
-                autoHiddenTime: 10000,
-                // How long the pokemon will be revealed on gamemode auto
-                autoRevealTime: 5000,
+                revealPokemon: "animate__tada",
+            },
+            direct: {
+                hideAfter: 10000,
+            },
+            auto: {
+                // How long the pokemon will be hidden
+                revealAfter: 5000,
+                // How long the pokemon will be revealed 
+                hideAfter: 10000,
+            },
+            // Poll related settings
+            poll: {
+                // How long for the users to vote
+                voteTime: 30000,
             },
             // Audio clip playing on game start
             intro: new Audio("assets/whos-that-pokemon.mp3"),

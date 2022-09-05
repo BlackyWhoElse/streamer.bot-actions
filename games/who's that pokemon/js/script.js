@@ -28,15 +28,23 @@ var settings = {
   },
   animations: {
     // Reveal animation for choices
-    revealeChoices: "animate__fadeIn",
+    revealChoices: "animate__fadeIn",
     // Reveal animation for pokemon
-    revealePokemon: "animate__tada",
-    // How long the revealed Pokemon should be shown
-    revealeTime: 1000,
-    // How long the pokemon will be hidden on gamemode auto
-    autoHiddenTime: 10000,
-    // How long the pokemon will be revealed on gamemode auto
-    autoRevealTime: 5000,
+    revealPokemon: "animate__tada",
+  },
+  direct: {
+    hideAfter: 10000,
+  },
+  auto: {
+    // How long the pokemon will be hidden
+    revealAfter: 5000,
+    // How long the pokemon will be revealed 
+    hideAfter: 10000,
+  },
+  // Poll related settings
+  poll: {
+    // How long for the users to vote
+    voteTime: 30000,
   },
   // Audio clip playing on game start
   intro: new Audio("assets/whos-that-pokemon.mp3"),
@@ -49,6 +57,7 @@ var pokemons = [];
 var choices = [];
 
 var voting = false;
+var poll = false;
 
 window.addEventListener("load", (event) => {
   connectws();
@@ -89,58 +98,65 @@ function bindEvents() {
 
     // Custom
     // Todo: Add actionID to this if
-    if (wsdata.data.name == "Start Game") {
+    if (wsdata.data.name == "Start Game" && settings.mode != "poll") {
       setupGame();
     }
-    // Twitch
-    switch (settings.mode) {
-      case "direct":
-        if (voting && wsdata.event.source === "Twitch" && wsdata.event.type === "ChatMessage") {
+  }
+  // Twitch
+  switch (settings.mode) {
+    case "direct":
+      if (voting && wsdata.event.source === "Twitch" && wsdata.event.type === "ChatMessage") {
 
-          // Check if message is only one word
-          if (len(wsdata.data.message.message.split()) == 1) {
-            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
-          }
+        // Check if message is only one word
+        if (len(wsdata.data.message.message.split()) == 1) {
+          checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
         }
+      }
 
-        if (voting && wsdata.event.source === "Youtube" && wsdata.event.type === "Message") {
+      if (voting && wsdata.event.source === "Youtube" && wsdata.event.type === "Message") {
 
-          // Check if message is only one word
-          if (len(wsdata.data.message.message.split()) == 1) {
-            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
-          }
+        // Check if message is only one word
+        if (len(wsdata.data.message.message.split()) == 1) {
+          checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
         }
+      }
 
-        break;
-      case "poll":
-        // Create a new poll and wait for results
-        break;
-      case "auto":
-        break;
-      default:
-        break;
-    }
-  };
+      break;
+    case "poll":
+      // Create a new poll and wait for results
+      // Setting poll to true to block setupGame()
+      if (!poll) {
+        poll = true;
+        setupGame();
+      }
+      break;
+    case "auto":
+      break;
+    default:
+      break;
+  }
+};
 
-  ws.onclose = function () {
-    setTimeout(connectws, 10000);
-  };
-}
+ws.onclose = function () {
+  setTimeout(connectws, 10000);
+};
+
 
 /**
  * Starts a new game and resets a old one
+ * Controlls direct and auto
  */
 function setupGame() {
   // Setting up a clear game
   choices = [];
   voting = true;
   $("#pokemon").removeClass("show");
-  $("#pokemon").removeClass(settings.animations.revealePokemon);
+  $("#pokemon").removeClass(settings.animations.revealPokemon);
   $("#pokemon").attr(
     "src",
     `` // TODO: Add default shape
   );
-  $("#choices").removeClass(settings.animations.revealeChoices);
+  $("#choices").removeClass(settings.animations.revealChoices);
 
   // Loading Pokedex Infos
   currentID = getRandomInt(settings.pokemon.from, settings.pokemon.to);
@@ -168,15 +184,14 @@ function setupGame() {
   }
 
   // Gamemode Auto
+  // Will reveal the pokemon after a set time and restart the game
   if (settings.mode == "auto") {
     setTimeout(() => {
-
-      revealPokemon(currentPokemon.name[settings.language].name);
-
+      revealPokemon(currentPokemon.names[settings.language].name);
       setTimeout(() => {
         setupGame();
-      }, settings.animations.autoRevealTime);
-    }, settings.animations.autoHiddenTime);
+      }, settings.auto.revealAfter);
+    }, settings.auto.hideAfter);
   }
 }
 
@@ -196,6 +211,7 @@ function fetchPokeApi(pokeId) {
 
 /**
  * Filling all choices
+ * Controlls direct and poll
  */
 function setChoices() {
   for (let index = 0; index < 3; index++) {
@@ -212,18 +228,24 @@ function setChoices() {
   }
   choices[3] = currentPokemon.names[settings.language].name;
 
-  setTimeout(function () {
-    shuffle(choices).then((data) => {
-      for (let index = 0; index < data.length; index++) {
-        const name = choices[index];
-        $(`.${index + 1}`).html(name);
-        console.debug(name);
-      }
+  if (settings.mode == "poll") {
+    startPoll(choices);
+  } else {
+    setTimeout(function () {
+      shuffle(choices).then((data) => {
+        for (let index = 0; index < data.length; index++) {
+          const name = choices[index];
+          $(`.${index + 1}`).html(name);
+          console.debug(name);
+        }
 
-      $("#choices").addClass(settings.animations.revealeChoices);
-      setPokemon(PokedDexID(currentPokemon.id));
-    });
-  }, 1000);
+        $("#choices").addClass(settings.animations.revealChoices);
+        setPokemon(PokedDexID(currentPokemon.id));
+      });
+    }, 500);
+  }
+
+
 }
 
 /**
@@ -259,7 +281,7 @@ function checkAnswer(username, answer) {
   ) {
     settings.end.play();
 
-    $("#pokemon").addClass("show " + settings.animations.revealePokemon);
+    $("#pokemon").addClass("show " + settings.animations.revealPokemon);
     voting = false;
     endGame(username);
   }
@@ -286,31 +308,56 @@ function endGame(user) {
 
   setTimeout(function () {
     $("#pokemon").removeClass("show");
-    $("#pokemon").removeClass(settings.animations.revealePokemon);
+    $("#pokemon").removeClass(settings.animations.revealPokemon);
     $("#pokemon").attr(
       "src",
       ``
     );
-    $("#choices").removeClass(settings.animations.revealeChoices);
-  }, settings.animations.revealeTime);
+    $("#choices").removeClass(settings.animations.revealChoices);
+  }, settings.direct.hideAfter);
 }
 
+
+// Reveal the pokemon and send infoarmation to Streamer.Bot
 function revealPokemon(PokemonName) {
 
-  $("#pokemon").addClass("show " + settings.animations.revealePokemon);
+  poll = false;
+
+  $("#pokemon").addClass("show " + settings.animations.revealPokemon);
   settings.end.play();
 
   ws.send(
     JSON.stringify({
       request: "DoAction",
       action: {
-        id: "862d601e-017a-4a6d-a2f2-24c41d84d4fd",
+        id: "a1433c3e-af77-44b8-9951-089c3ec21b4c",
         name: "Reveal Pokemon",
       },
       args: {
         pokemon: PokemonName,
       },
       id: "WhosThatPokemonReveal",
+    })
+  );
+}
+
+
+function startPoll(choices) {
+
+  console.info("Starting a poll on twitch")
+
+  ws.send(
+    JSON.stringify({
+      request: "DoAction",
+      action: {
+        id: "7d580f62-85fc-4dbe-8ff0-a53815919977",
+        name: "Start Vote",
+      },
+      args: {
+        choices: choices,
+        time: settings.poll.time,
+      },
+      id: "WhosThatPokemonPoll",
     })
   );
 }
