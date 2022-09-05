@@ -102,6 +102,15 @@ function bindEvents() {
             checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
           }
         }
+
+        if (voting && wsdata.event.source === "Youtube" && wsdata.event.type === "Message") {
+
+          // Check if message is only one word
+          if (len(wsdata.data.message.message.split()) == 1) {
+            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
+          }
+        }
+
         break;
       case "poll":
         // Create a new poll and wait for results
