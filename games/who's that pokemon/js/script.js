@@ -2,6 +2,7 @@ var settings = {
   // The URL to your streamer.bot ws server
   websocketURL: "ws://localhost:8080/",
   // Switch between diffrent gamemodes direct,poll,auto
+  // The mode poll only works on Twitch
   mode: "direct",
   // Show 4 choices on screen so it's easier to guess correctly (Recommended false if mode is auto)
   showChoices: true,
@@ -44,7 +45,7 @@ var settings = {
   // Poll related settings
   poll: {
     // How long for the users to vote
-    voteTime: 30000,
+    voteTime: 60000,
   },
   // Audio clip playing on game start
   intro: new Audio("assets/whos-that-pokemon.mp3"),
@@ -80,7 +81,7 @@ function bindEvents() {
         events: {
           raw: ["Action"],
           general: ["Custom"],
-          Twitch: ["ChatMessage"],
+          Twitch: ["ChatMessage", "PollCompleted"],
           YouTube: ["Message"],
         },
       })
@@ -125,10 +126,27 @@ function bindEvents() {
     case "poll":
       // Create a new poll and wait for results
       // Setting poll to true to block setupGame()
-      if (!poll) {
+      if (wsdata.data.name == "Start Game" && !poll) {
         poll = true;
         setupGame();
       }
+
+      // Reveal Pokemon 
+      if (wsdata.event.source === "Twitch" && wsdata.event.type === "PollCompleted") {
+        pollChoice = wsdata.data.winningChoice.title;
+        choiceVotes = wsdata.data.winningChoice.totalVotes;
+
+        if (pollChoice == currentPokemon.names[settings.language].name) {
+          console.log("Chat was correct");
+        } else {
+          console.log("Chat was incorrect");
+        }
+
+        revealPokemon()
+
+        poll = false;
+      }
+
       break;
     case "auto":
       break;
@@ -227,25 +245,25 @@ function setChoices() {
     }
   }
   choices[3] = currentPokemon.names[settings.language].name;
+  setTimeout(function () {
 
-  if (settings.mode == "poll") {
-    startPoll(choices);
-  } else {
-    setTimeout(function () {
-      shuffle(choices).then((data) => {
-        for (let index = 0; index < data.length; index++) {
-          const name = choices[index];
-          $(`.${index + 1}`).html(name);
-          console.debug(name);
-        }
+    shuffle(choices).then((data) => {
+      for (let index = 0; index < data.length; index++) {
+        const name = choices[index];
+        $(`.${index + 1}`).html(name);
+        console.debug(name);
+      }
 
-        $("#choices").addClass(settings.animations.revealChoices);
-        setPokemon(PokedDexID(currentPokemon.id));
-      });
-    }, 500);
-  }
+      if (settings.mode == "poll") {
+        startPoll(choices);
+      }
 
+      $("#choices").addClass(settings.animations.revealChoices);
+      setPokemon(PokedDexID(currentPokemon.id));
+    });
 
+  }, 500);
+  
 }
 
 /**
@@ -344,7 +362,7 @@ function revealPokemon(PokemonName) {
 
 function startPoll(choices) {
 
-  console.info("Starting a poll on twitch")
+  console.info("Starting a poll on twitch");
 
   ws.send(
     JSON.stringify({
