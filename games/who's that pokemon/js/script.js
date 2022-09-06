@@ -99,59 +99,55 @@ function bindEvents() {
 
     // Custom
     // Todo: Add actionID to this if
-    if (wsdata.data.name == "Start Game" && settings.mode != "poll") {
+    if (wsdata.data.name == "Start Game" && settings.mode != "poll" && !voting) {
       setupGame();
     }
-  }
-  // Twitch
-  switch (settings.mode) {
-    case "direct":
-      if (voting && wsdata.event.source === "Twitch" && wsdata.event.type === "ChatMessage") {
 
-        // Check if message is only one word
-        if (len(wsdata.data.message.message.split()) == 1) {
-          checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
-        }
+    // Reveal Pokemon 
+    if (poll && wsdata.event.source === "Twitch" && wsdata.event.type === "PollCompleted") {
+      pollChoice = wsdata.data.winningChoice.title;
+      choiceVotes = wsdata.data.winningChoice.total_voters;
+
+      console.log("Chat voted: " + pollChoice + " Votes: " + choiceVotes);
+
+      if (pollChoice == currentPokemon.names[settings.language].name) {
+        console.log("Chat was correct");
+      } else {
+        console.log("Chat was incorrect");
       }
 
-      if (voting && wsdata.event.source === "Youtube" && wsdata.event.type === "Message") {
+      revealPokemon(currentPokemon.names[settings.language].name)
 
-        // Check if message is only one word
-        if (len(wsdata.data.message.message.split()) == 1) {
-          checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
-        }
-      }
+      poll = false;
+    }
+    // Twitch
+    switch (settings.mode) {
+      case "direct":
+        if (voting && wsdata.event.source === "Twitch" && wsdata.event.type === "ChatMessage") {
 
-      break;
-    case "poll":
-      // Create a new poll and wait for results
-      // Setting poll to true to block setupGame()
-      if (wsdata.data.name == "Start Game" && !poll) {
-        poll = true;
-        setupGame();
-      }
-
-      // Reveal Pokemon 
-      if (wsdata.event.source === "Twitch" && wsdata.event.type === "PollCompleted") {
-        pollChoice = wsdata.data.winningChoice.title;
-        choiceVotes = wsdata.data.winningChoice.totalVotes;
-
-        if (pollChoice == currentPokemon.names[settings.language].name) {
-          console.log("Chat was correct");
-        } else {
-          console.log("Chat was incorrect");
+          // Check if message is only one word
+          if (len(wsdata.data.message.message.split()) == 1) {
+            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
+          }
         }
 
-        revealPokemon()
+        if (voting && wsdata.event.source === "Youtube" && wsdata.event.type === "Message") {
 
-        poll = false;
-      }
+          // Check if message is only one word
+          if (len(wsdata.data.message.message.split()) == 1) {
+            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
+          }
+        }
 
-      break;
-    case "auto":
-      break;
-    default:
-      break;
+        break;
+      case "poll":
+        // Check if a pokemon poll is already running 
+        break;
+      case "auto":
+        break;
+      default:
+        break;
+    }
   }
 };
 
@@ -211,6 +207,9 @@ function setupGame() {
       }, settings.auto.revealAfter);
     }, settings.auto.hideAfter);
   }
+  if(settings.mode == "poll"){
+    poll = true;
+  }
 }
 
 /**
@@ -232,6 +231,9 @@ function fetchPokeApi(pokeId) {
  * Controlls direct and poll
  */
 function setChoices() {
+
+  var choices = [];
+
   for (let index = 0; index < 3; index++) {
     let id = getRandomInt(settings.pokemon.from, settings.pokemon.to);
 
@@ -262,8 +264,8 @@ function setChoices() {
       setPokemon(PokedDexID(currentPokemon.id));
     });
 
-  }, 500);
-  
+  }, 1000);
+
 }
 
 /**
@@ -372,8 +374,10 @@ function startPoll(choices) {
         name: "Start Vote",
       },
       args: {
-        choices: choices,
-        time: settings.poll.time,
+        "choice-1": choices[0],
+        "choice-2": choices[1],
+        "choice-3": choices[2],
+        "choice-4": choices[3]
       },
       id: "WhosThatPokemonPoll",
     })
