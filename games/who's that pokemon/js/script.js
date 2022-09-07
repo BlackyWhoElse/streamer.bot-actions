@@ -99,7 +99,7 @@ function bindEvents() {
 
         // Custom
         // Todo: Add actionID to this if
-        if (wsdata.data.name == "Start Game" && settings.mode != "poll" && !voting) {
+        if (wsdata.data.name == "WTP - Start Game" && settings.mode != "poll" && !voting) {
             setupGame();
         }
 
