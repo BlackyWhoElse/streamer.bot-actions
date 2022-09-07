@@ -97,34 +97,6 @@ function bindEvents() {
 
         console.debug(wsdata);
 
-        // Twitch
-        switch (settings.mode) {
-            case "direct":
-                if (voting && wsdata.event.source === "Twitch" && wsdata.event.type === "ChatMessage") {
-
-                    // Check if message is only one word
-                    if (wsdata.data.message.message.split().length == 1) {
-                        checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
-                    }
-                }
-
-                if (voting && wsdata.event.source === "Youtube" && wsdata.event.type === "Message") {
-
-                    // Check if message is only one word
-                    if (len(wsdata.data.message.message.split()) == 1) {
-                        checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
-                    }
-                }
-
-                break;
-            case "poll":
-                // Check if a pokemon poll is already running 
-                break;
-            case "auto":
-                break;
-            default:
-                break;
-        }
 
         if (wsdata.data.name == "WTP - Start Game" && settings.mode != "poll" && !voting) {
             setupGame();
@@ -147,7 +119,36 @@ function bindEvents() {
 
             poll = false;
         }
+        // Twitch
+        if (currentPokemon) {
+            switch (settings.mode) {
+                case "direct":
+                    if (voting && wsdata.event.source === "Twitch" && wsdata.event.type === "ChatMessage") {
 
+                        // Check if message is only one word
+                        if (wsdata.data.message.message.split().length == 1) {
+                            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
+                        }
+                    }
+
+                    if (voting && wsdata.event.source === "Youtube" && wsdata.event.type === "Message") {
+
+                        // Check if message is only one word
+                        if (wsdata.data.message.message.split().length == 1) {
+                            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
+                        }
+                    }
+
+                    break;
+                case "poll":
+                    // Check if a pokemon poll is already running 
+                    break;
+                case "auto":
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 };
 
@@ -333,6 +334,7 @@ function endGame(user) {
         );
         $("#choices").removeClass(settings.animations.revealChoices);
     }, settings.direct.hideAfter);
+
 }
 
 
