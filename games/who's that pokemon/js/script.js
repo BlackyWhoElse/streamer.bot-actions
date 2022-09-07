@@ -97,29 +97,6 @@ function bindEvents() {
 
         console.debug(wsdata);
 
-        // Custom
-        // Todo: Add actionID to this if
-        if (wsdata.data.name == "WTP - Start Game" && settings.mode != "poll" && !voting) {
-            setupGame();
-        }
-
-        // Reveal Pokemon 
-        if (poll && wsdata.event.source === "Twitch" && wsdata.event.type === "PollCompleted") {
-            pollChoice = wsdata.data.winningChoice.title;
-            choiceVotes = wsdata.data.winningChoice.total_voters;
-
-            console.log("Chat voted: " + pollChoice + " Votes: " + choiceVotes);
-
-            if (pollChoice == currentPokemon.names[settings.language].name) {
-                console.log("Chat was correct");
-            } else {
-                console.log("Chat was incorrect");
-            }
-
-            revealPokemon(currentPokemon.names[settings.language].name)
-
-            poll = false;
-        }
         // Twitch
         switch (settings.mode) {
             case "direct":
@@ -148,6 +125,29 @@ function bindEvents() {
             default:
                 break;
         }
+
+        if (wsdata.data.name == "WTP - Start Game" && settings.mode != "poll" && !voting) {
+            setupGame();
+        }
+
+        // Reveal Pokemon 
+        if (poll && wsdata.event.source === "Twitch" && wsdata.event.type === "PollCompleted") {
+            pollChoice = wsdata.data.winningChoice.title;
+            choiceVotes = wsdata.data.winningChoice.total_voters;
+
+            console.log("Chat voted: " + pollChoice + " Votes: " + choiceVotes);
+
+            if (pollChoice == currentPokemon.names[settings.language].name) {
+                console.log("Chat was correct");
+            } else {
+                console.log("Chat was incorrect");
+            }
+
+            revealPokemon(currentPokemon.names[settings.language].name)
+
+            poll = false;
+        }
+
     }
 };
 
