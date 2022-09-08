@@ -1,5 +1,6 @@
 # Preview
-[Example coming soon]
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/2930941/189086776-e23c9c78-6f18-4cdb-808e-2c49b28abe56.gif)
 
 The cult classic ad time game from Pokemon is now in your stream. Let your viewers play this awesome minigame against each other in chat or together by voting on a poll.
 
@@ -26,18 +27,21 @@ TlM0RR+LCAAAAAAABADlVttu4zYQfS/Qf1ADBH0JDVF3LbAPtjd27k2c2I5T54GXkaw1dVld7CiL/Hsp
 # Customize
 
 ## Settings
-These are located inside index.html. 
 
 | Variable                  | Default                                   | Description                                                           |
 |---------------------------|-------------------------------------------|-----------------------------------------------------------------------|
 | websocketURL              | "ws://localhost:8080/"                    | The URL to your streamer.bot ws server                                |
 | mode                      | direct                                    | Switch between diffrent gamemodes direct,poll,auto                    |
 | showChoices               | true                                      | Will show 4 choices on screen so it's easier to guess correctly       |
-| language                  | en                                        | Select one of the languages in the comment for name displaying   1-12 |
-| pokemon.from              | 1                                         | Select pokemons form pokedex id X                                     |
-| pokemon.to                | 151                                       | Select pokemons till pokedex id Y                                     |
+| language                  | 8                                         | Select one of the languages in the comment for name displaying   1-12 |
+| pokemon.from              | 1                                         | Select pokemons form pokeid X                                         |
+| pokemon.to                | 151                                       | Select pokemons till id Y                                             |
 | animations.revealeChoices | "animate__fadeIn"                         | Reveal animation for choices                                          |
 | animations.revealePokemon | "animate__tada"                           | Reveal animation for pokemon                                          |
+| direct.hideAfter          | 10000                                     |                                                                       |
+| auto.revealAfter          | 5000                                      |                                                                       |
+| auto.hideAfter            | 10000                                     |                                                                       |
+| poll.voteTime             | 60000                                     |                                                                       |
 | intro                     | new Audio("assets/whos-that-pokemon.mp3") | Audio clip playing on game start                                      |
 | end                       | new Audio("assets/correct.mp3")           | Audio clip when a user guessed correctly                              |
 
