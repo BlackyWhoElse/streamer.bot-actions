@@ -1,23 +1,165 @@
-<h1 align="center">Advanced Twitch Chat</h1>
+# Preview
 <p align="center">
-    Flexible Chatbox with Userprofile image and easy to Customize style.
+  <img width="600" height="338" src="https://user-images.githubusercontent.com/2930941/175527378-c20e7abc-c4bb-42a5-bb55-cf8ec97173a7.gif">
 </p>
 
-## 📝 Notes
-Please be so kind and give me credit or let me know if you implement these overlays or widgets.
+The Advance Chat widget is THE way to go if you want an easy-to-set-up chat overlay but also, like the freedom to add content to messages or even alter the theme or structure.
 
-This Project is under active maintenance so star or watch this project to be notified if I'm uploading new stuff.
-I hope you find that stuff useful.
+It includes:
+- Twitch and Youtube Messages support
+- Profile images for every message (cached)
+- Easy to alter CSS variables which can be pasted into the browser source to theme your widget.
+- In and out animations [animate.css](https://animate.style/)
+- It can differentiate between subscriber and viewer
+- Will change emotes sizes if the message only consists of emotes.
+- Can clear the overlay completely with an action
+- Messages deleted via a mod in chat will be deleted in overlay as well
+- Blacklist for users and words
+- Easy to alter settings
+- Theming System with predefined themes already ready to go. (Default, Clean, Ticker)
 
-## ⬇️ Install
-### Streamer.Bot
+
+#  How to use
+## OBS
+- Add index.html as a '**Browser Source**' and set the width and height to your liking.
+- (optional) If you want to change any CSS variables you can copy-paste the [CSS](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Advanced-Chat#css) into the browser source directly.
+
+## Streamer.Bot
+### Actions  (optional)
+**Widget - Advanced Chat**
+- Clear Chat
+This action will delete all messages from the widget. It is not needed but a nice to have.
 
 ```
-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
+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
 ```
 
 - This Widget requiers Streamer.Bot 0.18+
 - Start Websocket Server under 8080
-    - If that is not possible match the port in js/settings.json
-### OBS
-- Add index.html as a '**Browser Source**' and set the width and height to your liking.
+    - If that is not possible match the port in js/script.js
+
+
+# 🎨 Customize
+
+### **Settings**
+
+A settings object can be found in index.html. This can be used to alter animations and core settings.
+
+Note: If you want to use other animations check [here](https://animate.style/)
+
+```javascript
+var settings = {
+    "websocketURL": "ws://localhost:8080/",
+    "debug": false,
+    "template": "default",
+    "blacklist": {
+        "user": ["Nightbot",],
+        "words": []
+    },
+    "animations": {
+        "animation": true,
+        "hidedelay": 0,
+        "hideAnimation": "fadeOut",
+        "showAnimation": "bounceInLeft"
+    },
+    "YouTube": {
+        "defaultChatColor": "#f20000",
+    },
+    "Twitch": {
+        "defaultChatColor": "#9147ff",
+    },
+};
+```
+
+| Variable        | Default                       | Description                                                                                                                |
+| --------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| websocketURL    | ws://localhost:8080/          | The url to your streamer.bot instance. If you run streamer bot out of the box on the same pc you dont have to change that. |
+| debug           | false                         | This is for styling and debuging only. if true it will endlessly add a message to your chat overlay.                       |
+| theme           | default                       | This sets which theme your chat widget will use. Select an existing theme or create your own.                              |
+| blacklist user  | ["Nightbot","Jarwiswersonst"] | A list of users who will not be displayed in the chatbox.                                                                  |
+| blacklist words | []                            | A list of words who will not be displayed in the chatbox.                                                                  |
+| animation       | true                          | Use animations for message.                                                                                                |
+| hidedelay       | 0                             | Delay in ms when the message should be hidden. (if 0 the message will stay for ever)                                       |
+| hideAnimation   | fadeOut                       | Animation name to hide a message                                                                                           |
+| showAnimation   | bounceInLeft                  | Animation name to show a message                                                                                           |
+
+### **CSS**
+You can change the appearance of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and paste this CSS there and make your adjustment.
+
+For an easier time customizing your widget open index.html inside a browser and press F12 to open up the Developer console.
+
+
+#### Default Example
+```css
+:root {
+    /** Left: row Right: row-reverse */
+    --chat-align: row;
+    --avatar-size: 80px;
+    --avatar-gap: 16px;
+    --message-padding: 16px;
+    --message-gap-bottom: 16px;
+    --message-background-color: #18181b;
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
+    --emote-only-size: 32px;
+    --font-color: #fff;
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+    --time-size: 12px;
+    --time-align: right;
+}
+```
+
+### Message Template
+#### Default Exam
+![Message Example](https://i.imgur.com/lxdTTeF.png)
+
+Inside the the theme folder you can find the template.hmtl.  
+This file will define the structure of your message.   
+To create your own just copy one theme and pasted it with your theme name as folder name.  
+If you want to customise your template you can use the following variables inside the template.  
+
+```html
+<template id="message_twitch">
+    <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
+        <div class="avatar">
+            {{avatar}}
+        </div>
+        <div class="message ">
+            <span class="badges">{{badges}}</span>
+            <span class="name">{{displayName}}</span>
+            <div class="content">{{message}}</div>
+            <div class="time">{{time}}</div>
+        </div>
+    </li>
+</template>
+
+<template id="message_youtube">
+    <li id="{{eventId}}" class="{{classes}}" style="--userColor:{{color}}">
+        <div class="avatar">
+            {{avatar}}
+        </div>
+        <div class="message ">
+            <span class="name">{{displayName}}</span>
+            <div class="content">{{message}}</div>
+            <div class="time">{{time}}</div>
+        </div>
+    </li>
+</template>
+```
+
+
+| Variable         | Example                                                | Platform | Description                                                                           |
+| ---------------- | ------------------------------------------------------ | -------- | ------------------------------------------------------------------------------------- |
+| avatar           | <img src="..."\>                                       | General  | Userprofile image 300x300                                                             |
+| classes          | msg animate__animated subscriber                       | Twitch   | Classes used by message wrapper                                                       |
+| classes          | msg animate__animated owner moderator sponsor verified | Youtube  | Classes used by message wrapper                                                       |
+| color            | #B33B19                                                | General  | Username color. If no color is provided it will use the predefiend color in script.js |
+| displayName      | Blackywersonst                                         | General  | Username that will be displayed in chat                                               |
+| message          | I'm a Message                                          | General  | Message text                                                                          |
+| monthsSubscribed | 57                                                     | Twitch   | How long the user is subed to the channel                                             |
+| msgId            | MessageID                                              | General  |                                                                                       |
+| role             | 4                                                      | General  | Role of the user provided by Streamer.bot                                             |
+| userId           | 27638012                                               | General  | User id provided by twitch/Youtube                                                    |
+| time             | 19:36                                                  | General  | Time when the message was send                                                        |

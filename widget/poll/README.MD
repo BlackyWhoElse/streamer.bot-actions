@@ -1,42 +1,77 @@
-<h1 align="center">Poll Widget</h1>
-<p align="center">
-    This Widget will show if a Poll is created and auto-hide once it's done.
-</p>
+# Preview 
+From 2 Choices
+![1v1-Poll](https://user-images.githubusercontent.com/2930941/177127308-ca4646cc-6107-4769-bc00-295898278d81.png)  
 
-## 📝 Notes
-Please be so kind and give me credit or let me know if you implement these overlays or widgets.
+Up to 5 Choices
+![5-choices-poll](https://user-images.githubusercontent.com/2930941/177155388-f3027da5-1fc0-4cd9-9749-a90a4cbe36ad.png)  
 
-This Project is under active maintenance so star or watch this project to be notified if I'm uploading new stuff.
-I hope you find that stuff useful.
+This poll widget is all you need to display polls on your stream. Easy to customize and alter. 
+
+It includes:
+- 2 Choice layout for yes or no answers
+- Supports up to 5 choices
+- Shows the winning choice with a little animation
+- Easy to alter style
+- An noVotes class if no votes were casted
 
 
-## ✔️ Todos
-- Winning Screen
-
-## ⬇️ Install
-### OBS
+# How to use
+## OBS
 - Add index.html to OBS as Browser Source
 - Add Show and Hide Transition to your Source
 
-### Streamer.Bot (optional)
+## Streamer.Bot (optional)
+These actions are just placeholders and will not add any function out of the box. They are only for convenience so you don't have to create your own. All logic is working independently and these are only for additional actions like playing sound or showing poll. 
+
+**Note**: If you plan to show and hide the Browser source keep in mind that you have to match the showWinnerTime so it doesn't look bad.
+
 ```
-Streamerbot Import String coming soon
+TlM0RR+LCAAAAAAABADlVblu3DAQ7QPkHwjVZkCKIim5M4wcZRAgSBG4IDmjtQDqiI61F8b+e0gJC2sPp3SxqSjOezMcvnmgXj5+ICTZYj9UbZPckvRmDjSmxrBLkmVr3BjgIUR+xz0hL8sSoAoiT2RcGWSCMs4YzVxmqc1zRQW6QkibFVzLpdac9GfCKdZvJu9fo9gY6zHWG/sJV/Fn5yfAL31bf6uGse13gVIaP6w4h4bv27rzOCKQ7633qyM3fTt1kfGrgg2OhJ4SjH8yu+HH1JwX700DbX03i3COurZxU99jM55jZ8IdiTdTtsbPWiR3AGR8rAYytmFF8nkbSpK3LrQSv5DSKeY45SmzNMtNGcSXkhrNtBOpUk6mJ4lPWG0eY7/sEztGxl0XuwljLI6Bg4BHM/vX3JYOG8DneM5rdH/4fDjV6Ws8YhbrYS2v96YbEFboAu5vLpvRmQKMTAVNnQ5mNGCpYUVJi2BQxkCoHMX7mLFHc01WvHidlfBlIbhWmFGpZBCeo6ImtUCdyB2zwJlh/H8yonUp5rnQtEiDBzODOc1doSkrUQV1NGgH72LEnx1ckxEvX2clPHAAwZWgLj4DGQ8/Jqt0SRE5VzYX4WWEqzRiXBbm4qZVakir6zC0A3//F+n2Tfr7BwAA
 ```
 - Make sure that Streamer Bot is running while using it and Websocket Server is running on port 8080
   - If it is not possible to run port 8080 switch the port in script.js
 
 
 
-## 🎨 Customize
+# 🎨 Customize
+
+## Settings
+A settings object can be found in script.js. This can be used to alter animations and core settings.
+
+```js
+var settings = {
+    websocketURL: "ws://localhost:8080/",
+    text: {
+        "stringDefaultTitle": `There is no poll running right now`,
+    },
+    animations: {
+        showWinnerTime: 15000,
+        hideLoosers: true,
+    },
+};
+
+```
+| Variable                   | Default                | Description |
+| -------------------------- | ---------------------- | ----------- |
+| websocketURL               | "ws://localhost:8080/" |             |
+| text                       | []                     |             |
+| animations.hideLoosers     | 0                      |             |
+| animations.showWinnersTime | 10000                  |             |
+
+
+## CSS
 You can change the appearance of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and paste this CSS there and make your adjustment.
 
 For an easier time customizing your widget open index.html inside a browser and press F12 to open up the Developer console.
 
 ```css
 :root {
+    /* Top - flex-start  Bottom - flex-end */
+    --widget-grow-position: flex-start;
     --background-color: #0e0e10;
     --timer-color: #9146FF;
     --timer-background: #1f1f23;
+    --font-family: 'Roboto', sans-serif;
     --choice-1-color: #4ca3ff;
     --choice-2-color: #f763ed;
     --choice-3-color: #f7c863;
@@ -47,7 +82,8 @@ For an easier time customizing your widget open index.html inside a browser and 
     --choice-8-color: #f7ed63;
     --choice-9-color: #6392f7;
     --choice-10-color: #f76363;
-    --choice-winner: #20961c;
+    --choice-winner-color: #20961c;
+    --choice-no-votes-color: #d6452c;
     --choice-background: #18181b;
 }
 ```
