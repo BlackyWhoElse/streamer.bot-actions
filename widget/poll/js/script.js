@@ -7,11 +7,12 @@ var template;
 
 var settings = {
     websocketURL: "ws://localhost:8080/",
-    template:"default",
+    template: "default",
     text: {
         "stringDefaultTitle": `There is no poll running right now`,
     },
     animations: {
+        autoHideResults: true,
         showWinnerTime: 15000,
         hideLoosers: true,
     },
@@ -36,10 +37,10 @@ function connectws() {
  * This will load all template,css files in theme/{{themename}}
  * Check console for errors if you theme doesn't work
  */
- function loadTemplates() {
+function loadTemplates() {
 
     //  Loading message templates
-    $("#templates").load(`theme/${settings.template}/template.html`, function(response, status, xhr) {
+    $("#templates").load(`theme/${settings.template}/template.html`, function (response, status, xhr) {
         if (status == "error") {
             var msg = "Sorry but there was an error: ";
             console.error(msg + xhr.status + " " + xhr.statusText);
@@ -160,11 +161,13 @@ function PollCompleted(winner) {
 
         $(`#choices`).addClass("noVotes");
 
-        setTimeout(function () {
-            $(`#choices`).removeClass("noVotes");
-            clearPoll();
-        }, settings.animations.showWinnerTime);
-        return;
+        if (autoHideResults) {
+            setTimeout(function () {
+                $(`#choices`).removeClass("noVotes");
+                clearPoll();
+            }, settings.animations.showWinnerTime);
+            return;
+        }
     }
 
     const winners = [];
@@ -176,11 +179,12 @@ function PollCompleted(winner) {
             showWinner(choice);
         }
     });
-
-    setTimeout(function () {
-        clearPoll();
-    }, settings.animations.showWinnerTime);
-
+    
+    if (autoHideResults) {
+        setTimeout(function () {
+            clearPoll();
+        }, settings.animations.showWinnerTime);
+    }
 }
 
 /**
