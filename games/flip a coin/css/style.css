@@ -52,7 +52,7 @@ body {
         transform: rotateX(0);
     }
 
-    50%{
+    50% {
         top: -200px;
     }
 
@@ -67,9 +67,11 @@ body {
         top: 0;
         transform: rotateX(0);
     }
-    50%{
+
+    50% {
         top: -200px;
     }
+
     100% {
         top: 0;
         transform: rotateX(2160deg);
