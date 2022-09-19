@@ -1,0 +1,101 @@
+:root {
+    /** Left: row Right: row-reverse */
+    --chat-align: row;
+    --message-gap-bottom: 5px;
+    --name-background-color: #db559b;
+    --message-background-color: #fdfae2;
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
+    --emote-only-size: 32px;
+    --font-color: #837f60;
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+    --time-size: 12px;
+    --time-align: right;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+}
+
+#chat {
+    height: 100vh;
+    position: fixed;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+.msg {
+    display: flex;
+    margin-bottom: var(--message-gap-bottom);
+    flex-direction: var(--chat-align);
+}
+
+.badges img {
+    width: var(--badge-size);
+    margin-left: var(--badge-spacing);
+}
+
+.message {
+    padding: var(--message-padding);
+    color: var(--font-color);
+    font-size: var(--font-size);
+    overflow-wrap: anywhere;
+    position: relative;
+}
+
+.message div{
+    padding: 6px 15px;
+    position: relative;
+}
+
+.message .emote {
+    height: var(--emote-size);
+}
+
+.emoteonly .message .emote {
+    height: var(--emote-only-size);
+}
+
+.name {
+    color: #fff;
+    font-weight: bold;
+    background-color: var(--name-background-color);
+    border-radius: 15px;
+    width: fit-content;
+    top: 5px;
+    z-index: 999;
+    align-items: center;
+    display: flex;
+}
+
+.content{
+    background-color: var(--message-background-color);
+    border-radius: 15px;
+    left: 15px;
+}
+
+.time {
+    font-size: var(--time-size);
+    float: var(--time-align);
+}
+
+.broadcaster {}
+
+.subcriber {}
+
+.reply {}
+
+.reward {}
+
+.highlight {}
+
+.me {}
