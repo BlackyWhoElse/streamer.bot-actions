@@ -1,0 +1,122 @@
+:root {
+    /** Left: row Right: row-reverse */
+    --chat-align: row;
+    --avatar-size: 50px;
+    --avatar-gap: 16px;
+    --message-gap-bottom: 16px;
+    --message-background-color: #18181b;
+    --broadcaster-background-color: #18181b;
+    --subscriber-background-color: #18181b;
+    --moderator-background-color: #18181b;
+    --highlight-background-color: #18181b;
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
+    --emote-only-size: 32px;
+    --time-size: 12px;
+    --font-color: #fff;
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+    --spacing-right: 25px;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+}
+
+#chat {
+    position: fixed;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+    height: fit-content;
+}
+
+.msg {
+    display: flex;
+    background-color: var(--message-background-color);
+    margin-bottom: var(--message-gap-bottom);
+    flex-direction: var(--chat-align);
+    border-radius: 50px;
+    justify-content: left;
+    align-items: center;
+    width: fit-content;
+    margin-right: 15px;
+    height: 50px;
+}
+
+.avatar img {
+    width: calc(var(--avatar-size));
+    border-radius: 50px;
+}
+
+.avatar {
+    margin-right: 8px;
+    height: var(--avatar-size);
+}
+
+.badges {
+    display: none;
+}
+
+.badges img {
+    width: var(--badge-size);
+    margin-left: var(--badge-spacing);
+}
+
+.message {
+    color: var(--font-color);
+    font-size: var(--font-size);
+    overflow-wrap: anywhere;
+    padding: 15px 0;
+}
+
+.content {
+    display: inline-block;
+    padding-right: var(--spacing-right);
+    text-shadow: 1px 1px black;
+}
+
+.message .emote {
+    height: var(--emote-size);
+}
+
+.emoteonly .message .emote {
+    height: var(--emote-only-size);
+}
+
+.name {
+    color: var(--userColor);
+    font-weight: bold;
+}
+
+.time {
+    font-size: var(--time-size);
+    color: aliceblue;
+    position: absolute;
+    right: var(--spacing-right);
+    bottom: 2px;
+}
+
+.subscriber.msg {
+    background-color: var(--subscriber-background-color);
+}
+
+.moderator.msg {
+    background-color: var(--moderator-background-color);
+}
+
+.broadcaster.msg {
+    background-color: var(--broadcaster-background-color);
+}
+
+.highlight.msg {
+    background-color: var(--highlight-background-color);
+}

@@ -2,23 +2,21 @@
 
 <template id="message_twitch">
   <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
-    <div class="message">
-      <div class="name">
-        <span class="badges">{{badges}}</span>
-        {{displayName}}
-      </div>
-      <div class="content">
-      <div class="string">{{message}}</div>
-      <div class="time">{{time}}</div>
-      </div>
+    <div class="avatar">
+      <img src="{{avatar}}" />
     </div>
+    <div class="message">
+      <span class="badges">{{badges}}</span>
+      <div class="content"><span class="name">@{{displayName}} </span> {{message}}</div>
+    </div>
+    <div class="time">{{time}}</div>
   </li>
 </template>
 
 <template id="message_youtube">
   <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
     <div class="avatar">
-      <img class="avatar" src="{{avatar}}" />
+      <img src="{{avatar}}" />
     </div>
     <div class="message">
       <span class="name">{{displayName}}</span>

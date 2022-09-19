@@ -1,0 +1,20 @@
+<!-- Message template - All variables can be found here: https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/chat -->
+
+<template id="message_twitch">
+    <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
+        <div class="message ">
+            <span class="badges">{{badges}}</span>
+            <span class="name">{{displayName}}</span>
+            {{message}}
+        </div>
+    </li>
+</template>
+
+<template id="message_youtube">
+    <li id="{{eventId}}" class="{{classes}}" style="--userColor:{{color}}">
+        <div class="message ">
+            <span class="name">{{displayName}}</span>
+            {{message}}
+        </div>
+    </li>
+</template>
