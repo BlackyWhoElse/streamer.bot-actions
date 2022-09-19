@@ -69,3 +69,16 @@ body {
     font-size: var(--time-size);
     float: var(--time-align);
 }
+
+
+.broadcaster {}
+
+.subcriber {}
+
+.reply {}
+
+.reward {}
+
+.highlight {}
+
+.me {}
