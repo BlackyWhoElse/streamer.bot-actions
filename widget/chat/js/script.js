@@ -245,9 +245,25 @@ function renderMessage(platform, message = {}) {
         message.color = settings.Twitch.defaultChatColor;
       }
 
-      if (message.subscriber === true) {
+      if (message.isHighlighted) {
+        message.classes.push("highlight");
+      }
+      if (message.isReply) {
+        message.classes.push("reply");
+      }
+      if (message.isCustomReward) {
+        message.classes.push("reward");
+      }
+      if (message.isMe) {
+        message.classes.push("me");
+      }
+      if (message.subscriber) {
         message.classes.push("subscriber");
       }
+      if (message.role === 4) {
+        message.classes.push("broadcaster");
+      }
+
 
       var tpl = template_twitch;
 
@@ -431,7 +447,7 @@ function debugMessages() {
       isHighlighted: false,
       isMe: false,
       isReply: false,
-      message: "Chat box is in Debug mode. Chat box is in Debug mode.",
+      message: randomMessage(),
       monthsSubscribed: 57,
       msgId: makeid(12),
       role: 4,
@@ -442,7 +458,7 @@ function debugMessages() {
     };
 
     add_message(message);
-  }, 8000);
+  }, 4000);
 }
 
 function makeid(length) {
@@ -454,4 +470,49 @@ function makeid(length) {
     result += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
   return result;
+}
+
+function randomMessage() {
+
+  msgs = [
+    "Welcome",
+    "If you ate pasta and antipasta, would you still be hungry?",
+    "go on",
+    "Oh goodness bunch of sensitive cry babies on twitter!",
+    "tell me more",
+    "you will be part of it all",
+    "Would be, cause Im asking",
+    "ask and I will tell",
+    "meaning?",
+    "Now I am interested, go on",
+    "you will be next week",
+    "I see you find yourself very interesting",
+    "Hi how are you?",
+    "I am fantastic and feeling astonishingly glorious",
+    "What did you want to be when you grew up?",
+    "I feel like I am taking crazy pills!",
+    "maybe you are",
+    "Sometimes I am",
+    "Go on",
+    "I drink diced kitten to make other people more interesting",
+    "Go on",
+    "Is there a spell to become a mermaid that actually works?",
+    "Love Spell - To write a successful love letter, rub the entire sheet of stationary with lavender before you start writing",
+    "Greetings",
+    "hello",
+    "wazzup",
+    "Which common saying or phrase describes you?",
+    "the one on the left",
+    "Is the game really over?",
+    "Not that there's anything wrong with that",
+    "You smell different when you're awake",
+    "When a clock is hungry it goes back four seconds",
+    "tommorow",
+    " Would you rather have one real get out of jail free card or a key that opens any door?",
+    "you like yourself alot right",
+  ];
+
+  msg = msgs[Math.floor(Math.random() * msgs.length)]
+
+  return msg;
 }
