@@ -55,6 +55,7 @@ body {
 .avatar {
     margin-right: 8px;
     height: var(--avatar-size);
+    margin-bottom: auto;
 }
 
 .badges {
