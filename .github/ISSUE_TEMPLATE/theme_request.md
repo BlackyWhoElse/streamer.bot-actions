@@ -1,7 +1,7 @@
 ---
 name: Theme request
 about: Ask for a new theme for a widget 
-title: '[Theme] <title>'
+title: '[Theme] '
 labels: theme
 assignees: ''
 
