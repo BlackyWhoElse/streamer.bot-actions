@@ -1,0 +1,140 @@
+:root {
+    --avatar-size: 45px;
+    --avatar-gap: 15px 10px;
+    --message-gap-bottom: 10px;
+    --message-background-color: #191b1b;
+    --message-boarder-color: #c0cad0;
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
+    --emote-only-size: 32px;
+    --font-color: #b5bec4;
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+    --time-size: 12px;
+    --time-align: right;
+}
+
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+}
+
+#chat {
+    height: 100vh;
+    position: fixed;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+.msg {
+    display: flex;
+    margin-bottom: var(--message-gap-bottom);
+    flex-direction: row;
+}
+
+.badges {
+    display: block;
+    padding: var(--avatar-gap);
+}
+
+.badges img {
+    width: var(--badge-size);
+    margin-left: var(--badge-spacing);
+}
+
+.message {
+    padding: 10px;
+    background-color: var(--message-background-color);
+    color: var(--font-color);
+    font-size: var(--font-size);
+    overflow-wrap: anywhere;
+    border: 1px solid var(--message-boarder-color);
+    position: relative;
+}
+
+.message::after {
+    content: '';
+    width: 10px;
+    height: 10px;
+    background-color: var(--message-background-color);
+    border: 1px solid var(--message-boarder-color);
+    position: absolute;
+    left: -6px;
+    display: block;
+    rotate: 45deg;
+    top: 15px;
+    border-top: 0;
+    border-right: 0;
+}
+
+.message .row {
+    align-items: center;
+    display: flex;
+}
+
+.message .emote {
+    height: var(--emote-size);
+}
+
+.emoteonly .message .emote {
+    height: var(--emote-only-size);
+}
+
+.name {
+    color: var(--userColor);
+    font-weight: bold;
+}
+
+.time {
+    font-size: var(--time-size);
+    margin-left: auto;
+    padding: 0 0 0 15px;
+}
+
+.broadcaster.msg, .moderators.msg {
+    flex-direction: row-reverse;
+}
+
+.broadcaster .message, .moderators .message {
+    /* Broadcasters,Moderators will be displayed on the right*/
+    background-color: var(--message-background-color);
+    color: var(--font-color);
+    border: 1px solid #6f777d;
+    color: #fff;
+}
+
+.broadcaster .message::after, .moderators .message::after {
+    background-color: #191b1b;
+    border: 1px solid #6f777d;
+    position: absolute;
+    right: -5px;
+    display: block;
+    top: 15px;
+    left: unset;
+    border-bottom: 0;
+    border-left: 0;
+}
+
+.broadcaster .message .time, .moderators .message .time {
+    padding: 0 0 0 15px;
+}
+
+.subcriber {
+    /* Subs will get the eod crown */
+}
+
+.reply {}
+
+.reward {}
+
+.highlight {}
+
+.me {}
