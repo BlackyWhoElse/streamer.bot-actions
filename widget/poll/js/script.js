@@ -161,7 +161,7 @@ function PollCompleted(winner) {
 
         $(`#choices`).addClass("noVotes");
 
-        if (autoHideResults) {
+        if (settings.animations.autoHideResults) {
             setTimeout(function () {
                 $(`#choices`).removeClass("noVotes");
                 clearPoll();
@@ -180,7 +180,7 @@ function PollCompleted(winner) {
         }
     });
     
-    if (autoHideResults) {
+    if (settings.animations.autoHideResults) {
         setTimeout(function () {
             clearPoll();
         }, settings.animations.showWinnerTime);
