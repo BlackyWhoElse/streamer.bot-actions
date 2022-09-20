@@ -1,57 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Twitch Prediction</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="js/script.js"></script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/styles.css" />
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Twitch Prediction</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/script.js"></script>
 
-    <script>
-      var settings = {
-        template: "default",
-        websocketURL: "ws://localhost:8080/",
-        text: {
-          stringDefaultTitle: `There is no prediction running right now!`,
-          stringSummery: `So far nobody has voted yet`,
-          stringResults: `These are the biggest winners of this prediction`,
-        },
-        animations: {
-          clearDelay: 0,
-          // If you plan on disabling with the "Resolved Event" please add an delay before you disable the source that matches this one
-          showWinnersTime: 10000,
-        },
-        showWinners: true,
-        winnerAmount: 3,
-      };
-    </script>
-  </head>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
 
-  <body>
-    <div id="prediction">
-      <div class="header">
-        <h2 class="title"></h2>
-        <h4 id="summery"></h4>
-      </div>
-      <div id="time">
-        <div id="timeleft" style="--timer: 0s"></div>
-      </div>
-      <div id="outcomes"></div>
-    </div>
-    <div id="results">
+  <script>
+    var settings = {
+      template: "default",
+      websocketURL: "ws://localhost:8080/",
+      text: {
+        "stringDefaultTitle": `There is no prediction running right now!`,
+        "stringSummery": `So far nobody has voted yet`,
+        "stringResults": `These are the biggest winners of this prediction`,
+      },
+      animations: {
+        clearDelay: 0,
+        // If you plan on disabling with the "Resolved Event" please add an delay before you disable the source that matches this one
+        showWinnersTime: 10000,
+      },
+      showWinners: true,
+      winnerAmount: 3,
+    };
+  </script>
+</head>
+
+<body>
+  <div id="prediction">
+    <div class="header">
       <h2 class="title"></h2>
-      <div id="winners"></div>
+      <h4 id="summery"></h4>
     </div>
+    <div id="time">
+      <div id="timeleft" style="--timer: 0s"></div>
+    </div>
+    <div id="outcomes"></div>
+  </div>
+  <div id="results">
+    <h2 class="title"></h2>
+    <div id="winners"></div>
+  </div>
 
-    <div id="templates"></div>
-  </body>
+  <div id="templates"></div>
+</body>
+
 </html>
