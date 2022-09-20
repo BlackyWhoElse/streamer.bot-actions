@@ -37,6 +37,7 @@ body {
     bottom: 0;
     right: 0;
     padding: 4px 4px;
+    text-shadow: 1px 1px black;
 }
 
 .message {
