@@ -41,7 +41,7 @@ TlM0RR+LCAAAAAAABACdVV1zojoYvt+Z/Q8erw8OAn6wd0orq916qlWQHnsRklekBsLhQ0t3+t9PAnUF
 
 # 🎨 Customize
 
-### **Settings**
+## **Settings**
 
 A settings object can be found in index.html. This can be used to alter animations and core settings.
 
@@ -72,7 +72,7 @@ var settings = {
 ```
 
 | Variable        | Default                       | Description                                                                                                                |
-| --------------- | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+|-----------------|-------------------------------|----------------------------------------------------------------------------------------------------------------------------|
 | websocketURL    | ws://localhost:8080/          | The url to your streamer.bot instance. If you run streamer bot out of the box on the same pc you dont have to change that. |
 | debug           | false                         | This is for styling and debuging only. if true it will endlessly add a message to your chat overlay.                       |
 | theme           | default                       | This sets which theme your chat widget will use. Select an existing theme or create your own.                              |
@@ -83,13 +83,13 @@ var settings = {
 | hideAnimation   | fadeOut                       | Animation name to hide a message                                                                                           |
 | showAnimation   | bounceInLeft                  | Animation name to show a message                                                                                           |
 
-### **CSS**
+## **CSS**
 You can change the appearance of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and paste this CSS there and make your adjustment.
 
 For an easier time customizing your widget open index.html inside a browser and press F12 to open up the Developer console.
 
 
-#### Default Example
+### Default Example
 ```css
 :root {
     /** Left: row Right: row-reverse */
@@ -111,8 +111,8 @@ For an easier time customizing your widget open index.html inside a browser and 
 }
 ```
 
-### Message Template
-#### Default Exam
+## Chat Themes
+### Default Example
 ![Message Example](https://i.imgur.com/lxdTTeF.png)
 
 Inside the the theme folder you can find the template.hmtl.  
@@ -151,7 +151,7 @@ If you want to customise your template you can use the following variables insid
 
 
 | Variable         | Example                                                | Platform | Description                                                                           |
-| ---------------- | ------------------------------------------------------ | -------- | ------------------------------------------------------------------------------------- |
+|------------------|--------------------------------------------------------|----------|---------------------------------------------------------------------------------------|
 | avatar           | <img src="..."\>                                       | General  | Userprofile image 300x300                                                             |
 | classes          | msg animate__animated subscriber                       | Twitch   | Classes used by message wrapper                                                       |
 | classes          | msg animate__animated owner moderator sponsor verified | Youtube  | Classes used by message wrapper                                                       |
@@ -163,3 +163,57 @@ If you want to customise your template you can use the following variables insid
 | role             | 4                                                      | General  | Role of the user provided by Streamer.bot                                             |
 | userId           | 27638012                                               | General  | User id provided by twitch/Youtube                                                    |
 | time             | 19:36                                                  | General  | Time when the message was send                                                        |
+
+## Themes
+Here is a list of themes that can be used out of the box. You can use the default settings inside index.html but we recommend some changes depending on the theme.
+
+
+### box
+![box](https://user-images.githubusercontent.com/2930941/191259798-356b5226-71c2-4616-bc49-2812fbbe714d.png)
+| Variable      | Example |
+|---------------|---------|
+| hideAnimation | ""      |
+| showAnimation | ""      |
+### bubble
+![bubble](https://user-images.githubusercontent.com/2930941/191262885-b3932064-cb7a-4b51-9bb9-1adb2d8015ac.png)
+| Variable      | Example         |
+|---------------|-----------------|
+| hideAnimation | "bounceOutLeft" |
+| showAnimation | "bounceInLeft"  |
+### bubble_ticker
+![bubble_ticker](https://user-images.githubusercontent.com/2930941/191260572-95c4dbd4-1fff-417f-beb4-15357cb893e7.png)
+| Variable      | Example         |
+|---------------|-----------------|
+| hideAnimation | "bounceOutLeft" |
+| showAnimation | "bounceInRight" |
+### clean
+![clean](https://user-images.githubusercontent.com/2930941/191260952-94a11dae-b3b8-487a-8909-2442d3415061.png)
+| Variable      | Example |
+|---------------|---------|
+| hideAnimation | ""      |
+| showAnimation | ""      |
+### crossing
+![crossing](https://user-images.githubusercontent.com/2930941/191261105-ef3267d9-5a6e-4ae9-bc5e-f7036b513277.png)
+| Variable      | Example   |
+|---------------|-----------|
+| hideAnimation | "fadeOut" |
+| showAnimation | "fadeIn"  |
+### default
+![default](https://user-images.githubusercontent.com/2930941/191261269-a7a2e3b3-93d5-452a-92cf-c42b3c3efbc6.png)
+| Variable      | Example         |
+|---------------|-----------------|
+| hideAnimation | "fadeOut"       |
+| showAnimation | "bounceInRight" |
+### tarkov
+![tarkov](https://user-images.githubusercontent.com/2930941/191259446-bfada9f3-fb70-4f4b-a6c5-555bc26d79a1.png)
+| Variable      | Example |
+|---------------|---------|
+| hideAnimation | ""      |
+| showAnimation | ""      |
+### ticker
+![ticker](https://user-images.githubusercontent.com/2930941/191261678-2db9208d-a396-4734-b8ae-5e25ca5c6cf8.png)
+| Variable      | Example         |
+|---------------|-----------------|
+| hideAnimation | "bounceOutLeft" |
+| showAnimation | "bounceInRight" |
+
