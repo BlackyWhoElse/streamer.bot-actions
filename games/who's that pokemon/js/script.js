@@ -32,15 +32,12 @@ var settings = {
         revealChoices: "animate__fadeIn",
         // Reveal animation for pokemon
         revealPokemon: "animate__tada",
-    },
-    direct: {
-        hideAfter: 10000,
-    },
-    auto: {
+
         // How long the pokemon will be hidden
         revealAfter: 5000,
         // How long the pokemon will be revealed 
         hideAfter: 10000,
+
     },
     // Poll related settings
     poll: {
@@ -59,6 +56,8 @@ var choices = [];
 
 var voting = false;
 var poll = false;
+
+var autoreveal;
 
 window.addEventListener("load", (event) => {
     connectws();
@@ -88,7 +87,7 @@ function bindEvents() {
         );
     };
 
-    ws.onmessage = async(event) => {
+    ws.onmessage = async (event) => {
         const wsdata = JSON.parse(event.data);
 
         if (wsdata.status == "ok" || wsdata.event.source == null) {
@@ -102,7 +101,7 @@ function bindEvents() {
             setupGame();
         }
 
-        // Reveal Pokemon 
+        // Reveal Pokemon after poll is completed 
         if (poll && wsdata.event.source === "Twitch" && wsdata.event.type === "PollCompleted") {
             pollChoice = wsdata.data.winningChoice.title;
             choiceVotes = wsdata.data.winningChoice.total_voters;
@@ -119,6 +118,8 @@ function bindEvents() {
 
             poll = false;
         }
+
+
         // Twitch
         if (currentPokemon) {
             switch (settings.mode) {
@@ -152,7 +153,7 @@ function bindEvents() {
     }
 };
 
-ws.onclose = function() {
+ws.onclose = function () {
     setTimeout(connectws, 10000);
 };
 
@@ -198,19 +199,26 @@ function setupGame() {
         }
     }
 
-    // Gamemode Auto
-    // Will reveal the pokemon after a set time and restart the game
-    if (settings.mode == "auto") {
-        setTimeout(() => {
-            revealPokemon(currentPokemon.names[settings.language].name);
-            setTimeout(() => {
-                setupGame();
-            }, settings.auto.revealAfter);
-        }, settings.auto.hideAfter);
-    }
     if (settings.mode == "poll") {
         poll = true;
+    } else {
+
+        // Will reveal the pokemon after a set time
+        autoreveal = setTimeout(() => {
+            revealPokemon(currentPokemon.names[settings.language].name);
+
+            // Restart the game if gamemode is auto
+            if (settings.mode == 'auto') {
+                setTimeout(() => {
+                    setupGame();
+                }, settings.animations.hideAfter);
+            }
+
+        }, settings.animations.revealAfter);
     }
+
+    // Auto revealPokemon 
+
 }
 
 /**
@@ -248,7 +256,7 @@ function setChoices() {
         }
     }
     choices[3] = currentPokemon.names[settings.language].name;
-    setTimeout(function() {
+    setTimeout(function () {
 
         shuffle(choices).then((data) => {
             for (let index = 0; index < data.length; index++) {
@@ -294,10 +302,10 @@ function setPokemon(pokedexID) {
 function checkAnswer(username, answer) {
 
     if (currentPokemon.names.find((language) => {
-            return (
-                language.name.toLowerCase() === answer.toLowerCase().replace("♀", "").replace("♂", "")
-            );
-        })) {
+        return (
+            language.name.toLowerCase() === answer.toLowerCase().replace("♀", "").replace("♂", "")
+        );
+    })) {
         settings.end.play();
 
         $("#pokemon").addClass("show " + settings.animations.revealPokemon);
@@ -311,6 +319,9 @@ function checkAnswer(username, answer) {
  * Enable Voting command
  */
 function endGame(user) {
+
+    clearTimeout(autoreveal);
+
     ws.send(
         JSON.stringify({
             request: "DoAction",
@@ -325,7 +336,7 @@ function endGame(user) {
         })
     );
 
-    setTimeout(function() {
+    setTimeout(function () {
         $("#pokemon").removeClass("show");
         $("#pokemon").removeClass(settings.animations.revealPokemon);
         $("#pokemon").attr(
@@ -333,7 +344,7 @@ function endGame(user) {
             ``
         );
         $("#choices").removeClass(settings.animations.revealChoices);
-    }, settings.direct.hideAfter);
+    }, settings.animation.hideAfter);
 
 }
 

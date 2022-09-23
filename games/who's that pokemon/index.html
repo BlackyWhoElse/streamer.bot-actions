@@ -20,6 +20,7 @@
             // The URL to your streamer.bot ws server
             websocketURL: "ws://localhost:8080/",
             // Switch between diffrent gamemodes direct,poll,auto
+            // The mode poll only works on Twitch
             mode: "direct",
             // Show 4 choices on screen so it's easier to guess correctly (Recommended false if mode is auto)
             showChoices: true,
@@ -37,7 +38,7 @@
                 11 : zu-Hans
                 12 : pt-BR
               */
-            language: 8,
+            language: 5,
             pokemon: {
                 // Select pokemons form pokeid X
                 from: 1,
@@ -49,20 +50,17 @@
                 revealChoices: "animate__fadeIn",
                 // Reveal animation for pokemon
                 revealPokemon: "animate__tada",
-            },
-            direct: {
-                hideAfter: 10000,
-            },
-            auto: {
+
                 // How long the pokemon will be hidden
-                revealAfter: 5000,
+                revealAfter: 15000,
                 // How long the pokemon will be revealed 
                 hideAfter: 10000,
+
             },
             // Poll related settings
             poll: {
                 // How long for the users to vote
-                voteTime: 30000,
+                voteTime: 60000,
             },
             // Audio clip playing on game start
             intro: new Audio("assets/whos-that-pokemon.mp3"),
