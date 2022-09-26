@@ -101,11 +101,11 @@ body {
     padding: 0 0 0 15px;
 }
 
-.broadcaster.msg, .moderators.msg {
+.broadcaster.msg, .moderator.msg {
     flex-direction: row-reverse;
 }
 
-.broadcaster .message, .moderators .message {
+.broadcaster .message, .moderator .message {
     /* Broadcasters,Moderators will be displayed on the right*/
     background-color: var(--message-background-color);
     color: var(--font-color);
@@ -113,7 +113,7 @@ body {
     color: #fff;
 }
 
-.broadcaster .message::after, .moderators .message::after {
+.broadcaster .message::after, .moderator .message::after {
     background-color: #191b1b;
     border: 1px solid #6f777d;
     position: absolute;
@@ -125,7 +125,7 @@ body {
     border-left: 0;
 }
 
-.broadcaster .message .time, .moderators .message .time {
+.broadcaster .message .time, .moderator .message .time {
     padding: 0 0 0 15px;
 }
 
@@ -141,7 +141,7 @@ body {
     color: #ff0000;
 }
 
-.moderators .name {
+.moderator .name {
     color: #1CB96A;
 }
 
