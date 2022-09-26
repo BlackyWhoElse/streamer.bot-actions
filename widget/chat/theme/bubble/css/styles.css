@@ -16,6 +16,8 @@
     --font-family: 'Roboto', sans-serif;
 
     --spacing-right: 25px;
+    --animate-duration: .3s;
+    --animate-delay: 0;
 }
 
 body {
@@ -41,7 +43,7 @@ body {
     background-color: var(--message-background-color);
     margin-bottom: var(--message-gap-bottom);
     flex-direction: var(--chat-align);
-    border-radius: 50px;
+    border-radius: var(--avatar-size);
     justify-content: left;
     align-items: center;
     width: fit-content;

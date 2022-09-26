@@ -13,6 +13,8 @@
     --font-family: 'Roboto', sans-serif;
     --time-size: 12px;
     --time-align: right;
+    --animate-duration: .3s;
+    --animate-delay: 0;
 }
 
 

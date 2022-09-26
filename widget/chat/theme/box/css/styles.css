@@ -5,6 +5,8 @@
     --font-size: 16px;
     --font-color: #fff;
     --font-family: 'Roboto', sans-serif;
+    --animate-duration: .3s;
+    --animate-delay: 0;
 }
 
 body {
