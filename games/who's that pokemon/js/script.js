@@ -97,7 +97,7 @@ function bindEvents() {
         console.debug(wsdata);
 
 
-        if (wsdata.data.name == "WTP - Start Game" && settings.mode != "poll" && !voting) {
+        if (wsdata.data.name == "WTP - Start Game" && !voting) {
             setupGame();
         }
 
@@ -344,8 +344,9 @@ function endGame(user) {
             ``
         );
         $("#choices").removeClass(settings.animations.revealChoices);
-    }, settings.animation.hideAfter);
+    }, settings.animations.hideAfter);
 
+    currentPokemon = null;
 }
 
 
@@ -370,6 +371,17 @@ function revealPokemon(PokemonName) {
             id: "WhosThatPokemonReveal",
         })
     );
+
+    setTimeout(function () {
+        $("#pokemon").removeClass("show");
+        $("#pokemon").removeClass(settings.animations.revealPokemon);
+        $("#pokemon").attr(
+            "src",
+            ``
+        );
+        $("#choices").removeClass(settings.animations.revealChoices);
+    }, settings.animations.hideAfter);
+
 }
 
 

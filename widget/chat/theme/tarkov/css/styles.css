@@ -91,7 +91,7 @@ body {
 }
 
 .name {
-    color: var(--userColor);
+    color: #fff;
     font-weight: bold;
 }
 
@@ -129,9 +129,22 @@ body {
     padding: 0 0 0 15px;
 }
 
-.subcriber {
-    /* Subs will get the eod crown */
+
+.subcriber .name {
+    color: #FFD700;
 }
+
+.vip .name {
+    color: #ff0000;
+}
+.broadcaster .name {
+    color: #ff0000;
+}
+
+.moderators .name {
+    color: #1CB96A;
+}
+
 
 .reply {}
 
