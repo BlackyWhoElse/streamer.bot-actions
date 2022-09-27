@@ -10,6 +10,8 @@ Download the latest [release](https://github.com/BlackyWhoElse/streamer.bot-acti
 ## 📋 Support
 As this repo is getting more and more attention it has become nessesary that all feature request and bug reports be added to the issues of this repo. Feel free to add issues yourself. Note: Yes I will consider makeing themes for widgets but they will be added as default themes to the collection.
 
+### Check out the [Project Board](https://github.com/users/BlackyWhoElse/projects/1/views/1) to see all the issues i'm working on.
+
 ## 📝 Content
 Check out the [Wiki](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki) for a complete overview and a far more indepts description of each Widget/Action
 
