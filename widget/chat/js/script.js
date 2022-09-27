@@ -14,6 +14,7 @@ var settings = {
     blacklist: {
         user: [],
         words: [],
+        commands: false,
     },
     animations: {
         animation: true,
@@ -119,6 +120,18 @@ function bindEvents() {
             console.debug(wsdata.data);
         }
 
+
+        /* Blacklist */
+        // User
+        if (settings.blacklist.user.includes(message.displayName)) {
+            return;
+        }
+        // Commands
+        if (settings.blacklist.commands == true && message.message.charAt(0) == "!") {
+            return;
+        }
+
+
         switch (wsdata.event.source) {
             case "Twitch":
                 switch (wsdata.event.type) {
@@ -162,10 +175,6 @@ function bindEvents() {
  * @param {object} message
  */
 async function add_message(message) {
-    // Blacklist Filter
-    if (settings.blacklist.user.includes(message.displayName)) {
-        return;
-    }
 
     // Adding time variable
     var today = new Date();
@@ -211,11 +220,6 @@ async function add_message(message) {
  */
 async function add_YTmessage(message) {
     message.eventId = message.eventId.replace(".", "");
-
-    // Blacklist Filter
-    if (settings.blacklist.user.includes(message.user.name)) {
-        return;
-    }
 
     // Adding time variable
     var today = new Date();
@@ -310,10 +314,10 @@ function renderMessage(platform, message = {}) {
         case "Reward":
 
             message.msgId = message.id;
-            
+
             var tpl = template_twitch;
 
-        break;
+            break;
 
 
         default:
