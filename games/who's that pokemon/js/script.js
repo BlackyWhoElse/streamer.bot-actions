@@ -78,7 +78,7 @@ function bindEvents() {
                 request: "Subscribe",
                 id: "obs-chat",
                 events: {
-                    raw: ["Action"],
+                    raw: ["Action","SubAction"],
                     general: ["Custom"],
                     Twitch: ["ChatMessage", "PollCompleted"],
                     YouTube: ["Message"],
@@ -97,7 +97,7 @@ function bindEvents() {
         console.debug(wsdata);
 
 
-        if (wsdata.data.name == "WTP - Start Game" && !voting) {
+        if (wsdata.data.name == "WTP - Start Game" || wsdata.data.name == "Action (WTP - Start Game)" && !voting) {
             setupGame();
         }
 
