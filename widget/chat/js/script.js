@@ -313,8 +313,10 @@ function renderMessage(platform, message = {}) {
 
     // Blacklist word filter
     if (settings.blacklist.words) {
+        console.debug("Checking Message")
         settings.blacklist.words.forEach((word) => {
-            message.message = message.message.replace(word, "****");
+            regEx = new RegExp(word, "ig")
+            message.message = message.message.replace(regEx, "****");
         });
     }
 
@@ -410,6 +412,7 @@ async function getProfileImage(username) {
             return avatar;
         });
 }
+
 // Command Code
 function ClearChat() {
     $("#chat").html("");
@@ -472,6 +475,7 @@ function debugMessages() {
     add_message(message);
   }, 4000);
 }
+
 function makeid(length) {
     var result = "";
     var characters =
