@@ -7,6 +7,9 @@
 ## 📦 Usage
 Download the latest [release](https://github.com/BlackyWhoElse/streamer.bot-actions/releases) and add the index.html you need to your OBS. DONE (Easy right?)
 
+If you want to have the newest and not released stuff you can download it [here](https://github.com/BlackyWhoElse/streamer.bot-actions/archive/refs/heads/main.zip)
+> Note: This is basicly my dev playground. Thinks can break and if they do please send me a message.
+
 ## 📋 Support
 As this repo is getting more and more attention it has become nessesary that all feature request and bug reports be added to the issues of this repo. Feel free to add issues yourself. Note: Yes I will consider makeing themes for widgets but they will be added as default themes to the collection.
 
