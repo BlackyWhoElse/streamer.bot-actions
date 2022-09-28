@@ -71,7 +71,7 @@ function loadTemplates() {
 
                 template_twitch = document.querySelector("#message_twitch");
                 template_youtube = document.querySelector("#message_youtube");
-                template_reward = document.querySelector("#message_youtube");
+                template_reward = document.querySelector("#reward");
             }
         }
     );
