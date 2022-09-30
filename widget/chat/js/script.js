@@ -271,6 +271,7 @@ async function add_YTmessage(message) {
  * "enabled": true,
  * "paused": false,
  * "subOnly": false
+ * "userInput": "<message>"
  * */
 async function add_reward(reward) {
 
@@ -280,9 +281,13 @@ async function add_reward(reward) {
         today.getHours() + ":" + String(today.getMinutes()).padStart(2, "0");
 
     reward.msgId = reward.id;
+    // Adding userInput if not defined
+    if (!message.userInput) {
+        message.userInput = "";
+    }
 
     // Adding default classes
-    reward.classes = ["msg"];
+    reward.classes = ["msg","reward"];
 
     const msg = new Promise((resolve, reject) => {
 

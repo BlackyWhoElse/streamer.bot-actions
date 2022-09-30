@@ -6,6 +6,7 @@
     --message-padding: 16px;
     --message-gap-bottom: 16px;
     --message-background-color: #18181b;
+    --rewardColor: purple;
     --badge-size: 15px;
     --badge-spacing: 2px;
     --emote-size: 16px;
@@ -17,6 +18,7 @@
     --time-align: right;
     --animate-duration: .3s;
     --animate-delay: 0;
+    
 }
 
 body {
@@ -48,7 +50,7 @@ body {
 }
 
 .avatar {
-    margin: 0 var(--avatar-gap);
+    margin-right: var(--avatar-gap);
 }
 
 .badges img {
@@ -86,9 +88,12 @@ body {
 
 .subcriber {}
 
-.reply {}
+.reply {
+}
 
-.reward {}
+.reward {
+    border-left: 5px solid var(--rewardColor);
+}
 
 .highlight {}
 
