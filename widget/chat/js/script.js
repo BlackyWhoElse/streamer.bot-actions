@@ -58,7 +58,7 @@ function loadTemplates() {
     //  Loading message templates
     $("#templates").load(
         `theme/${settings.template}/template.html`,
-        function(response, status, xhr) {
+        function (response, status, xhr) {
             if (status == "error") {
                 var msg = "Sorry but there was an error: ";
                 console.error(msg + xhr.status + " " + xhr.statusText);
@@ -93,14 +93,14 @@ function bindEvents() {
                 id: "obs-chat",
                 events: {
                     general: ["Custom"],
-                    Twitch: ["ChatMessage", "ChatMessageDeleted", "RewardRedemtion"],
+                    Twitch: ["ChatMessage", "ChatMessageDeleted", "RewardRedemption"],
                     YouTube: ["Message", "MessageDeleted", "SuperChat"],
                 },
             })
         );
     };
 
-    ws.onmessage = async(event) => {
+    ws.onmessage = async (event) => {
         const wsdata = JSON.parse(event.data);
 
         if (wsdata.status == "ok" || wsdata.event.source == null) {
@@ -137,10 +137,13 @@ function bindEvents() {
             case "Twitch":
                 switch (wsdata.event.type) {
                     case "ChatMessage":
-                        add_message(wsdata.data.message);
+                        add_message(message.message);
                         break;
                     case "ChatMessageDeleted":
-                        hideMessage(wsdata.data.targetMessageId);
+                        hideMessage(message.targetMessageId);
+                        break;
+                    case "RewardRedemption":
+                        add_reward(message);
                         break;
                     default:
                         break;
@@ -166,7 +169,7 @@ function bindEvents() {
         }
     };
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         setTimeout(connectws, 10000);
     };
 }
@@ -186,15 +189,15 @@ async function add_message(message) {
     message.classes = ["msg"];
 
     const msg = new Promise((resolve, reject) => {
-            // Note: This is to prevent a streamer.bot message to not disappear.
-            // - This could be a bug and will maybe be removed on a later date.
-            if (message.msgId == undefined) {
-                console.debug("Message has no ID");
-                message.msgId = makeid(6);
-            }
+        // Note: This is to prevent a streamer.bot message to not disappear.
+        // - This could be a bug and will maybe be removed on a later date.
+        if (message.msgId == undefined) {
+            console.debug("Message has no ID");
+            message.msgId = makeid(6);
+        }
 
-            resolve(getProfileImage(message.username));
-        })
+        resolve(getProfileImage(message.username));
+    })
         .then((avatar) => {
             message.avatar = avatar;
             return renderBadges(message);
@@ -210,7 +213,7 @@ async function add_message(message) {
                 hideMessage(message.msgId);
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error(error);
         });
 }
@@ -231,8 +234,8 @@ async function add_YTmessage(message) {
     message.classes = ["msg"];
 
     const msg = new Promise((resolve, reject) => {
-            resolve(message.user.profileImageUrl);
-        })
+        resolve(message.user.profileImageUrl);
+    })
         .then((avatar) => {
             message.avatar = avatar;
             return renderYTEmotes(message);
@@ -245,9 +248,58 @@ async function add_YTmessage(message) {
                 hideMessage(message.eventId);
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error(error);
         });
+}
+
+/**
+ * Adding content to message and then render it on screen
+ * @param {object} reward
+ * "id": "9d0911db-7884-4e0f-8cf4-c95c5765c2e5",
+ * "dateTime": "2022-01-31T03:10:23.3611616Z",
+ * "userId": 0000000000,
+ * "userName": "<user name of redeemer>",
+ * "displayName": "<display name of redeemer>",
+ * "channelId": 0000000, 
+ * "cost": 42,
+ * "rewardId": "41f257e9-9688-4944-9bf6-28cda1c3fa1f",
+ * "title": "Test Reward",
+ * "prompt": "",
+ * "inputRequired": false,
+ * "backgroundColor": "#63D0A9",
+ * "enabled": true,
+ * "paused": false,
+ * "subOnly": false
+ * */
+async function add_reward(reward) {
+
+    // Adding time variable
+    var today = new Date();
+    reward.time =
+        today.getHours() + ":" + String(today.getMinutes()).padStart(2, "0");
+
+    reward.msgId = reward.id;
+
+    // Adding default classes
+    reward.classes = ["msg"];
+
+    const msg = new Promise((resolve, reject) => {
+
+        if (reward.userInput) {
+            resolve(renderEmotes(reward));
+        }
+        resolve(reward);
+
+    }).then((msg) => {
+        $("#chat").append(renderMessage("Reward", msg));
+
+        if (settings.animations.hidedelay > 0) {
+            hideMessage(reward.msgId);
+        }
+    }).catch(function (error) {
+        console.error(error);
+    });
 }
 
 /**
@@ -313,10 +365,7 @@ function renderMessage(platform, message = {}) {
             break;
 
         case "Reward":
-
-            message.msgId = message.id;
-
-            var tpl = template_twitch;
+            var tpl = template_reward;
 
             break;
 
@@ -334,7 +383,7 @@ function renderMessage(platform, message = {}) {
     }
 
     // Blacklist word filter
-    if (settings.blacklist.words) {
+    if (settings.blacklist.words && platform != "Reward") {
         settings.blacklist.words.forEach((word) => {
             regEx = new RegExp(word, "ig")
             message.message = message.message.replace(regEx, "****");
@@ -355,14 +404,14 @@ function hideMessage(msgId) {
     console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
 
     const msg = new Promise((resolve, reject) => {
-        delay(settings.animations.hidedelay).then(function() {
+        delay(settings.animations.hidedelay).then(function () {
             $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
-            $("#" + msgId).bind("animationend", function() {
+            $("#" + msgId).bind("animationend", function () {
                 $("#" + msgId).remove();
             });
             resolve();
         });
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.error(error);
     });
 }
@@ -441,7 +490,7 @@ function ClearChat() {
 
 // Helper Code
 function delay(t, v) {
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
         setTimeout(resolve.bind(null, v), t);
     });
 }
@@ -459,13 +508,13 @@ function debugMessages() {
             avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/a88dd690-f653-435e-ae3f-cd312ee5b736-profile_image-300x300.png",
             bits: 0,
             badges: [{
-                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
-                    name: "broadcaster",
-                },
-                {
-                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
-                    name: "subscriber",
-                },
+                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
+                name: "broadcaster",
+            },
+            {
+                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
+                name: "subscriber",
+            },
             ],
             emotes: [],
             channel: "blackywersonst",
