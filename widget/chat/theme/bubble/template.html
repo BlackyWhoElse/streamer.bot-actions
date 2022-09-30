@@ -19,9 +19,19 @@
       <img src="{{avatar}}" />
     </div>
     <div class="message">
+      <div class="content"><span class="name">@{{displayName}} </span> {{message}}</div>
+    </div>
+    <div class="time">{{time}}</div>
+  </li>
+</template>
+
+<template id="reward">
+  <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
+    <div class="message">
       <span class="name">{{displayName}}</span>
-      <div class="content">{{message}}</div>
-      <div class="time">{{time}}</div>
+      redeemed
+      <span class="content">{{title}}</span>
+      <div class="userInput">{{userInput}}</div>
     </div>
   </li>
 </template>

@@ -14,17 +14,6 @@
   </li>
 </template>
 
-<template id="reward">
-  <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
-    <div class="message">
-      <span class="name">{{displayName}}</span>
-      redeemed
-      <span class="content">{{title}}</span>
-      <div class="userInput">{{userInput}}</div>
-    </div>
-  </li>
-</template>
-
 <template id="message_youtube">
   <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
     <div class="avatar">
@@ -34,6 +23,18 @@
       <span class="name">{{displayName}}</span>
       <div class="content">{{message}}</div>
       <div class="time">{{time}}</div>
+    </div>
+  </li>
+</template>
+
+
+<template id="reward">
+  <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
+    <div class="message">
+      <span class="name">{{displayName}}</span>
+      redeemed
+      <span class="content">{{title}}</span>
+      <div class="userInput">{{userInput}}</div>
     </div>
   </li>
 </template>
