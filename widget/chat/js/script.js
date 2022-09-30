@@ -143,7 +143,9 @@ function bindEvents() {
                         hideMessage(message.targetMessageId);
                         break;
                     case "RewardRedemption":
-                        add_reward(message);
+                        if (template_reward) {
+                            add_reward(message);
+                        }
                         break;
                     default:
                         break;
@@ -284,7 +286,7 @@ async function add_reward(reward) {
     // Adding userInput if not defined
     if (!message.userInput) {
         message.message = "";
-    } else{
+    } else {
         message.message = message.userInput;
     }
 
@@ -293,7 +295,7 @@ async function add_reward(reward) {
 
     const msg = new Promise((resolve, reject) => {
 
-        
+
         if (reward.userInput) {
             //resolve(renderEmotes(reward));
         }
