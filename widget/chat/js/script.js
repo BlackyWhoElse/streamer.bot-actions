@@ -283,16 +283,19 @@ async function add_reward(reward) {
     reward.msgId = reward.id;
     // Adding userInput if not defined
     if (!message.userInput) {
-        message.userInput = "";
+        message.message = "";
+    } else{
+        message.message = message.userInput;
     }
 
     // Adding default classes
-    reward.classes = ["msg","reward"];
+    reward.classes = ["msg", "reward"];
 
     const msg = new Promise((resolve, reject) => {
 
+        
         if (reward.userInput) {
-            resolve(renderEmotes(reward));
+            //resolve(renderEmotes(reward));
         }
         resolve(reward);
 
@@ -370,6 +373,7 @@ function renderMessage(platform, message = {}) {
             break;
 
         case "Reward":
+
             var tpl = template_reward;
 
             break;
@@ -438,7 +442,9 @@ async function renderBadges(message) {
 
 /**
  * Swaping Emote names for emote images
- * @param {object} message
+ * Todo: Add a new way to get image url if its unknown
+ * https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_5313d0941014484f9995197017132c33/static/light/3.0
+ * @param {object} message 
  * @returns
  */
 async function renderEmotes(message) {
