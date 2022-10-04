@@ -291,7 +291,7 @@ async function add_reward(reward) {
     }
 
     // Adding default classes
-    reward.classes = ["msg", "reward"];
+    reward.classes = ["reward"];
 
     const msg = new Promise((resolve, reject) => {
 

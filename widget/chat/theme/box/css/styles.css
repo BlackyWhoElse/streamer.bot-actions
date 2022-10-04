@@ -35,19 +35,25 @@ body {
     display: inline-block;
 }
 
-.msg {
+#chat li {
     bottom: 0;
     right: 0;
     padding: 4px 4px;
 }
 
-#chat .msg:nth-child(even) {
+#chat li:nth-child(even) {
     background-color: #0d1117;
 }
 
-#chat .msg:nth-child(odd) {
+#chat li:nth-child(odd) {
     background-color: #161b22;
 }
+
+
+.reward {
+    border-left: 5px solid var(--rewardColor);
+}
+
 
 .message {
     color: var(--font-color);
@@ -85,8 +91,6 @@ body {
 .subcriber {}
 
 .reply {}
-
-.reward {}
 
 .highlight {}
 

@@ -8,8 +8,8 @@
         {{displayName}}
       </div>
       <div class="content">
-      <div class="string">{{message}}</div>
-      <div class="time">{{time}}</div>
+        <div class="string">{{message}}</div>
+        <div class="time">{{time}}</div>
       </div>
     </div>
   </li>
@@ -22,8 +22,8 @@
         {{displayName}}
       </div>
       <div class="content">
-      <div class="string">{{message}}</div>
-      <div class="time">{{time}}</div>
+        <div class="string">{{message}}</div>
+        <div class="time">{{time}}</div>
       </div>
     </div>
   </li>
@@ -32,10 +32,11 @@
 <template id="reward">
   <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
     <div class="message">
-      <span class="name">{{displayName}}</span>
-      redeemed
-      <span class="content">{{title}}</span>
-      <div class="userInput">{{userInput}}</div>
+      <div class="name">{{displayName}}</div>
+      <div class="content">
+        redeemed {{title}}
+        <span class="string">{{userInput}}</span>
+      </div>
     </div>
   </li>
 </template>

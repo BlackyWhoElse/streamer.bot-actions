@@ -38,7 +38,7 @@ body {
     padding: 0;
 }
 
-.msg {
+#chat li {
     display: flex;
     background-color: var(--message-background-color);
     margin-bottom: var(--message-gap-bottom);
@@ -49,8 +49,13 @@ body {
     width: fit-content;
 }
 
+
+.reward {
+    padding-left: var(--spacing-right);
+}
+
 .avatar img {
-    width: calc(var(--avatar-size));
+    width: var(--avatar-size);
     border-radius: 50px;
 }
 
@@ -108,8 +113,6 @@ body {
 .broadcaster {}
 
 .reply {}
-
-.reward {}
 
 .highlight {}
 

@@ -39,7 +39,7 @@ body {
     height: fit-content;
 }
 
-.msg {
+#chat li {
     display: flex;
     background-color: var(--message-background-color);
     margin-bottom: var(--message-gap-bottom);
@@ -50,6 +50,10 @@ body {
     width: fit-content;
     margin-right: 15px;
     height: 50px;
+}
+
+.reward {
+    padding-left: var(--spacing-right);
 }
 
 .avatar img {

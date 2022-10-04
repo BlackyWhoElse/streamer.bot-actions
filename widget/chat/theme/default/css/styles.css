@@ -18,7 +18,7 @@
     --time-align: right;
     --animate-duration: .3s;
     --animate-delay: 0;
-    
+
 }
 
 body {
@@ -39,11 +39,20 @@ body {
     padding: 0;
 }
 
-.msg {
+#chat li {
     display: flex;
     margin-bottom: var(--message-gap-bottom);
     flex-direction: var(--chat-align);
 }
+
+.msg {
+
+}
+
+.reward {
+    border-left: 5px solid var(--rewardColor);
+}
+
 
 .avatar img {
     width: var(--avatar-size);
@@ -88,12 +97,7 @@ body {
 
 .subcriber {}
 
-.reply {
-}
-
-.reward {
-    border-left: 5px solid var(--rewardColor);
-}
+.reply {}
 
 .highlight {}
 

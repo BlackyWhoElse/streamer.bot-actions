@@ -52,6 +52,7 @@ body {
     font-size: var(--font-size);
     overflow-wrap: anywhere;
     position: relative;
+    width: fit-content;
 }
 
 .message div {
