@@ -89,7 +89,7 @@ body {
     text-overflow: ellipsis;
     max-height: 2em;
     overflow: hidden;
-    line-height: 1em;
+    max-width: 150ch;
 }
 
 .message .emote {
