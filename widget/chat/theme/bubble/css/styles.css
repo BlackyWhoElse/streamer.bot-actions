@@ -10,11 +10,9 @@
     --emote-size: 16px;
     --emote-only-size: 32px;
     --time-size: 12px;
-
     --font-color: #fff;
     --font-size: 16px;
     --font-family: 'Roboto', sans-serif;
-
     --spacing-right: 25px;
     --animate-duration: .3s;
     --animate-delay: 0;
@@ -49,7 +47,6 @@ body {
     width: fit-content;
 }
 
-
 .reward {
     padding-left: var(--spacing-right);
 }
@@ -78,13 +75,16 @@ body {
     color: var(--font-color);
     font-size: var(--font-size);
     overflow-wrap: anywhere;
-    padding: 15px 0;
 }
 
 .content {
     display: inline-block;
     padding-right: var(--spacing-right);
     text-shadow: 1px 1px black;
+    text-overflow: ellipsis;
+    max-height: 2em;
+    overflow: hidden;
+    line-height: 1em;
 }
 
 .message .emote {

@@ -15,7 +15,7 @@
     --emote-only-size: 32px;
     --time-size: 12px;
     --font-color: #fff;
-    --font-size: 16px;
+    --font-size: 1em;
     --font-family: 'Roboto', sans-serif;
     --spacing-right: 25px;
 }
@@ -86,6 +86,10 @@ body {
     display: inline-block;
     padding-right: var(--spacing-right);
     text-shadow: 1px 1px black;
+    text-overflow: ellipsis;
+    max-height: 2em;
+    overflow: hidden;
+    line-height: 1em;
 }
 
 .message .emote {
