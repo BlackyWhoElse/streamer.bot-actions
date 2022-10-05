@@ -169,51 +169,205 @@ Here is a list of themes that can be used out of the box. You can use the defaul
 
 
 ### box
-![box](https://user-images.githubusercontent.com/2930941/191259798-356b5226-71c2-4616-bc49-2812fbbe714d.png)
 | Variable      | Example |
 |---------------|---------|
 | hideAnimation | ""      |
 | showAnimation | ""      |
+
+**CSS Variables**
+```css
+:root {
+    --message-background-color: transparent;
+    --badge-spacing: 2px;
+    --emote-spacing: 2px;
+    --font-size: 16px;
+    --font-color: #fff;
+    --font-family: 'Roboto', sans-serif;
+    --animate-duration: .3s;
+    --animate-delay: 0;
+}
+```
+
 ### bubble
-![bubble](https://user-images.githubusercontent.com/2930941/191262885-b3932064-cb7a-4b51-9bb9-1adb2d8015ac.png)
 | Variable      | Example         |
 |---------------|-----------------|
 | hideAnimation | "bounceOutLeft" |
 | showAnimation | "bounceInLeft"  |
+**CSS Variables**
+```css
+:root {
+    /** Left: row Right: row-reverse */
+    --chat-align: row;
+    --avatar-size: 50px;
+    --avatar-gap: 16px;
+    --message-gap-bottom: 16px;
+    --message-background-color: #18181b;
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
+    --emote-only-size: 32px;
+    --time-size: 12px;
+    --font-color: #fff;
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+    --spacing-right: 25px;
+    --animate-duration: .3s;
+    --animate-delay: 0;
+}
+```
+
 ### bubble_ticker
-![bubble_ticker](https://user-images.githubusercontent.com/2930941/191260572-95c4dbd4-1fff-417f-beb4-15357cb893e7.png)
 | Variable      | Example         |
 |---------------|-----------------|
 | hideAnimation | "bounceOutLeft" |
 | showAnimation | "bounceInRight" |
+
+**CSS Variables**
+```css
+:root {
+    /** Left: row Right: row-reverse */
+    --chat-align: row;
+    --avatar-size: 50px;
+    --avatar-gap: 16px;
+    --message-gap-bottom: 16px;
+    --message-background-color: #18181b;
+    --broadcaster-background-color: #18181b;
+    --subscriber-background-color: #18181b;
+    --moderator-background-color: #18181b;
+    --highlight-background-color: #18181b;
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
+    --emote-only-size: 32px;
+    --time-size: 12px;
+    --font-color: #fff;
+    --font-size: 1em;
+    --font-family: 'Roboto', sans-serif;
+    --spacing-right: 25px;
+}
+```
 ### clean
-![clean](https://user-images.githubusercontent.com/2930941/191260952-94a11dae-b3b8-487a-8909-2442d3415061.png)
 | Variable      | Example |
 |---------------|---------|
 | hideAnimation | ""      |
 | showAnimation | ""      |
+
+**CSS Variables**
+```css
+:root {
+    --message-background-color: transparent;
+    --badge-spacing: 2px;
+    --emote-spacing: 2px;
+    --font-size: 16px;
+    --font-color: #fff;
+    --font-family: 'Roboto', sans-serif;
+    --animate-duration: .3s;
+    --animate-delay: 0;
+}
+
+```
 ### crossing
-![crossing](https://user-images.githubusercontent.com/2930941/191261105-ef3267d9-5a6e-4ae9-bc5e-f7036b513277.png)
 | Variable      | Example   |
 |---------------|-----------|
 | hideAnimation | "fadeOut" |
 | showAnimation | "fadeIn"  |
+
+**CSS Variables**
+```css
+:root {
+    /** Left: row Right: row-reverse */
+    --chat-align: row;
+    --message-gap-bottom: 5px;
+    --name-background-color: #db559b;
+    --message-background-color: #fdfae2;
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
+    --emote-only-size: 32px;
+    --font-color: #3c3a2d;
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+    --time-size: 12px;
+    --time-align: right;
+    --animate-duration: .3s;
+    --animate-delay: 0;
+}
+```
 ### default
-![default](https://user-images.githubusercontent.com/2930941/191261269-a7a2e3b3-93d5-452a-92cf-c42b3c3efbc6.png)
 | Variable      | Example         |
 |---------------|-----------------|
 | hideAnimation | "fadeOut"       |
 | showAnimation | "bounceInRight" |
+
+**CSS Variables**
+```css
+:root {
+    /** Left: row Right: row-reverse */
+    --chat-align: row;
+    --avatar-size: 80px;
+    --avatar-gap: 16px;
+    --message-padding: 16px;
+    --message-gap-bottom: 16px;
+    --message-background-color: #18181b;
+    --rewardColor: purple;
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
+    --emote-only-size: 32px;
+    --font-color: #fff;
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+    --time-size: 12px;
+    --time-align: right;
+    --animate-duration: .3s;
+    --animate-delay: 0;
+
+}
+```
 ### tarkov
-![tarkov](https://user-images.githubusercontent.com/2930941/191259446-bfada9f3-fb70-4f4b-a6c5-555bc26d79a1.png)
 | Variable      | Example |
 |---------------|---------|
 | hideAnimation | ""      |
 | showAnimation | ""      |
+
+**CSS Variables**
+```css
+:root {
+    --avatar-size: 45px;
+    --avatar-gap: 15px 10px;
+    --message-gap-bottom: 10px;
+    --message-background-color: #191b1b;
+    --message-boarder-color: #c0cad0;
+    --badge-size: 15px;
+    --badge-spacing: 2px;
+    --emote-size: 16px;
+    --emote-only-size: 32px;
+    --font-color: #b5bec4;
+    --font-size: 16px;
+    --font-family: 'Roboto', sans-serif;
+    --time-size: 12px;
+    --time-align: right;
+    --animate-duration: .3s;
+    --animate-delay: 0;
+}
+```
 ### ticker
-![ticker](https://user-images.githubusercontent.com/2930941/191261678-2db9208d-a396-4734-b8ae-5e25ca5c6cf8.png)
 | Variable      | Example         |
 |---------------|-----------------|
 | hideAnimation | "bounceOutLeft" |
 | showAnimation | "bounceInRight" |
+
+**CSS Variables**
+```css
+:root {
+    --message-background-color: #18181b18;
+    --badge-spacing: 2px;
+    --emote-spacing: 2px;
+    --font-size: 16px;
+    --font-color: #fff;
+    --font-family: 'Roboto', sans-serif;
+    --animate-duration: .3s;
+    --animate-delay: 0;
+}
+```
 
