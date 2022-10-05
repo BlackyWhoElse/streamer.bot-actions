@@ -17,7 +17,6 @@
     --animate-delay: 0;
 }
 
-
 body {
     font-family: var(--font-family);
     margin: 0;
@@ -36,10 +35,17 @@ body {
     padding: 0;
 }
 
-.msg {
+#chat li {
     display: flex;
     margin-bottom: var(--message-gap-bottom);
-    flex-direction: row;
+}
+
+.msg {}
+
+.reward {
+    line-height: 2rem;
+    margin: 0 auto;
+    margin-bottom: 0px;
 }
 
 .badges {
@@ -77,6 +83,10 @@ body {
     border-right: 0;
 }
 
+.reward .message::after {
+    content: none;
+}
+
 .message .row {
     align-items: center;
     display: flex;
@@ -101,11 +111,19 @@ body {
     padding: 0 0 0 15px;
 }
 
-.broadcaster.msg, .moderator.msg {
+.prompt {
+    background-color: #814600;
+    padding: 15px;
+    color: #fff;
+}
+
+.broadcaster.msg,
+.moderator.msg {
     flex-direction: row-reverse;
 }
 
-.broadcaster .message, .moderator .message {
+.broadcaster .message,
+.moderator .message {
     /* Broadcasters,Moderators will be displayed on the right*/
     background-color: var(--message-background-color);
     color: var(--font-color);
@@ -113,7 +131,8 @@ body {
     color: #fff;
 }
 
-.broadcaster .message::after, .moderator .message::after {
+.broadcaster .message::after,
+.moderator .message::after {
     background-color: #191b1b;
     border: 1px solid #6f777d;
     position: absolute;
@@ -125,10 +144,10 @@ body {
     border-left: 0;
 }
 
-.broadcaster .message .time, .moderator .message .time {
+.broadcaster .message .time,
+.moderator .message .time {
     padding: 0 0 0 15px;
 }
-
 
 .subcriber .name {
     color: #FFD700;
@@ -137,6 +156,7 @@ body {
 .vip .name {
     color: #ff0000;
 }
+
 .broadcaster .name {
     color: #ff0000;
 }
@@ -145,10 +165,7 @@ body {
     color: #1CB96A;
 }
 
-
 .reply {}
-
-.reward {}
 
 .highlight {}
 
