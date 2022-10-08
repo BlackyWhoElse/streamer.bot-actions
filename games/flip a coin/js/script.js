@@ -2,7 +2,7 @@ var idle;
 
 var settings = {
     animationTime: 2,
-    returnToIdle: 100,
+    returnToIdle: 10,
 }
 
 
@@ -19,13 +19,12 @@ function flipCoin() {
 
     // Heads or tails    
     if (Math.floor(Math.random() * 2)) {
-        setTimeout(function () {
+        setTimeout(function() {
             $("#coin").css("animation", `spin-heads ${settings.animationTime}s ease-in-out forwards`);
         }, 100);
         outcome = "heads";
-    }
-    else {
-        setTimeout(function () {
+    } else {
+        setTimeout(function() {
             $("#coin").css("animation", `spin-tails ${settings.animationTime}s ease-in-out forwards`);
         }, 100);
         outcome = "tails";
@@ -33,7 +32,7 @@ function flipCoin() {
 
     // Go back to idle animation
     if (settings.returnToIdle > 0) {
-        idle = setTimeout(function () {
+        idle = setTimeout(function() {
             $("#coin").css("animation", "");
             $("#coin").addClass("idle");
         }, ((settings.returnToIdle + settings.animationTime) * 1000));
