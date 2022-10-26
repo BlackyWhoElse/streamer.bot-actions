@@ -74,7 +74,7 @@ function sendAnswerInChat(outcome) {
         JSON.stringify({
             request: "DoAction",
             action: {
-                id: sbSettings.actions.answer
+                name: "Announce Coin Flip"
             },
             id: "FlipACoinAnswer",
             args: {
