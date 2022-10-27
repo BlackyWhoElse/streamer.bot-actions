@@ -78,7 +78,7 @@ function bindEvents() {
                 request: "Subscribe",
                 id: "obs-chat",
                 events: {
-                    raw: ["Action","SubAction"],
+                    raw: ["Action", "SubAction"],
                     general: ["Custom"],
                     Twitch: ["ChatMessage", "PollCompleted"],
                     YouTube: ["Message"],
@@ -87,7 +87,7 @@ function bindEvents() {
         );
     };
 
-    ws.onmessage = async (event) => {
+    ws.onmessage = async(event) => {
         const wsdata = JSON.parse(event.data);
 
         if (wsdata.status == "ok" || wsdata.event.source == null) {
@@ -153,7 +153,7 @@ function bindEvents() {
     }
 };
 
-ws.onclose = function () {
+ws.onclose = function() {
     setTimeout(connectws, 10000);
 };
 
@@ -256,7 +256,7 @@ function setChoices() {
         }
     }
     choices[3] = currentPokemon.names[settings.language].name;
-    setTimeout(function () {
+    setTimeout(function() {
 
         shuffle(choices).then((data) => {
             for (let index = 0; index < data.length; index++) {
@@ -302,10 +302,10 @@ function setPokemon(pokedexID) {
 function checkAnswer(username, answer) {
 
     if (currentPokemon.names.find((language) => {
-        return (
-            language.name.toLowerCase() === answer.toLowerCase().replace("♀", "").replace("♂", "")
-        );
-    })) {
+            return (
+                language.name.toLowerCase() === answer.toLowerCase().replace("♀", "").replace("♂", "")
+            );
+        })) {
         settings.end.play();
 
         $("#pokemon").addClass("show " + settings.animations.revealPokemon);
@@ -336,7 +336,7 @@ function endGame(user) {
         })
     );
 
-    setTimeout(function () {
+    setTimeout(function() {
         $("#pokemon").removeClass("show");
         $("#pokemon").removeClass(settings.animations.revealPokemon);
         $("#pokemon").attr(
@@ -372,7 +372,7 @@ function revealPokemon(PokemonName) {
         })
     );
 
-    setTimeout(function () {
+    setTimeout(function() {
         $("#pokemon").removeClass("show");
         $("#pokemon").removeClass(settings.animations.revealPokemon);
         $("#pokemon").attr(
