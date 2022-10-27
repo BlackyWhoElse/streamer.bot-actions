@@ -78,7 +78,6 @@ function bindEvents() {
                 request: "Subscribe",
                 id: "obs-chat",
                 events: {
-                    raw: ["Action", "SubAction"],
                     general: ["Custom"],
                     Twitch: ["ChatMessage", "PollCompleted"],
                     YouTube: ["Message"],
@@ -94,11 +93,23 @@ function bindEvents() {
             return;
         }
 
-        console.debug(wsdata);
+        console.debug(wsdata.data);
 
 
-        if (wsdata.data.name == "WTP - Start Game" || wsdata.data.name == "Action (WTP - Start Game)" && !voting) {
+        if (wsdata.data.name == "Start Game" && !voting) {
+
+            settings.defaultMode = settings.mode;
+
+            // Checking if the game should run in another mode
+            if (wsdata.data.arguments.type != "" && wsdata.data.arguments.type == "direct" || wsdata.data.arguments.type == "poll" || wsdata.data.arguments.type == "auto") {
+                settings.mode = wsdata.data.arguments.type;
+            }
+
             setupGame();
+        }
+
+        if (wsdata.name == "Stop Game" && !voting) {
+            // Todo: Call to end the game
         }
 
         // Reveal Pokemon after poll is completed 
@@ -108,19 +119,22 @@ function bindEvents() {
 
             console.log("Chat voted: " + pollChoice + " Votes: " + choiceVotes);
 
-            if (pollChoice == currentPokemon.names[settings.language].name) {
+
+            // Todo: Check if 0 votes have been done
+            if (wsdata.data.votes.total != 0 && pollChoice == currentPokemon.names[settings.language].name) {
                 console.log("Chat was correct");
+                answer = true;
             } else {
                 console.log("Chat was incorrect");
+                answer = false;
             }
 
-            revealPokemon(currentPokemon.names[settings.language].name)
+            revealPokemon(currentPokemon.names[settings.language].name, answer)
 
             poll = false;
         }
 
-
-        // Twitch
+        // Twitch/Youtube Chat 
         if (currentPokemon) {
             switch (settings.mode) {
                 case "direct":
@@ -347,11 +361,12 @@ function endGame(user) {
     }, settings.animations.hideAfter);
 
     currentPokemon = null;
+    settings.mode = settings.defaultMode;
 }
 
 
 // Reveal the pokemon and send infoarmation to Streamer.Bot
-function revealPokemon(PokemonName) {
+function revealPokemon(PokemonName, answer) {
 
     poll = false;
 
@@ -367,6 +382,7 @@ function revealPokemon(PokemonName) {
             },
             args: {
                 pokemon: PokemonName,
+                chat: answer
             },
             id: "WhosThatPokemonReveal",
         })
@@ -381,6 +397,9 @@ function revealPokemon(PokemonName) {
         );
         $("#choices").removeClass(settings.animations.revealChoices);
     }, settings.animations.hideAfter);
+
+    currentPokemon = null;
+    settings.mode = settings.defaultMode;
 
 }
 
