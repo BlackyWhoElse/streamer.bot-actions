@@ -36,7 +36,7 @@ function bindEvents() {
         );
     };
 
-    ws.onmessage = async (event) => {
+    ws.onmessage = async(event) => {
 
         const wsdata = JSON.parse(event.data);
 
@@ -62,7 +62,7 @@ function bindEvents() {
 
             case "FlipCoinPoll":
                 // This will map results if an alias was requested
-                setTimeout(function () {
+                setTimeout(function() {
                     if (wsdata.data.arguments["tails"]) {
                         sendAnswerToPoll(wsdata.data.arguments[result]);
                     } else {
@@ -70,6 +70,18 @@ function bindEvents() {
                     }
                 }, sbSettings.pollTimer)
                 break;
+
+            case "FlipCoinPrediction":
+                // This will map results if an alias was requested
+                setTimeout(function() {
+                    if (wsdata.data.arguments["tails"]) {
+                        sendAnswerToPoll(wsdata.data.arguments[result]);
+                    } else {
+                        sendAnswerToPoll(result);
+                    }
+                }, sbSettings.pollTimer)
+                break;
+
             default:
                 console.debug(wsdata.data.name);
                 break;
@@ -77,7 +89,7 @@ function bindEvents() {
 
     }
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         setTimeout(connectws, 10000);
     };
 
@@ -101,6 +113,26 @@ function sendAnswerInChat(outcome) {
         })
     );
 }
+
+/**
+ * Will trigger an action that will complete an poll
+ * @param {string} outcome 
+ */
+function sendAnswerToPrediction(outcome) {
+    ws.send(
+        JSON.stringify({
+            request: "DoAction",
+            action: {
+                id: sbSettings.actions.answerPoll
+            },
+            id: "FlipACoinAnswerPoll",
+            args: {
+                choice: outcome,
+            },
+        })
+    );
+}
+
 /**
  * Will trigger an action that will complete an poll
  * @param {string} outcome 
