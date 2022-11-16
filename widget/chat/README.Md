@@ -188,7 +188,7 @@ Here is a list of themes that can be used out of the box. You can use the defaul
 }
 ```
 
-### bubble
+### bubble *based on [whitep4nth3r](https://www.twitch.tv/whitep4nth3r)*
 | Variable      | Example         |
 |---------------|-----------------|
 | hideAnimation | "bounceOutLeft" |
@@ -216,7 +216,7 @@ Here is a list of themes that can be used out of the box. You can use the defaul
 }
 ```
 
-### bubble_ticker
+### bubble_ticker *based on [whitep4nth3r](https://www.twitch.tv/whitep4nth3r)*
 | Variable      | Example         |
 |---------------|-----------------|
 | hideAnimation | "bounceOutLeft" |
