@@ -8,7 +8,6 @@
   https://www-cs-faculty.stanford.edu/~knuth/sgb-words.txt
 **/
 
-(function () {
     let targetWord;
     let targetWordList;
     let gameOver = false;
@@ -285,5 +284,3 @@
   
     // Start
     init();
-  })();
-  
