@@ -186,7 +186,7 @@ function submitGuess() {
         }
     } else {
         rowEl.dataset.state = "invalid";
-        setTimeout(function () {
+        setTimeout(function() {
             delete rowEl.dataset.state;
         }, 600);
     }
@@ -209,21 +209,21 @@ function clearCurrentGuess() {
 // In case of a win
 function win(rowEl) {
     gameOver = true;
-    setTimeout(function () {
+    setTimeout(function() {
         rowEl.dataset.state = "correct";
     }, 1000);
-    setTimeout(function () {
-        modal.classList.add("open");
-        modal.dataset.state = gameStates.WIN;
+    setTimeout(function() {
+        // Call Streamerbot function for win
+        endTheGame(currentGuesser, true);
     }, 1500);
 }
 
 // In case of a loss
 function lose() {
     gameOver = true;
-    setTimeout(function () {
-        modal.classList.add("open");
-        modal.dataset.state = gameStates.LOSE;
+    setTimeout(function() {
+        // Call Streamerbot function for lose    
+        endTheGame(currentGuesser, false);
     }, 1000);
 }
 
@@ -239,10 +239,6 @@ function reset() {
         tile.dataset.state = letterStates.INITIAL;
         delete tile.dataset.letter;
         tile.innerText = "";
-    }
-
-    for (let key of Array.from(keyboard.querySelectorAll(".key"))) {
-        key.dataset.state = letterStates.INITIAL;
     }
 
     setTargetWord();
