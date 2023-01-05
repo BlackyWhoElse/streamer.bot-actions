@@ -136,7 +136,6 @@ function saveList() {
     ws.send(JSON.stringify({
         "request": "DoAction",
         "action": {
-            "id": "a9dc14fb-6781-4599-a32f-021cb93d6a88",
             "name": "List Update"
         },
         "args": {
@@ -157,7 +156,6 @@ function printList() {
     ws.send(JSON.stringify({
         "request": "DoAction",
         "action": {
-            "id": "2fbc6f75-530f-442b-9052-3bda4942662e",
             "name": "List Message"
         },
         "args": {
