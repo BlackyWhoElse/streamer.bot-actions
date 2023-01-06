@@ -80,7 +80,7 @@ function handleGuess(word) {
 
     // Validate word
     if (word.length > 5) {
-        console.error('Word is to long');
+        console.error('Word is too long');
         return;
     }
 
@@ -189,6 +189,13 @@ function submitGuess() {
         setTimeout(function() {
             delete rowEl.dataset.state;
         }, 600);
+        
+        // This function waits for 2 seconds, then removes the invalid word letters one by one, 500ms a time.
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                removeLetter();
+            }, 2000 + i * 500);
+        }
     }
 }
 

@@ -1,6 +1,8 @@
 :root {
     --c-text: #d7dadc;
+    --c-text-flipped: #ffffff;
     --c-background: #121213;
+    --c-tile-background: rgba(255,255,255,1);
     --c-light: #ffffff;
     --c-letter-correct: #6aaa64;
     --c-letter-present: #c9b458;
@@ -85,6 +87,7 @@
   
   .tile {
     display: inline-block;
+    background-color: var(--c-tile-background);
     font-size: 2rem;
     line-height: 2rem;
     font-weight: bold;
@@ -254,6 +257,7 @@
   .row[data-state="correct"] .tile {
     animation: bounce 500ms forwards;
     background-color: var(--c-letter-correct);
+    color: var(--c-text-flipped);
   }
   
   .row[data-state="correct"] .tile:nth-child(2) {
@@ -382,64 +386,70 @@
   @keyframes flip-absent {
     0% {
       transform: rotateX(0deg);
-      background-color: transparent;
+      background-color: var(--c-tile-background);
       border: solid 2px var(--c-border-active);
     }
     49% {
-      background-color: transparent;
+      background-color: var(--c-tile-background);
       border: solid 2px var(--c-border-active);
     }
     50% {
       transform: rotateX(-90deg);
       background-color: var(--c-letter-absent);
       border: solid 2px var(--c-letter-absent);
+      color: var(--c-text-flipped);
     }
     100% {
       transform: rotateX(0deg);
       background-color: var(--c-letter-absent);
       border: solid 2px var(--c-letter-absent);
+      color: var(--c-text-flipped);
     }
   }
   @keyframes flip-present {
     0% {
       transform: rotateX(0deg);
-      background-color: transparent;
+      background-color: var(--c-tile-background);
       border: solid 2px var(--c-border-active);
     }
     49% {
-      background-color: transparent;
+      background-color: var(--c-tile-background);
       border: solid 2px var(--c-border-active);
     }
     50% {
       transform: rotateX(-90deg);
       background-color: var(--c-letter-present);
       border: solid 2px var(--c-letter-present);
+      color: var(--c-text-flipped);
     }
     100% {
       transform: rotateX(0deg);
       background-color: var(--c-letter-present);
       border: solid 2px var(--c-letter-present);
+      color: var(--c-text-flipped);
     }
   }
   @keyframes flip-correct {
     0% {
       transform: rotateX(0deg);
-      background-color: transparent;
+      background-color: var(--c-tile-background);
       border: solid 2px var(--c-border-active);
     }
     49% {
-      background-color: transparent;
+      background-color: var(--c-tile-background);
       border: solid 2px var(--c-border-active);
     }
     50% {
       transform: rotateX(-90deg);
       background-color: var(--c-letter-correct);
       border: solid 2px var(--c-letter-correct);
+      color: var(--c-text-flipped);
     }
     100% {
       transform: rotateX(0deg);
       background-color: var(--c-letter-correct);
       border: solid 2px var(--c-letter-correct);
+      color: var(--c-text-flipped);
     }
   }
   @keyframes enter {
