@@ -3,9 +3,9 @@
         <h3>{{title}}</h3>
         <div class="info">
             <div class="stats">
-                <div class="points">{{total_points}}</div>
-                <div class="beter">{{total_users}}</div>
-                <div class="top">{{total_users}}</div>
+                <div class="points">{{channel_points}}</div>
+                <div class="beter">{{users}}</div>
+                <div class="top">No bets yet</div>
             </div>
             <div class="percent-wrapper">
                 <p class="percent">0%</p>
@@ -19,7 +19,7 @@
     <div class="winner">
         <img height="100" width="100" class="avatar" src="{{avatar}}" />  
         <span class="placement">{{placement}}</span>
-        <span class="displayname">{{user_display_name}}</span>
-        <span class="channelpoints">{{points}} Channelpoints</span>
+        <span class="displayname">{{user_name}}</span>
+        <span class="channelpoints">{{channel_points_used}} Channelpoints</span>
     </div>
 </template>

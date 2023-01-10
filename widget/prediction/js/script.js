@@ -30,6 +30,11 @@ var settings = {
     winnerAmount: 3,
 };
 
+
+var outcome_wrapper = null;
+
+
+
 /**
  * Storing avatars that have been called to save api calls
  * username: imageURL
@@ -136,7 +141,7 @@ function bindEvents() {
  * Action Controller Functions
  */
 function CreatePrediction() {
-
+    outcome_wrapper = document.getElementById('outcomes');
     ClearPrediction();
 
 
@@ -146,7 +151,7 @@ function CreatePrediction() {
     (title);
     $('#summery').html(settings.text.stringSummery);
     duration = prediction.predictionWindow;
-    $('#timeleft').css('--timer', duration + "s");
+    $('#timeleft').css('--timer', duration + "s"); // Todo: Add a new duration value because it was removed from streamer.bot
 
     $('#results .title').html(settings.text.stringResults);
 
@@ -168,7 +173,10 @@ function UpdatePrediction() {
     // Then just update the value 
     // If not rerender the whole thing
 
-
+    if(!outcome_wrapper){
+        CreatePrediction();
+        console.info("Prediction needed to be re-rendered");
+    }
 
 
     totalPoints = 0;
@@ -225,10 +233,10 @@ function renderOutcome(outcome) {
  * @param {object} outcome
  */
 function updateOutcome(outcome) {
-    totalPoints += outcome.total_points;
-    totalUsers += outcome.total_users;
-    $(`#outcome-${index} .points`).html(outcome.total_points);
-    $(`#outcome-${index} .beter`).html(outcome.total_users);
+    totalPoints += outcome.channel_points;
+    totalUsers += outcome.users;
+    $(`#outcome-${index} .points`).html(outcome.channel_points);
+    $(`#outcome-${index} .beter`).html(outcome.users);
 }
 
 /**
@@ -252,20 +260,20 @@ function updatePercent(outcome) {
 
     if (outcome.top_predictors) {
         outcome.top_predictors.forEach(predictors => {
-            if (top.points < predictors.points) {
-                top.points = predictors.points;
-                top.name = predictors.user_display_name;
+            if (top.points < predictors.channel_points_used) {
+                top.points = predictors.channel_points_used;
+                top.name = predictors.user_name;
             }
         });
     }
 
 
-    let perc = percentage(outcome.total_points, totalPoints);
+    let perc = percentage(outcome.channel_points, totalPoints);
     $(`#${outcome.id} .percent`).html(`${perc}%`);
     $(`#${outcome.id} .percent-bar`).css('--percent', perc + "%");
 
-    $(`#${outcome.id} .points`).html(`${outcome.total_points}`);
-    $(`#${outcome.id} .beter`).html(`${outcome.total_users}`);
+    $(`#${outcome.id} .points`).html(`${outcome.channel_points}`);
+    $(`#${outcome.id} .beter`).html(`${outcome.users}`);
     $(`#${outcome.id} .top`).html(`${top.name}`);
 }
 
@@ -293,7 +301,7 @@ function showWinners(outcome) {
         }
         const winner = outcome.top_predictors[index];
         const promise = new Promise((resolve, reject) => {
-            resolve(getProfileImage(winner.user_display_name));
+            resolve(getProfileImage(winner.user_name));
         }).then(avatar => {
             winner.avatar = avatar;
             $("#winners").append(renderWinner(winner));
