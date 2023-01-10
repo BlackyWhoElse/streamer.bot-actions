@@ -150,8 +150,12 @@ function CreatePrediction() {
     $('#prediction .title').attr('id', 'newID');
     (title);
     $('#summery').html(settings.text.stringSummery);
-    duration = prediction.predictionWindow;
-    $('#timeleft').css('--timer', duration + "s"); // Todo: Add a new duration value because it was removed from streamer.bot
+
+    locks = new Date(prediction.locks_at)    
+    start = new Date() 
+
+    duration = locks - start;
+    $('#timeleft').css('--timer', Math.floor(duration/1000) + "s");
 
     $('#results .title').html(settings.text.stringResults);
 
