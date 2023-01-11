@@ -2,7 +2,7 @@
     --c-text: #d7dadc;
     --c-text-flipped: #ffffff;
     --c-background: #121213;
-    --c-tile-background: rgba(255,255,255,1);
+    --c-tile-background: rgb(79, 79, 79);
     --c-light: #ffffff;
     --c-letter-correct: #6aaa64;
     --c-letter-present: #c9b458;
@@ -13,13 +13,13 @@
     --c-modal-border: #1a1a1b;
     --c-modal-background: #121213;
     --c-obfuscator: rgba(0, 0, 0, 0.5);
-  }
-  
-  html {
+}
+
+html {
     height: 100%
-  }
-  
-  body {
+}
+
+body {
     font-family: sans-serif;
     background-color: var(--c-background);
     color: var(--c-text);
@@ -27,13 +27,13 @@
     justify-content: center;
     height: 100%;
     margin: 0;
-  }
-  
-  body.light {
+}
+
+body.light {
     background-color: var(--c-background-light);
-  }
-  
-  .wrapper {
+}
+
+.wrapper {
     max-width: 500px;
     width: 100%;
     display: flex;
@@ -42,9 +42,9 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-  }
-  
-  header {
+}
+
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -52,9 +52,9 @@
     height: 50px;
     line-height: 50px;
     border-bottom: 1px solid var(--c-border-inactive);
-  }
-  
-  h1 {
+}
+
+h1 {
     width: 400px;
     user-select: none;
     text-transform: uppercase;
@@ -62,13 +62,13 @@
     letter-spacing: 3px;
     color: var(--c-text);
     margin: 0px;
-  }
-  
-  body.light h1 {
+}
+
+body.light h1 {
     color: var(--c-border-active);
-  }
-  
-  .board {
+}
+
+.board {
     display: grid;
     grid-gap: 5px;
     grid-template-rows: repeat(6, 1fr);
@@ -77,15 +77,15 @@
     width: 100%;
     height: 420px;
     max-width: 350px;
-  }
-  
-  .board .row {
+}
+
+.board .row {
     display: grid;
     grid-gap: 5px;
     grid-template-columns: repeat(5, 1fr);
-  }
-  
-  .tile {
+}
+
+.tile {
     display: inline-block;
     background-color: var(--c-tile-background);
     font-size: 2rem;
@@ -100,21 +100,21 @@
     height: 100%;
     box-sizing: border-box;
     user-select: none;
-  }
-  
-  .keyboard {
+}
+
+.keyboard {
     width: 100%;
     margin: 0px 8px;
-  }
-  
-  .keyboard .row {
+}
+
+.keyboard .row {
     display: flex;
     width: 100%;
     margin: 0 auto 8px;
     justify-content: center;
-  }
-  
-  .keyboard .key {
+}
+
+.keyboard .key {
     border: none;
     display: flex;
     flex: 1;
@@ -133,158 +133,158 @@
     background-color: var(--c-key-background);
     outline: none;
     user-select: none;
-  }
-  
-  .keyboard .key:hover {
+}
+
+.keyboard .key:hover {
     opacity: 0.8;
-  }
-  
-  .keyboard .key-wide {
+}
+
+.keyboard .key-wide {
     flex: 1.5;
     max-width: initial;
-  }
-  
-  .keyboard .key:last-child {
+}
+
+.keyboard .key:last-child {
     margin-right: 0px;
-  }
-  
-  .keyboard .material-icons-outlined {
+}
+
+.keyboard .material-icons-outlined {
     text-transform: lowercase;
     font-weight: normal;
-  }
-  
-  .board .row[data-state="invalid"] {
+}
+
+.board .row[data-state="invalid"] {
     animation: shake 600ms;
-  }
-  
-  .tile[data-state="initial"] {
+}
+
+.tile[data-state="initial"] {
     border: solid 2px var(--c-border-inactive);
-  }
-  
-  .tile[data-state="enter"] {
+}
+
+.tile[data-state="enter"] {
     animation: enter 100ms 1;
     border: solid 2px var(--c-border-active);
-  }
-  
-  .key[data-state="absent"] {
+}
+
+.key[data-state="absent"] {
     background-color: var(--c-letter-absent);
-  }
-  
-  .key[data-state="present"] {
+}
+
+.key[data-state="present"] {
     background-color: var(--c-letter-present);
-  }
-  
-  .key[data-state="correct"] {
+}
+
+.key[data-state="correct"] {
     background-color: var(--c-letter-correct);
-  }
-  
-  .tile[data-state="absent"] {
+}
+
+.tile[data-state="absent"] {
     border: solid 2px var(--c-border-active);
-  }
-  
-  .row[data-state="valid"] .tile[data-state="absent"] {
+}
+
+.row[data-state="valid"] .tile[data-state="absent"] {
     animation: flip-absent 500ms ease-in forwards;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(2)[data-state="absent"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(2)[data-state="absent"] {
     animation-delay: 0.1s;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(3)[data-state="absent"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(3)[data-state="absent"] {
     animation-delay: 0.2s;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(4)[data-state="absent"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(4)[data-state="absent"] {
     animation-delay: 0.3s;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(5)[data-state="absent"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(5)[data-state="absent"] {
     animation-delay: 0.4s;
-  }
-  
-  .tile[data-state="present"] {
+}
+
+.tile[data-state="present"] {
     border: solid 2px var(--c-border-active);
-  }
-  
-  .row[data-state="valid"] .tile[data-state="present"] {
+}
+
+.row[data-state="valid"] .tile[data-state="present"] {
     animation: flip-present 500ms ease-in forwards;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(2)[data-state="present"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(2)[data-state="present"] {
     animation-delay: 0.1s;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(3)[data-state="present"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(3)[data-state="present"] {
     animation-delay: 0.2s;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(4)[data-state="present"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(4)[data-state="present"] {
     animation-delay: 0.3s;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(5)[data-state="present"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(5)[data-state="present"] {
     animation-delay: 0.4s;
-  }
-  
-  .tile[data-state="correct"] {
+}
+
+.tile[data-state="correct"] {
     border: solid 2px var(--c-border-active);
-  }
-  
-  .row[data-state="valid"] .tile[data-state="correct"] {
+}
+
+.row[data-state="valid"] .tile[data-state="correct"] {
     animation: flip-correct 500ms ease-in forwards;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(2)[data-state="correct"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(2)[data-state="correct"] {
     animation-delay: 0.1s;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(3)[data-state="correct"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(3)[data-state="correct"] {
     animation-delay: 0.2s;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(4)[data-state="correct"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(4)[data-state="correct"] {
     animation-delay: 0.3s;
-  }
-  
-  .row[data-state="valid"] .tile:nth-child(5)[data-state="correct"] {
+}
+
+.row[data-state="valid"] .tile:nth-child(5)[data-state="correct"] {
     animation-delay: 0.4s;
-  }
-  
-  .row[data-state="correct"] .tile[data-state="correct"] {
+}
+
+.row[data-state="correct"] .tile[data-state="correct"] {
     border: solid 2px var(--c-letter-correct);
-  }
-  
-  .row[data-state="correct"] .tile {
+}
+
+.row[data-state="correct"] .tile {
     animation: bounce 500ms forwards;
     background-color: var(--c-letter-correct);
     color: var(--c-text-flipped);
-  }
-  
-  .row[data-state="correct"] .tile:nth-child(2) {
+}
+
+.row[data-state="correct"] .tile:nth-child(2) {
     animation-delay: 0.2s;
-  }
-  
-  .row[data-state="correct"] .tile:nth-child(3) {
+}
+
+.row[data-state="correct"] .tile:nth-child(3) {
     animation-delay: 0.1s;
-  }
-  
-  .row[data-state="correct"] .tile:nth-child(4) {
+}
+
+.row[data-state="correct"] .tile:nth-child(4) {
     animation-delay: 0.4s;
-  }
-  
-  .row[data-state="correct"] .tile:nth-child(5) {
+}
+
+.row[data-state="correct"] .tile:nth-child(5) {
     animation-delay: 0.3s;
-  }
-  
-  .modal[data-state="win"] header.win {
+}
+
+.modal[data-state="win"] header.win {
     display: block;
-  }
-  
-  .modal[data-state="lose"] header.lose {
+}
+
+.modal[data-state="lose"] header.lose {
     display: block;
-  }
-  
-  .modal {
+}
+
+.modal {
     pointer-events: none;
     display: flex;
     justify-content: center;
@@ -298,16 +298,16 @@
     background-color: var(--c-obfuscator);
     opacity: 0;
     transition: opacity 0.2s linear;
-  }
-  
-  .modal.open {
+}
+
+.modal.open {
     display: flex;
     pointer-events: auto;
     opacity: 1;
     transition: opacity 0.2s linear;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     transition: transform 0.2s ease-in-out;
     transform: translateY(100px);
     position: relative;
@@ -320,14 +320,14 @@
     height: 150px;
     background-color: var(--c-modal-background);
     border: solid 1px var(--c-modal-border);
-  }
-  
-  .modal.open .modal-content {
+}
+
+.modal.open .modal-content {
     transition: transform 0.2s linear;
     transform: translateY(0px);
-  }
-  
-  .modal-content .close {
+}
+
+.modal-content .close {
     position: absolute;
     cursor: pointer;
     top: 10px;
@@ -336,33 +336,33 @@
     color: var(--c-border-active);
     padding: 0px;
     border: none;
-  }
-  
-  .modal-content header {
+}
+
+.modal-content header {
     border: none;
     margin-top: 10px;
-  }
-  
-  .win,
-  .lose {
+}
+
+.win,
+.lose {
     display: none;
-  }
-  
-  .modal-content h2 {
+}
+
+.modal-content h2 {
     text-transform: uppercase;
     margin: 0px;
-  }
-  
-  .replay-header,
-  .mode {
+}
+
+.replay-header,
+.mode {
     background: none;
     color: var(--c-border-active);
     padding: 0px;
     border: none;
     cursor: pointer;
-  }
-  
-  .replay-modal {
+}
+
+.replay-modal {
     align-self: center;
     width: 200px;
     padding: 15px;
@@ -381,149 +381,155 @@
     align-items: center;
     margin-bottom: 25px;
     cursor: pointer;
-  }
-  
-  @keyframes flip-absent {
+}
+
+@keyframes flip-absent {
     0% {
-      transform: rotateX(0deg);
-      background-color: var(--c-tile-background);
-      border: solid 2px var(--c-border-active);
+        transform: rotateX(0deg);
+        background-color: var(--c-tile-background);
+        border: solid 2px var(--c-border-active);
     }
     49% {
-      background-color: var(--c-tile-background);
-      border: solid 2px var(--c-border-active);
+        background-color: var(--c-tile-background);
+        border: solid 2px var(--c-border-active);
     }
     50% {
-      transform: rotateX(-90deg);
-      background-color: var(--c-letter-absent);
-      border: solid 2px var(--c-letter-absent);
-      color: var(--c-text-flipped);
+        transform: rotateX(-90deg);
+        background-color: var(--c-letter-absent);
+        border: solid 2px var(--c-letter-absent);
+        color: var(--c-text-flipped);
     }
     100% {
-      transform: rotateX(0deg);
-      background-color: var(--c-letter-absent);
-      border: solid 2px var(--c-letter-absent);
-      color: var(--c-text-flipped);
+        transform: rotateX(0deg);
+        background-color: var(--c-letter-absent);
+        border: solid 2px var(--c-letter-absent);
+        color: var(--c-text-flipped);
     }
-  }
-  @keyframes flip-present {
+}
+
+@keyframes flip-present {
     0% {
-      transform: rotateX(0deg);
-      background-color: var(--c-tile-background);
-      border: solid 2px var(--c-border-active);
+        transform: rotateX(0deg);
+        background-color: var(--c-tile-background);
+        border: solid 2px var(--c-border-active);
     }
     49% {
-      background-color: var(--c-tile-background);
-      border: solid 2px var(--c-border-active);
+        background-color: var(--c-tile-background);
+        border: solid 2px var(--c-border-active);
     }
     50% {
-      transform: rotateX(-90deg);
-      background-color: var(--c-letter-present);
-      border: solid 2px var(--c-letter-present);
-      color: var(--c-text-flipped);
+        transform: rotateX(-90deg);
+        background-color: var(--c-letter-present);
+        border: solid 2px var(--c-letter-present);
+        color: var(--c-text-flipped);
     }
     100% {
-      transform: rotateX(0deg);
-      background-color: var(--c-letter-present);
-      border: solid 2px var(--c-letter-present);
-      color: var(--c-text-flipped);
+        transform: rotateX(0deg);
+        background-color: var(--c-letter-present);
+        border: solid 2px var(--c-letter-present);
+        color: var(--c-text-flipped);
     }
-  }
-  @keyframes flip-correct {
+}
+
+@keyframes flip-correct {
     0% {
-      transform: rotateX(0deg);
-      background-color: var(--c-tile-background);
-      border: solid 2px var(--c-border-active);
+        transform: rotateX(0deg);
+        background-color: var(--c-tile-background);
+        border: solid 2px var(--c-border-active);
     }
     49% {
-      background-color: var(--c-tile-background);
-      border: solid 2px var(--c-border-active);
+        background-color: var(--c-tile-background);
+        border: solid 2px var(--c-border-active);
     }
     50% {
-      transform: rotateX(-90deg);
-      background-color: var(--c-letter-correct);
-      border: solid 2px var(--c-letter-correct);
-      color: var(--c-text-flipped);
+        transform: rotateX(-90deg);
+        background-color: var(--c-letter-correct);
+        border: solid 2px var(--c-letter-correct);
+        color: var(--c-text-flipped);
     }
     100% {
-      transform: rotateX(0deg);
-      background-color: var(--c-letter-correct);
-      border: solid 2px var(--c-letter-correct);
-      color: var(--c-text-flipped);
+        transform: rotateX(0deg);
+        background-color: var(--c-letter-correct);
+        border: solid 2px var(--c-letter-correct);
+        color: var(--c-text-flipped);
     }
-  }
-  @keyframes enter {
+}
+
+@keyframes enter {
     from {
-      transform: scale(0.8);
-      opacity: 0;
+        transform: scale(0.8);
+        opacity: 0;
     }
     40% {
-      transform: scale(1.1);
-      opacity: 1;
+        transform: scale(1.1);
+        opacity: 1;
     }
-  }
-  @keyframes shake {
+}
+
+@keyframes shake {
     10%,
     90% {
-      transform: translateX(-1px);
+        transform: translateX(-1px);
     }
     20%,
     80% {
-      transform: translateX(2px);
+        transform: translateX(2px);
     }
     30%,
     50%,
     70% {
-      transform: translateX(-4px);
+        transform: translateX(-4px);
     }
     40%,
     60% {
-      transform: translateX(4px);
+        transform: translateX(4px);
     }
-  }
-  @keyframes bounce {
+}
+
+@keyframes bounce {
     0%,
     20% {
-      background-color: var(--c-letter-correct);
-      transform: translateY(0);
+        background-color: var(--c-letter-correct);
+        transform: translateY(0);
     }
     40% {
-      transform: translateY(-30px);
+        transform: translateY(-30px);
     }
     50% {
-      transform: translateY(5px);
+        transform: translateY(5px);
     }
     60% {
-      transform: translateY(-15px);
+        transform: translateY(-15px);
     }
     80% {
-      transform: translateY(2px);
+        transform: translateY(2px);
     }
     100% {
-      transform: translateY(0);
-      background-color: var(--c-letter-correct);
+        transform: translateY(0);
+        background-color: var(--c-letter-correct);
     }
-  }
-  @media (max-width: 500px) {
+}
+
+@media (max-width: 500px) {
     h1 {
-      font-size: 1.5em;
+        font-size: 1.5em;
     }
-  
     header button {
-      margin: 0px 10px;
+        margin: 0px 10px;
     }
-  }
-  @media (max-width: 350px) {
+}
+
+@media (max-width: 350px) {
     h1 {
-      font-size: 1.2em;
+        font-size: 1.2em;
     }
-  }
-  @media (max-width: 300px) {
+}
+
+@media (max-width: 300px) {
     h1 {
-      font-size: 0.6em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+        font-size: 0.6em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
-  }
-  
+}
