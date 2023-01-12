@@ -119,7 +119,7 @@ function bindEvents() {
                 // Todo: Add a function here
                 break;
             case "PredictionCompleted":
-                CompletePrediction(prediction.winningOutcome)
+                CompletePrediction(prediction.winning_outcome)
                 break;
             case "PredictionCanceled":
                 CancelPrediction();
@@ -204,7 +204,6 @@ function CancelPrediction() {
 }
 
 function CompletePrediction(outcome) {
-    console.debug(outcome);
 
     if (settings.showWinners === true) {
         ClearPrediction();
@@ -297,6 +296,8 @@ function renderWinner(winner) {
 
 
 function showWinners(outcome) {
+
+console.debug(outcome);
 
     // Get the 3 biggest winner
     for (let index = 0; index < outcome.top_predictors.length; index++) {
