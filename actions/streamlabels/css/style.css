@@ -1,0 +1,48 @@
+:root {
+    --progressbar-width: 100vw;
+    --progressbar-height: 100vh;
+
+    --progressbar-background-color: #1D1F20;
+    --pregressbar-progress-color: aqua;
+
+    --progressbar-border-color: #1D1F20;
+    --pregressbar-border-size: 1px;
+
+    /* row, column */
+    --progressbar-orientation:column-reverse; 
+
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+#progress {
+    width: calc(100vw - 2 * var(--pregressbar-border-size));
+    height: calc(100vh - 2 * var(--pregressbar-border-size));
+    display: flex;
+    position: relative;
+    background-color: #1D1F20;
+    border: var(--pregressbar-border-size) solid #ccc;
+}
+
+.vertical {
+    flex-direction: var(--progressbar-orientation);
+}
+
+.progress-info {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+
+
+.progress-bar {
+    background-color: aqua;
+}
