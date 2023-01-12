@@ -1,10 +1,13 @@
 var vertical = false;
 
-function update(current){
+function updateProgress(current, goal) {
+
+    current++;
+
     checkOrientation();
     setCurrent(current);
     setGoal(goal);
-    setPercent(current,goal);
+    setPercent(current, goal);
 }
 
 function checkOrientation() {
@@ -34,9 +37,9 @@ function getCurrent() {
 
 function setPercent(current, goal) {
     if (vertical) {
-        $(".progress-bar").height((current / goal) * 100 +'%');
+        $(".progress-bar").height((current / goal) * 100 + '%');
     } else {
-        $(".progress-bar").width((current / goal) * 100 +'%');
+        $(".progress-bar").width((current / goal) * 100 + '%');
     }
 }
 

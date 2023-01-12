@@ -15,15 +15,28 @@
     <link rel="stylesheet" href="css/style.css" />
 
     <title>Follower Goals</title>
+
+    <style>
+         :root {
+            --progressbar-width: 100vw;
+            --progressbar-height: 100vh;
+            --progressbar-background-color: #1D1F20;
+            --pregressbar-progress-color: #db292a;
+            --progressbar-border-color: #1D1F20;
+            --pregressbar-border-size: 1px;
+            /* row, column */
+            --progressbar-orientation: column-reverse;
+        }
+    </style>
+
 </head>
 
 <body>
-    <div id="progress" class="vertical">
+    <div id="progress">
         <div class="progress-info">
             <span id="current">745</span>/<span id="goal">800</span>
         </div>
-        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="25"
-            aria-valuemax="100"></div>
+        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="25" aria-valuemax="100"></div>
     </div>
 </body>
 

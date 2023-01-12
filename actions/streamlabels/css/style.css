@@ -1,18 +1,13 @@
 :root {
     --progressbar-width: 100vw;
     --progressbar-height: 100vh;
-
     --progressbar-background-color: #1D1F20;
-    --pregressbar-progress-color: aqua;
-
+    --pregressbar-progress-color: #db292a;
     --progressbar-border-color: #1D1F20;
     --pregressbar-border-size: 1px;
-
     /* row, column */
-    --progressbar-orientation:column-reverse; 
-
+    --progressbar-orientation: column-reverse;
 }
-
 
 body {
     margin: 0;
@@ -42,7 +37,6 @@ body {
     color: #fff;
 }
 
-
 .progress-bar {
-    background-color: aqua;
+    background-color: var(--pregressbar-progress-color);
 }

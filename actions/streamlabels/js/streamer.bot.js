@@ -37,13 +37,14 @@ function bindEvents() {
                     ],
                     "streamelements": [
                         "Tip"
-                    ]
+                    ],
+                    general: ["Custom"],
                 },
             })
         );
     };
 
-    ws.onmessage = async (event) => {
+    ws.onmessage = async(event) => {
 
         const wsdata = JSON.parse(event.data);
 
@@ -54,11 +55,9 @@ function bindEvents() {
         console.debug(wsdata.data);
 
         switch (wsdata.data.name) {
-            case "Follower":
-                handleGuess(wsdata.data.arguments.word);
-                break;
-            case "Restart Game":
 
+            case "Update Follower count":
+                updateProgress(wsdata.data.arguments.current, wsdata.data.arguments.goal)
                 break;
             default:
                 console.debug(wsdata.data.name);
@@ -67,10 +66,8 @@ function bindEvents() {
 
     }
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         setTimeout(connectws, 10000);
     };
 
 };
-
-
