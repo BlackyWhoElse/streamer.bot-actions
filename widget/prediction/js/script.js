@@ -80,7 +80,7 @@ function connectws() {
 
 function bindEvents() {
     ws.onopen = function() {
-        console.debug('Websocket connected');
+        console.info('Websocket connected');
         ws.send(JSON.stringify({
             "request": "Subscribe",
             "events": {
@@ -297,7 +297,6 @@ function renderWinner(winner) {
 
 function showWinners(outcome) {
 
-console.debug(outcome);
 
     // Get the 3 biggest winner
     for (let index = 0; index < outcome.top_predictors.length; index++) {
@@ -314,7 +313,6 @@ console.debug(outcome);
             console.error(error);
         });
 
-        console.debug(winner);
     }
 
     setTimeout(function() {
