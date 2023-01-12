@@ -27,15 +27,15 @@ function bindEvents() {
                 request: "Subscribe",
                 id: sbSettings.widget,
                 events: {
-                    twitch: [
+                    "Twitch": [
                         "Follow",
                         "Cheers",
                         "Subs",
                     ],
-                    streamlabs:[
+                    "streamlabs": [
                         "Donation"
                     ],
-                    streamelements:[
+                    "streamelements": [
                         "Tip"
                     ]
                 },
@@ -43,7 +43,7 @@ function bindEvents() {
         );
     };
 
-    ws.onmessage = async(event) => {
+    ws.onmessage = async (event) => {
 
         const wsdata = JSON.parse(event.data);
 
@@ -52,7 +52,7 @@ function bindEvents() {
         }
 
         console.debug(wsdata.data);
-       
+
         switch (wsdata.data.name) {
             case "Follower":
                 handleGuess(wsdata.data.arguments.word);
@@ -67,7 +67,7 @@ function bindEvents() {
 
     }
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         setTimeout(connectws, 10000);
     };
 
