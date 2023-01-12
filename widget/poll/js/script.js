@@ -115,8 +115,13 @@ function PollCreated() {
 
     title = poll.title;
     $('#title').html(title);
-    duration = poll.duration;
-    $('#timeleft').css('--timer', duration + "s");
+
+    locks = new Date(poll.ends_at)    
+    start = new Date() 
+
+    duration = locks - start;
+
+    $('#timeleft').css('--timer', Math.floor(duration/1000) + "s");
     totalVotes = poll.totalVotes;
 
     index = 0;
@@ -140,7 +145,14 @@ function PollCreated() {
  * Updates each choice on Update
  */
 function PollUpdated() {
-    totalVotes = poll.totalVotes;
+    totalVotes = 0;
+
+    // Update totalVotes
+    poll.choices.forEach(choice => {
+        totalVotes += choice.votes;
+    });
+
+
     // Create Choice entry
     index = 0;
     poll.choices.forEach(choice => {
@@ -156,8 +168,9 @@ function PollUpdated() {
  * @param {object} choice
  */
 function PollCompleted(winner) {
+
     // If no vote has been casted it will show
-    if (winner.total_voters === 0) {
+    if (winner.votes === 0) {
 
         $(`#choices`).addClass("noVotes");
 
@@ -175,7 +188,7 @@ function PollCompleted(winner) {
     // Check if another choice has the same amount of votes
     // Note: This has to be done because Streamer.Bot only gives one winner
     poll.choices.forEach(choice => {
-        if (choice.votes.total === winner.total_voters) {
+        if (choice.votes === winner.votes) {
             showWinner(choice);
         }
     });
@@ -210,17 +223,19 @@ function renderChoice(choice) {
  * @param {object} choice
  */
 function updateChoice(index, choice) {
-    perc = percentage(choice.total_voters, totalVotes)
-    $(`.choice-${index} .info span`).html(perc + `% (${choice.total_voters})`);
+    perc = percentage(choice.votes, totalVotes)
+    $(`.choice-${index} .info span`).html(perc + `% (${choice.votes})`);
     $(`.choice-${index} .percent`).css('--percent', perc + "%");
+
+
 }
 
 
 function showWinner(choice) {
     $("#choices").addClass("showWinner");
-    $(`#${choice.choice_id}`).css('--percent', 100 + "%");
-    $(`#${choice.choice_id}`).addClass("winner");
-    $(`#${choice.choice_id} .info`).prepend('<div id="trophy" class="animate__animated animate__infinite animate__tada"></div>');
+    $(`#${choice.id}`).css('--percent', 100 + "%");
+    $(`#${choice.id}`).addClass("winner");
+    $(`#${choice.id} .info`).prepend('<div id="trophy" class="animate__animated animate__infinite animate__tada"></div>');
 };
 
 /**
