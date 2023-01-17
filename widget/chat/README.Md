@@ -54,7 +54,8 @@ var settings = {
     "template": "default",
     "blacklist": {
         "user": ["Nightbot",],
-        "words": []
+        "words": [],
+        commands:false,
     },
     "animations": {
         "animation": true,
@@ -78,6 +79,7 @@ var settings = {
 | theme           | default                       | This sets which theme your chat widget will use. Select an existing theme or create your own.                              |
 | blacklist user  | ["Nightbot","Jarwiswersonst"] | A list of users who will not be displayed in the chatbox.                                                                  |
 | blacklist words | []                            | A list of words who will not be displayed in the chatbox.                                                                  |
+|commands| false| If set to true all messages starting with ! will not be displayed |
 | animation       | true                          | Use animations for message.                                                                                                |
 | hidedelay       | 0                             | Delay in ms when the message should be hidden. (if 0 the message will stay for ever)                                       |
 | hideAnimation   | fadeOut                       | Animation name to hide a message                                                                                           |
