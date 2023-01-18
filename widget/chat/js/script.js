@@ -125,13 +125,13 @@ function bindEvents() {
         // User
 
 
-        if (wsdata.event.source == "ChatMessage" && settings.blacklist.user.includes(wsdata.data.message.displayName) || wsdata.event.source == "RewardRedemption" && settings.blacklist.user.includes(wsdata.data.displayName)) {
+        if (wsdata.event.type == "ChatMessage" && settings.blacklist.user.includes(wsdata.data.message.displayName) || wsdata.event.source == "RewardRedemption" && settings.blacklist.user.includes(wsdata.data.displayName)) {
             console.info("Blocked message because display name is on blacklist!");
             return;
         }
 
         // Commands
-        if (wsdata.event.source == "ChatMessage" && settings.blacklist.commands == true && wsdata.data.message.message.charAt(0) == "!") {
+        if (wsdata.event.type == "ChatMessage" && settings.blacklist.commands == true && wsdata.data.message.message.charAt(0) == "!") {
             console.info("Blocked message because it was a command");
             return;
         }
