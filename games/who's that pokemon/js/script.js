@@ -115,13 +115,13 @@ function bindEvents() {
         // Reveal Pokemon after poll is completed 
         if (poll && wsdata.event.source === "Twitch" && wsdata.event.type === "PollCompleted") {
             pollChoice = wsdata.data.winningChoice.title;
-            choiceVotes = wsdata.data.winningChoice.total_voters;
+            choiceVotes = wsdata.data.winningChoice.votes;
 
             console.log("Chat voted: " + pollChoice + " Votes: " + choiceVotes);
 
 
             // Todo: Check if 0 votes have been done
-            if (wsdata.data.votes.total != 0 && pollChoice == currentPokemon.names[settings.language].name) {
+            if (choiceVotes != 0 && pollChoice == currentPokemon.names[settings.language].name) {
                 console.log("Chat was correct");
                 answer = true;
             } else {
@@ -165,11 +165,12 @@ function bindEvents() {
             }
         }
     }
+
+    ws.onclose = function() {
+        setTimeout(connectws, 10000);
+    };
 };
 
-ws.onclose = function() {
-    setTimeout(connectws, 10000);
-};
 
 
 /**
