@@ -38,7 +38,7 @@ var template_reward;
  * Storing avatars that have been called to save api calls
  * username: imageURL
  */
-var avatars = {};
+var avatars = new Map();
 
 window.addEventListener("load", (event) => {
     loadTemplates();
@@ -58,7 +58,7 @@ function loadTemplates() {
     //  Loading message templates
     $("#templates").load(
         `theme/${settings.template}/template.html`,
-        function(response, status, xhr) {
+        function (response, status, xhr) {
             if (status == "error") {
                 var msg = "Sorry but there was an error: ";
                 console.error(msg + xhr.status + " " + xhr.statusText);
@@ -77,258 +77,39 @@ function loadTemplates() {
     );
 }
 
-function connectws() {
-    if ("WebSocket" in window) {
-        console.log("Connecting to Streamer.Bot");
-        ws = new WebSocket(settings.websocketURL);
-        bindEvents();
-    }
-}
-
-function bindEvents() {
-    ws.onopen = () => {
-        ws.send(
-            JSON.stringify({
-                request: "Subscribe",
-                id: "obs-chat",
-                events: {
-                    general: ["Custom"],
-                    Twitch: ["ChatMessage", "ChatMessageDeleted", "RewardRedemption"],
-                    YouTube: ["Message", "MessageDeleted", "SuperChat"],
-                },
-            })
-        );
-    };
-
-    ws.onmessage = async(event) => {
-        const wsdata = JSON.parse(event.data);
-
-        if (wsdata.status == "ok" || wsdata.event.source == null) {
-            return;
-        }
-
-        // Custom
-        if (wsdata.data.name == "ClearChat") {
-            ClearChat();
-        }
-
-
-        // Platforms
-        console.debug(wsdata.event.source + ": " + wsdata.event.type);
-
-        if (settings.debug) {
-            console.debug(wsdata.data);
-        }
-
-
-        /* Blacklist */
-        // User
-
-
-        if (wsdata.event.type == "ChatMessage" && settings.blacklist.user.includes(wsdata.data.message.displayName) || wsdata.event.source == "RewardRedemption" && settings.blacklist.user.includes(wsdata.data.displayName)) {
-            console.info("Blocked message because display name is on blacklist!");
-            return;
-        }
-
-        // Commands
-        if (wsdata.event.type == "ChatMessage" && settings.blacklist.commands == true && wsdata.data.message.message.charAt(0) == "!") {
-            console.info("Blocked message because it was a command");
-            return;
-        }
-
-
-
-        switch (wsdata.event.source) {
-            case "Twitch":
-                switch (wsdata.event.type) {
-                    case "ChatMessage":
-                        add_message(wsdata.data.message);
-                        break;
-                    case "ChatMessageDeleted":
-                        hideMessage(message.targetMessageId);
-                        break;
-                    case "RewardRedemption":
-                        if (template_reward) {
-                            add_reward(wsdata.data);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                break;
-
-            case "YouTube":
-                switch (wsdata.event.type) {
-                    case "Message":
-                        add_YTmessage(wsdata.data);
-                        break;
-                    case "MessageDeleted":
-                        hideMessage(wsdata.data.targetMessageId);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-
-            default:
-                console.error("Could not find Platform: " + wsdata.event.source)
-                break;
-        }
-    };
-
-    ws.onclose = function() {
-        setTimeout(connectws, 10000);
-    };
-}
-
 /**
- * Adding content to message and then render it on screen
- * @param {object} message
+ * Types of messages
+ * - Chatmessage
+ * - Reward
+ * - Message
+ * 
+ * Default variables
+ * - message.msgid
+ * - message.username
+ * - message.badges
+ * - message.avatar
+ * - message.time
+ * - message.classes
+ * @param {*} message 
  */
-async function add_message(message) {
+async function pushMessage(type, message) {
 
     // Adding time variable
     var today = new Date();
-    message.time =
-        today.getHours() + ":" + String(today.getMinutes()).padStart(2, "0");
+    message.time = today.getHours() + ":" + String(today.getMinutes()).padStart(2, "0");
 
-    // Adding default classes
-    message.classes = ["msg"];
+    // Mapping for special types
+    switch (type) {
 
-    const msg = new Promise((resolve, reject) => {
-            // Note: This is to prevent a streamer.bot message to not disappear.
-            // - This could be a bug and will maybe be removed on a later date.
-            if (message.msgId == undefined) {
-                console.debug("Message has no ID");
-                message.msgId = makeid(6);
-            }
+        // Chat message from Twitch
+        case "chatmessage":
 
-            resolve(getProfileImage(message.username));
-        })
-        .then((avatar) => {
-            message.avatar = avatar;
-            return renderBadges(message);
-        })
-        .then((bages) => {
-            message.badges = bages;
-            return renderEmotes(message);
-        })
-        .then((msg) => {
-            $("#chat").append(renderMessage("Twitch", msg));
+            // Adding default classes
+            message.classes = ["msg"];
 
-            if (settings.animations.hidedelay > 0) {
-                hideMessage(message.msgId);
-            }
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
-}
-
-/**
- * Adding content to message and then render it on screen
- * @param {object} message
- */
-async function add_YTmessage(message) {
-    message.eventId = message.eventId.replace(".", "");
-
-    // Adding time variable
-    var today = new Date();
-    message.time =
-        today.getHours() + ":" + String(today.getMinutes()).padStart(2, "0");
-
-    // Adding default classes
-    message.classes = ["msg"];
-
-    const msg = new Promise((resolve, reject) => {
-            resolve(message.user.profileImageUrl);
-        })
-        .then((avatar) => {
-            message.avatar = avatar;
-            return renderYTEmotes(message);
-        })
-        .then((msg) => {
-            $("#chat").append(renderMessage("YouTube", msg));
-        })
-        .then((render) => {
-            if (settings.animations.hidedelay > 0) {
-                hideMessage(message.eventId);
-            }
-        })
-        .catch(function(error) {
-            console.error(error);
-        });
-}
-
-/**
- * Adding content to message and then render it on screen
- * @param {object} reward
- * "id": "9d0911db-7884-4e0f-8cf4-c95c5765c2e5",
- * "dateTime": "2022-01-31T03:10:23.3611616Z",
- * "userId": 0000000000,
- * "userName": "<user name of redeemer>",
- * "displayName": "<display name of redeemer>",
- * "channelId": 0000000, 
- * "cost": 42,
- * "rewardId": "41f257e9-9688-4944-9bf6-28cda1c3fa1f",
- * "title": "Test Reward",
- * "prompt": "",
- * "inputRequired": false,
- * "backgroundColor": "#63D0A9",
- * "enabled": true,
- * "paused": false,
- * "subOnly": false
- * "userInput": "<message>"
- * */
-async function add_reward(reward) {
-
-    // Adding time variable
-    var today = new Date();
-    reward.time =
-        today.getHours() + ":" + String(today.getMinutes()).padStart(2, "0");
-
-    reward.msgId = reward.id;
-    // Adding userInput if not defined
-    if (!reward.userInput) {
-        reward.message = "";
-    } else {
-        reward.message = reward.userInput;
-    }
-
-    // Adding default classes
-    reward.classes = ["reward"];
-
-    const msg = new Promise((resolve, reject) => {
-
-
-        if (reward.userInput) {
-            //resolve(renderEmotes(reward));
-        }
-        resolve(reward);
-
-    }).then((msg) => {
-        $("#chat").append(renderMessage("Reward", msg));
-
-        if (settings.animations.hidedelay > 0) {
-            hideMessage(reward.msgId);
-        }
-    }).catch(function(error) {
-        console.error(error);
-    });
-}
-
-/**
- * Render message with template
- * @param {object} message
- * @returns
- */
-function renderMessage(platform, message = {}) {
-    switch (platform) {
-        case "Twitch":
             if (!message.color) {
                 message.color = settings.Twitch.defaultChatColor;
             }
-
             if (message.isHighlighted) {
                 message.classes.push("highlight");
             }
@@ -351,15 +132,37 @@ function renderMessage(platform, message = {}) {
                 message.classes.push("moderartor");
             }
 
-            var tpl = template_twitch;
+            break;
+
+        // Reward message from Twitch
+        case "reward":
+            message.msgId = message.id;
+            message.title = message.reward.title;
+            message.prompt = message.reward.prompt;
+            message.displayName = message.user_name;
+
+            // Adding userInput if not defined
+            if (!message.user_input) {
+                message.message = "";
+            } else {
+                message.message = message.user_input;
+            }
+
+            // Adding default classes
+            message.classes = ["reward"];
 
             break;
 
-        case "YouTube":
-            // Setting general variabels
+        // Message from Youtube
+        case "message":
+
+
+            // Adding default classes
+            message.classes = ["msg"];
+
+            message.msgId = message.eventId;
             message.displayName = message.user.name;
             message.userId = message.user.id;
-            message.msgId = message.eventId;
 
             message.color = settings.YouTube.defaultChatColor;
 
@@ -376,13 +179,61 @@ function renderMessage(platform, message = {}) {
                 message.classes.push("verified");
             }
 
+            break;
+
+    }
+
+    const msg = new Promise((resolve, reject) => {
+        // Note: This is to prevent a streamer.bot message to not disappear.
+        // - This could be a bug and will maybe be removed on a later date.
+        if (message.msgId == undefined) {
+            console.debug("Message has no ID");
+            message.msgId = makeid(6);
+        }
+
+        resolve(getProfileImage(type, message));
+    })
+        .then((avatar) => {
+            console.log("Avatar: " + avatar);
+            message.avatar = avatar;
+            return renderBadges(message);
+        })
+        .then((bages) => {
+            message.badges = bages;
+            return renderEmotes(message);
+        })
+        .then((msg) => {
+            $("#chat").append(renderMessage(type, msg));
+
+            if (settings.animations.hidedelay > 0) {
+                removeMessage(message.msgId);
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
+}
+
+/**
+ * Render message with template
+ * @param {object} message
+ * @returns
+ */
+function renderMessage(platform, message = {}) {
+
+    console.debug(message);
+
+    switch (platform) {
+        case "chatmessage":
+            var tpl = template_twitch;
+            break;
+
+        case "message":
             var tpl = template_youtube;
             break;
 
-        case "Reward":
-
+        case "reward":
             var tpl = template_reward;
-
             break;
 
 
@@ -416,18 +267,18 @@ function renderMessage(platform, message = {}) {
  * Hides a message after an amount of time and deletes it aferwards
  * @param {string} msgId
  */
-function hideMessage(msgId) {
+function removeMessage(msgId) {
     console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
 
     const msg = new Promise((resolve, reject) => {
-        delay(settings.animations.hidedelay).then(function() {
+        delay(settings.animations.hidedelay).then(function () {
             $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
-            $("#" + msgId).bind("animationend", function() {
+            $("#" + msgId).bind("animationend", function () {
                 $("#" + msgId).remove();
             });
             resolve();
         });
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.error(error);
     });
 }
@@ -439,6 +290,8 @@ function hideMessage(msgId) {
  */
 async function renderBadges(message) {
     var badges = "";
+
+    if (!message.badges) return badges;
 
     message.badges.forEach((badge) => {
         badges += `<img class="${badge.name}" title="${badge.name}" src="${badge.imageUrl}">`;
@@ -455,6 +308,9 @@ async function renderBadges(message) {
  * @returns
  */
 async function renderEmotes(message) {
+
+    if (!message.emotes) return message;
+
     // Check if Message is emote only
     if (message.message.split(" ").length == message.emotes.length) {
         message.classes.push("emoteonly");
@@ -485,20 +341,44 @@ async function renderYTEmotes(message) {
  * @param {string} username
  * @returns
  */
-async function getProfileImage(username) {
-    // Check if avatar is already stored
-    if (avatars.username) {
-        return avatars.username;
+async function getProfileImage(type, message) {
+    console.debug(message);
+
+    username = "";
+
+    switch (type) {
+        case "chatmessage":
+
+            username = message.username;
+
+            // Check if avatar is already stored
+            if (avatars.get(username)) {
+                return avatars.get(username);
+            }
+
+            return fetch(`https://decapi.me/twitch/avatar/${username}`)
+                .then((response) => {
+                    return response.text();
+                })
+                .then((avatar) => {
+                    avatars.set(username, avatar);
+                    return avatar;
+                });
+            break;
+
+        case "message":
+            username = message.user.name;
+
+            // Check if avatar is already stored
+            if (avatars.get(username)) {
+                return avatars.get(username);
+            }
+
+            avatars.set(username, message.user.profileImageUrl);
+            return message.user.profileImageUrl;
+            break;
     }
 
-    return fetch(`https://decapi.me/twitch/avatar/${username}`)
-        .then((response) => {
-            return response.text();
-        })
-        .then((avatar) => {
-            avatars[username] = avatar;
-            return avatar;
-        });
 }
 
 // Command Code
@@ -508,7 +388,7 @@ function ClearChat() {
 
 // Helper Code
 function delay(t, v) {
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
         setTimeout(resolve.bind(null, v), t);
     });
 }
@@ -526,13 +406,13 @@ function debugMessages() {
             avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/a88dd690-f653-435e-ae3f-cd312ee5b736-profile_image-300x300.png",
             bits: 0,
             badges: [{
-                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
-                    name: "broadcaster",
-                },
-                {
-                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
-                    name: "subscriber",
-                },
+                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
+                name: "broadcaster",
+            },
+            {
+                imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
+                name: "subscriber",
+            },
             ],
             emotes: [],
             channel: "blackywersonst",
