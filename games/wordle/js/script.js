@@ -12,7 +12,7 @@ let targetWord;
 let targetWordList;
 let gameOver = false;
 
-const wordListSource = "https://assets.codepen.io/471256/sgb-words.txt";
+const wordListSource = "./words/de.txt";
 const currentGuess = [];
 const guesses = [];
 const board = document.getElementById("board");
@@ -266,7 +266,9 @@ function setTargetWord() {
 async function fetchWords() {
     await fetch(wordListSource)
         .then((res) => res.text())
-        .then((data) => (targetWordList = data.trim().split("\n")));
+        .then((data) => {
+            targetWordList = data.toLowerCase().trim().split("\r\n");
+        });
 }
 
 // Initial setup
