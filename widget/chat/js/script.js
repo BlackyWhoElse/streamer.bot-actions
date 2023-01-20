@@ -436,7 +436,7 @@ function debugMessages() {
             time: "19:36",
         };
 
-        add_message(message);
+        pushMessage('chatmessage',message);
     }, 4000);
 }
 
