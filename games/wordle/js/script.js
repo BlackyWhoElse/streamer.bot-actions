@@ -12,7 +12,11 @@ let targetWord;
 let targetWordList;
 let gameOver = false;
 
-const wordListSource = "./words/de.txt";
+const wordListSource = {
+    "en": "./words/en.txt",
+    "de": "./words/de.txt",
+};
+
 const currentGuess = [];
 const guesses = [];
 const board = document.getElementById("board");
@@ -189,7 +193,7 @@ function submitGuess() {
         setTimeout(function() {
             delete rowEl.dataset.state;
         }, 600);
-        
+
         // This function waits for 2 seconds, then removes the invalid word letters one by one, 500ms a time.
         for (let i = 0; i < 5; i++) {
             setTimeout(() => {
@@ -264,7 +268,7 @@ function setTargetWord() {
 
 // Fetch a word bank
 async function fetchWords() {
-    await fetch(wordListSource)
+    await fetch(wordListSource[sbSettings.language])
         .then((res) => res.text())
         .then((data) => {
             targetWordList = data.toLowerCase().trim().split("\r\n");
