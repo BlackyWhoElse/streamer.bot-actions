@@ -289,10 +289,10 @@ async function add_reward(reward) {
 
     reward.msgId = reward.id;
     // Adding userInput if not defined
-    if (!reward.userInput) {
+    if (!reward.user_input) {
         reward.message = "";
     } else {
-        reward.message = reward.userInput;
+        reward.message = reward.user_input;
     }
 
     // Adding default classes
@@ -301,7 +301,7 @@ async function add_reward(reward) {
     const msg = new Promise((resolve, reject) => {
 
 
-        if (reward.userInput) {
+        if (reward.user_input) {
             //resolve(renderEmotes(reward));
         }
         resolve(reward);
@@ -310,7 +310,7 @@ async function add_reward(reward) {
         $("#chat").append(renderMessage("Reward", msg));
 
         if (settings.animations.hidedelay > 0) {
-            hideMessage(reward.msgId);
+            hideMessage(reward.Id);
         }
     }).catch(function(error) {
         console.error(error);
