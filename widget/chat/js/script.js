@@ -278,7 +278,7 @@ async function add_YTmessage(message) {
  * "enabled": true,
  * "paused": false,
  * "subOnly": false
- * "userInput": "<message>"
+ * "user_input": "<message>"
  * */
 async function add_reward(reward) {
 
