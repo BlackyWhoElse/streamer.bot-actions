@@ -5,10 +5,23 @@
     --player-4: #aa3fb9;
 }
 
+@font-face {
+    font-family: pokemon;
+    src: url(PKMN_RBYGSC.ttf);
+}
+
 body {
+    font-family: pokemon;
     background-color: rgb(36, 36, 36);
     background-image: url(../images/backgrounds/game_board.png);
     background-repeat: no-repeat;
+    width: 100vw;
+    height: 100vh;
+    background-size: contain;
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
 #gameField {
@@ -49,11 +62,7 @@ body {
  * Overlay
  */
 
-#overlay {
-    justify-content: center;
-    display: grid;
-    margin-top: 15%;
-}
+#overlay {}
 
 
 /**
@@ -70,10 +79,8 @@ body {
 }
 
 .countdown {
-    font-size: 40px;
+    font-size: 30px;
     background-color: #ebe7d4;
-    width: 60px;
-    height: 60px;
     border-radius: 50%;
     border: 3px solid #3f3229;
     position: absolute;
@@ -82,6 +89,9 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    aspect-ratio: 1;
+    padding: 10px;
+    min-width: 60px;
 }
 
 #playerSelection {
@@ -109,6 +119,8 @@ body {
 
 .avatar img {
     max-width: 100px;
+    border: solid #3f3229;
+    border-width: 1px 1px 0 1px;
 }
 
 #playerNames {
@@ -149,6 +161,9 @@ body {
     font-size: 1.7rem;
 }
 
+#gameDescription p {
+    margin: 0;
+}
 
 /**
    * Questions

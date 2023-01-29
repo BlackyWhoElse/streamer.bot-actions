@@ -49,7 +49,7 @@ function bindEvents() {
 
         switch (wsdata.data.name) {
             case "Add Guess":
-                handleGuess(wsdata.data.arguments.word);
+                handleGuess(wsdata.data.arguments.word.toLowerCase());
                 break;
             case "Restart Game":
 
