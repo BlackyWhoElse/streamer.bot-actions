@@ -7,6 +7,7 @@ var sbSettings = {
     // Max time to solve the wordle | can be 0 for unlimited time
     gameTimer: 0,
     resetTime: 10000,
+    language: "en", // Can be "en" | "de"
 };
 
 var currentGuesser;
