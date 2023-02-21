@@ -1,9 +1,10 @@
 var vertical = false;
+var type = "";
+var current = 0;
+var goal = 0;
 
-function updateProgress(current, goal) {
 
-    current++;
-
+function updateProgress() {
     checkOrientation();
     setCurrent(current);
     setGoal(goal);
@@ -12,12 +13,30 @@ function updateProgress(current, goal) {
 
 function checkOrientation() {
     var classes = $("#progress").attr("class");
-
+    
     if (classes == "vertical") {
         vertical = true;
     }
 }
 
+function initGoal() {
+    // Check what type of goal is loaded 
+    type = document.getElementById('progress').getAttribute("aria-goal-type");
+
+    ws.send(
+        JSON.stringify({
+            request: "DoAction",
+            action: {
+                name: "Update Goal " + type ,
+            },
+            id: "StreamLabelsUpdateGoal",
+        })
+    );
+}
+
+function addToGoal(){
+
+}
 
 function setGoal(goal) {
     $("#goal").text(goal);

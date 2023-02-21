@@ -8,7 +8,6 @@ var sbSettings = {
 
 
 window.addEventListener("load", (event) => {
-    checkOrientation();
     connectws();
 });
 
@@ -21,52 +20,78 @@ function connectws() {
 }
 
 function bindEvents() {
+    ws.onmessage = async (event) => {
+
+        const wsdata = JSON.parse(event.data);
+
+        if (wsdata.status == "error") {
+            console.debug(wsdata);
+            console.error(wsdata.error);
+            return;
+        } else if ('events' in wsdata || !wsdata.hasOwnProperty("data")) {
+            console.info('Message send');
+            console.debug(wsdata);
+            return;
+        }
+
+        console.debug(wsdata);
+
+        switch (wsdata.event.type) {
+            // Send by actions via WebsocketBroadcastJson
+            case "Custom":
+                switch (wsdata.data.name) {
+                    case "Update " + type + " Goal":
+                        current = wsdata.data.arguments.current;
+                        goal = wsdata.data.arguments.goal;
+                        updateProgress()
+                        break;
+                    default:
+                        console.debug(wsdata.data.name);
+                        break;
+                }
+                break;
+            // Events that are tracked
+            case type:
+                current++
+                updateProgress()
+                break;
+            default:
+                console.debug(wsdata.event.type);
+                break;
+        }
+
+    }
+
     ws.onopen = () => {
         ws.send(
             JSON.stringify({
                 request: "Subscribe",
                 id: sbSettings.widget,
                 events: {
-                    "Twitch": [
+                    Twitch: [
                         "Follow",
                         "Cheers",
                         "Subs",
                     ],
-                    "streamlabs": [
+                    streamlabs: [
                         "Donation"
                     ],
-                    "streamelements": [
+                    streamelements: [
                         "Tip"
                     ],
-                    general: ["Custom"],
+                    general: [
+                        "Custom"
+                    ],
                 },
             })
         );
+
+        initGoal();
     };
 
-    ws.onmessage = async(event) => {
 
-        const wsdata = JSON.parse(event.data);
 
-        if (wsdata.status == "ok" || wsdata.event.source == null) {
-            return;
-        }
-
-        console.debug(wsdata.data);
-
-        switch (wsdata.data.name) {
-
-            case "Update Follower count":
-                updateProgress(wsdata.data.arguments.current, wsdata.data.arguments.goal)
-                break;
-            default:
-                console.debug(wsdata.data.name);
-                break;
-        }
-
-    }
-
-    ws.onclose = function() {
+    ws.onclose = function () {
         setTimeout(connectws, 10000);
     };
 
