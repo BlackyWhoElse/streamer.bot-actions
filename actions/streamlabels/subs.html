@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="js/streamer.bot.js"></script>
+    <script src="js/script.js"></script>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <title>Subs Goals</title>
+
+    <style>
+         :root {
+            --progressbar-width: 100vw;
+            --progressbar-height: 100vh;
+            --progressbar-background-color: #1D1F20;
+            --pregressbar-progress-color: #db292a;
+            --progressbar-border-color: #1D1F20;
+            --pregressbar-border-size: 1px;
+            /* row, column */
+            --progressbar-orientation: column-reverse;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="progress" aria-goal-type="Subs">
+        <div class="progress-info">
+            <span id="current"></span>/<span id="goal"></span>
+        </div>
+        <progress id="progress-bar" role="progressbar" value="0"  max="100"></progress>
+    </div>
+</body>
+
+</html>
