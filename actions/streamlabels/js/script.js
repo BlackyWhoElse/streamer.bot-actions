@@ -1,22 +1,12 @@
-var vertical = false;
 var type = "";
 var current = 0;
 var goal = 0;
 
 
 function updateProgress() {
-    checkOrientation();
-    setCurrent(current);
-    setGoal(goal);
-    setPercent(current, goal);
-}
-
-function checkOrientation() {
-    var classes = $("#progress").attr("class");
-    
-    if (classes == "vertical") {
-        vertical = true;
-    }
+    setCurrent();
+    setGoal();
+    setPercent();
 }
 
 function initGoal() {
@@ -27,18 +17,18 @@ function initGoal() {
         JSON.stringify({
             request: "DoAction",
             action: {
-                name: "Update Goal " + type ,
+                name: "Update Goal " + type,
             },
             id: "StreamLabelsUpdateGoal",
         })
     );
 }
 
-function addToGoal(){
+function addToGoal() {
 
 }
 
-function setGoal(goal) {
+function setGoal() {
     $("#goal").text(goal);
 }
 
@@ -46,7 +36,7 @@ function getGoal() {
     return $("#goal").text();
 }
 
-function setCurrent(current) {
+function setCurrent() {
     $("#current").text(current);
 }
 
@@ -54,14 +44,7 @@ function getCurrent() {
     return $("#current").text();
 }
 
-function setPercent(current, goal) {
-    if (vertical) {
-        $(".progress-bar").height((current / goal) * 100 + '%');
-    } else {
-        $(".progress-bar").width((current / goal) * 100 + '%');
-    }
-}
-
-function calculatePercent() {
-    return (current / goal) * 100;
+function setPercent() {
+    document.getElementById('progress-bar').setAttribute("value", current)
+    document.getElementById('progress-bar').setAttribute("max", goal)
 }
