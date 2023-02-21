@@ -129,7 +129,7 @@ async function pushMessage(type, message) {
                 message.classes.push("broadcaster");
             }
             if (message.role === 3) {
-                message.classes.push("moderartor");
+                message.classes.push("moderator");
             }
 
             break;
