@@ -271,7 +271,7 @@ async function fetchWords() {
     await fetch(wordListSource[sbSettings.language])
         .then((res) => res.text())
         .then((data) => {
-            targetWordList = data.toLowerCase().trim().split("\r\n");
+            targetWordList = data.toLowerCase().trim().split(/\r\n|\n|\r/);
         });
 }
 
