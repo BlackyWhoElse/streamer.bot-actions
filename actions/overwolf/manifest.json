@@ -1,0 +1,33 @@
+{
+    "manifest_version":1,
+    "type":"WebApp",
+    "meta":{
+        "name":"Streamer.Bot Game Events",
+        "version":"1.0.0",
+        "minimum-overwolf-version":"0.77.10",
+        "author":"BlackyWerSonst",
+        "icon":"IconMouseOver.png",
+        "icon_gray":"IconMouseNormal.png",
+        "launcher_icon": "desktop-icon.ico",
+        "description":"Link Gameevents to actions inside Streamer.Bot"
+    },
+    "data": {
+        "start_window":"MainWindow",
+        "windows":{
+            "MainWindow":{
+                    "file":"index.html",
+                    "transparent": false,
+                    "resizable": true,
+                    "use_os_windowing": true,
+                    "size": {
+                        "width":700,
+                        "height":400
+                        },
+                    "min_size": {
+                        "width":400,
+                        "height":400
+                    }
+                }
+        }
+    }
+}
