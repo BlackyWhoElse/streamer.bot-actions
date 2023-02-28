@@ -6,7 +6,7 @@
         "version":"1.0.0",
         "minimum-overwolf-version":"0.77.10",
         "author":"BlackyWerSonst",
-        "icon":"IconMouseOver.png",
+        "icon":"IconMouseNormal.png",
         "icon_gray":"IconMouseNormal.png",
         "launcher_icon": "desktop-icon.ico",
         "description":"Link Gameevents to actions inside Streamer.Bot"
