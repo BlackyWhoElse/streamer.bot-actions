@@ -173,7 +173,7 @@ function submitGuess() {
                 !indiciesOf(letter, targetWord).includes(i)
             ) {
                 if (
-                    indiciesOf(letter, scanned).length + correctOfType >
+                    indiciesOf(letter, scanned).length >
                     indiciesOf(letter, targetWord).length
                 ) {
                     tile.dataset.state = letterStates.ABSENT;
