@@ -20,7 +20,7 @@ function connectws() {
 }
 
 function bindEvents() {
-    ws.onmessage = async (event) => {
+    ws.onmessage = async(event) => {
 
         const wsdata = JSON.parse(event.data);
 
@@ -50,7 +50,7 @@ function bindEvents() {
                         break;
                 }
                 break;
-            // Events that are tracked
+                // Events that are tracked
             case type:
                 current++
                 updateProgress()
@@ -70,8 +70,8 @@ function bindEvents() {
                 events: {
                     Twitch: [
                         "Follow",
-                        "Cheers",
-                        "Subs",
+                        "Cheer",
+                        "Sub",
                     ],
                     streamlabs: [
                         "Donation"
@@ -91,7 +91,7 @@ function bindEvents() {
 
 
 
-    ws.onclose = function () {
+    ws.onclose = function() {
         setTimeout(connectws, 10000);
     };
 
