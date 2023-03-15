@@ -194,7 +194,7 @@ async function pushMessage(type, message) {
             resolve(getProfileImage(type, message));
         })
         .then((avatar) => {
-            console.log("Avatar: " + avatar);
+            console.debug("Avatar: " + avatar);
             message.avatar = avatar;
             return renderBadges(message);
         })
