@@ -209,6 +209,35 @@ async function pushMessage(type, message) {
                 removeMessage(message.msgId);
             }
         })
+        .then(() => {
+            //Prevent clipping
+            var currentHeight = 0;
+            $("#chat").children().each(function() {
+                currentHeight += $(this).outerHeight(true);
+            });
+
+            var parentHeight = $('#chat').outerHeight(true);
+            var count = 0;
+            var $chatLine, lineHeight;
+
+            // Checking the Viewport if Elements are to big the 
+            // oldest will be deleted after hide animation
+            // Issue: https://github.com/BlackyWhoElse/streamer.bot-actions/issues/79
+
+            while (currentHeight > parentHeight) {
+                $chatLine = $('.msg').eq(count);
+                lineHeight = $chatLine.outerHeight(true);
+
+
+                $chatLine.addClass("animate__" + settings.animations.hideAnimation);
+                $chatLine.bind("animationend", function() {
+                    $(this).remove();
+                });
+
+                currentHeight -= lineHeight;
+                count++;
+            }
+        })
         .catch(function(error) {
             console.error(error);
         });
