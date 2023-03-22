@@ -3,6 +3,7 @@
     "type": "WebApp",
     "meta": {
         "name": "Streamer.Bot Game Events",
+<<<<<<< Updated upstream
         "version": "1.0.0",
         "minimum-overwolf-version": "0.220.0.1",
         "author": "BlackyWerSonst",
@@ -10,13 +11,39 @@
         "icon_gray": "assets/IconMouseGray.png",
         "launcher_icon": "assets/desktop-icon.ico",
         "description": "Link Game events to actions inside Streamer.Bot"
+=======
+        "version": "0.0.1",
+        "minimum-overwolf-version": "0.77.10",
+        "author": "BlackyWerSonst",
+        "icon": "icons/IconMouseNormal.png",
+        "icon_gray": "icons/IconMouseNormal.png",
+        "launcher_icon": "icons/desktop-icon.ico",
+        "description": "Sending Game events to Streamer.Bot"
+>>>>>>> Stashed changes
     },
+    "permissions": [
+        "Hotkeys",
+        "GameInfo"
+    ],
     "data": {
+<<<<<<< Updated upstream
         "start_window": "MainWindow",
         "windows": {
             "MainWindow": {
                 "open_dev_tools": true,
                 "file": "index.html",
+=======
+        "start_window": "background",
+        "windows": {
+            "background": {
+                "file": "windows/background/background.html",
+                "transparent": true,
+                "background_optimization": true,
+                "is_background_page": true
+            },
+            "MainWindow": {
+                "file": "windows/in-game/in-game.html",
+>>>>>>> Stashed changes
                 "transparent": false,
                 "resizable": true,
                 "use_os_windowing": true,
@@ -33,6 +60,7 @@
         "game_targeting": {
             "type": "dedicated",
             "game_ids": [
+<<<<<<< Updated upstream
                 765,
                 5426,
                 7212,
@@ -140,5 +168,78 @@
                 "start_minimized": false
             }
         ]
+=======
+                21566,
+                21216,
+                7764,
+                5426,
+                21634,
+                8032,
+                21864,
+                10906,
+                10826,
+                21404,
+                7212,
+                21640,
+                7314,
+                21626,
+                8954,
+                10798,
+                22092,
+                21816
+            ]
+        },
+        "game_events": [
+            21566,
+            22092,
+            21216,
+            7764,
+            5426,
+            21634,
+            8032,
+            10906,
+            10826,
+            21404,
+            7212,
+            21640,
+            7314,
+            21626,
+            10798,
+            8954,
+            21864,
+            21816
+        ],
+        "launch_events": [{
+            "event": "GameLaunch",
+            "event_data": {
+                "game_ids": [
+                    21566,
+                    21216,
+                    21864,
+                    7764,
+                    5426,
+                    21634,
+                    8032,
+                    10906,
+                    10826,
+                    21404,
+                    7212,
+                    21640,
+                    7314,
+                    21626,
+                    8954,
+                    10798,
+                    22092,
+                    21816
+                ]
+            },
+            "start_minimized": true
+        }],
+        "developer": {
+            "enable_auto_refresh": true,
+            "reload_delay": 1000,
+            "filter": "*.*"
+        }
+>>>>>>> Stashed changes
     }
 }
