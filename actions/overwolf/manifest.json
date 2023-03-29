@@ -16,20 +16,14 @@
         "GameInfo"
     ],
     "data": {
-        "start_window": "background",
+        "start_window": "MainWindow",
         "windows": {
-            "background": {
-                "file": "windows/background/background.html",
-                "transparent": true,
+            "MainWindow": {
+                "file": "windows/index/index.html",
+                "transparent": false,
                 "background_optimization": true,
                 "is_background_page": true,
-                "open_dev_tools": true
-            },
-            "MainWindow": {
-                "file": "windows/in-game/in-game.html",
-                "transparent": false,
-                "resizable": true,
-                "use_os_windowing": true,
+                "open_dev_tools": true,
                 "size": {
                     "width": 700,
                     "height": 400
