@@ -1,0 +1,59 @@
+body {
+  aspect-ratio: 16/9;
+  background-color: rgb(49, 49, 49);
+}
+
+#skip-container {
+  width: 30%;
+  height: 90px;
+  background-color: rgba(0, 0, 0, .5);
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  bottom: 20%;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+#skip-counter {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  flex: 1 1;
+}
+
+.skip-text {
+  flex-grow: 1;
+}
+
+.skip-thumb {
+  height: 90px;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+
+/**
+ * Controlls
+ **/
+
+#skip {
+  display: inherit;
+}
+
+#skip div {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90px;
+}
+
+#skip svg {
+  width: 48px;
+  height: 48px;
+  fill: #fff;
+}
