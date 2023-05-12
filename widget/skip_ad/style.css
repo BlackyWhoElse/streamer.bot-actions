@@ -1,6 +1,18 @@
-body {
-  aspect-ratio: 16/9;
-  background-color: rgb(49, 49, 49);
+:root {
+  --progress-color: red;
+  --progress-background: white;
+}
+
+body{
+  padding: 0;
+  margin: 0;
+}
+
+#frame {
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(49, 49, 49,0.5);
+  position: relative;
 }
 
 #skip-container {
@@ -14,7 +26,7 @@ body {
   right: 0;
   z-index: 999;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 10px;
 }
 
@@ -40,20 +52,36 @@ body {
  * Controlls
  **/
 
-#skip {
-  display: inherit;
+progress {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 100%;
+  height: 5%;
+  border: none;
+
+  position: absolute;
+  bottom: 0;
 }
 
-#skip div {
-  flex-direction: column;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 90px;
+
+progress::-webkit-progress-bar {
+  /* style rules background in chrome, edge, opera */
+  background-color: var(--progress-background);
+  border-radius: 10px;
 }
 
-#skip svg {
-  width: 48px;
-  height: 48px;
-  fill: #fff;
+progress::-webkit-progress-value {
+  /* style rules chrome edge opera value bar colour */
+  background-color: var(--progress-color);
+  border-radius: 0px;
+  transition: width 1s linear;
+}
+
+progress::-moz-progress-bar {
+  /* style rules ff equivalent to ::-webkit-progress-value */
+  background-color: var(--progress-color);
+  border-radius: 0px;
+  transition: width 1s linear;
 }
