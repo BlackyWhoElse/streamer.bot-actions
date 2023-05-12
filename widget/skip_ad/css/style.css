@@ -11,12 +11,11 @@ body{
 #frame {
   width: 100vw;
   height: 100vh;
-  background-color: rgba(49, 49, 49,0.5);
   position: relative;
 }
 
 #skip-container {
-  width: 30%;
+  width: 20%;
   height: 90px;
   background-color: rgba(0, 0, 0, .5);
   color: #fff;

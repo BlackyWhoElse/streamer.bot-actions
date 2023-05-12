@@ -1,4 +1,5 @@
 var time = 30;
+var skips = 3;
 
 function startTimer(){
   time  = 30;
