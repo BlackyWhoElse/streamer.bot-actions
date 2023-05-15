@@ -3,7 +3,7 @@
   --progress-background: white;
 }
 
-body{
+body {
   padding: 0;
   margin: 0;
 }
@@ -24,9 +24,14 @@ body{
   bottom: 20%;
   right: 0;
   z-index: 999;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 10px;
+
+}
+
+#skip-container.show {
+  display: flex;
 }
 
 #skip-counter {
@@ -83,4 +88,17 @@ progress::-moz-progress-bar {
   background-color: var(--progress-color);
   border-radius: 0px;
   transition: width 1s linear;
+}
+
+
+#ad-duration {
+  display: none;
+}
+
+#ad-duration.show {
+  display: block;
+}
+
+#ad-progress {
+  height: 2%;
 }
