@@ -58,7 +58,7 @@ function loadTemplates() {
     //  Loading message templates
     $("#templates").load(
         `theme/${settings.template}/template.html`,
-        function(response, status, xhr) {
+        function (response, status, xhr) {
             if (status == "error") {
                 var msg = "Sorry but there was an error: ";
                 console.error(msg + xhr.status + " " + xhr.statusText);
@@ -82,7 +82,7 @@ function loadTemplates() {
  * - Chatmessage
  * - Reward
  * - Message
- * 
+ *
  * Default variables
  * - message.msgid
  * - message.username
@@ -90,7 +90,7 @@ function loadTemplates() {
  * - message.avatar
  * - message.time
  * - message.classes
- * @param {*} message 
+ * @param {*} message
  */
 async function pushMessage(type, message) {
 
@@ -134,7 +134,7 @@ async function pushMessage(type, message) {
 
             break;
 
-            // Reward message from Twitch
+        // Reward message from Twitch
         case "reward":
             message.msgId = message.id;
             message.title = message.reward.title;
@@ -153,7 +153,7 @@ async function pushMessage(type, message) {
 
             break;
 
-            // Message from Youtube
+        // Message from Youtube
         case "message":
 
 
@@ -184,17 +184,16 @@ async function pushMessage(type, message) {
     }
 
     const msg = new Promise((resolve, reject) => {
-            // Note: This is to prevent a streamer.bot message to not disappear.
-            // - This could be a bug and will maybe be removed on a later date.
-            if (message.msgId == undefined) {
-                console.debug("Message has no ID");
-                message.msgId = makeid(6);
-            }
+        // Note: This is to prevent a streamer.bot message to not disappear.
+        // - This could be a bug and will maybe be removed on a later date.
+        if (message.msgId == undefined) {
+            console.debug("Message has no ID");
+            message.msgId = makeid(6);
+        }
 
-            resolve(getProfileImage(type, message));
-        })
+        resolve(getProfileImage(type, message));
+    })
         .then((avatar) => {
-            console.debug("Avatar: " + avatar);
             message.avatar = avatar;
             return renderBadges(message);
         })
@@ -212,7 +211,7 @@ async function pushMessage(type, message) {
         .then(() => {
             //Prevent clipping
             var currentHeight = 0;
-            $("#chat").children().each(function() {
+            $("#chat").children().each(function () {
                 currentHeight += $(this).outerHeight(true);
             });
 
@@ -220,7 +219,7 @@ async function pushMessage(type, message) {
             var count = 0;
             var $chatLine, lineHeight;
 
-            // Checking the Viewport if Elements are to big the 
+            // Checking the Viewport if Elements are to big the
             // oldest will be deleted after hide animation
             // Issue: https://github.com/BlackyWhoElse/streamer.bot-actions/issues/79
 
@@ -230,7 +229,7 @@ async function pushMessage(type, message) {
 
 
                 $chatLine.addClass("animate__" + settings.animations.hideAnimation);
-                $chatLine.bind("animationend", function() {
+                $chatLine.bind("animationend", function () {
                     $(this).remove();
                 });
 
@@ -238,7 +237,7 @@ async function pushMessage(type, message) {
                 count++;
             }
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.error(error);
         });
 }
@@ -250,7 +249,9 @@ async function pushMessage(type, message) {
  */
 function renderMessage(platform, message = {}) {
 
-    console.debug(message);
+    if (settings.debug) {
+        console.debug("Message Data at the end", message);
+    }
 
     switch (platform) {
         case "chatmessage":
@@ -264,7 +265,6 @@ function renderMessage(platform, message = {}) {
         case "reward":
             var tpl = template_reward;
             break;
-
 
         default:
             break;
@@ -300,14 +300,14 @@ function removeMessage(msgId) {
     console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
 
     const msg = new Promise((resolve, reject) => {
-        delay(settings.animations.hidedelay).then(function() {
+        delay(settings.animations.hidedelay).then(function () {
             $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
-            $("#" + msgId).bind("animationend", function() {
+            $("#" + msgId).bind("animationend", function () {
                 $("#" + msgId).remove();
             });
             resolve();
         });
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.error(error);
     });
 }
@@ -333,7 +333,7 @@ async function renderBadges(message) {
  * Swaping Emote names for emote images
  * Todo: Add a new way to get image url if its unknown
  * https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_5313d0941014484f9995197017132c33/static/light/3.0
- * @param {object} message 
+ * @param {object} message
  * @returns
  */
 async function renderEmotes(message) {
@@ -362,6 +362,38 @@ async function renderEmotes(message) {
  */
 async function renderYTEmotes(message) {
     // Todo: Find a way to get Emotes https://github.com/BlackyWhoElse/streamer.bot-actions/issues/56
+
+    const yt_emotes = {
+        ':yt:': `https://yt3.ggpht.com/m6yqTzfmHlsoKKEZRSZCkqf6cGSeHtStY4rIeeXLAk4N9GY_yw3dizdZoxTrjLhlY4r_rkz3GA=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':oops:': `https://yt3.ggpht.com/qByNS7xmuQXsb_5hxW2ggxwQZRN8-biWVnnKuL5FK1zudxIeim48zRVPk6DRq_HgaeKltHhm=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':buffering:': `https://yt3.ggpht.com/foWgzjN0ggMAA0CzDPfPZGyuGwv_7D7Nf6FGLAiomW5RRXj0Fs2lDqs2U6L52Z4J2Zb-D5tCUAA=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':stayhome:': `https://yt3.ggpht.com/u3QDxda8o4jrk_b01YtJYKb57l8Zw8ks8mCwGkiZ5hC5cQP_iszbsggxIWquZhuLRBzl5IEM2w=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':dothefive:': `https://yt3.ggpht.com/ktU04FFgK_a6yaXCS1US-ReFkLjD22XllcIMOyBRHuYKLsrxpVxsauV1gSC2RPraMJWXpWcY=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':elbowbump:': `https://yt3.ggpht.com/gt39CIfizoIAce9a8IzjfrADV5CjTbSyFKUlLMXzYILxJRjwAgYQQJ9PXXxnRvrnTec7ZpfHN4k=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':goodvibes:': `https://yt3.ggpht.com/6LPOiCw9bYr3ZXe8AhUoIMpDe_0BglC4mBmi-uC4kLDqDIuPu4J3ErgV0lEhgzXiBluq-I8j=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':thanksdoc:': `https://yt3.ggpht.com/Av7Vf8FxIp0_dQg4cJrPcGmmL7v9RXraOXMp0ZBDN693ewoMTHbbS7D7V3GXpbtZPSNcRLHTQw=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':videocall:': `https://yt3.ggpht.com/bP-4yir3xZBWh-NKO4eGJJglr8m4dRnHrAKAXikaOJ0E5YFNkJ6IyAz3YhHMyukQ1kJNgQAo=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':virtualhug:': `https://yt3.ggpht.com/-o0Di2mE5oaqf_lb_RI3igd0fptmldMWF9kyQpqKWkdAd7M4cT5ZKzDwlmSSXdcBp3zVLJ41yg=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':yougotthis:': `https://yt3.ggpht.com/WxLUGtJzyLd4dcGaWnmcQnw9lTu9BW3_pEuCp6kcM2pxF5p5J28PvcYIXWh6uCm78LxGJVGn9g=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':sanitizer:': `https://yt3.ggpht.com/4PaPj_5jR1lkidYakZ4EkxVqNr0Eqp4g0xvlYt_gZqjTtVeyHBszqf57nB9s6uLh7d2QtEhEWEc=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':takeout:': `https://yt3.ggpht.com/ehUiXdRyvel0hba-BopQoDWTvM9ogZcMPaaAeR6IA9wkocdG21aFVN_IylxRGHtl2mE6L9jg1Do=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':hydrate:': `https://yt3.ggpht.com/Plqt3RM7NBy-R_eA90cIjzMEzo8guwE0KqJ9QBeCkPEWO7FvUqKU_Vq03Lmv9XxMrG6A3Ouwpg=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':chillwcat:': `https://yt3.ggpht.com/ZN5h05TnuFQmbzgGvIfk3bgrV-_Wp8bAbecOqw92s2isI6GLHbYjTyZjcqf0rKQ5t4jBtlumzw=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':chillwdog:': `https://yt3.ggpht.com/jiaOCnfLX0rqed1sISxULaO7T-ktq2GEPizX9snaxvMLxQOMmWXMmAVGyIbYeFS2IvrMpxvFcQ=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':elbowcough:': `https://yt3.ggpht.com/kWObU3wBMdHS43q6-ib2KJ-iC5tWqe7QcEITaNApbXEZfrik9E57_ve_BEPHO86z4Xrv8ikMdW0=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':learning:': `https://yt3.ggpht.com/LiS1vw8KUXmczimKGfA-toRYXOcV1o-9aGSNRF0dGLk15Da2KTAsU-DXkIao-S7-kCkSnJwt=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':washhands:': `https://yt3.ggpht.com/66Fn-0wiOmLDkoKk4FSa9vD0yymtWEulbbQK2x-kTBswQ2auer_2ftvmrJGyMMoqEGNjJtipBA=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':socialdist': `https://yt3.ggpht.com/0WD780vTqUcS0pFq423D8WRuA_T8NKdTbRztChITI9jgOqOxD2r6dthbu86P6fIggDR6omAPfnQ=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        ':shelterin:': `https://yt3.ggpht.com/KgaktgJ3tmEFB-gMtjUcuHd6UKq50b-S3PbHEOSUbJG7UddPoJSmrIzysXA77jJp5oRNLWG84Q=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+    };
+
+    message.emotes.forEach((yt_emotes) => {
+        message.message = message.message.replace(
+            yt_emotes,
+            `<img class="emote" src="${emote.imageUrl}">`
+        );
+    });
+
     return message;
 }
 
@@ -371,7 +403,6 @@ async function renderYTEmotes(message) {
  * @returns
  */
 async function getProfileImage(type, message) {
-    console.debug(message);
 
     username = "";
 
@@ -417,7 +448,7 @@ function ClearChat() {
 
 // Helper Code
 function delay(t, v) {
-    return new Promise(function(resolve) {
+    return new Promise(function (resolve) {
         setTimeout(resolve.bind(null, v), t);
     });
 }
@@ -425,64 +456,53 @@ function delay(t, v) {
 // Debug Code
 function debugMessages() {
 
-    dev = setInterval(() => {
-        let sub = false;
-        let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
-
-        if (Math.random() == 1) sub = true;
-
-        const message = {
-            avatar: "https://static-cdn.jtvnw.net/jtv_user_pictures/a88dd690-f653-435e-ae3f-cd312ee5b736-profile_image-300x300.png",
-            bits: 0,
-            badges: [{
-                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3",
-                    name: "broadcaster",
-                },
-                {
-                    imageUrl: "https://static-cdn.jtvnw.net/badges/v1/31966bdb-b183-47a9-a691-7d50b276fc3a/3",
-                    name: "subscriber",
-                },
-            ],
-            emotes: [],
-            channel: "blackywersonst",
-            color: "#B33B19",
-            displayName: "Blackywersonst",
-            firstMessage: false,
-            hasBits: false,
-            internal: false,
-            isAnonymous: false,
-            isCustomReward: false,
-            isHighlighted: false,
-            isMe: false,
-            isReply: false,
-            message: randomMessage(),
-            monthsSubscribed: 57,
-            msgId: makeid(12),
-            role: r,
-            subscriber: sub,
-            userId: 27638012,
-            username: "blackywersonst",
-            time: "19:36",
-        };
-
-        pushMessage('chatmessage', message);
-    }, 4000);
-}
-
-function makeid(length) {
-    var result = "";
-    var characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-}
-
-function randomMessage() {
-
-    msgs = [
+    const badges = [
+        [{
+            "name": "vip",
+            "version": "1",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/3"
+        },
+        {
+            "name": "subscriber",
+            "version": "0",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/5d9f2208-5dd8-11e7-8513-2ff4adfae661/3"
+        }
+        ],
+        [{
+            "name": "premium",
+            "version": "1",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/3"
+        }],
+        [{
+            "name": "broadcaster",
+            "version": "1",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3"
+        },
+        {
+            "name": "subscriber",
+            "version": "0",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/5d9f2208-5dd8-11e7-8513-2ff4adfae661/3"
+        },
+        {
+            "name": "glhf-pledge",
+            "version": "1",
+            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/3158e758-3cb4-43c5-94b3-7639810451c5/3"
+        }
+        ]
+    ];
+    const names = [
+        { name: "stormen", displayName: "Stormen" },
+        { name: "pestily", displayName: "Pestily" },
+        { name: "shivfps", displayName: "ShivFPS" },
+        { name: "faide", displayName: "Faide" },
+        { name: "toastracktv", displayName: "Toastracktv" },
+        { name: "esl_csgo", displayName: "ESL_CSGO" },
+        { name: "stodeh", displayName: "Stodeh" },
+        { name: "spatzetiger", displayName: "Spatzetiger" },
+        { name: "burritodyson", displayName: "BurritoDyson" },
+        { name: "nerdl1ft", displayName: "NerdL1ft" },
+    ];
+    const msgs = [
         "Welcome",
         "If you ate pasta and antipasta, would you still be hungry?",
         "go on",
@@ -516,11 +536,56 @@ function randomMessage() {
         "You smell different when you're awake",
         "When a clock is hungry it goes back four seconds",
         "tommorow",
-        " Would you rather have one real get out of jail free card or a key that opens any door?",
+        "Would you rather have one real get out of jail free card or a key that opens any door?",
         "you like yourself alot right",
+        "Are you a robot?",
+        "How are you?",
+        "Happy birthday!",
     ];
 
-    msg = msgs[Math.floor(Math.random() * msgs.length)]
+    dev = setInterval(() => {
+        // Generatin random role
+        let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
 
-    return msg;
+        let n = names[Math.floor(Math.random() * names.length)];
+
+        let message = {
+            bits: 0,
+            badges: badges[Math.floor(Math.random() * badges.length)],
+            emotes: [],
+            channel: n.name,
+            color: "#B33B19",
+            displayName: n.displayName,
+            firstMessage: Math.random() < 0.5,
+            hasBits: Math.random() < 0.5,
+            internal: Math.random() < 0.5,
+            isAnonymous: Math.random() < 0.5,
+            isCustomReward: false,
+            isHighlighted: Math.random() < 0.5,
+            isMe: Math.random() < 0.5,
+            isReply: Math.random() < 0.5,
+            message: msgs[Math.floor(Math.random() * msgs.length)],
+            monthsSubscribed: 57,
+            msgId: makeid(12),
+            role: r,
+            subscriber: Math.random() < 0.5,
+            userId: 27638012,
+            username: n.name,
+            time: "19:36",
+        };
+
+        pushMessage('chatmessage', message);
+    }, 4000);
 }
+
+function makeid(length) {
+    var result = "";
+    var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+
