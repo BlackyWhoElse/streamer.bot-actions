@@ -18,3 +18,20 @@ widget/chat/crossing.html
 widget/chat/default.html
 widget/chat/tarkov.html
 widget/chat/ticker.html
+
+
+
+# Exclude not finished projects
+.gitignore export-ignore
+/.github export-ignore
+
+# Actions
+/actions/overwolf export-ignore
+/actions/media-request export-ignore
+/actions/polls export-ignore
+
+# Games
+/games/Streaming Stampede export-ignore
+
+# Widgets
+/widget/skip_ad export-ignore
