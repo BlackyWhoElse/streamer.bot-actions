@@ -453,7 +453,14 @@ function delay(t, v) {
     });
 }
 
-// Debug Code
+/**
+ * # Debug Mode
+ * This will constantly generate new messages with random values
+ * Name and profile picture are combined but color,message and role will be random
+ *
+ * The debug mode is for longtime test and themeing.
+ *
+ */
 function debugMessages() {
 
     const badges = [
@@ -542,6 +549,16 @@ function debugMessages() {
         "How are you?",
         "Happy birthday!",
     ];
+    const colors = [
+        "#a5cc64",
+        "#25c532",
+        "#a2c014",
+        "#01314f",
+        "#4ad4d4",
+        "#B33B19",
+        "#20dd24",
+        "#c859f7",
+    ];
 
     dev = setInterval(() => {
         // Generatin random role
@@ -554,7 +571,7 @@ function debugMessages() {
             badges: badges[Math.floor(Math.random() * badges.length)],
             emotes: [],
             channel: n.name,
-            color: "#B33B19",
+            color: colors[Math.floor(Math.random() * colors.length)],
             displayName: n.displayName,
             firstMessage: Math.random() < 0.5,
             hasBits: Math.random() < 0.5,
