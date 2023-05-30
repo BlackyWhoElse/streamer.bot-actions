@@ -26,7 +26,7 @@ widget/chat/ticker.html
 /.github export-ignore
 
 # Actions
-/actions/overwolf export-ignore
+/overwolf export-ignore
 /actions/media-request export-ignore
 /actions/polls export-ignore
 
