@@ -3,7 +3,7 @@
  */
 
 var ws = null;
-var ip = "ws://localhost:8080/";
+var ip = "ws://localhost:8080/"; // Todo: Add this to a settings(env) variable
 
 
 /**
