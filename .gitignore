@@ -24,6 +24,7 @@ widget/chat/ticker.html
 # Exclude not finished projects
 .gitignore export-ignore
 /.github export-ignore
+/c# export-ignore
 
 # Actions
 /overwolf export-ignore
