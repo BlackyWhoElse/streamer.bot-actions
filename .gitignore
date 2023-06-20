@@ -29,7 +29,6 @@ widget/chat/ticker.html
 # Actions
 /overwolf export-ignore
 /actions/media-request export-ignore
-/actions/polls export-ignore
 
 # Games
 /games/Streaming Stampede export-ignore
