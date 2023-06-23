@@ -149,6 +149,9 @@ function submitGuess() {
                     correct++;
                 } else {
                     tile.dataset.state = letterStates.PRESENT;
+                    if ($(`.key:contains("${letter}")`).attr('data-state') != letterStates.CORRECT) {
+                        $(`.key:contains("${letter}")`).attr('data-state', letterStates.PRESENT);
+                    }
                 }
             } else {
                 tile.dataset.state = letterStates.ABSENT;
@@ -179,7 +182,6 @@ function submitGuess() {
                     indiciesOf(letter, targetWord).length
                 ) {
                     tile.dataset.state = letterStates.ABSENT;
-                    $(`.key:contains("${letter}")`).attr('data-state', letterStates.ABSENT);
                 }
             }
         }

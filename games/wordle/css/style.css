@@ -87,7 +87,6 @@ body.light h1 {
 
 .tile {
     display: inline-block;
-    background-color: var(--tile-background);
     font-size: 2rem;
     line-height: 2rem;
     font-weight: bold;

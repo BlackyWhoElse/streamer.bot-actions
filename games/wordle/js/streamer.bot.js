@@ -70,7 +70,7 @@ function bindEvents() {
 
 /**
  * Will send a message to Chat with the outcome
- * @param {boolean} outcome 
+ * @param {boolean} outcome
  */
 function endTheGame(username, outcome) {
     ws.send(
