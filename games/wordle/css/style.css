@@ -107,6 +107,9 @@ h1 {
     align-items: center;
     display: flex;
 
+    font-weight: bold;
+
+    border-radius: 5px;
     background-color: var(--key-background);
 }
 
