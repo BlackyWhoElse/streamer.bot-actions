@@ -3,16 +3,12 @@
     --text-flipped: #ffffff;
     --background: #121213;
     --tile-background: rgb(79, 79, 79);
-    --light: #ffffff;
     --letter-correct: #6aaa64;
     --letter-present: #c9b458;
     --letter-absent: #3a3a3c;
     --border-inactive: #3a3a3c;
     --border-active: #565758;
-    --key-background: #818384;
-    --modal-border: #1a1a1b;
-    --modal-background: #121213;
-    --obfuscator: rgba(0, 0, 0, 0.5);
+    --key-background: #818181;
 }
 
 html {
@@ -27,10 +23,6 @@ body {
     justify-content: center;
     height: 100%;
     margin: 0;
-}
-
-body.light {
-    background-color: var(--background-light);
 }
 
 .wrapper {
@@ -62,10 +54,6 @@ h1 {
     letter-spacing: 3px;
     color: var(--text);
     margin: 0px;
-}
-
-body.light h1 {
-    color: var(--border-active);
 }
 
 .board {
