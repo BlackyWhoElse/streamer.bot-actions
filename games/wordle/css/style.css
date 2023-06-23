@@ -1,18 +1,18 @@
 :root {
-    --c-text: #d7dadc;
-    --c-text-flipped: #ffffff;
-    --c-background: #121213;
-    --c-tile-background: rgb(79, 79, 79);
-    --c-light: #ffffff;
-    --c-letter-correct: #6aaa64;
-    --c-letter-present: #c9b458;
-    --c-letter-absent: #3a3a3c;
-    --c-border-inactive: #3a3a3c;
-    --c-border-active: #565758;
-    --c-key-background: #818384;
-    --c-modal-border: #1a1a1b;
-    --c-modal-background: #121213;
-    --c-obfuscator: rgba(0, 0, 0, 0.5);
+    --text: #d7dadc;
+    --text-flipped: #ffffff;
+    --background: #121213;
+    --tile-background: rgb(79, 79, 79);
+    --light: #ffffff;
+    --letter-correct: #6aaa64;
+    --letter-present: #c9b458;
+    --letter-absent: #3a3a3c;
+    --border-inactive: #3a3a3c;
+    --border-active: #565758;
+    --key-background: #818384;
+    --modal-border: #1a1a1b;
+    --modal-background: #121213;
+    --obfuscator: rgba(0, 0, 0, 0.5);
 }
 
 html {
@@ -21,8 +21,8 @@ html {
 
 body {
     font-family: sans-serif;
-    background-color: var(--c-background);
-    color: var(--c-text);
+    background-color: var(--background);
+    color: var(--text);
     display: flex;
     justify-content: center;
     height: 100%;
@@ -30,7 +30,7 @@ body {
 }
 
 body.light {
-    background-color: var(--c-background-light);
+    background-color: var(--background-light);
 }
 
 .wrapper {
@@ -40,7 +40,7 @@ body.light {
     flex: 1;
     align-items: center;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     height: 100%;
 }
 
@@ -51,7 +51,7 @@ header {
     width: 100%;
     height: 50px;
     line-height: 50px;
-    border-bottom: 1px solid var(--c-border-inactive);
+    border-bottom: 1px solid var(--border-inactive);
 }
 
 h1 {
@@ -60,12 +60,12 @@ h1 {
     text-transform: uppercase;
     text-align: center;
     letter-spacing: 3px;
-    color: var(--c-text);
+    color: var(--text);
     margin: 0px;
 }
 
 body.light h1 {
-    color: var(--c-border-active);
+    color: var(--border-active);
 }
 
 .board {
@@ -87,7 +87,7 @@ body.light h1 {
 
 .tile {
     display: inline-block;
-    background-color: var(--c-tile-background);
+    background-color: var(--tile-background);
     font-size: 2rem;
     line-height: 2rem;
     font-weight: bold;
@@ -102,84 +102,58 @@ body.light h1 {
     user-select: none;
 }
 
-.keyboard {
+
+/**
+ * Keyboard
+ */
+
+#keyboard {
     width: 100%;
-    margin: 0px 8px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 5px;
 }
 
-.keyboard .row {
-    display: flex;
-    width: 100%;
-    margin: 0 auto 8px;
+.key {
+    aspect-ratio: 1;
     justify-content: center;
-}
-
-.keyboard .key {
-    border: none;
-    display: flex;
-    flex: 1;
     align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 4px;
-    height: 58px;
-    margin-right: 6px;
-    text-transform: uppercase;
-    color: var(--c-text);
-    font-weight: bold;
-    max-width: 43px;
-    padding: 0px;
-    box-sizing: border-box;
-    background-color: var(--c-key-background);
-    outline: none;
-    user-select: none;
+    display: flex;
+
+    background-color: var(--key-background);
 }
 
-.keyboard .key:hover {
-    opacity: 0.8;
-}
 
-.keyboard .key-wide {
-    flex: 1.5;
-    max-width: initial;
-}
-
-.keyboard .key:last-child {
-    margin-right: 0px;
-}
-
-.keyboard .material-icons-outlined {
-    text-transform: lowercase;
-    font-weight: normal;
-}
-
+/**
+ * States
+ */
 .board .row[data-state="invalid"] {
     animation: shake 600ms;
 }
 
 .tile[data-state="initial"] {
-    border: solid 2px var(--c-border-inactive);
+    border: solid 2px var(--border-inactive);
 }
 
 .tile[data-state="enter"] {
     animation: enter 100ms 1;
-    border: solid 2px var(--c-border-active);
+    border: solid 2px var(--border-active);
 }
 
 .key[data-state="absent"] {
-    background-color: var(--c-letter-absent);
+    background-color: var(--letter-absent);
 }
 
 .key[data-state="present"] {
-    background-color: var(--c-letter-present);
+    background-color: var(--letter-present);
 }
 
 .key[data-state="correct"] {
-    background-color: var(--c-letter-correct);
+    background-color: var(--letter-correct);
 }
 
 .tile[data-state="absent"] {
-    border: solid 2px var(--c-border-active);
+    border: solid 2px var(--border-active);
 }
 
 .row[data-state="valid"] .tile[data-state="absent"] {
@@ -203,7 +177,7 @@ body.light h1 {
 }
 
 .tile[data-state="present"] {
-    border: solid 2px var(--c-border-active);
+    border: solid 2px var(--border-active);
 }
 
 .row[data-state="valid"] .tile[data-state="present"] {
@@ -227,7 +201,7 @@ body.light h1 {
 }
 
 .tile[data-state="correct"] {
-    border: solid 2px var(--c-border-active);
+    border: solid 2px var(--border-active);
 }
 
 .row[data-state="valid"] .tile[data-state="correct"] {
@@ -251,13 +225,13 @@ body.light h1 {
 }
 
 .row[data-state="correct"] .tile[data-state="correct"] {
-    border: solid 2px var(--c-letter-correct);
+    border: solid 2px var(--letter-correct);
 }
 
 .row[data-state="correct"] .tile {
     animation: bounce 500ms forwards;
-    background-color: var(--c-letter-correct);
-    color: var(--c-text-flipped);
+    background-color: var(--letter-correct);
+    color: var(--text-flipped);
 }
 
 .row[data-state="correct"] .tile:nth-child(2) {
@@ -284,174 +258,89 @@ body.light h1 {
     display: block;
 }
 
-.modal {
-    pointer-events: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
-    background-color: var(--c-obfuscator);
-    opacity: 0;
-    transition: opacity 0.2s linear;
-}
 
-.modal.open {
-    display: flex;
-    pointer-events: auto;
-    opacity: 1;
-    transition: opacity 0.2s linear;
-}
-
-.modal-content {
-    transition: transform 0.2s ease-in-out;
-    transform: translateY(100px);
-    position: relative;
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    text-align: center;
-    width: 500px;
-    height: 150px;
-    background-color: var(--c-modal-background);
-    border: solid 1px var(--c-modal-border);
-}
-
-.modal.open .modal-content {
-    transition: transform 0.2s linear;
-    transform: translateY(0px);
-}
-
-.modal-content .close {
-    position: absolute;
-    cursor: pointer;
-    top: 10px;
-    right: 10px;
-    background: none;
-    color: var(--c-border-active);
-    padding: 0px;
-    border: none;
-}
-
-.modal-content header {
-    border: none;
-    margin-top: 10px;
-}
-
-.win,
-.lose {
-    display: none;
-}
-
-.modal-content h2 {
-    text-transform: uppercase;
-    margin: 0px;
-}
-
-.replay-header,
-.mode {
-    background: none;
-    color: var(--c-border-active);
-    padding: 0px;
-    border: none;
-    cursor: pointer;
-}
-
-.replay-modal {
-    align-self: center;
-    width: 200px;
-    padding: 15px;
-    font-weight: bold;
-    line-height: 52px;
-    text-align: center;
-    height: 52px;
-    font-size: 20px;
-    border-radius: 4px;
-    text-transform: uppercase;
-    color: var(--c-text);
-    border: 0px;
-    background-color: var(--c-letter-correct);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-bottom: 25px;
-    cursor: pointer;
-}
+/**
+ * Animations
+*/
 
 @keyframes flip-absent {
     0% {
         transform: rotateX(0deg);
-        background-color: var(--c-tile-background);
-        border: solid 2px var(--c-border-active);
+        background-color: var(--tile-background);
+        border: solid 2px var(--border-active);
     }
+
     49% {
-        background-color: var(--c-tile-background);
-        border: solid 2px var(--c-border-active);
+        background-color: var(--tile-background);
+        border: solid 2px var(--border-active);
     }
+
     50% {
         transform: rotateX(-90deg);
-        background-color: var(--c-letter-absent);
-        border: solid 2px var(--c-letter-absent);
-        color: var(--c-text-flipped);
+        background-color: var(--letter-absent);
+        border: solid 2px var(--letter-absent);
+        color: var(--text-flipped);
     }
+
     100% {
         transform: rotateX(0deg);
-        background-color: var(--c-letter-absent);
-        border: solid 2px var(--c-letter-absent);
-        color: var(--c-text-flipped);
+        background-color: var(--letter-absent);
+        border: solid 2px var(--letter-absent);
+        color: var(--text-flipped);
     }
 }
 
 @keyframes flip-present {
     0% {
         transform: rotateX(0deg);
-        background-color: var(--c-tile-background);
-        border: solid 2px var(--c-border-active);
+        background-color: var(--tile-background);
+        border: solid 2px var(--border-active);
     }
+
     49% {
-        background-color: var(--c-tile-background);
-        border: solid 2px var(--c-border-active);
+        background-color: var(--tile-background);
+        border: solid 2px var(--border-active);
     }
+
     50% {
         transform: rotateX(-90deg);
-        background-color: var(--c-letter-present);
-        border: solid 2px var(--c-letter-present);
-        color: var(--c-text-flipped);
+        background-color: var(--letter-present);
+        border: solid 2px var(--letter-present);
+        color: var(--text-flipped);
     }
+
     100% {
         transform: rotateX(0deg);
-        background-color: var(--c-letter-present);
-        border: solid 2px var(--c-letter-present);
-        color: var(--c-text-flipped);
+        background-color: var(--letter-present);
+        border: solid 2px var(--letter-present);
+        color: var(--text-flipped);
     }
 }
 
 @keyframes flip-correct {
     0% {
         transform: rotateX(0deg);
-        background-color: var(--c-tile-background);
-        border: solid 2px var(--c-border-active);
+        background-color: var(--tile-background);
+        border: solid 2px var(--border-active);
     }
+
     49% {
-        background-color: var(--c-tile-background);
-        border: solid 2px var(--c-border-active);
+        background-color: var(--tile-background);
+        border: solid 2px var(--border-active);
     }
+
     50% {
         transform: rotateX(-90deg);
-        background-color: var(--c-letter-correct);
-        border: solid 2px var(--c-letter-correct);
-        color: var(--c-text-flipped);
+        background-color: var(--letter-correct);
+        border: solid 2px var(--letter-correct);
+        color: var(--text-flipped);
     }
+
     100% {
         transform: rotateX(0deg);
-        background-color: var(--c-letter-correct);
-        border: solid 2px var(--c-letter-correct);
-        color: var(--c-text-flipped);
+        background-color: var(--letter-correct);
+        border: solid 2px var(--letter-correct);
+        color: var(--text-flipped);
     }
 }
 
@@ -460,6 +349,7 @@ body.light h1 {
         transform: scale(0.8);
         opacity: 0;
     }
+
     40% {
         transform: scale(1.1);
         opacity: 1;
@@ -467,19 +357,23 @@ body.light h1 {
 }
 
 @keyframes shake {
+
     10%,
     90% {
         transform: translateX(-1px);
     }
+
     20%,
     80% {
         transform: translateX(2px);
     }
+
     30%,
     50%,
     70% {
         transform: translateX(-4px);
     }
+
     40%,
     60% {
         transform: translateX(4px);
@@ -487,26 +381,32 @@ body.light h1 {
 }
 
 @keyframes bounce {
+
     0%,
     20% {
-        background-color: var(--c-letter-correct);
+        background-color: var(--letter-correct);
         transform: translateY(0);
     }
+
     40% {
         transform: translateY(-30px);
     }
+
     50% {
         transform: translateY(5px);
     }
+
     60% {
         transform: translateY(-15px);
     }
+
     80% {
         transform: translateY(2px);
     }
+
     100% {
         transform: translateY(0);
-        background-color: var(--c-letter-correct);
+        background-color: var(--letter-correct);
     }
 }
 
@@ -514,6 +414,7 @@ body.light h1 {
     h1 {
         font-size: 1.5em;
     }
+
     header button {
         margin: 0px 10px;
     }

@@ -79,7 +79,7 @@ function getKey(key) {
 
 
 
-// Handles Guesses 
+// Handles Guesses
 function handleGuess(word) {
 
     // Validate word
@@ -145,12 +145,14 @@ function submitGuess() {
             if (targetWord.includes(letter)) {
                 if (indiciesOf(letter, targetWord).includes(i)) {
                     tile.dataset.state = letterStates.CORRECT;
+                    $(`.key:contains("${letter}")`).attr('data-state', letterStates.CORRECT);
                     correct++;
                 } else {
                     tile.dataset.state = letterStates.PRESENT;
                 }
             } else {
                 tile.dataset.state = letterStates.ABSENT;
+                $(`.key:contains("${letter}")`).attr('data-state', letterStates.ABSENT);
             }
         }
 
@@ -177,6 +179,7 @@ function submitGuess() {
                     indiciesOf(letter, targetWord).length
                 ) {
                     tile.dataset.state = letterStates.ABSENT;
+                    $(`.key:contains("${letter}")`).attr('data-state', letterStates.ABSENT);
                 }
             }
         }
@@ -190,7 +193,7 @@ function submitGuess() {
         }
     } else {
         rowEl.dataset.state = "invalid";
-        setTimeout(function() {
+        setTimeout(function () {
             delete rowEl.dataset.state;
         }, 600);
 
@@ -220,10 +223,10 @@ function clearCurrentGuess() {
 // In case of a win
 function win(rowEl) {
     gameOver = true;
-    setTimeout(function() {
+    setTimeout(function () {
         rowEl.dataset.state = "correct";
     }, 1000);
-    setTimeout(function() {
+    setTimeout(function () {
         // Call Streamerbot function for win
         endTheGame(currentGuesser, true);
     }, 1500);
@@ -232,8 +235,8 @@ function win(rowEl) {
 // In case of a loss
 function lose() {
     gameOver = true;
-    setTimeout(function() {
-        // Call Streamerbot function for lose    
+    setTimeout(function () {
+        // Call Streamerbot function for lose
         endTheGame(currentGuesser, false);
     }, 1000);
 }
