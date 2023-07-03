@@ -8,24 +8,23 @@ public class CPHInline
     // Features
     Dictionary<string, List<List<string>>> FeaturesData = new Dictionary<string, List<List<string>>>
         {
-          {
-                "-Any-",
+          {"-Any-",
                 new List<List<string>>
-                {
+                {   // Events
                     new List<string>
                     {
                         "match_end",
                         "match_start",
                     },
+                    // Info Updates
                     new List<string>
                     {
                     }
                 }
             },
-            {
-                "Apex Legends",
+          {"Apex Legends",
                 new List<List<string>>
-                {
+                {   // Events
                     new List<string>
                     {
                         "match_end",
@@ -42,6 +41,7 @@ public class CPHInline
                         "kill_feed",
                         "damage",
                     },
+                    // Info Updates
                     new List<string>
                     {
                         "match_state",
@@ -68,8 +68,7 @@ public class CPHInline
                     }
                 }
             },
-            {
-                "Axie Infinity Origin",
+          {"Axie Infinity Origin",
                 new List<List<string>>
                 {
                     new List<string>
@@ -77,6 +76,7 @@ public class CPHInline
                         "match_end",
                         "match_start",
                     },
+                    // Info Updates
                     new List<string>
                     {
                         "battle_state",
@@ -89,7 +89,133 @@ public class CPHInline
                         "ronin_address"
                     }
                 }
-            }
+            },
+          {"Call of Duty: Vanguard",
+                new List<List<string>>
+                {   // Events
+                    new List<string>
+                    {
+                      "match_end",
+                      "match_start",
+                      "round_outcome",
+                      "kill",
+                      "death"
+                    },
+                    // Info Updates
+                    new List<string>
+                    {
+                      "game_mode",
+                      "scene",
+                      "player_name"
+                    }
+                }
+            },
+          {"Call of Duty: Warzone Caldera",
+                new List<List<string>>
+                {   // Events
+                    new List<string>
+                    {
+                      "match_end",
+                      "match_start",
+                      "kill",
+                      "death",
+                      "assist",
+                    },
+                    // Info Updates
+                    new List<string>
+                    {
+                      "battlenet_tag",
+                    }
+                }
+            },
+          {"Counter-Strike: Global Offensive",
+                new List<List<string>>
+                {   // Events
+                    new List<string>
+                    {
+                      "kill",
+                      "death",
+                      "assist",
+                      "headshot",
+                      "round_start",
+                      "match_start",
+                      "match_end",
+                      "team_round_win",
+                      "bomb_planted",
+                      "bomb_change",
+                      "reloading",
+                      "fired",
+                      "weapon_change",
+                      "weapon_acquired",
+                      "player_activity_change",
+                      "team_set",
+                      "mvp",
+                      "kill_feed"
+                    },
+                    // Info Updates
+                    new List<string>
+                    {
+                      "map",
+                      "mode",
+                      "numOfRound",
+                      "phase",
+                      "scene",
+                      "score",
+                      "steamid",
+                      "team",
+                      "totalDeaths",
+                      "totalKills",
+                      "totalMvps",
+                      "lobby",
+                      "match",
+                      "replay_list",
+                      "ping",
+                      "game_mode",
+                      "match_outcome",
+                      "phase",
+                      "pseudo_match_id",
+                      "server_info",
+                      "scoreboard"
+                    }
+                }
+            },
+          {"Diablo 2 Resurrected",
+                new List<List<string>>
+                {   // Events
+                    new List<string>
+                    {
+                      "dropped_item",
+                      "match_end",
+                      "match_start",
+                      "player_died",
+                      "player_spawn"
+                    },
+                    // Info Updates
+                    new List<string>
+                    {
+                      "player_class",
+                      "player_experience",
+                      "player_level",
+                      "act",
+                      "item"
+                    }
+                }
+            },
+          {"Diablo 4",
+                new List<List<string>>
+                {   // Events
+                    new List<string>
+                    {
+                        "match_end",
+                        "match_start",
+                    },
+                    // Info Updates
+                    new List<string>
+                    {
+                      "location"
+                    }
+                }
+            },
         };
 
 
@@ -97,13 +223,7 @@ public class CPHInline
     foreach (var gameFeatures in FeaturesData)
     {
       string game = gameFeatures.Key;
-
-      if(game == "-Any-"){
-        machine_game = "";
-      }else{
-        machine_game = game.Replace(" ", "_").ToLower();
-      }
-
+      string machine_game = game == "-Any-" ? "" : game.Replace(" ", "_").ToLower();
       bool l = true;
 
       foreach (var featureList in gameFeatures.Value)
@@ -111,7 +231,7 @@ public class CPHInline
         foreach (var feature in featureList)
         {
 
-          CPH.RegisterCustomTrigger(feature, machine_game +"_"+feature, new[] { "Overwolf", game, l ? "Events" : "Info updates" });
+          CPH.RegisterCustomTrigger(feature, machine_game + "_" + feature, new[] { "Overwolf", game, l ? "Events" : "Info updates" });
         }
         l = false;
       }
