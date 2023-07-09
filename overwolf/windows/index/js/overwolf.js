@@ -2,6 +2,7 @@ import { kGameClassIds, kGamesFeatures } from '../../../scripts/constants/games-
 
 var onErrorListener, onInfoUpdates2Listener, onNewEventsListener;
 var gameFeatures;
+var currentGame;
 
 function registerEvents() {
     console.info("INFO: Register Events")
@@ -12,12 +13,12 @@ function registerEvents() {
 
     onInfoUpdates2Listener = function(info) {
         //console.log("Info UPDATE: " + JSON.stringify(info));
-        SBsendData(info, "Info");
+        SBsendData(currentGame, info, "Info");
     }
 
     onNewEventsListener = function(info) {
         //console.log("EVENT FIRED: " + JSON.stringify(info));
-        SBsendData(info, "Event");
+        SBsendData(currentGame, info, "Event");
     }
 
     // general events errors
@@ -42,6 +43,7 @@ function unregisterEvents() {
  * Check if a supported Game has been launched
  */
 function gameLaunched(gameInfoResult) {
+
     if (!gameInfoResult) {
         return false;
     }
@@ -50,9 +52,9 @@ function gameLaunched(gameInfoResult) {
         return false;
     }
 
-    if (!gameInfoResult.runningChanged && !gameInfoResult.gameChanged) {
+    /*if (!gameInfoResult.runningChanged && !gameInfoResult.gameChanged) {
         return false;
-    }
+    }*/
 
     if (!gameInfoResult.gameInfo.isRunning) {
         return false;
@@ -63,7 +65,8 @@ function gameLaunched(gameInfoResult) {
     }
 
     console.log("Started supported Game: " + gameInfoResult.gameInfo.title);
-    gameFeatures = kGamesFeatures.get(gameInfo.classId);
+    currentGame = gameInfoResult.gameInfo.title;
+    gameFeatures = kGamesFeatures.get(gameInfoResult.gameInfo.classId);
     return true;
 
 }
@@ -101,8 +104,8 @@ function gameRunning(gameInfo) {
 function setFeatures() {
     overwolf.games.events.setRequiredFeatures(gameFeatures, function(info) {
         if (info.status == "error") {
-            //console.log("Could not set required features: " + info.reason);
-            //console.log("Trying in 2 seconds");
+            console.log("Could not set required features: " + info.reason);
+            console.log("Trying in 2 seconds");
             window.setTimeout(setFeatures, 2000);
             return;
         }
