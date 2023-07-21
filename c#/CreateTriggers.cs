@@ -15,6 +15,11 @@ public class CPHInline
                     {
                         "match_end",
                         "match_start",
+                        "round_end",
+                        "round_start",
+                        "assist",
+                        "kill",
+                        "death",
                     },
                     // Info Updates
                     new List<string>
@@ -230,8 +235,9 @@ public class CPHInline
       {
         foreach (var feature in featureList)
         {
-
-          CPH.RegisterCustomTrigger(feature, machine_game + "_" + feature, new[] { "Overwolf", game, l ? "Events" : "Info updates" });
+          // kill / apex_legends_klll
+          string name = game == "-Any-" ? feature : game.Replace(" ", "_").ToLower() + "_" + feature;
+          CPH.RegisterCustomTrigger(feature, name, new[] { "Overwolf", game, l ? "Events" : "Info updates" });
         }
         l = false;
       }

@@ -87,9 +87,10 @@ function SBgetActions() {
 }
 
 /**
- * Sends data to Streamer.Bot
+ * Execute Trigger inside Streamer.bot
+ * 
  */
-function SBsendData(data, type) {
+function SBsendData(game, data, type) {
 
     console.log(data);
 
@@ -98,20 +99,37 @@ function SBsendData(data, type) {
     for (const [key, element] of Object.entries(data)) {
         if (typeof element === 'object') {
             for (const [index, value] of Object.entries(element)) {
-                args[index] = value;
+
+                // Event trigger
+                ws.send(JSON.stringify({
+                    request: "ExecuteCodeTrigger",
+                    action: {
+                        "name": value["name"]
+                    },
+                    args: {
+                        "game": game,
+                        "data": value["data"],
+                        "type": type
+                    },
+                    "id": "OverwolfSendData"
+                }));
+
+                // Game specific event trigger
+                ws.send(JSON.stringify({
+                    request: "ExecuteCodeTrigger",
+                    action: {
+                        "name": game.replace(" ", "_").toLowerCase() + "_" + value["name"]
+                    },
+                    args: {
+                        "game": game,
+                        "data": value["data"],
+                        "type": type
+                    },
+                    "id": "OverwolfSendData"
+                }));
             }
         } else {
-            args[key] = element;
+            console.error(element);
         }
     }
-
-    // Sends data depending on the type of event to an action
-    ws.send(JSON.stringify({
-        "request": "DoAction",
-        "action": {
-            "name": "Game" + type
-        },
-        "args": args,
-        "id": "OverwolfSendData"
-    }));
 }
