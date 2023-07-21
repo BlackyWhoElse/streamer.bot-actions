@@ -6,12 +6,12 @@ public class CPHInline
 {
     public bool Execute()
     {
-        
+
         string data = JsonConvert.SerializeObject(new
         {
             name = "Start Game",
             arguments = new
-            {   
+            {
                 type = args["rawInput"].ToString(),
             }
         });

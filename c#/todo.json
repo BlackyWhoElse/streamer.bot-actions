@@ -1,0 +1,67 @@
+[
+  {
+    "Name": "Shopping",
+    "Items": [
+      {
+        "Title": "Buy groceries",
+        "Description": "Milk, eggs, bread",
+        "IsDone": false
+      },
+      {
+        "Title": "Pay bills",
+        "Description": "Electricity, water, internet",
+        "IsDone": true
+      },
+      {
+        "Title": "Finish project",
+        "Description": "Complete the coding tasks",
+        "IsDone": false
+      }
+    ]
+  },
+  {
+    "Name": "Personal",
+    "Items": [
+      {
+        "Title": "Go for a walk",
+        "Description": "Enjoy the fresh air",
+        "IsDone": false
+      },
+      {
+        "Title": "Read a book",
+        "Description": "Fiction or non-fiction",
+        "IsDone": false
+      }
+    ]
+  },
+  {
+    "Name": "Social",
+    "Items": [
+      {
+        "Title": "Call a friend",
+        "Description": "Catch up and make plans",
+        "IsDone": false
+      },
+      {
+        "Title": "Exercise",
+        "Description": "Cardio or strength training",
+        "IsDone": true
+      }
+    ]
+  },
+  {
+    "Name": "Study",
+    "Items": [
+      {
+        "Title": "Clean the house",
+        "Description": "Vacuum, dust, and tidy up",
+        "IsDone": false
+      },
+      {
+        "Title": "Study for the exam",
+        "Description": "Review course material",
+        "IsDone": true
+      }
+    ]
+  }
+]
