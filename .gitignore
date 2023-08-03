@@ -23,16 +23,16 @@ widget/chat/ticker.html
 
 # Exclude not finished projects
 .gitignore export-ignore
-/.github export-ignore
-/c# export-ignore
+.github export-ignore
+c# export-ignore
 
 # Actions
-/overwolf export-ignore
-/actions/media-request export-ignore
+overwolf export-ignore
+actions/media-request export-ignore
 
 # Games
-/games/Streaming Stampede export-ignore
+games/Streaming Stampede export-ignore
 
 # Widgets
-/widget/skip_ad export-ignore
-/widget/countdown export-ignore
+widget/skip_ad export-ignore
+widget/countdown export-ignore
