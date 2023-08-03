@@ -7,7 +7,7 @@
 *.vscode/
 .idea/*
 
-/.github
+.github
 .gitignore export-ignore
 
 # Development Files
