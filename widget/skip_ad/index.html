@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="js/streamer.bot.js"></script>
+  <script src="js/script.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <title>Ad Overlay</title>
+</head>
+
+<body>
+  <div id="frame">
+    <div id="skip-container">
+      <div id="skip-counter">
+        <div class="skip-text">
+          <span>Vote to skip the ad:</span>
+          <span id="timer">5</span>s
+          <br>
+          <span id="skips">3</span> skips remaining
+        </div>
+        <div class="skip-thumb">
+          <!-- Maybe a screenshot of the ad? -->
+          <img src="https://picsum.photos/160/90">
+        </div>
+      </div>
+      <progress value="5" max="5" id="skip-progress"></progress>
+    </div>
+    <div id="ad-duration">
+      <progress value="60" max="60" id="ad-progress"></progress>
+    </div>
+  </div>
+</body>
+
+</html>

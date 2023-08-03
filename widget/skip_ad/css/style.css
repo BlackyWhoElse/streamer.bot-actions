@@ -1,0 +1,104 @@
+:root {
+  --progress-color: red;
+  --progress-background: white;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#frame {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+#skip-container {
+  width: 20%;
+  height: 90px;
+  background-color: rgba(0, 0, 0, .5);
+  color: #fff;
+  text-align: center;
+  position: absolute;
+  bottom: 20%;
+  right: 0;
+  z-index: 999;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+
+}
+
+#skip-container.show {
+  display: flex;
+}
+
+#skip-counter {
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  flex: 1 1;
+}
+
+.skip-text {
+  flex-grow: 1;
+}
+
+.skip-thumb {
+  height: 90px;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+
+/**
+ * Controlls
+ **/
+
+progress {
+  /* Reset the default appearance */
+  -webkit-appearance: none;
+  appearance: none;
+
+  width: 100%;
+  height: 5%;
+  border: none;
+
+  position: absolute;
+  bottom: 0;
+}
+
+
+progress::-webkit-progress-bar {
+  /* style rules background in chrome, edge, opera */
+  background-color: var(--progress-background);
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  /* style rules chrome edge opera value bar colour */
+  background-color: var(--progress-color);
+  border-radius: 0px;
+  transition: width 1s linear;
+}
+
+progress::-moz-progress-bar {
+  /* style rules ff equivalent to ::-webkit-progress-value */
+  background-color: var(--progress-color);
+  border-radius: 0px;
+  transition: width 1s linear;
+}
+
+
+#ad-duration {
+  display: none;
+}
+
+#ad-duration.show {
+  display: block;
+}
+
+#ad-progress {
+  height: 2%;
+}

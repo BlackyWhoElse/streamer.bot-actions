@@ -142,12 +142,37 @@ function doAction() {
     ws.send(JSON.stringify({
         "request": "DoAction",
         "action": {
-            "id": "fb64566c-89fe-441d-a80c-26a0d88ce6ab", // Can be found in context menu of action
             "name": "Websocket Test"
         },
         "args": {
             "argument": "Max Mustermann",
         },
         "id": "WSEDoAction"
+    }));
+}
+
+
+/**
+ * Example: ExecuteTrigger
+ */
+function ExecuteTrigger() {
+    ws.send(JSON.stringify({
+        "request": "ExecuteCodeTrigger",
+        "triggerName": "wtp_reveal_pokemon",
+        "args": {
+            "pokemon": "Max",
+            "chat": true
+        },
+        "id": "WSEExecuteCodeTrigger"
+    }));
+}
+
+/**
+ * Example: getTriggers
+ */
+function getTriggers() {
+    ws.send(JSON.stringify({
+        "request": "GetCodeTriggers",
+        "id": "WSEGetCodeTriggers",
     }));
 }

@@ -35,7 +35,7 @@ var settings = {
 
         // How long the pokemon will be hidden
         revealAfter: 5000,
-        // How long the pokemon will be revealed 
+        // How long the pokemon will be revealed
         hideAfter: 10000,
 
     },
@@ -76,77 +76,63 @@ function bindEvents() {
         ws.send(
             JSON.stringify({
                 request: "Subscribe",
-                id: "obs-chat",
+                id: "EventSubscribe",
                 events: {
                     general: ["Custom"],
-                    Twitch: ["ChatMessage", "PollCompleted"],
+                    Twitch: ["ChatMessage", "PollCompleted", "PollUpdated"],
                     YouTube: ["Message"],
                 },
             })
         );
     };
 
-    ws.onmessage = async(event) => {
+    ws.onmessage = async (event) => {
         const wsdata = JSON.parse(event.data);
 
-        if (wsdata.status == "ok" || wsdata.event.source == null) {
+        if (wsdata == "error") {
+            console.error(wsdata);
+            return;
+        }
+
+        if (wsdata.status == "ok" || typeof wsdata.event === 'undefined') {
+            //console.info(wsdata);
             return;
         }
 
         console.debug(wsdata.data);
 
 
-        if (wsdata.data.name == "Start Game" && !voting) {
+        /**
+         * Manage Gamestates
+         */
+        switch (wsdata.data.name) {
+            case "Start Game":
+                settings.defaultMode = settings.mode;
 
-            settings.defaultMode = settings.mode;
+                // Checking if the game should run in another mode
+                if (wsdata.data.arguments.type) {
+                    settings.mode = wsdata.data.arguments.type;
+                }
 
-            // Checking if the game should run in another mode
-            if (wsdata.data.arguments.type != "" && wsdata.data.arguments.type == "direct" || wsdata.data.arguments.type == "poll" || wsdata.data.arguments.type == "auto") {
-                settings.mode = wsdata.data.arguments.type;
-            }
+                setupGame();
+                break;
 
-            setupGame();
+            case "Stop Game":
+                // Todo: Call to end the game
+                break;
+
+            default:
+                break;
         }
 
-        if (wsdata.data.name == "Stop Game" && !voting) {
-            // Todo: Call to end the game
-        }
-
-        // Reveal Pokemon after poll is completed 
-        if (poll && wsdata.event.source === "Twitch" && wsdata.event.type === "PollCompleted") {
-            pollChoice = wsdata.data.winningChoice.title;
-            choiceVotes = wsdata.data.winningChoice.votes;
-
-            console.log("Chat voted: " + pollChoice + " Votes: " + choiceVotes);
-
-
-            // Todo: Check if 0 votes have been done
-            if (choiceVotes != 0 && pollChoice == currentPokemon.names[settings.language].name) {
-                console.log("Chat was correct");
-                answer = true;
-            } else {
-                console.log("Chat was incorrect");
-                answer = false;
-            }
-
-            revealPokemon(currentPokemon.names[settings.language].name, answer)
-
-            poll = false;
-        }
-
-        // Twitch/Youtube Chat 
+        /**
+         * Handle Interactions from diferent Platforms
+         */
         if (currentPokemon) {
+
             switch (settings.mode) {
                 case "direct":
-                    if (voting && wsdata.event.source === "Twitch" && wsdata.event.type === "ChatMessage") {
-
-                        // Check if message is only one word
-                        if (wsdata.data.message.message.split().length == 1) {
-                            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
-                        }
-                    }
-
-                    if (voting && wsdata.event.source === "Youtube" && wsdata.event.type === "Message") {
+                    if (voting && wsdata.event.type === "ChatMessage" || wsdata.event.type === "Message") {
 
                         // Check if message is only one word
                         if (wsdata.data.message.message.split().length == 1) {
@@ -156,17 +142,53 @@ function bindEvents() {
 
                     break;
                 case "poll":
-                    // Check if a pokemon poll is already running 
+                    // Checking if poll was run by script
+                    if (poll) {
+                        switch (wsdata.event.type) {
+                            case "PollCompleted":
+                                // Check if a pokemon poll is already running
+                                // Checks if poll was triggered by script
+
+                                pollChoice = wsdata.data.winningChoice.title;
+                                choiceVotes = wsdata.data.winningChoice.votes;
+
+                                console.info("Chat voted: " + pollChoice + " Votes: " + choiceVotes);
+
+                                if (choiceVotes != 0 && pollChoice == currentPokemon.names[settings.language].name) {
+                                    console.info("Chat was correct");
+                                    answer = true;
+                                } else {
+                                    console.info("Chat was incorrect");
+                                    answer = false;
+                                }
+
+                                revealPokemon(currentPokemon.names[settings.language].name, answer)
+
+                                poll = false;
+                                break;
+
+                            case "PollUpdated":
+                                // Todo: This could add a counter on options
+                                // wsdata.data.choices.x.title
+                                // wsdata.data.choices.x.votes
+                                break;
+                            default:
+                                break;
+                        }
+
+                    }
                     break;
                 case "auto":
+                    // Auto Mode is just for show. This will only show and not interact with chat
                     break;
                 default:
                     break;
+
             }
         }
     }
 
-    ws.onclose = function() {
+    ws.onclose = function () {
         setTimeout(connectws, 10000);
     };
 };
@@ -224,7 +246,7 @@ function setupGame() {
 
         // Will reveal the pokemon after a set time
         autoreveal = setTimeout(() => {
-            revealPokemon(currentPokemon.names[settings.language].name);
+            revealPokemon(currentPokemon.names[settings.language].name, false);
 
             // Restart the game if gamemode is auto
             if (settings.mode == 'auto') {
@@ -236,22 +258,23 @@ function setupGame() {
         }, settings.animations.revealAfter);
     }
 
-    // Auto revealPokemon 
+    // Auto revealPokemon
 
 }
 
 /**
  * Fetching a random Pokemon form PokeApi
  */
-function fetchPokeApi(pokeId) {
+async function fetchPokeApi(pokeId) {
     console.info("Loading pokedex data for id: " + pokeId);
 
-    return fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokeId}`)
-        .then((response) => response.json())
-        .then((data) => {
-            return data;
-        })
-        .catch((error) => console.warn(error));
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokeId}`);
+        const data_1 = await response.json();
+        return data_1;
+    } catch (error) {
+        return console.warn(error);
+    }
 }
 
 /**
@@ -275,7 +298,7 @@ function setChoices() {
         }
     }
     choices[3] = currentPokemon.names[settings.language].name;
-    setTimeout(function() {
+    setTimeout(function () {
 
         shuffle(choices).then((data) => {
             for (let index = 0; index < data.length; index++) {
@@ -321,41 +344,42 @@ function setPokemon(pokedexID) {
 function checkAnswer(username, answer) {
 
     if (currentPokemon.names.find((language) => {
-            return (
-                language.name.toLowerCase() === answer.toLowerCase().replace("♀", "").replace("♂", "")
-            );
-        })) {
+        return (
+            language.name.toLowerCase() === answer.toLowerCase().replace("♀", "").replace("♂", "")
+        );
+    })) {
         settings.end.play();
+
+        clearTimeout(autoreveal);
 
         $("#pokemon").addClass("show " + settings.animations.revealPokemon);
         voting = false;
-        endGame(username);
+
+        if (settings.mode == "auto") {
+            revealPokemon(answer, true)
+        }
+        else {
+            endGame(username, answer);
+        }
     }
 }
 
-/**
- * Sends in chat that voting is open
- * Enable Voting command
- */
-function endGame(user) {
 
-    clearTimeout(autoreveal);
+//Todo: Merge endGame and revealPokemon
+function endGame(user, PokemonName) {
 
-    ws.send(
-        JSON.stringify({
-            request: "DoAction",
-            action: {
-                //id: "04aac5cf-b162-4db5-9f8a-e45023a952f1",
-                name: "WTP - End Game",
-            },
-            args: {
-                username: user,
-            },
-            id: "WhosThatPokemonEND",
-        })
+    ws.send(JSON.stringify({
+        "request": "ExecuteCodeTrigger",
+        "triggerName": "wtp_reveal_pokemon",
+        "args": {
+            "username": user,
+            "pokemon": PokemonName,
+        },
+        "id": "WTP_END_USER",
+    })
     );
 
-    setTimeout(function() {
+    setTimeout(function () {
         $("#pokemon").removeClass("show");
         $("#pokemon").removeClass(settings.animations.revealPokemon);
         $("#pokemon").attr(
@@ -375,25 +399,21 @@ function revealPokemon(PokemonName, answer) {
 
     poll = false;
     voting = false;
+
     $("#pokemon").addClass("show " + settings.animations.revealPokemon);
     settings.end.play();
 
-    ws.send(
-        JSON.stringify({
-            request: "DoAction",
-            action: {
-                //id: "04aac5cf-b162-4db5-9f8a-e45023a952f1",
-                name: "WTP - Reveal Pokemon",
-            },
-            args: {
-                pokemon: PokemonName,
-                chat: answer
-            },
-            id: "WhosThatPokemonReveal",
-        })
-    );
+    ws.send(JSON.stringify({
+        "request": "ExecuteCodeTrigger",
+        "triggerName": "wtp_reveal_pokemon",
+        "args": {
+            "pokemon": PokemonName,
+            "chat": answer
+        },
+        "id": "WTP_END_REVEAL"
+    }));
 
-    setTimeout(function() {
+    setTimeout(function () {
         $("#pokemon").removeClass("show");
         $("#pokemon").removeClass(settings.animations.revealPokemon);
         $("#pokemon").attr(
@@ -404,23 +424,26 @@ function revealPokemon(PokemonName, answer) {
     }, settings.animations.hideAfter);
 
     currentPokemon = null;
-    settings.mode = settings.defaultMode;
+    if (settings.mode != "auto") {
+        settings.mode = settings.defaultMode;
+    } else {
 
+    }
 }
 
-
+/**
+ * Sends in chat that voting is open
+ * Enable Voting command
+ */
 function startPoll(choices) {
 
     console.info("Starting a poll on twitch");
 
     ws.send(
         JSON.stringify({
-            request: "DoAction",
-            action: {
-                //id: "5071a7c2-76bd-4271-b43c-7b866a9f2906",
-                name: "WTP - Start Vote",
-            },
-            args: {
+            "request": "ExecuteCodeTrigger",
+            "triggerName": "wtp_start_vote",
+            "args": {
                 "choice-1": choices[0],
                 "choice-2": choices[1],
                 "choice-3": choices[2],

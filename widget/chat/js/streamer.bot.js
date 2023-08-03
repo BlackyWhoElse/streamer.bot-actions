@@ -1,7 +1,6 @@
-
 function connectws() {
     if ("WebSocket" in window) {
-        console.log("Connecting to Streamer.Bot");
+        console.info("Connecting to Streamer.Bot");
         ws = new WebSocket(settings.websocketURL);
         bindEvents();
     }
@@ -29,30 +28,21 @@ function bindEvents() {
             return;
         }
 
-        // Custom
+        if (settings.debug) {
+            console.debug("Streamer.Bot Event Data", wsdata.data);
+        }
+
+        // Streamer.Bot Custom Commands
         if (wsdata.data.name == "ClearChat") {
             ClearChat();
         }
 
-
-        // Platforms
-        console.debug(wsdata.event.source + ": " + wsdata.event.type);
-
-        if (settings.debug) {
-            console.debug(wsdata.data);
-        }
-
-
-        /* Blacklist */
-        // User
-
-
+        // Blacklists
         if (wsdata.event.type == "ChatMessage" && settings.blacklist.user.includes(wsdata.data.message.displayName) || wsdata.event.source == "RewardRedemption" && settings.blacklist.user.includes(wsdata.data.displayName)) {
             console.info("Blocked message because display name is on blacklist!");
             return;
         }
 
-        // Commands
         if (wsdata.event.type == "ChatMessage" && settings.blacklist.commands == true && wsdata.data.message.message.charAt(0) == "!") {
             console.info("Blocked message because it was a command");
             return;
@@ -99,6 +89,7 @@ function bindEvents() {
     };
 
     ws.onclose = function () {
+        console.error("Connection failed!");
         setTimeout(connectws, 10000);
     };
 }
