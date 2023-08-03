@@ -35,3 +35,4 @@ widget/chat/ticker.html
 
 # Widgets
 /widget/skip_ad export-ignore
+/widget/countdown export-ignore
