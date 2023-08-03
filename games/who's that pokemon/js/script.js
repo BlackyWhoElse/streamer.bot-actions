@@ -154,8 +154,6 @@ function bindEvents() {
 
                                 console.info("Chat voted: " + pollChoice + " Votes: " + choiceVotes);
 
-
-                                // Todo: Check if 0 votes have been done
                                 if (choiceVotes != 0 && pollChoice == currentPokemon.names[settings.language].name) {
                                     console.info("Chat was correct");
                                     answer = true;
@@ -267,15 +265,16 @@ function setupGame() {
 /**
  * Fetching a random Pokemon form PokeApi
  */
-function fetchPokeApi(pokeId) {
+async function fetchPokeApi(pokeId) {
     console.info("Loading pokedex data for id: " + pokeId);
 
-    return fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokeId}`)
-        .then((response) => response.json())
-        .then((data) => {
-            return data;
-        })
-        .catch((error) => console.warn(error));
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${pokeId}`);
+        const data_1 = await response.json();
+        return data_1;
+    } catch (error) {
+        return console.warn(error);
+    }
 }
 
 /**
@@ -442,12 +441,9 @@ function startPoll(choices) {
 
     ws.send(
         JSON.stringify({
-            request: "DoAction",
-            action: {
-                //id: "5071a7c2-76bd-4271-b43c-7b866a9f2906",
-                name: "WTP - Start Vote",
-            },
-            args: {
+            "request": "ExecuteCodeTrigger",
+            "triggerName": "wtp_start_vote",
+            "args": {
                 "choice-1": choices[0],
                 "choice-2": choices[1],
                 "choice-3": choices[2],
