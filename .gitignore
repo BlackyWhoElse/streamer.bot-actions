@@ -7,24 +7,14 @@
 *.vscode/
 .idea/*
 
+.gitignore export-ignore
+/.github export-ignore
+
 # Development Files
-.github
 dev.html
-widget/chat/box.html
-widget/chat/bubble.html
-widget/chat/bubble_ticker.html
-widget/chat/clean.html
-widget/chat/crossing.html
-widget/chat/default.html
-widget/chat/tarkov.html
-widget/chat/ticker.html
-
-
 
 # Exclude not finished projects
-.gitignore export-ignore
-.github export-ignore
-c# export-ignore
+/c# export-ignore
 
 # Actions
 overwolf export-ignore
@@ -36,3 +26,4 @@ games/Streaming Stampede export-ignore
 # Widgets
 widget/skip_ad export-ignore
 widget/countdown export-ignore
+
