@@ -7,8 +7,8 @@
 *.vscode/
 .idea/*
 
+/.github
 .gitignore export-ignore
-/.github export-ignore
 
 # Development Files
 dev.html
@@ -17,13 +17,13 @@ dev.html
 /c# export-ignore
 
 # Actions
-overwolf export-ignore
-actions/media-request export-ignore
+/overwolf export-ignore
+/actions/media-request export-ignore
 
 # Games
-games/Streaming Stampede export-ignore
+/games/Streaming Stampede export-ignore
 
 # Widgets
-widget/skip_ad export-ignore
-widget/countdown export-ignore
+/widget/skip_ad export-ignore
+/widget/countdown export-ignore
 
