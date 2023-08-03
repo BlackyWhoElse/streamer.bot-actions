@@ -30,12 +30,12 @@ public class TodoItem
 public class TodoList
 {
   public string Name { get; set; }
-  private List<TodoItem> items;
+  public List<TodoItem> Items { get; set; }
 
   public TodoList(string name)
   {
     Name = name;
-    items = new List<TodoItem>();
+    Items = new List<TodoItem>();
   }
 
   public void AddItem(TodoItem item)
@@ -48,6 +48,11 @@ public class TodoList
     items.Remove(item);
   }
 
+  public void SetItems(List<TodoItem> newItems)
+  {
+    items = newItems;
+  }
+
   public void MarkItemAsDone(int index)
   {
     if (index >= 0 && index < items.Count)
@@ -56,21 +61,22 @@ public class TodoList
     }
   }
 
-  public string PrintTodoList()
+  public List<string> PrintTodoList()
   {
 
-    string output;
+    List<string> output = new List<string>();
+
     if (items.Count == 0)
     {
 
-      output = ($"Todo list '{Name}' is empty.");
+      output.Add($"Todo list '{Name}' is empty.");
     }
     else
     {
-      output = ($"Todo list '{Name}':");
+      output.Add($"Todo list '{Name}':");
       for (int i = 0; i < items.Count; i++)
       {
-        output += ($"{i + 1}. {items[i]}");
+        output.Add($"{i + 1}. {items[i]}");
       }
     }
     return output;
@@ -101,18 +107,19 @@ public class TodoListsManager
     lists.Remove(todoList);
   }
 
-  public string PrintAllLists()
+  public List<List<string>> PrintAllLists()
   {
-    string output = "";
+    List<List<string>> output = new List<List<string>>();
     if (lists.Count == 0)
     {
-      output = ("No todo lists available.");
+      List<string> empty = new List<string>() { "No todo lists available." };
+      output.Add(empty);
     }
     else
     {
       foreach (var list in lists)
       {
-        output = list.PrintTodoList();
+        output.Add(list.PrintTodoList());
       }
     }
     return output;
@@ -129,7 +136,10 @@ public class TodoListsManager
     if (File.Exists(filePath))
     {
       string json = File.ReadAllText(filePath);
-      lists = JsonConvert.DeserializeObject<List<TodoList>>(json);
+      var deserializedLists = JsonConvert.DeserializeObject<List<TodoList>>(json);
+
+      lists.Clear();
+      lists.AddRange(deserializedLists);
     }
   }
 }
@@ -145,7 +155,17 @@ public class CPHInline
 
     // Print the loaded lists
     CPH.SendMessage("Loaded Todo Lists:");
-    CPH.SendMessage(listsManager.PrintAllLists());;
+
+    List<List<string>> lists = listsManager.PrintAllLists();
+
+    foreach (var list in lists)
+    {
+      foreach (var todos in list)
+      {
+        CPH.SendMessage(todos);
+      }
+    }
+
     return true;
   }
 }
