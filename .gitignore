@@ -1,29 +1,11 @@
 *.autosave
 *.user
 
-*.zip
-*.rar
-
+### Code ###
 *.vscode/
 .idea/*
 
-.github
-.gitignore export-ignore
 
-# Development Files
+### Development Files ###
 dev.html
-
-# Exclude not finished projects
-/c# export-ignore
-
-# Actions
-/overwolf export-ignore
-/actions/media-request export-ignore
-
-# Games
-/games/Streaming Stampede export-ignore
-
-# Widgets
-/widget/skip_ad export-ignore
-/widget/countdown export-ignore
 
