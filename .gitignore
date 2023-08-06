@@ -1,6 +1,9 @@
 *.autosave
 *.user
 
+### Github ###
+.github
+
 ### Code ###
 *.vscode/
 .idea/*
