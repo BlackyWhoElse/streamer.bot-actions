@@ -9,30 +9,29 @@ var settings = {
  * if a template is not defined it will use the default.html theme
  */
 const subscribeToEvents = {
-    "Twitch": {
-        "Follow": true,
-        "Cheer": true,
-        "Sub": true,
-        "ReSub": true,
-        "GiftSub": true,
-        "GiftBomb": true,
-        "Raid": true,
-        "HypeTrainStart": true,
-        "HypeTrainUpdate": true,
-        "HypeTrainLevelUp": true,
-        "HypeTrainEnd": true,
-        "RewardRedemption": true,
-        "AdRun": false,
-        "CoinCheer": false,
-        "AdMidRoll": false,
+    "twitch": {
+        "follow": true,
+        "cheer": true,
+        "sub": true,
+        "resub": true,
+        "giftgub": true,
+        "giftbomb": true,
+        "raid": true,
+        "hypetrainstart": true,
+        "hypetrainupdate": true,
+        "hypetrainlevelup": true,
+        "hypetrainend": true,
+        "adrun": false,
+        "coincheer": false,
+        "admidroll": false,
     },
-    "Youtube": {
-        "SuperChat": true,
-        "SuperSticker": true,
-        "NewSponsor": true,
-        "MembershipGift": true,
-        "GiftMembershipReceived": true,
-        "NewSubscriber": true,
+    "youtube": {
+        "superchat": true,
+        "supersticker": true,
+        "newsponsor": true,
+        "membershipgift": true,
+        "giftmembershipreceived": true,
+        "newsubscriber": true,
     }
 };
 
@@ -70,15 +69,16 @@ window.addEventListener("load", (event) => {
 /**
  * This will load all template,css files in theme/{{theme name}}
  * Check console for errors if you theme doesn't work
- * @param {string} theme 
- * @param {string} type 
- * @param {string} platform 
+ * @param {string} theme
+ * @param {string} type
+ * @param {string} platform
  */
 function loadTemplates(theme, type, platform) {
 
     $("#templates").load(
         `theme/${theme}/${platform}/${type}.html`,
         function (response, status, xhr) {
+            console.debug(`theme/${theme}/${platform}/${type}.html`);
             if (status === "success") {
                 // Loading template css
                 // TODO: Make a loading theme function that calls all the one time stuff.
@@ -87,7 +87,7 @@ function loadTemplates(theme, type, platform) {
                     `<link rel="stylesheet" href="theme/${theme}/css/styles.css" type="text/css" />`
                 );
                 */
-               
+
                 templates[theme][platform][type] = document.querySelector(`#${theme}_${platform}_${type}`);
             }
         }
