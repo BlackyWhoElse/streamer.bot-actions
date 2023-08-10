@@ -10,12 +10,12 @@ async function connectws() {
     ws = new WebSocket(settings.websocketURL);
     if ("WebSocket" in window) {
         await getAlerts()
-        .then((data) => {
-            bindEvents(data);
-        })
-        .catch((error) => {
-            console.error("An error occurred:", error);
-        });
+            .then((data) => {
+                bindEvents(data);
+            })
+            .catch((error) => {
+                console.error("An error occurred:", error);
+            });
     }
 }
 
@@ -24,6 +24,7 @@ async function connectws() {
  */
 function bindEvents(events) {
     ws.onopen = () => {
+        console.info("Websocket connected")
         console.debug("Subscribing to following events:", events);
         ws.send(
             JSON.stringify({
@@ -35,20 +36,26 @@ function bindEvents(events) {
     };
 
     ws.onmessage = async (event) => {
-        const wsdata = JSON.parse(event.data);
+        var wsdata = JSON.parse(event.data);
 
-        console.debug(wsdata);
+        if (!wsdata.event) {
+            return;
+        }
+        console.info(`Platform: ${wsdata.event.source} | ${wsdata.event.type}`)
+
+        console.debug(wsdata.data);
+        pushAlert(wsdata.event.source.toLowerCase(), wsdata.event.type.toLowerCase(), wsdata.data)
     };
 
     ws.onclose = function (event) {
-        console.info("Connection to Streamer.Bot");
+        console.info("Lost connection... reconection in 10s");
         setTimeout(connectws, 10000);
     };
 
 }
 
 /**
- * Converts alert settings in 
+ * Converts alert settings in
  * event array to subscribe
  * @returns array[array[string]]
  */
