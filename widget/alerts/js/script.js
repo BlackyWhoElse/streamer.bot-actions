@@ -21,17 +21,28 @@ const subscribeToEvents = {
         "hypetrainupdate": false,
         "hypetrainlevelup": false,
         "hypetrainend": false,
+        "charitystarted": false,
+        "charitydonation": false,
+        "charitycompleted": false,
         "adrun": false,
         "coincheer": false,
         "admidroll": false,
     },
     "youtube": {
-        "superchat": true,
-        "supersticker": true,
-        "newsponsor": true,
-        "membershipgift": true,
-        "giftmembershipreceived": true,
-        "newsubscriber": true,
+        "superchat": false,
+        "supersticker": false,
+        "newsponsor": false,
+        "membershipgift": false,
+        "giftmembershipreceived": false,
+        "newsubscriber": false,
+    },
+    "streamelements": {
+        "tip": false,
+        "merch": false
+    },
+    "streamlabs": {
+        "donation": false,
+        "Merchandise": false,
     }
 };
 
@@ -41,7 +52,7 @@ const subscribeToEvents = {
  **/
 const defaultMessages = {
     "twitch": {
-        "follow": "{{username}} just followed!",
+        "follow": "{{user_name}} just followed!",
         "cheer": "{{username}} just Cheered {{bits}} Bits!",
         "sub": "{{username}} just subscribed with Prime!",
         "resub": "{{username}} just subscribed for {{month}} months!",
@@ -81,11 +92,13 @@ var templates = Array();
 window.addEventListener("load", (event) => {
     // Loading templates for alerts
     templates[settings.theme] = new Array();
+
+    loadTemplates(settings.theme, 'default', "");
+
     Object.keys(subscribeToEvents).forEach(platform => {
         // ? Just for debug console.debug(`Loading ${platform} files`);
         templates[settings.theme][platform] = new Array();
         // Loading default html for events
-        loadTemplates(settings.theme, 'default', platform);
         Object.keys(subscribeToEvents[platform]).forEach(type => {
             if (subscribeToEvents[platform][type]) {
                 loadTemplates(settings.theme, type, platform);
@@ -106,11 +119,19 @@ window.addEventListener("load", (event) => {
  * @param {string} type
  * @param {string} platform
  */
-function loadTemplates(theme, type, platform) {
+function loadTemplates(theme = "default", type, platform = "") {
+
+    path = $.grep([theme, platform, type], n => n == 0 || n).join("/")
+
     var request = $.get(
-        `theme/${theme}/${platform}/${type}.html`,
+        `theme/${path}.html`,
         function (data) {
-            templates[theme][platform][type] = data;
+            if (type != "default") {
+                templates[theme][platform][type] = data;
+            } else {
+                templates[theme][type] = data;
+            }
+
             $("#templates").append(data);
         }
     );
@@ -125,28 +146,32 @@ function loadTemplates(theme, type, platform) {
  */
 function renderAlert(platform, type, msg) {
     var tpl;
-    msg["default_message"] = defaultMessages[platform][type];
+    const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
+
+    msg["message"] = defaultMessages[platform][type].replace(pattern, (_, token) => msg[token] || "");
     msg["event"] = type;
     msg["platform"] = platform;
 
     // Checking if template is defined
     if (templates[settings.theme][platform][type]) {
-        tpl = templates[settings.theme][platform][type];
+        tpl = document.querySelector(`#${settings.theme}_${platform}_${type}`);
     } else {
-        tpl = templates[settings.theme][platform]['default'];
+        tpl = document.querySelector(`#${settings.theme}_${platform}_default`);
     }
 
-    const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
-    return tpl.replace(pattern, (_, token) => msg[token] || "")
+    return tpl.innerHTML.replace(pattern, (_, token) => msg[token] || "")
 }
 
 
 async function pushAlert(platform, type, msg) {
     return new Promise((resolve, reject) => {
-        resolve(renderAlert(platform,type, msg));
+        resolve(renderAlert(platform, type, msg));
+    })
+        .then((msg) => {
+            $("#alert").html(msg);
         })
         .then((msg) => {
-            $("#alert").append(msg);
+            // Setup a timer to hide the alert
         })
         .catch(function (error) {
             console.error(error);
