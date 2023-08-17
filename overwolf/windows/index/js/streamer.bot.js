@@ -63,36 +63,12 @@ function bindEvents() {
 }
 
 /**
- * Subscribing to Streamer.Bot Events triggered via C#
- */
-function subscribe() {
-    ws.send(JSON.stringify({
-        "request": "Subscribe",
-        "id": "OverwolfGameEvents",
-        "events": {
-            general: ["Custom"],
-        },
-    }));
-}
-
-
-/**
- * Gets all available actions inside streamer.bot
- */
-function SBgetActions() {
-    ws.send(JSON.stringify({
-        "request": "GetActions",
-        "id": "WSEGetActions",
-    }));
-}
-
-/**
  * Execute Trigger inside Streamer.bot
  *
  */
 function SBsendData(game, data, type) {
 
-    console.log(data);
+    console.info(game +": "+ type, data);
 
     var args = {};
 
