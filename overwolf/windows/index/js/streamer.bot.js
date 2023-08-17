@@ -30,7 +30,7 @@ function connectws() {
  * Binding Events after connecting to prevent Errors
  */
 function bindEvents() {
-    ws.onopen = function() {
+    ws.onopen = function () {
         console.log('Connected. Binding Events...');
 
         // Subscribe here to the events you wanne listen to
@@ -47,7 +47,7 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function(event) {
+    ws.onmessage = function (event) {
         // grab message and parse JSON
         const msg = event.data;
         const wsdata = JSON.parse(msg);
@@ -55,7 +55,7 @@ function bindEvents() {
     };
 
     // Catch Event code and try to reconnect
-    ws.onclose = function(event) {
+    ws.onclose = function (event) {
         console.log("Could not connect. Trying to reconnect...")
         setTimeout(connectws, 10000);
     };
@@ -88,7 +88,7 @@ function SBgetActions() {
 
 /**
  * Execute Trigger inside Streamer.bot
- * 
+ *
  */
 function SBsendData(game, data, type) {
 
@@ -102,31 +102,31 @@ function SBsendData(game, data, type) {
 
                 // Event trigger
                 ws.send(JSON.stringify({
-                    request: "ExecuteCodeTrigger",
-                    action: {
-                        "name": value["name"]
-                    },
-                    args: {
+                    "request": "ExecuteCodeTrigger",
+                    "triggerName": value["name"],
+                    "args": {
                         "game": game,
                         "data": value["data"],
                         "type": type
                     },
-                    "id": "OverwolfSendData"
-                }));
+                    "id": "OverwolfSendData",
+                })
+                );
+
 
                 // Game specific event trigger
                 ws.send(JSON.stringify({
-                    request: "ExecuteCodeTrigger",
-                    action: {
-                        "name": game.replace(" ", "_").toLowerCase() + "_" + value["name"]
-                    },
-                    args: {
+                    "request": "ExecuteCodeTrigger",
+                    "triggerName": game.replace(" ", "_").toLowerCase() + "_" + value["name"],
+                    "args": {
                         "game": game,
                         "data": value["data"],
                         "type": type
                     },
-                    "id": "OverwolfSendData"
-                }));
+                    "id": "OverwolfSendData",
+                })
+                );
+
             }
         } else {
             console.error(element);
