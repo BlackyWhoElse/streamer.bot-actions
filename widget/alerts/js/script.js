@@ -85,6 +85,10 @@ const defaultMessages = {
 
 // Holds all templates
 var templates = Array();
+
+// A list promisees 
+var alert_queue = [];
+
 /**
  * Will load templates once the page is fully loaded
  * ! Make sure that settings.theme is set.
@@ -138,7 +142,7 @@ function loadTemplates(theme = "default", type, platform = "") {
 }
 
 /**
- * Converts Websocket message into a renderable alert
+ * Converts Websocket message into a render able alert
  * @param {string} platform
  * @param {string} event
  * @param {Array} msg
@@ -162,7 +166,14 @@ function renderAlert(platform, type, msg) {
     return tpl.innerHTML.replace(pattern, (_, token) => msg[token] || "")
 }
 
-
+/**
+ * Displays a alert with the corresponding or default template
+ * 
+ * @param {string} platform 
+ * @param {string} type 
+ * @param {string} msg 
+ * @returns Promise
+ */
 async function pushAlert(platform, type, msg) {
     return new Promise((resolve, reject) => {
         resolve(renderAlert(platform, type, msg));
@@ -172,9 +183,17 @@ async function pushAlert(platform, type, msg) {
         })
         .then((msg) => {
             // Setup a timer to hide the alert
+            // Todo: Add a data value to template that acts as a variable for the this timer
+            setTimeout(() => {
+                $("#alert").innerHTML("")
+            }, 1000);
         })
         .catch(function (error) {
             console.error(error);
         });
 
+}
+
+function addAlertToQueue(promiseFn) {
+    dynamicPromiseList.push(promiseFn);
 }
