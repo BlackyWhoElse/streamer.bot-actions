@@ -54,8 +54,9 @@ const defaultMessages = {
     "twitch": {
         "follow": "{{user_name}} just followed!",
         "cheer": "{{username}} just Cheered {{bits}} Bits!",
-        "sub": "{{username}} just subscribed with Prime!",
-        "resub": "{{username}} just subscribed for {{month}} months!",
+        "sub": "{{username}} just subscribed with Tier {{subTier}}",
+        "primesub": "{{username}} just subscribed with Prime!",
+        "resub": "{{userName}} just resubscribed for {{cumulativeMonths}} months!",
         "giftsub": "{{username}} gifted a {{subTier}} subscription to {{recipientUsername}}!",
         "giftbomb": "{{username}} gifted {{gifts}} subscriptions to the community!",
         "raid": "{{from_broadcaster_user_name}} just raided with {{viewers}} viewers!",
@@ -77,6 +78,8 @@ const defaultMessages = {
     }
 };
 
+
+
 /***************************************************
  *          DO NOT EDIT ANYTHING BELOW             *
  *        THIS COULD BREAK YOUR WIDGET OR          *
@@ -86,7 +89,7 @@ const defaultMessages = {
 // Holds all templates
 var templates = Array();
 
-// A list promisees 
+// A list promisees
 var alert_queue = [];
 
 /**
@@ -149,7 +152,9 @@ function loadTemplates(theme = "default", type, platform = "") {
  * @returns
  */
 function renderAlert(platform, type, msg) {
-    var tpl;
+    var template;
+    var variant = selectVariant(type, msg);
+
     const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
 
     msg["message"] = defaultMessages[platform][type].replace(pattern, (_, token) => msg[token] || "");
@@ -158,20 +163,29 @@ function renderAlert(platform, type, msg) {
 
     // Checking if template is defined
     if (templates[settings.theme][platform][type]) {
-        tpl = document.querySelector(`#${settings.theme}_${platform}_${type}`);
+        // Loading template
+        template = document.querySelector(`#${settings.theme}_${platform}_${type} `);
+        templateContent = template.content.cloneNode(true)
+
+        // Loading the varient
+        templateVariant = templateContent.querySelector(`[data-variant='${variant}']`);
+        if (!templateVariant) {
+            templateVariant = templateContent.querySelector(`[data-variant='default']`);
+        }
+
     } else {
-        tpl = document.querySelector(`#${settings.theme}_${platform}_default`);
+        templateVariant = document.querySelector(`#${settings.theme}_${platform}_default`);
     }
 
-    return tpl.innerHTML.replace(pattern, (_, token) => msg[token] || "")
+    return templateVariant.innerHTML.replace(pattern, (_, token) => msg[token] || "")
 }
 
 /**
  * Displays a alert with the corresponding or default template
- * 
- * @param {string} platform 
- * @param {string} type 
- * @param {string} msg 
+ *
+ * @param {string} platform
+ * @param {string} type
+ * @param {string} msg
  * @returns Promise
  */
 async function pushAlert(platform, type, msg) {
@@ -183,10 +197,10 @@ async function pushAlert(platform, type, msg) {
         })
         .then((msg) => {
             // Setup a timer to hide the alert
-            // Todo: Add a data value to template that acts as a variable for the this timer
+
             setTimeout(() => {
-                $("#alert").innerHTML("")
-            }, 1000);
+                $("#alert").html("")
+            }, 10000);
         })
         .catch(function (error) {
             console.error(error);
@@ -195,5 +209,35 @@ async function pushAlert(platform, type, msg) {
 }
 
 function addAlertToQueue(promiseFn) {
-    dynamicPromiseList.push(promiseFn);
+    alert_queue.push(promiseFn);
+}
+
+
+/**
+ * Defines different varients of events
+ * @param {*} type
+ * @param {*} msg
+ * @returns
+ */
+function selectVariant(type, msg) {
+    var variant;
+
+    switch (type) {
+        case 'sub':
+            return msg.subTier;
+            break;
+        case 'resub':
+            if (msg.streakMonths > 1) {
+                return "streak"
+            }
+            break;
+        case 'giftbomb':
+            return msg.gifts;
+            break;
+        default:
+            console.info(`There is no variant defined for ${type}.`)
+            break;
+    }
+
+    return "default";
 }
