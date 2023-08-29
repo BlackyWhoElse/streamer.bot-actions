@@ -92,6 +92,8 @@ var templates = Array();
 // A list promisees
 var alert_queue = [];
 
+var running = false;
+
 /**
  * Will load templates once the page is fully loaded
  * ! Make sure that settings.theme is set.
@@ -99,7 +101,9 @@ var alert_queue = [];
 window.addEventListener("load", (event) => {
     // Loading templates for alerts
     templates[settings.theme] = new Array();
-
+    $("head").append(
+        `<link rel="stylesheet" href="theme/${settings.theme}/css/styles.css" type="text/css" />`
+    );
     loadTemplates(settings.theme, 'default', "");
 
     Object.keys(subscribeToEvents).forEach(platform => {
@@ -192,24 +196,45 @@ async function pushAlert(platform, type, msg) {
     return new Promise((resolve, reject) => {
         resolve(renderAlert(platform, type, msg));
     })
-        .then((msg) => {
-            $("#alert").html(msg);
-        })
-        .then((msg) => {
-            // Setup a timer to hide the alert
-
-            setTimeout(() => {
-                $("#alert").html("")
-            }, 10000);
-        })
         .catch(function (error) {
             console.error(error);
         });
 
 }
 
+/**
+ * Adds alerts into a queue system
+ * @param {Promise} promiseFn
+ */
 function addAlertToQueue(promiseFn) {
     alert_queue.push(promiseFn);
+    executeQueue();
+}
+
+/**
+ * This function will work the queue
+ */
+function executeQueue() {
+
+    console.info(`There are ${alert_queue.length} alerts left in queue`)
+
+    if (alert_queue.length >= 1 && !running) {
+
+        running = true;
+
+        a = alert_queue.shift();
+        a.then(alert => {
+            // Adding Alert to viewport
+            $("#alert").html(alert);
+
+            // Removing alert and start the next in queue
+            setTimeout(() => {
+                $("#alert").html("");
+                running = false;
+                executeQueue();
+            }, 10000);
+        })
+    }
 }
 
 

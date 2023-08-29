@@ -47,6 +47,8 @@ function bindEvents(events) {
 
         // Todo: Add a queueing system so the alerts are not cut off
         addAlertToQueue(pushAlert(wsdata.event.source.toLowerCase(), wsdata.event.type.toLowerCase(), wsdata.data));
+
+
     };
 
     ws.onclose = function (event) {
