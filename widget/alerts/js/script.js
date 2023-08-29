@@ -182,8 +182,6 @@ function renderAlert(platform, type, msg) {
         templateVariant = document.querySelector(`#${settings.theme}_${platform}_default`);
     }
 
-    console.log(templateVariant);
-
     return templateVariant.innerHTML.replace(pattern, (_, token) => msg[token] || "")
 }
 
@@ -210,6 +208,9 @@ async function pushAlert(platform, type, msg) {
  * @param {Promise} promiseFn
  */
 function addAlertToQueue(promiseFn) {
+
+    console.info("Added alert to queue");
+
     alert_queue.push(promiseFn);
     executeQueue();
 }
@@ -219,7 +220,7 @@ function addAlertToQueue(promiseFn) {
  */
 function executeQueue() {
 
-    console.info(`There are ${alert_queue.length} alerts left in queue`)
+    console.info(`There are ${alert_queue.length} alerts left in queue`);
 
     if (alert_queue.length >= 1 && !running) {
 
@@ -235,6 +236,7 @@ function executeQueue() {
 
             // Removing alert and start the next in queue
             setTimeout(() => {
+                console.info(`Alert finished`);
                 $("#alerts").html("");
                 running = false;
                 executeQueue();
@@ -289,7 +291,7 @@ function getDuration(alert) {
     var doc = parser.parseFromString(alert, 'text/html');
     data = doc.querySelector(`.alert`)
 
-    if (data && data.dataset.duration){
+    if (data && data.dataset.duration) {
         duration = data.dataset.duration;
     }
 
