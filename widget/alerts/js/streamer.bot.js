@@ -41,8 +41,8 @@ function bindEvents(events) {
         if (!wsdata.event) {
             return;
         }
-        console.info(`Platform: ${wsdata.event.source} | ${wsdata.event.type}`)
 
+        console.debug(`Platform: ${wsdata.event.source} | ${wsdata.event.type}`)
         console.debug(wsdata.data);
 
         // Todo: Add a queueing system so the alerts are not cut off

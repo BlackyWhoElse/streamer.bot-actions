@@ -209,9 +209,8 @@ async function pushAlert(platform, type, msg) {
  */
 function addAlertToQueue(promiseFn) {
 
-    console.info("Added alert to queue");
-
     alert_queue.push(promiseFn);
+    console.debug(`Added alert to queue. Count: ${alert_queue.length}`);
     executeQueue();
 }
 
@@ -219,8 +218,6 @@ function addAlertToQueue(promiseFn) {
  * This function will work the queue
  */
 function executeQueue() {
-
-    console.info(`There are ${alert_queue.length} alerts left in queue`);
 
     if (alert_queue.length >= 1 && !running) {
 
@@ -239,6 +236,7 @@ function executeQueue() {
                 console.info(`Alert finished`);
                 $("#alerts").html("");
                 running = false;
+                console.debug(`There are ${alert_queue.length} alerts left in queue`);
                 executeQueue();
             }, time);
         })
