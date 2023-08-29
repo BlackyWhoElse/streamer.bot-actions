@@ -226,7 +226,7 @@ function executeQueue() {
     if (alert_queue.length >= 1 && !running) {
 
         running = true;
-
+        console.debug(`There are ${alert_queue.length} alerts left in queue`);
         a = alert_queue.shift();
         a.then(alert => {
 
@@ -240,7 +240,6 @@ function executeQueue() {
                 console.info(`Alert finished`);
                 $("#alerts").html("");
                 running = false;
-                console.debug(`There are ${alert_queue.length} alerts left in queue`);
                 executeQueue();
             }, time);
         })
