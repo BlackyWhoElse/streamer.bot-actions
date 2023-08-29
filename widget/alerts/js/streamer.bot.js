@@ -43,7 +43,7 @@ function bindEvents(events) {
         }
 
         console.debug(`Platform: ${wsdata.event.source} | ${wsdata.event.type}`)
-        console.debug(wsdata.data);
+        console.debug(wsdata);
 
         // Todo: Add a queueing system so the alerts are not cut off
         addAlertToQueue(pushAlert(wsdata.event.source.toLowerCase(), wsdata.event.type.toLowerCase(), wsdata.data));

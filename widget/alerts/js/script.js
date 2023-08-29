@@ -193,6 +193,12 @@ function renderAlert(platform, type, msg) {
  */
 async function pushAlert(platform, type, msg) {
     return new Promise((resolve, reject) => {
+        console.log(type);
+        // NOTE: This is nessasary because cheers variable is different for some reason
+        if(type == "cheer"){
+            msg = msg.message;
+        }
+
         resolve(renderAlert(platform, type, msg));
     })
         .catch(function (error) {
