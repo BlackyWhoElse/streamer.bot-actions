@@ -49,7 +49,6 @@ const subscribeToEvents = {
 
 /**
  * Default messages that will be user if there is no template defined for the event
- *
  **/
 const defaultMessages = {
     "twitch": {
@@ -92,7 +91,6 @@ var templates = Array();
 
 // A list promisees
 var alert_queue = [];
-
 var running = false;
 
 /**

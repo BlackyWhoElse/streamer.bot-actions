@@ -2,10 +2,12 @@
   <div data-variant="default">
     <div class="alert alert-{{event}} {{classes}}" data-duration="5000">
       <div class="alert-image">
-        <video playsinline autoplay muted loop poster="">
+        <video playsinline autoplay loop poster="">
           <source src="theme/default/img/{{event}}.webm" type="video/webm">
           Your browser does not support the video tag.
         </video>
+        <audio autoplay src="theme/default/audio/levelUp.wav">
+        </audio>
       </div>
       <div class="message">{{message}}</div>
     </div>
