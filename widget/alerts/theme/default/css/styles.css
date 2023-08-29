@@ -1,4 +1,4 @@
-body{
+body {
   padding: 0;
   margin: 0;
 }
@@ -10,4 +10,22 @@ body{
   width: 100%;
   position: absolute;
   align-items: center;
+  flex-direction: column;
+}
+
+.alert-image {
+  width: 250px;
+  height: 250px;
+}
+
+.alert-sub .alert-image {
+  background-image: url(../img/sub.webm);
+}
+
+.alert-giftbomb .alert-image {
+  background-image: url(../img/giftbomb.webm);
+}
+
+.alert-giftsub .alert-image {
+  background-image: url(../img/giftsub.webm);
 }

@@ -1,6 +1,8 @@
 <template id="default_twitch_hypetrainstart">
-  <div id="alert-{{event}}" data-variant='default'  class="{{classes}}">
+  <div data-variant="default">
+    <div class="alert alert-{{event}} {{classes}}" data-duration="5000">
       <div class="alert-image"></div>
       <div class="message">{{message}}</div>
+    </div>
   </div>
 </template>

@@ -1,10 +1,16 @@
 <template id="default_twitch_resub">
-  <div id="alert-{{event}}" data-variant='default'  class="{{classes}}">
-        <div class="alert-image"></div>
-        <div class="message">{{userName}} just resubscribed for {{cumulativeMonths}} months!</div>
-  </div>
-    <div id="alert-{{event}}" data-variant='streak' class="{{classes}}">
+  <div data-variant="default">
+    <div class="alert alert-{{event}} {{classes}}" data-duration="5000">
       <div class="alert-image"></div>
-      <div class="message">{{userName}} just resubscribed for {{streakMonths}} months in a row!</div>
+      <div class="message">{{userName}} just resubscribed for
+        {{cumulativeMonths}} months!</div>
     </div>
+  </div>
+  <div data-variant="streak">
+    <div class="alert alert-{{event}} {{classes}}" data-duration="5000">
+      <div class="alert-image"></div>
+      <div class="message">{{userName}} just resubscribed for {{streakMonths}}
+        months in a row!</div>
+    </div>
+  </div>
 </template>

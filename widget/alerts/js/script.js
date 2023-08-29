@@ -2,6 +2,7 @@
 var settings = {
     websocketURL: "ws://localhost:8080/",
     theme: "default",
+    duration: 5000,
 };
 
 /**
@@ -181,6 +182,8 @@ function renderAlert(platform, type, msg) {
         templateVariant = document.querySelector(`#${settings.theme}_${platform}_default`);
     }
 
+    console.log(templateVariant);
+
     return templateVariant.innerHTML.replace(pattern, (_, token) => msg[token] || "")
 }
 
@@ -224,6 +227,9 @@ function executeQueue() {
 
         a = alert_queue.shift();
         a.then(alert => {
+
+            time = getDuration(alert);
+
             // Adding Alert to viewport
             $("#alert").html(alert);
 
@@ -232,7 +238,7 @@ function executeQueue() {
                 $("#alert").html("");
                 running = false;
                 executeQueue();
-            }, 10000);
+            }, time);
         })
     }
 }
@@ -265,4 +271,27 @@ function selectVariant(type, msg) {
     }
 
     return "default";
+}
+
+/**
+ * Gets a string of html and converts it into a DOM
+ * Then pulls a duration data set to be returned
+ *
+ * @param {string} HTML string of the alert
+ * @returns {int} The duration of the alert
+ */
+function getDuration(alert) {
+
+    var duration = settings.duration;
+    var parser = new DOMParser();
+
+    // Parse the HTML string to create a DocumentFragment
+    var doc = parser.parseFromString(alert, 'text/html');
+    data = doc.querySelector(`.alert`)
+
+    if (data && data.dataset.duration){
+        duration = data.dataset.duration;
+    }
+
+    return duration;
 }
