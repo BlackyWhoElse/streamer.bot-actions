@@ -1,14 +1,24 @@
 <template id="default_twitch_sub">
   <div data-variant="default">
-    <div class="alert alert-{{event}} {{classes}}" data-duration="5000">
-      <div class="alert-image"></div>
+    <div class="alert alert-{{event}} {{classes}}" data-duration="5000000">
+      <div class="alert-image">
+        <video playsinline autoplay muted loop poster="">
+          <source src="theme/default/img/{{event}}.webm" type="video/webm">
+          Your browser does not support the video tag.
+        </video>
+      </div>
       <div class="message">{{userName}} just subscribed with Tier {{subTier}}
       </div>
     </div>
   </div>
   <div data-variant="0">
     <div class="alert alert-{{event}} {{classes}}" data-duration="5000">
-      <div class="alert-image"></div>
+      <div class="alert-image">
+        <video playsinline autoplay muted loop poster="">
+          <source src="theme/default/img/{{event}}_prime.webm" type="video/webm">
+          Your browser does not support the video tag.
+        </video>
+      </div>
       <div class="message">{{userName}} just subscribed with Prime!
       </div>
     </div>

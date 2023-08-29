@@ -3,7 +3,7 @@ body {
   margin: 0;
 }
 
-#alert {
+#alerts {
   display: flex;
   justify-content: center;
   height: 100%;
@@ -13,19 +13,17 @@ body {
   flex-direction: column;
 }
 
-.alert-image {
-  width: 250px;
-  height: 250px;
+.alert, .alert-image {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
 }
 
-.alert-sub .alert-image {
-  background-image: url(../img/sub.webm);
-}
-
-.alert-giftbomb .alert-image {
-  background-image: url(../img/giftbomb.webm);
-}
-
-.alert-giftsub .alert-image {
-  background-image: url(../img/giftsub.webm);
+.message {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 3px black;
+  text-wrap: balance;
 }

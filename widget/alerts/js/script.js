@@ -231,11 +231,11 @@ function executeQueue() {
             time = getDuration(alert);
 
             // Adding Alert to viewport
-            $("#alert").html(alert);
+            $("#alerts").html(alert);
 
             // Removing alert and start the next in queue
             setTimeout(() => {
-                $("#alert").html("");
+                $("#alerts").html("");
                 running = false;
                 executeQueue();
             }, time);
