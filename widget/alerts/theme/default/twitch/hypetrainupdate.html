@@ -1,0 +1,15 @@
+<template id="default_twitch_hypetrainupdate">
+  <div data-variant="default">
+    <div class="alert alert-{{event}} {{classes}}" data-duration="5000">
+      <div class="alert-image">
+        <video playsinline autoplay loop poster="">
+          <source src="theme/default/img/{{event}}.webm" type="video/webm">
+          Your browser does not support the video tag.
+        </video>
+        <audio autoplay src="theme/default/audio/celebration.wav">
+        </audio>
+      </div>
+      <div class="message">{{message}}</div>
+    </div>
+  </div>
+</template>

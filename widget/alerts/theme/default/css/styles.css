@@ -1,0 +1,29 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+#alerts {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  align-items: center;
+  flex-direction: column;
+}
+
+.alert, .alert-image {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+.message {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 1px 1px 3px black;
+  text-wrap: balance;
+}
