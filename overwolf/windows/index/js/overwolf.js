@@ -13,12 +13,12 @@ function registerEvents() {
 
     onInfoUpdates2Listener = function(info) {
         //console.log("Info UPDATE: " + JSON.stringify(info));
-        SBsendData(currentGame, info, "Info");
+        SBsendData(currentGame, info, "info");
     }
 
     onNewEventsListener = function(info) {
         //console.log("EVENT FIRED: " + JSON.stringify(info));
-        SBsendData(currentGame, info, "Event");
+        SBsendData(currentGame, info, "event");
     }
 
     // general events errors

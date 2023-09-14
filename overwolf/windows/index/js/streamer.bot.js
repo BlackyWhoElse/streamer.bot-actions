@@ -30,7 +30,7 @@ function connectws() {
  * Binding Events after connecting to prevent Errors
  */
 function bindEvents() {
-    ws.onopen = function() {
+    ws.onopen = function () {
         console.log('Connected. Binding Events...');
 
         // Subscribe here to the events you wanne listen to
@@ -47,7 +47,7 @@ function bindEvents() {
         }));
     }
 
-    ws.onmessage = function(event) {
+    ws.onmessage = function (event) {
         // grab message and parse JSON
         const msg = event.data;
         const wsdata = JSON.parse(msg);
@@ -55,7 +55,7 @@ function bindEvents() {
     };
 
     // Catch Event code and try to reconnect
-    ws.onclose = function(event) {
+    ws.onclose = function (event) {
         console.log("Could not connect. Trying to reconnect...")
         setTimeout(connectws, 10000);
     };
@@ -63,73 +63,71 @@ function bindEvents() {
 }
 
 /**
- * Subscribing to Streamer.Bot Events triggered via C#
- */
-function subscribe() {
-    ws.send(JSON.stringify({
-        "request": "Subscribe",
-        "id": "OverwolfGameEvents",
-        "events": {
-            general: ["Custom"],
-        },
-    }));
-}
-
-
-/**
- * Gets all available actions inside streamer.bot
- */
-function SBgetActions() {
-    ws.send(JSON.stringify({
-        "request": "GetActions",
-        "id": "WSEGetActions",
-    }));
-}
-
-/**
  * Execute Trigger inside Streamer.bot
- * 
+ *
  */
 function SBsendData(game, data, type) {
 
-    console.log(data);
+    console.info(game + ": " + type, data);
 
     var args = {};
 
-    for (const [key, element] of Object.entries(data)) {
-        if (typeof element === 'object') {
-            for (const [index, value] of Object.entries(element)) {
+    switch (type) {
+        case 'info':
 
-                // Event trigger
+        var arg = {"game": game};
+        Object.assign(arg, JSON.parse(event.data))
+
+            ws.send(JSON.stringify({
+                "request": "ExecuteCodeTrigger",
+                "triggerName": "event_" + data.feature,
+                "args": arg,
+                "id": "OverwolfSendInfoData",
+            })
+            );
+
+            // Game specific event trigger
+            ws.send(JSON.stringify({
+                "request": "ExecuteCodeTrigger",
+                "triggerName": game.replace(" ", "_").toLowerCase() + "_info_" + data.feature,
+                "args": arg,
+                "id": "OverwolfSendInfoData",
+            })
+            );
+            break;
+
+        case 'event':
+
+            for (const [index, event] of Object.entries(data.events)) {
+
+
+                var arg = {"game": game,"type": type};
+                Object.assign(arg, JSON.parse(event.data))
+                
                 ws.send(JSON.stringify({
-                    request: "ExecuteCodeTrigger",
-                    action: {
-                        "name": value["name"]
-                    },
-                    args: {
-                        "game": game,
-                        "data": value["data"],
-                        "type": type
-                    },
-                    "id": "OverwolfSendData"
-                }));
+                    "request": "ExecuteCodeTrigger",
+                    "triggerName": "event_" + event.name,
+                    "args": arg,
+                    "id": "OverwolfSendEventData",
+                })
+                );
 
                 // Game specific event trigger
                 ws.send(JSON.stringify({
-                    request: "ExecuteCodeTrigger",
-                    action: {
-                        "name": game.replace(" ", "_").toLowerCase() + "_" + value["name"]
-                    },
-                    args: {
-                        "game": game,
-                        "data": value["data"],
-                        "type": type
-                    },
-                    "id": "OverwolfSendData"
-                }));
+                    "request": "ExecuteCodeTrigger",
+                    "triggerName": game.replace(" ", "_").toLowerCase() + "_event_" + event.name,
+                    "args": arg,
+                    "id": "OverwolfSendEventData",
+                }) 
+                );
+
+                console.info("Trigger: " + game.replace(" ", "_").toLowerCase() + "_event_" + event.name);
+
             }
-        } else {
-            console.error(element);
-        }
+            break;
+
+        default:
+            break;
     }
+
 }
