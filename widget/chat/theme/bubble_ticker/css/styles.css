@@ -3,12 +3,14 @@
     --chat-align: row;
     --avatar-size: 50px;
     --avatar-gap: 16px;
+    --message-max-characters: 150ch;
     --message-gap-bottom: 16px;
     --message-background-color: #18181b;
     --broadcaster-background-color: #18181b;
     --subscriber-background-color: #18181b;
     --moderator-background-color: #18181b;
     --highlight-background-color: #18181b;
+    --badge-display: none;
     --badge-size: 15px;
     --badge-spacing: 2px;
     --emote-size: 16px;
@@ -49,7 +51,6 @@ body {
     align-items: center;
     width: fit-content;
     margin-right: 15px;
-    height: 50px;
 }
 
 .reward {
@@ -67,7 +68,7 @@ body {
 }
 
 .badges {
-    display: none;
+    display: var(--badge-display);
 }
 
 .badges img {
@@ -79,17 +80,15 @@ body {
     color: var(--font-color);
     font-size: var(--font-size);
     overflow-wrap: anywhere;
-    padding: 15px 0;
+    padding-right: var(--spacing-right);
 }
 
 .content {
-    display: inline-block;
-    padding-right: var(--spacing-right);
     text-shadow: 1px 1px black;
     text-overflow: ellipsis;
     max-height: 2em;
     overflow: hidden;
-    max-width: 150ch;
+    max-width: var(--message-max-characters);
 }
 
 .message .emote {
