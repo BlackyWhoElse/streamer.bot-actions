@@ -41,8 +41,10 @@ public class CPHInline
             overlay = true
           };
 
-          CPH.ObsSendRaw("SetSourceFilterSettings", JsonConvert.SerializeObject(requestData), 1);
+          CPH.LogInfo(JsonConvert.SerializeObject(requestData));
 
+          //CPH.ObsSendRaw("SetSourceFilterSettings", "{'sourceName':'Camera','filterName':'Zoom','filterSettings':{'center_x_percent':50,'center_y_percent':100,'power':0.5},'overlay':true}", 0);
+          CPH.ObsSendRaw("SetSourceFilterSettings", JsonConvert.SerializeObject(requestData), 0);
           CPH.Wait(duration);
 
           var defaultData = new
@@ -57,8 +59,7 @@ public class CPHInline
             },
             overlay = true
           };
-
-          CPH.ObsSendRaw("SetSourceFilterSettings", JsonConvert.SerializeObject(defaultData), 1);
+          CPH.ObsSendRaw("SetSourceFilterSettings", JsonConvert.SerializeObject(defaultData), 0);
 
           return true;
         }
