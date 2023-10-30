@@ -131,6 +131,9 @@ async function pushMessage(type, message) {
             if (message.role === 3) {
                 message.classes.push("moderator");
             }
+            if (message.role === 2) {
+                message.classes.push("vip");
+            }
 
             break;
 
