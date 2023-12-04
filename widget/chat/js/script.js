@@ -163,7 +163,7 @@ async function pushMessage(type, message) {
             // Adding default classes
             message.classes = ["msg"];
 
-            message.msgId = message.eventId;
+            message.msgId = message.messageId;
             message.displayName = message.user.name;
             message.userId = message.user.id;
 
