@@ -78,13 +78,15 @@ body {
 }
 
 .content {
-    display: inline-block;
+    display: flex;
     padding-right: var(--spacing-right);
     text-shadow: 1px 1px black;
     text-overflow: ellipsis;
     max-height: 2em;
     overflow: hidden;
-    line-height: 1em;
+    line-height: 1em;  
+    align-items: center;
+    gap: 5px;
 }
 
 .message .emote {
