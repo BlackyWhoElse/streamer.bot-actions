@@ -425,6 +425,10 @@
     }
 }
 
+.ffzY.ffzX {
+    --ffz-effect-transforms: scaleY(-1) scaleX(-1);
+    transform: var(--ffz-effect-transforms);
+}
 
 .ffzY {
     --ffz-effect-transforms: scaleY(-1);

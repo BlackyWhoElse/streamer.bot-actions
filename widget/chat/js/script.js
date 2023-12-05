@@ -353,34 +353,47 @@ const FFZEffects = [
 ];
 
 
+function sortEmotes(emotes) {
+    // Ensure that the input array is not empty
+    if (emotes.length === 0) {
+        return null;
+    }
+    emotes.sort((a, b) => Math.abs(a.endIndex) - Math.abs(b.endIndex));
+    return emotes;
+}
+
+
 async function renderEmotes(message) {
 
     if (!message.emotes) return message;
+
+    // Make sure the Emotes are in order
+    message.emotes = sortEmotes(message.emotes);
 
     // Check if Message is emote only
     if (message.message.split(" ").length == message.emotes.length) {
         message.classes.push("emoteonly");
     }
 
+    var emote_key = 0;
 
     // Adding classes for styles
     Object.entries(message.emotes).forEach(e => {
         const [key, emote] = e;
-        var classes = ["emote"];
+        message.emotes[key]['classes'] = ["emote"];
 
         if (emote.type == "FFZGlobal" && FFZEffects.includes(emote.name)) {
-            classes.push(emote.name);
+
+            message.emotes[emote_key]["classes"].push(emote.name);
             message.message = message.message.replace(
                 emote.name,
                 ``
             );
             delete message.emotes[key]
-            // Find the emote with to closed endIndex to this emotes startIndex
-            message.emotes[key - 1]["classes"] = classes;
-
         }
         else {
-            message.emotes[key]["classes"] = classes;
+            emote_key = key
+            message.emotes[key]["classes"].push(emote.name);
         }
     });
 
