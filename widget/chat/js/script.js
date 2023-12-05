@@ -345,9 +345,11 @@ const FFZEffects = [
     // Standard
     "ffzX", "ffzY", "ffzCursed", "ffzW",
     // Premium
-    "ffzHyper", "ffzRainbow", "ffzJam",
+    "ffzRainbow", "ffzJam",
     "ffzBounce", "ffzSpin", "ffzLeave",
-    "ffzArrive", "ffzSlide"
+    "ffzArrive",
+    // Background Effects
+    "ffzHyper", "ffzSlide"
 ];
 
 
@@ -360,8 +362,8 @@ async function renderEmotes(message) {
         message.classes.push("emoteonly");
     }
 
-    
-    // Adding classes for styles 
+
+    // Adding classes for styles
     Object.entries(message.emotes).forEach(e => {
         const [key, emote] = e;
         var classes = ["emote"];
@@ -373,11 +375,11 @@ async function renderEmotes(message) {
                 ``
             );
             delete message.emotes[key]
-            // Find the emote with to closed endIndex to this emotes startIndex 
+            // Find the emote with to closed endIndex to this emotes startIndex
             message.emotes[key - 1]["classes"] = classes;
 
         }
-        else {            
+        else {
             message.emotes[key]["classes"] = classes;
         }
     });
@@ -385,13 +387,19 @@ async function renderEmotes(message) {
 
     // Render
     message.emotes.forEach((emote) => {
-        
-        console.debug(emote);
 
-        message.message = message.message.replace(
-            emote.name,
-            `<img class="${emote.classes.join(" ")}" src="${emote.imageUrl}">`
-        );
+        if (emote.classes.includes("ffzHyper") || emote.classes.includes("ffzSlide")) {
+            message.message = message.message.replace(
+                emote.name,
+                `<div class="${emote.classes.join(" ")}" style="background-image:url(${emote.imageUrl})"><div>`
+            );
+        } else {
+            message.message = message.message.replace(
+                emote.name,
+                `<img class="${emote.classes.join(" ")}" src="${emote.imageUrl}">`
+            );
+        }
+
     });
 
     return message;

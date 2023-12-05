@@ -2,6 +2,19 @@
     --ffz-effect-filters: none;
     --ffz-effect-transforms: initial;
     --ffz-effect-animations: initial;
+
+    height: var(--emote-size);
+}
+
+.emote_background {
+    height: var(--emote-size);
+    background-size: var(--emote-size);
+    aspect-ratio: 1/1;
+}
+
+.emote_background img {
+    display: none;
+    background-repeat: no-repeat;
 }
 
 @keyframes ffz-effect-slide {
@@ -10,7 +23,7 @@
     }
 
     100% {
-        background-position-x: calc(-1 * var(--ffz-width));
+        background-position-x: calc(-1 * var(--emote-size));
     }
 }
 
@@ -68,60 +81,6 @@
     }
 }
 
-@keyframes ffz-effect-appear-transform {
-    0% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(0);
-    }
-
-    19.99% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(0);
-    }
-
-    20% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(0.1);
-    }
-
-    25% {
-        transform: var(--ffz-effect-transforms) translateX(-16px) scale(0.2) translateY(0.6px);
-    }
-
-    30% {
-        transform: var(--ffz-effect-transforms) translateX(-14px) scale(0.3) translateY(-4px);
-    }
-
-    35% {
-        transform: var(--ffz-effect-transforms) translateX(-12px) scale(0.4) translateY(0.6px);
-    }
-
-    40% {
-        transform: var(--ffz-effect-transforms) translateX(-10px) scale(0.5) translateY(-4px);
-    }
-
-    45% {
-        transform: var(--ffz-effect-transforms) translateX(-8px) scale(0.6) translateY(2px);
-    }
-
-    50% {
-        transform: var(--ffz-effect-transforms) translateX(-6px) scale(0.7) translateY(-3px);
-    }
-
-    55% {
-        transform: var(--ffz-effect-transforms) translateX(-4px) scale(0.8) translateY(2px);
-    }
-
-    60% {
-        transform: var(--ffz-effect-transforms) translateX(-2px) scale(0.9) translateY(-3px);
-    }
-
-    65% {
-        transform: var(--ffz-effect-transforms) scale(1);
-    }
-
-    100% {
-        transform: var(--ffz-effect-transforms) scale(1);
-    }
-}
-
 @keyframes ffz-effect-leave {
     0% {
         transform: scale(1);
@@ -173,60 +132,6 @@
 
     100% {
         transform: translateX(-18px) scale(0, 0);
-    }
-}
-
-@keyframes ffz-effect-leave-transform {
-    0% {
-        transform: var(--ffz-effect-transforms) scale(1);
-    }
-
-    39.99% {
-        transform: var(--ffz-effect-transforms) scale(1);
-    }
-
-    40% {
-        transform: var(--ffz-effect-transforms) scale(-0.9, 0.9) translateY(-3px);
-    }
-
-    45% {
-        transform: var(--ffz-effect-transforms) translateX(-2px) scale(-0.8, 0.8) translateY(2px);
-    }
-
-    50% {
-        transform: var(--ffz-effect-transforms) translateX(-4px) scale(-0.7, 0.7) translateY(-3px);
-    }
-
-    55% {
-        transform: var(--ffz-effect-transforms) translateX(-6px) scale(-0.6, 0.6) translateY(2px);
-    }
-
-    60% {
-        transform: var(--ffz-effect-transforms) translateX(-8px) scale(-0.5, 0.5) translateY(-4px);
-    }
-
-    65% {
-        transform: var(--ffz-effect-transforms) translateX(-10px) scale(-0.4, 0.4) translateY(0.6px);
-    }
-
-    70% {
-        transform: var(--ffz-effect-transforms) translateX(-12px) scale(-0.3, 0.3) translateY(-4px);
-    }
-
-    75% {
-        transform: var(--ffz-effect-transforms) translateX(-14px) scale(-0.2, 0.2) translateY(0.6px);
-    }
-
-    80% {
-        transform: var(--ffz-effect-transforms) translateX(-16px) scale(-0.1, 0.1);
-    }
-
-    85% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(-0.01, 0);
-    }
-
-    100% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(0, 0);
     }
 }
 
@@ -336,112 +241,6 @@
     }
 }
 
-@keyframes ffz-effect-in-out-transform {
-    0% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(0);
-    }
-
-    9.995% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(0);
-    }
-
-    10% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(0.1);
-    }
-
-    12.5% {
-        transform: var(--ffz-effect-transforms) translateX(-16px) scale(0.2) translateY(0.6px);
-    }
-
-    15% {
-        transform: var(--ffz-effect-transforms) translateX(-14px) scale(0.3) translateY(-4px);
-    }
-
-    17.5% {
-        transform: var(--ffz-effect-transforms) translateX(-12px) scale(0.4) translateY(0.6px);
-    }
-
-    20% {
-        transform: var(--ffz-effect-transforms) translateX(-10px) scale(0.5) translateY(-4px);
-    }
-
-    22.5% {
-        transform: var(--ffz-effect-transforms) translateX(-8px) scale(0.6) translateY(2px);
-    }
-
-    25% {
-        transform: var(--ffz-effect-transforms) translateX(-6px) scale(0.7) translateY(-3px);
-    }
-
-    27.5% {
-        transform: var(--ffz-effect-transforms) translateX(-4px) scale(0.8) translateY(2px);
-    }
-
-    30% {
-        transform: var(--ffz-effect-transforms) translateX(-2px) scale(0.9) translateY(-3px);
-    }
-
-    32.5% {
-        transform: var(--ffz-effect-transforms) scale(1);
-    }
-
-    50% {
-        transform: var(--ffz-effect-transforms) scale(1);
-    }
-
-    50% {
-        transform: var(--ffz-effect-transforms) scale(1);
-    }
-
-    69.995% {
-        transform: var(--ffz-effect-transforms) scale(1);
-    }
-
-    70% {
-        transform: var(--ffz-effect-transforms) scale(-0.9, 0.9) translateY(-3px);
-    }
-
-    72.5% {
-        transform: var(--ffz-effect-transforms) translateX(-2px) scale(-0.8, 0.8) translateY(2px);
-    }
-
-    75% {
-        transform: var(--ffz-effect-transforms) translateX(-4px) scale(-0.7, 0.7) translateY(-3px);
-    }
-
-    77.5% {
-        transform: var(--ffz-effect-transforms) translateX(-6px) scale(-0.6, 0.6) translateY(2px);
-    }
-
-    80% {
-        transform: var(--ffz-effect-transforms) translateX(-8px) scale(-0.5, 0.5) translateY(-4px);
-    }
-
-    82.5% {
-        transform: var(--ffz-effect-transforms) translateX(-10px) scale(-0.4, 0.4) translateY(0.6px);
-    }
-
-    85% {
-        transform: var(--ffz-effect-transforms) translateX(-12px) scale(-0.3, 0.3) translateY(-4px);
-    }
-
-    87.5% {
-        transform: var(--ffz-effect-transforms) translateX(-14px) scale(-0.2, 0.2) translateY(0.6px);
-    }
-
-    90% {
-        transform: var(--ffz-effect-transforms) translateX(-16px) scale(-0.1, 0.1);
-    }
-
-    92.5% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(-0.01, 0);
-    }
-
-    100% {
-        transform: var(--ffz-effect-transforms) translateX(-18px) scale(0, 0);
-    }
-}
-
 @keyframes ffz-effect-rotate {
     0% {
         transform: rotate(0deg);
@@ -452,79 +251,23 @@
     }
 }
 
-@keyframes ffz-effect-rotate-transform {
-    0% {
-        transform: var(--ffz-effect-transforms) rotate(0deg);
-    }
-
-    100% {
-        transform: var(--ffz-effect-transforms) rotate(360deg);
-    }
-}
-
 @keyframes ffz-effect-rainbow {
     0% {
-        filter: hue-rotate(0deg)
+        filter: hue-rotate(0deg);
     }
 
     100% {
-        filter: hue-rotate(360deg)
+        filter: hue-rotate(360deg);
     }
 }
 
 @keyframes ffz-effect-rainbow-filter {
     0% {
-        filter: var(--ffz-effect-filters) hue-rotate(0deg)
+        filter: var(--ffz-effect-filters) hue-rotate(0deg);
     }
 
     100% {
-        filter: var(--ffz-effect-filters) hue-rotate(360deg)
-    }
-}
-
-@keyframes ffz-effect-shake-transform {
-    0% {
-        transform: var(--ffz-effect-transforms) translate(1px, 1px);
-    }
-
-    10% {
-        transform: var(--ffz-effect-transforms) translate(-1px, -2px);
-    }
-
-    20% {
-        transform: var(--ffz-effect-transforms) translate(-3px, 0px);
-    }
-
-    30% {
-        transform: var(--ffz-effect-transforms) translate(3px, 2px);
-    }
-
-    40% {
-        transform: var(--ffz-effect-transforms) translate(1px, -1px);
-    }
-
-    50% {
-        transform: var(--ffz-effect-transforms) translate(-1px, 2px);
-    }
-
-    60% {
-        transform: var(--ffz-effect-transforms) translate(-3px, 1px);
-    }
-
-    70% {
-        transform: var(--ffz-effect-transforms) translate(3px, 1px);
-    }
-
-    80% {
-        transform: var(--ffz-effect-transforms) translate(-1px, -1px);
-    }
-
-    90% {
-        transform: var(--ffz-effect-transforms) translate(1px, 2px);
-    }
-
-    100% {
-        transform: var(--ffz-effect-transforms) translate(1px, -2px);
+        filter: var(--ffz-effect-filters) hue-rotate(360deg);
     }
 }
 
@@ -620,52 +363,6 @@
     }
 }
 
-@keyframes ffz-effect-jam-transform {
-    0% {
-        transform: var(--ffz-effect-transforms) translate(-2px, -2px) rotate(-6deg);
-    }
-
-    10% {
-        transform: var(--ffz-effect-transforms) translate(-1.5px, -2px) rotate(-8deg);
-    }
-
-    20% {
-        transform: var(--ffz-effect-transforms) translate(1px, -1.5px) rotate(-8deg);
-    }
-
-    30% {
-        transform: var(--ffz-effect-transforms) translate(3px, 2.5px) rotate(-6deg);
-    }
-
-    40% {
-        transform: var(--ffz-effect-transforms) translate(3px, 4px) rotate(-2deg);
-    }
-
-    50% {
-        transform: var(--ffz-effect-transforms) translate(2px, 4px) rotate(3deg);
-    }
-
-    60% {
-        transform: var(--ffz-effect-transforms) translate(1px, 4px) rotate(3deg);
-    }
-
-    70% {
-        transform: var(--ffz-effect-transforms) translate(-0.5px, 3px) rotate(2deg);
-    }
-
-    80% {
-        transform: var(--ffz-effect-transforms) translate(-1.25px, 1px) rotate(0deg);
-    }
-
-    90% {
-        transform: var(--ffz-effect-transforms) translate(-1.75px, -0.5px) rotate(-2deg);
-    }
-
-    100% {
-        transform: var(--ffz-effect-transforms) translate(-2px, -2px) rotate(-5deg);
-    }
-}
-
 @keyframes ffz-effect-bounce {
     0% {
         transform: scale(0.8, 1);
@@ -728,93 +425,27 @@
     }
 }
 
-@keyframes ffz-effect-bounce-transform {
-    0% {
-        transform: scale(0.8, 1) var(--ffz-effect-transforms);
-    }
-
-    10% {
-        transform: scale(0.9, 0.8) var(--ffz-effect-transforms);
-    }
-
-    20% {
-        transform: scale(1, 0.4) var(--ffz-effect-transforms);
-    }
-
-    25% {
-        transform: scale(1.2, 0.3) var(--ffz-effect-transforms);
-    }
-
-    25.001% {
-        transform: scale(-1.2, 0.3) var(--ffz-effect-transforms);
-    }
-
-    30% {
-        transform: scale(-1, 0.4) var(--ffz-effect-transforms);
-    }
-
-    40% {
-        transform: scale(-0.9, 0.8) var(--ffz-effect-transforms);
-    }
-
-    50% {
-        transform: scale(-0.8, 1) var(--ffz-effect-transforms);
-    }
-
-    60% {
-        transform: scale(-0.9, 0.8) var(--ffz-effect-transforms);
-    }
-
-    70% {
-        transform: scale(-1, 0.4) var(--ffz-effect-transforms);
-    }
-
-    75% {
-        transform: scale(-1.2, 0.3) var(--ffz-effect-transforms);
-    }
-
-    75.001% {
-        transform: scale(1.2, 0.3) var(--ffz-effect-transforms);
-    }
-
-    80% {
-        transform: scale(1, 0.4) var(--ffz-effect-transforms);
-    }
-
-    90% {
-        transform: scale(0.9, 0.8) var(--ffz-effect-transforms);
-    }
-
-    100% {
-        transform: scale(0.8, 1) var(--ffz-effect-transforms);
-    }
-}
 
 .ffzY {
     --ffz-effect-transforms: scaleY(-1);
     transform: var(--ffz-effect-transforms);
 }
+
 .ffzX {
     --ffz-effect-transforms: scaleX(-1);
     transform: var(--ffz-effect-transforms);
 }
-.ffzW{
-    width: calc(var(--emote-size) + var(--emote-size));
+
+.ffzW {
+    transform: scale(2, 1);
 }
-.emoteonly .ffzW{
-    width: calc(var(--emote-only-size) + var(--emote-only-size));
-}
-.ffzCursed  {
+
+.ffzCursed {
     --ffz-effect-filters: grayscale(1) brightness(0.7) contrast(2.5);
     filter: var(--ffz-effect-filters);
 }
 
-
-.ffzHyper{
-
-}
-
-.ffzRainbow{
+.ffzRainbow {
     --ffz-effect-animations: ffz-effect-rainbow 0.6s linear infinite;
     animation: var(--ffz-effect-animations);
 }
@@ -823,20 +454,35 @@
     --ffz-effect-animations: ffz-effect-jam 0.6s linear infinite;
     animation: var(--ffz-effect-animations);
 }
-.ffzBounce{
-    --ffz-effect-animations: ffz-effect-bounce 0.6s linear infinite;
+
+.ffzBounce {
+    --ffz-effect-animations: ffz-effect-bounce 1s linear infinite;
     animation: var(--ffz-effect-animations);
 }
+
 .ffzSpin {
     --ffz-effect-animations: ffz-effect-rotate 1.5s infinite linear;
     animation: var(--ffz-effect-animations);
 }
-.ffzLeave{
 
+.ffzLeave {
+    --ffz-effect-animations: ffz-effect-leave 3s infinite ease-in-out;
+    animation: var(--ffz-effect-animations);
 }
-.ffzArrive{
 
+.ffzArrive {
+    --ffz-effect-animations: ffz-effect-appear 3s infinite ease-in-out;
+    animation: var(--ffz-effect-animations);
 }
-.ffzSlide{
 
+/* Effects with backgrounds */
+.emote_background:has(.ffzSlide) {
+    background-repeat: repeat-x;
+    --ffz-effect-animations: ffz-effect-slide .3s linear infinite;
+    animation: var(--ffz-effect-animations);
+}
+
+.emote_background:has(.ffzHyper) {
+    --ffz-effect-animations: ffz-effect-shake 0.3s infinite linear;
+    animation: var(--ffz-effect-animations);
 }
