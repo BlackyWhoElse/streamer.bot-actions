@@ -406,6 +406,8 @@ async function renderEmotes(message) {
         let searchStr = message.message.substring(emoteSearchPointer);
         let emoteLocation = searchStr.indexOf(emote.name);
 
+        console.log(emoteSearchPointer, searchStr);
+
         let replacement;
 
         if (emote.classes.includes("ffzHyper") || emote.classes.includes("ffzSlide")) {
@@ -416,11 +418,11 @@ async function renderEmotes(message) {
         }
 
         formattedMessage += searchStr.substring(0, emoteLocation) + replacement + " ";
-        emoteSearchPointer = emoteLocation + emote.name.length;
+        emoteSearchPointer += emoteLocation + emote.name.length;
     });
 
     if (formattedMessage){
-        message.message = formattedMessage;
+        message.message = formattedMessage + message.message.substring(emoteSearchPointer);
     }
 
     return message;
