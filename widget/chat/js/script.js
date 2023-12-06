@@ -365,7 +365,7 @@ function sortEmotes(emotes) {
 
 async function renderEmotes(message) {
 
-    if (!message.emotes) return message;
+    if (message.emotes.length == 0) return message;
 
     // Make sure the Emotes are in order
     message.emotes = sortEmotes(message.emotes);
