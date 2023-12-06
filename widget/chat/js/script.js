@@ -200,8 +200,8 @@ async function pushMessage(type, message) {
             message.avatar = avatar;
             return renderBadges(message);
         })
-        .then((bages) => {
-            message.badges = bages;
+        .then((badges) => {
+            message.badges = badges;
             return renderEmotes(message);
         })
         .then((msg) => {
@@ -397,23 +397,31 @@ async function renderEmotes(message) {
         }
     });
 
+    let emoteSearchPointer = 0;
+    let formattedMessage = "";
 
     // Render
     message.emotes.forEach((emote) => {
 
+        let searchStr = message.message.substring(emoteSearchPointer);
+        let emoteLocation = searchStr.indexOf(emote.name);
+
+        let replacement;
+
         if (emote.classes.includes("ffzHyper") || emote.classes.includes("ffzSlide")) {
-            message.message = message.message.replace(
-                emote.name,
-                `<div class="${emote.classes.join(" ")}" style="background-image:url(${emote.imageUrl})"><div>`
-            );
+            replacement = `<div class="${emote.classes.join(" ")}" style="background-image:url(${emote.imageUrl})"><div>`;
+            
         } else {
-            message.message = message.message.replace(
-                emote.name,
-                `<img class="${emote.classes.join(" ")}" src="${emote.imageUrl}">`
-            );
+            replacement = `<img class="${emote.classes.join(" ")}" src="${emote.imageUrl}">`
         }
 
+        formattedMessage += searchStr.substring(0, emoteLocation) + replacement + " ";
+        emoteSearchPointer = emoteLocation + emote.name.length;
     });
+
+    if (formattedMessage){
+        message.message = formattedMessage;
+    }
 
     return message;
 }
