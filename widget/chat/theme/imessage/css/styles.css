@@ -167,8 +167,5 @@ body {
 
 .time {
     font-size: var(--time-size);
-    color: aliceblue;
-    position: absolute;
-    right: var(--spacing-right);
-    bottom: 2px;
+    color: var(--font-color);
 }
