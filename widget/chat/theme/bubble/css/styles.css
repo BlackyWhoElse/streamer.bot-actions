@@ -1,9 +1,9 @@
 :root {
     /** Left: row Right: row-reverse */
-    --chat-style: row;
+    --_chat-style: row;
     --avatar-size: 50px;
     --avatar-gap: 16px;
-    --message-gap-bottom: 16px;
+    --message-gap: 16px;
     --message-background-color: #18181b;
     --badge-size: 15px;
     --badge-spacing: 2px;

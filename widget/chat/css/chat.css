@@ -5,20 +5,16 @@ body {
 }
 
 #chat {
-  --_chat-style: var(--chat-style, column);
-
-
-
-  position: fixed;
+  --_message-gap: var(--message-gap, 15px);
+  position: absolute;
   height: 100vh;
   width: 100vw;
-
   overflow: hidden;
   display: flex;
-  flex-direction: var(--_chat-style);
+  flex-direction: column;
   flex-wrap: nowrap;
   justify-content: flex-end;
-
+  gap: var(--_message-gap);
   margin: 0;
   padding: 0;
 }
@@ -26,15 +22,42 @@ body {
 #chat li {
   --_background-color: var(--background-color, #000);
   --_font-color: var(--font-color, #fff);
-
+  --_message-layout: var(--chat-style, row);
   display: flex;
   background-color: var(--message-background-color);
   margin-bottom: var(--message-gap-bottom);
-  flex-direction: var(--_chat-style);
+  flex-direction: var(--_message-layout);
   border-radius: var(--avatar-size);
   justify-content: left;
   align-items: center;
   height: fit-content;
+  width: fit-content;
+  max-width: 100%;
+  position: relative;
 }
 
-#chat.ticker {}
+#chat.ticker {
+  flex-direction: row;
+  width: 100vw;
+  right: 0;
+}
+
+#chat.ticker li {}
+
+
+#chat .content {
+  display: flex;
+  text-overflow: ellipsis;
+  max-height: 2em;
+  overflow: hidden;
+  line-height: 1em;
+  align-items: start;
+  gap: 5px;
+  width: 100%;
+}
+
+#chat.ticker .content {
+  width: max-content;
+  max-width: 100vw;
+
+}
