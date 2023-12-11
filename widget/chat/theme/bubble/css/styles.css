@@ -1,6 +1,6 @@
 :root {
     /** Left: row Right: row-reverse */
-    --chat-align: row;
+    --chat-style: row;
     --avatar-size: 50px;
     --avatar-gap: 16px;
     --message-gap-bottom: 16px;
@@ -18,34 +18,6 @@
     --animate-delay: 0;
 }
 
-body {
-    font-family: var(--font-family);
-    margin: 0;
-    padding: 0;
-}
-
-#chat {
-    height: 100vh;
-    position: fixed;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    justify-content: flex-end;
-    margin: 0;
-    padding: 0;
-}
-
-#chat li {
-    display: flex;
-    background-color: var(--message-background-color);
-    margin-bottom: var(--message-gap-bottom);
-    flex-direction: var(--chat-align);
-    border-radius: var(--avatar-size);
-    justify-content: left;
-    align-items: center;
-    width: fit-content;
-}
 
 .reward {
     padding-left: var(--spacing-right);
@@ -84,7 +56,7 @@ body {
     text-overflow: ellipsis;
     max-height: 2em;
     overflow: hidden;
-    line-height: 1em;  
+    line-height: 1em;
     align-items: center;
     gap: 5px;
 }

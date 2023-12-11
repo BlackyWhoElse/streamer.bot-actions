@@ -29,31 +29,6 @@ body {
     padding: 0;
 }
 
-#chat {
-    height: 100vh;
-    position: fixed;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    justify-content: flex-end;
-    margin: 0;
-    padding: 0;
-}
-
-#chat li {
-    --_background-color: var(--imessage-color-green);
-    --_font-color: var(--font-color-white);
-    display: flex;
-    margin-bottom: var(--message-gap-bottom);
-    flex-direction: row;
-    border-radius: var(--avatar-size);
-    justify-content: flex-start;
-    align-items: flex-end;
-    width: fit-content;
-    gap: 0.5rem;
-}
-
 #chat li.broadcaster,
 #chat li.moderator {
 
