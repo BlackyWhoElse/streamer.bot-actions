@@ -42,8 +42,8 @@ body {
 }
 
 #chat li {
-    --_background-color: var(--imessage-color-gray);
-    --_font-color: var(--font-color);
+    --_background-color: var(--imessage-color-green);
+    --_font-color: var(--font-color-white);
     display: flex;
     margin-bottom: var(--message-gap-bottom);
     flex-direction: row;
@@ -63,6 +63,11 @@ body {
     margin-left: auto;
     justify-content: flex-end;
     flex-direction: row-reverse;
+}
+
+#chat li.subscriber {
+    --_background-color: var(--imessage-color-gray);
+    --_font-color: var(--font-color);
 }
 
 #chat li.broadcaster .container,
