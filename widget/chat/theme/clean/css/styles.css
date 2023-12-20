@@ -15,19 +15,6 @@ body {
     padding: 0;
 }
 
-#chat {
-    overflow: hidden;
-    background: var(--message-background-color);
-    margin: 0;
-    padding: 0;
-    width: 100vw;
-    justify-content: right;
-    display: flex;
-    flex-direction: column;
-    bottom: 0;
-    position: absolute;
-}
-
 .msg,
 .badges,
 .content,

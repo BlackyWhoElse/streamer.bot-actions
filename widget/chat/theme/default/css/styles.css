@@ -27,18 +27,6 @@ body {
     padding: 0;
 }
 
-#chat {
-    height: 100vh;
-    position: fixed;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    justify-content: flex-end;
-    margin: 0;
-    padding: 0;
-}
-
 #chat li {
     display: flex;
     margin-bottom: var(--message-gap-bottom);
