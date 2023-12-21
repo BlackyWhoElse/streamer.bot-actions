@@ -1,3 +1,40 @@
+:root {
+  --chat-style: row;
+
+  --message-gap: 15px;
+  --message-gap-bottom: 0;
+  --message-background-color: transparent;
+
+  --badge-size: 15px;
+  --badge-spacing: 2px;
+
+  --avatar-size: 80px;
+  --avatar-gap: 16px;
+
+  --emote-size: 16px;
+  --emote-only-size: 32px;
+  --emote-spacing: 2px;
+
+  --font-size: 16px;
+  --font-color: #fff;
+  --font-family: 'Roboto', sans-serif;
+
+  --roleBoradcaster: #ff0000;
+  --roleModerator: #4dd200;
+  --roleVip: #f100ed;
+  --roleSubscriber: #aaa;
+  --roleMe: #0012d5;
+  --roleHighlight: #aaa;
+  --roleReward: #535353;
+
+  --time-size: 12px;
+  --time-align: right;
+
+  --animate-duration: .3s;
+  --animate-delay: 0;
+}
+
+
 body {
   font-family: var(--font-family);
   margin: 0;
@@ -5,7 +42,7 @@ body {
 }
 
 #chat {
-  --_message-gap: var(--message-gap, 15px);
+  --_message-gap: var(--message-gap);
   position: absolute;
   height: 100vh;
   width: 100vw;
@@ -20,12 +57,12 @@ body {
 }
 
 #chat li {
-  --_background-color: var(--background-color, #000);
-  --_font-color: var(--font-color, #fff);
-  --_message-layout: var(--chat-style, row);
+  --_background-color: var(--message-background-color);
+  --_font-color: var(--font-color);
+  --_message-layout: var(--chat-style);
+  --_avatar-gap: var(--avatar-gap, 0);
   display: flex;
-  background-color: var(--message-background-color);
-  margin-bottom: var(--message-gap-bottom);
+  background-color: var(--_background-color);
   flex-direction: var(--_message-layout);
   justify-content: left;
   align-items: center;
@@ -33,6 +70,7 @@ body {
   width: fit-content;
   max-width: 100%;
   position: relative;
+  gap: var(--_avatar-gap);
 }
 
 #chat.ticker {
@@ -42,6 +80,22 @@ body {
 }
 
 #chat.ticker li {}
+
+
+
+.avatar{
+  aspect-ratio: 1/1;
+}
+
+.avatar img {
+  --_avatar-size: var(--avatar-size);
+  width: var(--avatar-size);
+}
+
+.badges img {
+  width: var(--badge-size);
+  margin-left: var(--badge-spacing);
+}
 
 
 #chat .content {
@@ -60,6 +114,26 @@ body {
   max-width: 100vw;
 
 }
+
+
+
+/* User types */
+
+.broadcaster {}
+
+.moderator {}
+
+.subcriber {}
+
+.vip {}
+
+.reply {}
+
+.reward {}
+
+.highlight {}
+
+.me {}
 
 
 

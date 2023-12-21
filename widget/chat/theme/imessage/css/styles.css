@@ -23,10 +23,10 @@
     --animate-delay: 0;
 }
 
-body {
-    font-family: var(--font-family);
-    margin: 0;
-    padding: 0;
+#chat li {
+    background-color: transparent;
+
+    --_background-color: var(--imessage-color-gray);
 }
 
 #chat li.broadcaster,
