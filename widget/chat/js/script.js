@@ -6,10 +6,15 @@
 
 // General Variables
 var ws;
-var dev;
+var chat;
+
+var messages = [];
+
 var template_twitch;
 var template_youtube;
 var template_reward;
+var template_css;
+
 
 /**
  * Storing avatars that have been called to save api calls
@@ -18,6 +23,10 @@ var template_reward;
 var avatars = new Map();
 
 window.addEventListener("load", (event) => {
+
+
+    chat = document.getElementById("chat");
+    template_css = document.getElementById("template_css");
     loadTemplates();
     connectws();
 
@@ -43,9 +52,8 @@ function loadTemplates() {
             }
             if (status === "success") {
                 // Loading template css
-                $("head").append(
-                    `<link rel="stylesheet" href="theme/${settings.template}/css/styles.css" type="text/css" />`
-                );
+
+                template_css.setAttribute("href", `./theme/${settings.template}/css/styles.css`)
 
                 template_twitch = document.querySelector("#message_twitch");
                 template_youtube = document.querySelector("#message_youtube");
@@ -53,6 +61,28 @@ function loadTemplates() {
             }
         }
     );
+}
+
+
+/**
+ * This will change the theme and render stored messages
+ * @param {string} theme
+ */
+function changeTheme(template) {
+
+    // Clear Chat
+    chat.innerHTML = "";
+
+    // Remove Stylesheet
+    $(`link[rel=stylesheet][title=${settings.template}]`).remove();
+
+    // Set new template
+    settings.template = template;
+
+    // Load Templates
+    loadTemplates();
+
+    // Render Stored message
 }
 
 /**
@@ -271,7 +301,24 @@ function renderMessage(platform, message = {}) {
     message.classes = message.classes.join(" ");
 
     const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
-    return tpl.innerHTML.replace(pattern, (_, token) => message[token] || "");
+
+    result = tpl.innerHTML.replace(pattern, (_, token) => message[token] || "");
+
+    chatHistory(message);
+
+    return result;
+}
+
+/**
+ * @param {Object} message
+ */
+function chatHistory(message) {
+
+    if (messages.length >= 15) {
+        messages.slice(1)
+    }
+
+    messages.push(message);
 }
 
 /**
@@ -399,7 +446,7 @@ async function renderEmotes(message) {
         emoteSearchPointer += emoteLocation + emote.name.length;
     });
 
-    if (formattedMessage){
+    if (formattedMessage) {
         message.message = formattedMessage + message.message.substring(emoteSearchPointer);
     }
 

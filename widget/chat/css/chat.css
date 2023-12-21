@@ -63,9 +63,7 @@ body {
 
 
 
-/**
- * Dev / Settings Page
- **/
+/* Dev / Settings Page */
 
 body.dev {
   background-color: #333333;
@@ -77,11 +75,13 @@ body.dev {
   height: 50%;
   padding: 1%;
 
+  box-sizing: border-box;
   background-color: darkslategray;
 }
 
 .dev #chat.ticker {
-  height: 25%;
+  height: 200px;
+  align-items: center;
 }
 
 /* Forms */

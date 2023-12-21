@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chatbox</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="js/settings.js"></script>
+    <script src="js/streamer.bot.js"></script>
+    <script src="js/script.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;1,700&display=swap" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="css/chat.css" />
+    <link rel="stylesheet" href="css/ffz.css" />
+    <link id="template_css" rel="stylesheet"
+        href="" type="text/css" />
+</head>
+
+<body class="dev">
+    <div class="settings">
+        <h2>Settings</h2>
+        <form>
+            <div class="setting">
+                <h4>Debug Messages</h4>
+                <label class="switch">
+                    <input type="checkbox" class="checkbox" checked
+                        data-settings-name="debug" data-settings-value="true">
+                    <span class="slider"></span>
+                </label>
+                <label>Add debug messages to the preview</label>
+            </div>
+
+            <div class="setting">
+                <h4>Debug Console Messages</h4>
+                <label class="switch">
+                    <input type="checkbox" class="checkbox"
+                        data-settings-name="debugConsole"
+                        data-settings-value="false">
+                    <span class="slider"></span>
+                </label>
+                <label>Add debug messages to the preview</label>
+            </div>
+
+            <div class="setting">
+                <h4>Theme</h4>
+                <label for="cars">Choose a car:</label>
+
+                <select name="themes" id="theme"
+                    onchange="handleThemeChange(this)">
+                    <option value="box">Box</option>
+                    <option value="bubble">Bubble</option>
+                    <option value="clean">Clean</option>
+                    <option value="crossing">Crossing</option>
+                    <option value="default">Default</option>
+                    <option value="imessage">iMessage</option>
+                    <option value="tarkov">Tarkov</option>
+                    <option value="custom">Costum</option>
+                </select>
+                <div id="customThemeContainer" style="display: none;">
+                    <label for="customTheme">Enter Custom Text:</label>
+                    <input type="text" id="customTheme">
+                </div>
+
+                <label>Switch between a normal and ticker style chat</label>
+            </div>
+
+            <div class="setting">
+                <h4>Ticker Style</h4>
+                <label class="switch">
+                    <input type="checkbox" class="checkbox"
+                        data-settings-name="ticker" data-settings-value="false">
+                    <span class="slider"></span>
+                </label>
+                <label>Switch between a normal and ticker style chat</label>
+            </div>
+
+
+
+        </form>
+    </div>
+    <h2>Preview</h2>
+    <ul id="chat" class=""></ul>
+    <div id="templates"></div>
+
+</body>
+
+</html>

@@ -2,7 +2,7 @@ var settings = {
   websocketURL: "ws://localhost:8080/",
   debug: true,
   debugConsole: false,
-  template: "clean",
+  template: "box",
   ticker: false,
   blacklist: {
     user: [],
@@ -23,6 +23,7 @@ var settings = {
   },
 };
 
+var dev;
 
 $('document').ready(function () {
 
@@ -53,6 +54,17 @@ function handleSettingsChange(event) {
   if (settings.hasOwnProperty(propertyName)) {
     settings[propertyName] = value;
     console.debug(`Updated ${propertyName} to ${value}`);
+
+    switch (propertyName) {
+      case "ticker":
+        chat.classList.toggle("ticker");
+        break;
+
+      default:
+        break;
+    }
+
+
   } else {
     console.debug(`${propertyName} is not a valid property in the settings object`);
   }
@@ -74,6 +86,7 @@ function handleThemeChange(selectElement) {
     textFieldContainer.style.display = 'block';
   } else {
     // Todo: Load theme
+    changeTheme(selectElement.value);
     console.log("Load new theme " + selectElement.value)
   }
 }
