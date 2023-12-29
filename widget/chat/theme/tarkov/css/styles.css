@@ -113,6 +113,7 @@
 .broadcaster.msg,
 .moderator.msg {
     flex-direction: row-reverse !important;
+    align-self: end;
 }
 
 .broadcaster .message,
