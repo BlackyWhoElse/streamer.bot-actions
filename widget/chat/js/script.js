@@ -82,7 +82,6 @@ function changeTheme(template) {
     // Load Templates
     loadTemplates();
 
-    // Render Stored message
 }
 
 /**
@@ -265,6 +264,8 @@ function renderMessage(platform, message = {}) {
         console.debug("Message Data at the end", message);
     }
 
+
+
     switch (platform) {
         case "chatmessage":
             var tpl = template_twitch;
@@ -300,11 +301,13 @@ function renderMessage(platform, message = {}) {
 
     message.classes = message.classes.join(" ");
 
+    chatHistory(message);
+
     const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
 
     result = tpl.innerHTML.replace(pattern, (_, token) => message[token] || "");
 
-    chatHistory(message);
+    
 
     return result;
 }

@@ -2,6 +2,7 @@ var settings = {
   websocketURL: "ws://localhost:8080/",
   debug: true,
   debugConsole: false,
+  debugMessagSpeed:1000,
   template: "box",
   ticker: false,
   blacklist: {
@@ -73,6 +74,10 @@ function handleSettingsChange(event) {
 
 }
 
+/**
+ * Gets the Theme name from a Form Element
+ * @param {FormData} selectElement 
+ */
 function handleThemeChange(selectElement) {
   const textFieldContainer = document.getElementById('customThemeContainer');
   const customTextField = document.getElementById('customTheme');
@@ -233,7 +238,7 @@ function debugMessages() {
     };
 
     pushMessage('chatmessage', message);
-  }, 4000);
+  }, settings.debugMessagSpeed);
 }
 
 function makeid(length) {
