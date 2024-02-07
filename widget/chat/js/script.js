@@ -111,6 +111,7 @@ async function pushMessage(type, message) {
         // Chat message from Twitch
         case "chatmessage":
 
+            message.type = 'twitch';
             // Adding default classes
             message.classes = ["msg"];
 
@@ -146,6 +147,7 @@ async function pushMessage(type, message) {
 
         // Reward message from Twitch
         case "reward":
+            message.type = 'reward';
             message.msgId = message.id;
             message.title = message.reward.title;
             message.prompt = message.reward.prompt;
@@ -167,6 +169,7 @@ async function pushMessage(type, message) {
         case "message":
 
 
+            message.type = 'youtube';
             // Adding default classes
             message.classes = ["msg"];
 
@@ -209,7 +212,15 @@ async function pushMessage(type, message) {
         })
         .then((badges) => {
             message.badges = badges;
-            return renderEmotes(message);
+
+            if(message.type == 'twitch'){
+                return renderEmotes(message);
+            }
+            if(message.type = 'youtube'){
+                return renderYTEmotes(message);
+            }
+
+            return message;
         })
         .then((msg) => {
             $("#chat").append(renderMessage(type, msg));
@@ -307,7 +318,7 @@ function renderMessage(platform, message = {}) {
 
     result = tpl.innerHTML.replace(pattern, (_, token) => message[token] || "");
 
-    
+
 
     return result;
 }
@@ -392,8 +403,7 @@ function sortEmotes(emotes) {
 
 
 async function renderEmotes(message) {
-
-    if (message.emotes.length == 0) return message;
+    if (!message.emotes || message.emotes.length == 0) return message;
 
     // Make sure the Emotes are in order
     message.emotes = sortEmotes(message.emotes);
@@ -658,4 +668,16 @@ function delay(t, v) {
     return new Promise(function (resolve) {
         setTimeout(resolve.bind(null, v), t);
     });
+}
+
+
+function makeid(length) {
+    var result = "";
+    var characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
