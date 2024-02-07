@@ -1,21 +1,10 @@
 :root {
-    /** Left: row Right: row-reverse */
-    --chat-align: row;
+    --message-background-color: black;
+
     --avatar-size: 50px;
     --avatar-gap: 16px;
-    --message-gap-bottom: 16px;
-    --message-background-color: #18181b;
-    --badge-size: 15px;
-    --badge-spacing: 2px;
-    --emote-size: 16px;
-    --emote-only-size: 32px;
-    --time-size: 12px;
-    --font-color: #fff;
-    --font-size: 16px;
-    --font-family: 'Roboto', sans-serif;
-    --spacing-right: 25px;
-    --animate-duration: .3s;
-    --animate-delay: 0;
+
+    --border-radius: 50px;
 }
 
 body {
@@ -24,77 +13,38 @@ body {
     padding: 0;
 }
 
-#chat {
-    height: 100vh;
-    position: fixed;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    justify-content: flex-end;
-    margin: 0;
-    padding: 0;
+.msg,
+.badges,
+.content,
+.time {
+    display: inline-block;
 }
 
 #chat li {
-    display: flex;
-    background-color: var(--message-background-color);
-    margin-bottom: var(--message-gap-bottom);
-    flex-direction: var(--chat-align);
-    border-radius: var(--avatar-size);
-    justify-content: left;
-    align-items: center;
-    width: fit-content;
+    border-radius: var(--border-radius);
 }
 
 .reward {
-    padding-left: var(--spacing-right);
+    border-left: 5px solid var(--rewardColor);
 }
 
 .avatar img {
     width: var(--avatar-size);
-    border-radius: 50px;
+    border-radius: var(--border-radius);
 }
 
-.avatar {
-    margin-right: 8px;
-    height: var(--avatar-size);
-    margin-bottom: auto;
-}
-
-.badges {
-    display: none;
-}
-
-.badges img {
-    width: var(--badge-size);
-    margin-left: var(--badge-spacing);
-}
 
 .message {
     color: var(--font-color);
     font-size: var(--font-size);
     overflow-wrap: anywhere;
-}
-
-.content {
-    display: flex;
-    padding-right: var(--spacing-right);
     text-shadow: 1px 1px black;
-    text-overflow: ellipsis;
-    max-height: 2em;
-    overflow: hidden;
-    line-height: 1em;  
-    align-items: center;
-    gap: 5px;
 }
 
-.message .emote {
-    height: var(--emote-size);
-}
-
-.emoteonly .message .emote {
-    height: var(--emote-only-size);
+.badges img {
+    width: var(--font-size);
+    margin-left: var(--badge-spacing);
+    vertical-align: middle;
 }
 
 .name {
@@ -102,20 +52,20 @@ body {
     font-weight: bold;
 }
 
-.time {
-    font-size: var(--time-size);
-    color: aliceblue;
-    position: absolute;
-    right: var(--spacing-right);
-    bottom: 2px;
+.content {
+    text-shadow: 1px 1px #000000c7;
 }
 
-.subscriber {}
+.emote {
+    vertical-align: middle;
+    height: var(--font-size);
+}
 
-.broadcaster {}
-
-.reply {}
-
-.highlight {}
-
-.me {}
+.time {
+    font-size: var(--time-size);
+    float: var(--time-align);
+    align-self: flex-start;
+    position: relative;
+    right: calc(var(--border-radius) - 25px);
+    top: 5px;
+}

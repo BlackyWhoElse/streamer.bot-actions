@@ -3,9 +3,11 @@
 <template id="message_twitch">
     <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
         <div class="message ">
-            <span class="badges">{{badges}}</span>
-            <span class="name">{{displayName}}</span>
-            {{message}}
+            <div class="content">
+                <span class="badges">{{badges}}</span>
+                <span class="name">{{displayName}}</span>
+                {{message}}
+            </div>
         </div>
     </li>
 </template>
@@ -13,20 +15,22 @@
 <template id="message_youtube">
     <li id="{{eventId}}" class="{{classes}}" style="--userColor:{{color}}">
         <div class="message ">
-            <span class="name">{{displayName}}</span>
-            {{message}}
+            <div class="content">
+                <span class="name">{{displayName}}</span>
+                {{message}}
+            </div>
         </div>
     </li>
 </template>
 
 <template id="reward">
-    <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
-      <div class="message">
-        <span class="name">{{displayName}}</span>
-        redeemed
-        <span class="content">{{title}}</span>
-        <div class="userInput">{{message}}</div>
-      </div>
+    <li id="{{msgId}}" class="{{classes}}"
+        style="--rewardColor:{{backgroundColor}}">
+        <div class="message">
+            <span class="name">{{displayName}}</span>
+            redeemed
+            <span class="content">{{title}}</span>
+            <div class="userInput">{{message}}</div>
+        </div>
     </li>
-  </template>
-  
+</template>

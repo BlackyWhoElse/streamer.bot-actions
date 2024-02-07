@@ -1,8 +1,6 @@
 :root {
-    /** Left: row Right: row-reverse */
-    --chat-align: row;
     --avatar-size: 80px;
-    --avatar-gap: 16px;
+    --avatar-gap: 15px;
     --message-padding: 16px;
     --message-gap-bottom: 16px;
     --message-background-color: #18181b;
@@ -21,46 +19,10 @@
 
 }
 
-body {
-    font-family: var(--font-family);
-    margin: 0;
-    padding: 0;
-}
-
-#chat {
-    height: 100vh;
-    position: fixed;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    width: 100vw;
-    justify-content: flex-end;
-    margin: 0;
-    padding: 0;
-}
-
-#chat li {
-    display: flex;
-    margin-bottom: var(--message-gap-bottom);
-    flex-direction: var(--chat-align);
-}
-
-.msg {
-
-}
-
 .reward {
     border-left: 5px solid var(--rewardColor);
 }
 
-
-.avatar img {
-    width: var(--avatar-size);
-}
-
-.avatar {
-    margin-right: var(--avatar-gap);
-}
 
 .badges img {
     width: var(--badge-size);
@@ -68,7 +30,7 @@ body {
 }
 
 .message {
-    padding: var(--message-padding);
+    padding-right: var(--message-gap);
     background-color: var(--message-background-color);
     color: var(--font-color);
     font-size: var(--font-size);

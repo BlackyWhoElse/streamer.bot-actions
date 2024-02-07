@@ -1,6 +1,5 @@
 :root {
-    --avatar-size: 45px;
-    --avatar-gap: 15px 10px;
+    --avatar-gap: 10px;
     --message-gap-bottom: 10px;
     --message-background-color: #191b1b;
     --message-boarder-color: #c0cad0;
@@ -17,12 +16,6 @@
     --animate-delay: 0;
 }
 
-body {
-    font-family: var(--font-family);
-    margin: 0;
-    padding: 0;
-}
-
 #chat {
     height: 100vh;
     position: fixed;
@@ -36,8 +29,7 @@ body {
 }
 
 #chat li {
-    display: flex;
-    margin-bottom: var(--message-gap-bottom);
+    background-color: transparent;
 }
 
 .msg {}
@@ -49,8 +41,9 @@ body {
 }
 
 .badges {
-    display: block;
-    padding: var(--avatar-gap);
+    align-self: flex-start;
+    position: relative;
+    top: 15px;
 }
 
 .badges img {
@@ -119,7 +112,8 @@ body {
 
 .broadcaster.msg,
 .moderator.msg {
-    flex-direction: row-reverse;
+    flex-direction: row-reverse !important;
+    align-self: end;
 }
 
 .broadcaster .message,

@@ -7,7 +7,8 @@
     </div>
     <div class="message">
       <span class="badges">{{badges}}</span>
-      <div class="content"><span class="name">@{{displayName}} </span> {{message}}</div>
+      <div class="content"><span class="name">@{{displayName}} </span>
+        {{message}}</div>
     </div>
     <div class="time">{{time}}</div>
   </li>
@@ -19,14 +20,16 @@
       <img src="{{avatar}}" />
     </div>
     <div class="message">
-      <div class="content"><span class="name">@{{displayName}} </span> {{message}}</div>
+      <div class="content"><span class="name">@{{displayName}} </span>
+        {{message}}</div>
     </div>
     <div class="time">{{time}}</div>
   </li>
 </template>
 
 <template id="reward">
-  <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
+  <li id="{{msgId}}" class="{{classes}}"
+    style="--rewardColor:{{backgroundColor}}">
     <div class="message">
       <span class="name">{{displayName}}</span>
       redeemed

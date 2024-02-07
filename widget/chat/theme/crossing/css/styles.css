@@ -35,6 +35,11 @@ body {
     padding: 0;
 }
 
+#chat li {
+    background-color: transparent;
+}
+
+
 .msg {
     display: flex;
     margin-bottom: var(--message-gap-bottom);
@@ -92,7 +97,6 @@ body {
     margin-top: -6px;
     right: 0px;
     padding: 0 !important;
-    width: 100%;
     text-align: right;
 }
 

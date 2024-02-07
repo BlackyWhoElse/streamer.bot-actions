@@ -6,33 +6,15 @@
 
 // General Variables
 var ws;
-var dev;
-var settings = {
-    websocketURL: "ws://localhost:8080/",
-    debug: false,
-    template: "default",
-    blacklist: {
-        user: [],
-        words: [],
-        commands: false,
-    },
-    animations: {
-        animation: true,
-        hidedelay: 0,
-        hideAnimation: "fadeOut",
-        showAnimation: "bounceInRight",
-    },
-    YouTube: {
-        defaultChatColor: "#f20000",
-    },
-    Twitch: {
-        defaultChatColor: "#9147ff",
-    },
-};
+var chat;
+
+var messages = [];
 
 var template_twitch;
 var template_youtube;
 var template_reward;
+var template_css;
+
 
 /**
  * Storing avatars that have been called to save api calls
@@ -41,11 +23,16 @@ var template_reward;
 var avatars = new Map();
 
 window.addEventListener("load", (event) => {
+
+
+    chat = document.getElementById("chat");
+    template_css = document.getElementById("template_css");
     loadTemplates();
     connectws();
 
     if (settings.debug) {
         console.debug("Debug mode is enabled");
+
         debugMessages();
     }
 });
@@ -65,9 +52,8 @@ function loadTemplates() {
             }
             if (status === "success") {
                 // Loading template css
-                $("head").append(
-                    `<link rel="stylesheet" href="theme/${settings.template}/css/styles.css" type="text/css" />`
-                );
+
+                template_css.setAttribute("href", `./theme/${settings.template}/css/styles.css`)
 
                 template_twitch = document.querySelector("#message_twitch");
                 template_youtube = document.querySelector("#message_youtube");
@@ -75,6 +61,27 @@ function loadTemplates() {
             }
         }
     );
+}
+
+
+/**
+ * This will change the theme and render stored messages
+ * @param {string} theme
+ */
+function changeTheme(template) {
+
+    // Clear Chat
+    chat.innerHTML = "";
+
+    // Remove Stylesheet
+    $(`link[rel=stylesheet][title=${settings.template}]`).remove();
+
+    // Set new template
+    settings.template = template;
+
+    // Load Templates
+    loadTemplates();
+
 }
 
 /**
@@ -104,6 +111,7 @@ async function pushMessage(type, message) {
         // Chat message from Twitch
         case "chatmessage":
 
+            message.type = 'twitch';
             // Adding default classes
             message.classes = ["msg"];
 
@@ -139,6 +147,7 @@ async function pushMessage(type, message) {
 
         // Reward message from Twitch
         case "reward":
+            message.type = 'reward';
             message.msgId = message.id;
             message.title = message.reward.title;
             message.prompt = message.reward.prompt;
@@ -160,6 +169,7 @@ async function pushMessage(type, message) {
         case "message":
 
 
+            message.type = 'youtube';
             // Adding default classes
             message.classes = ["msg"];
 
@@ -202,7 +212,15 @@ async function pushMessage(type, message) {
         })
         .then((badges) => {
             message.badges = badges;
-            return renderEmotes(message);
+
+            if(message.type == 'twitch'){
+                return renderEmotes(message);
+            }
+            if(message.type = 'youtube'){
+                return renderYTEmotes(message);
+            }
+
+            return message;
         })
         .then((msg) => {
             $("#chat").append(renderMessage(type, msg));
@@ -253,9 +271,11 @@ async function pushMessage(type, message) {
  */
 function renderMessage(platform, message = {}) {
 
-    if (settings.debug) {
+    if (settings.debugConsole) {
         console.debug("Message Data at the end", message);
     }
+
+
 
     switch (platform) {
         case "chatmessage":
@@ -292,8 +312,27 @@ function renderMessage(platform, message = {}) {
 
     message.classes = message.classes.join(" ");
 
+    chatHistory(message);
+
     const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
-    return tpl.innerHTML.replace(pattern, (_, token) => message[token] || "");
+
+    result = tpl.innerHTML.replace(pattern, (_, token) => message[token] || "");
+
+
+
+    return result;
+}
+
+/**
+ * @param {Object} message
+ */
+function chatHistory(message) {
+
+    if (messages.length >= 15) {
+        messages.slice(1)
+    }
+
+    messages.push(message);
 }
 
 /**
@@ -364,8 +403,7 @@ function sortEmotes(emotes) {
 
 
 async function renderEmotes(message) {
-
-    if (message.emotes.length == 0) return message;
+    if (!message.emotes || message.emotes.length == 0) return message;
 
     // Make sure the Emotes are in order
     message.emotes = sortEmotes(message.emotes);
@@ -412,7 +450,7 @@ async function renderEmotes(message) {
 
         if (emote.classes.includes("ffzHyper") || emote.classes.includes("ffzSlide")) {
             replacement = `<div class="${emote.classes.join(" ")}" style="background-image:url(${emote.imageUrl})"><div>`;
-            
+
         } else {
             replacement = `<img class="${emote.classes.join(" ")}" src="${emote.imageUrl}">`
         }
@@ -421,7 +459,7 @@ async function renderEmotes(message) {
         emoteSearchPointer += emoteLocation + emote.name.length;
     });
 
-    if (formattedMessage){
+    if (formattedMessage) {
         message.message = formattedMessage + message.message.substring(emoteSearchPointer);
     }
 
@@ -435,35 +473,141 @@ async function renderEmotes(message) {
  */
 async function renderYTEmotes(message) {
     // Todo: Find a way to get Emotes https://github.com/BlackyWhoElse/streamer.bot-actions/issues/56
+    // Todo: Add it back into renderMessage
+    const baseEmoteURL = 'https://yt3.ggpht.com/';
+    const suffix = '=w24-h24-c-k-nd';
 
     const yt_emotes = {
-        ':yt:': `https://yt3.ggpht.com/m6yqTzfmHlsoKKEZRSZCkqf6cGSeHtStY4rIeeXLAk4N9GY_yw3dizdZoxTrjLhlY4r_rkz3GA=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':oops:': `https://yt3.ggpht.com/qByNS7xmuQXsb_5hxW2ggxwQZRN8-biWVnnKuL5FK1zudxIeim48zRVPk6DRq_HgaeKltHhm=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':buffering:': `https://yt3.ggpht.com/foWgzjN0ggMAA0CzDPfPZGyuGwv_7D7Nf6FGLAiomW5RRXj0Fs2lDqs2U6L52Z4J2Zb-D5tCUAA=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':stayhome:': `https://yt3.ggpht.com/u3QDxda8o4jrk_b01YtJYKb57l8Zw8ks8mCwGkiZ5hC5cQP_iszbsggxIWquZhuLRBzl5IEM2w=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':dothefive:': `https://yt3.ggpht.com/ktU04FFgK_a6yaXCS1US-ReFkLjD22XllcIMOyBRHuYKLsrxpVxsauV1gSC2RPraMJWXpWcY=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':elbowbump:': `https://yt3.ggpht.com/gt39CIfizoIAce9a8IzjfrADV5CjTbSyFKUlLMXzYILxJRjwAgYQQJ9PXXxnRvrnTec7ZpfHN4k=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':goodvibes:': `https://yt3.ggpht.com/6LPOiCw9bYr3ZXe8AhUoIMpDe_0BglC4mBmi-uC4kLDqDIuPu4J3ErgV0lEhgzXiBluq-I8j=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':thanksdoc:': `https://yt3.ggpht.com/Av7Vf8FxIp0_dQg4cJrPcGmmL7v9RXraOXMp0ZBDN693ewoMTHbbS7D7V3GXpbtZPSNcRLHTQw=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':videocall:': `https://yt3.ggpht.com/bP-4yir3xZBWh-NKO4eGJJglr8m4dRnHrAKAXikaOJ0E5YFNkJ6IyAz3YhHMyukQ1kJNgQAo=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':virtualhug:': `https://yt3.ggpht.com/-o0Di2mE5oaqf_lb_RI3igd0fptmldMWF9kyQpqKWkdAd7M4cT5ZKzDwlmSSXdcBp3zVLJ41yg=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':yougotthis:': `https://yt3.ggpht.com/WxLUGtJzyLd4dcGaWnmcQnw9lTu9BW3_pEuCp6kcM2pxF5p5J28PvcYIXWh6uCm78LxGJVGn9g=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':sanitizer:': `https://yt3.ggpht.com/4PaPj_5jR1lkidYakZ4EkxVqNr0Eqp4g0xvlYt_gZqjTtVeyHBszqf57nB9s6uLh7d2QtEhEWEc=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':takeout:': `https://yt3.ggpht.com/ehUiXdRyvel0hba-BopQoDWTvM9ogZcMPaaAeR6IA9wkocdG21aFVN_IylxRGHtl2mE6L9jg1Do=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':hydrate:': `https://yt3.ggpht.com/Plqt3RM7NBy-R_eA90cIjzMEzo8guwE0KqJ9QBeCkPEWO7FvUqKU_Vq03Lmv9XxMrG6A3Ouwpg=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':chillwcat:': `https://yt3.ggpht.com/ZN5h05TnuFQmbzgGvIfk3bgrV-_Wp8bAbecOqw92s2isI6GLHbYjTyZjcqf0rKQ5t4jBtlumzw=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':chillwdog:': `https://yt3.ggpht.com/jiaOCnfLX0rqed1sISxULaO7T-ktq2GEPizX9snaxvMLxQOMmWXMmAVGyIbYeFS2IvrMpxvFcQ=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':elbowcough:': `https://yt3.ggpht.com/kWObU3wBMdHS43q6-ib2KJ-iC5tWqe7QcEITaNApbXEZfrik9E57_ve_BEPHO86z4Xrv8ikMdW0=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':learning:': `https://yt3.ggpht.com/LiS1vw8KUXmczimKGfA-toRYXOcV1o-9aGSNRF0dGLk15Da2KTAsU-DXkIao-S7-kCkSnJwt=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':washhands:': `https://yt3.ggpht.com/66Fn-0wiOmLDkoKk4FSa9vD0yymtWEulbbQK2x-kTBswQ2auer_2ftvmrJGyMMoqEGNjJtipBA=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':socialdist': `https://yt3.ggpht.com/0WD780vTqUcS0pFq423D8WRuA_T8NKdTbRztChITI9jgOqOxD2r6dthbu86P6fIggDR6omAPfnQ=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
-        ':shelterin:': `https://yt3.ggpht.com/KgaktgJ3tmEFB-gMtjUcuHd6UKq50b-S3PbHEOSUbJG7UddPoJSmrIzysXA77jJp5oRNLWG84Q=w${yt_emote_width}-h${yt_emote_height}-c-k-nd`,
+        'pride-flower-rainbow-heart': '8cF4z9clPGshgty6vT3ImAtx_CUvz3TMY-SAu_UKw-x1Z9-2KzcK4OuyAIROrKhyvcabrw',
+        'pride-person-earth-intersex': 'Gr-3he7L8jjQFj7aI0kSY1eV4aIsy-vT7Hk5shdakigG9aAJO_uMBmV6haCtK1OHjTEjj1o',
+        'pride-person-heart-lesbian': 'tKVZ2TfK5tMLvF88cnz2YNVwuHNgr0eDR9Ef8J0OCkZEHXLFUtH3f6-xSHhqhwd2sL3Tu4I',
+        'pride-person-flower-nonbinary': 'le1X4KHLOmK5K1s5xu-owmP_eZK4D0ExyjnMCS6UNqZa-Zh4uEzz3mZnU3jBlLfi14Zpngw',
+        'pride-flower-pansexual': 'blSdVv_UpdTn8BIWU6u9oCWhdtpc0-a-3dJeaRX9As6ftLc0OGPJ1PveQEJbUEDzf6by2Xi9',
+        'pride-heart-rainbow-philly': '7iYeXsmU2YMcKsKalaKJhirWdDASATIpl_c7Ib7akaRhvz8GChI4xpM0d0dtASjmmWPbg1NG',
+        'pride-flowers-turquoise-transgender': 'ovz1T6ay1D1GNFXwwYibZeu_rV5_iSRXWSHR2thQDLLWejVQMqWPUhsUWrMMw1tlBwllYA',
+        'pride-fan-rainbow-open': 'lDH5aORWtlc42NxTwiP3aIUIjttLVvE4Q_xIJDuu55DKvYSLeDIysOEKtGuMmEtOLgvZ_zTX',
+        'pride-face-pink-earrings': 'utFog-w4fqgJ05xfQFjSdy8jvRBtFCeuWRkLH3IaVJ4WCBrdjDbXzXOprJA_h6MPOuksv0c',
+        'pride-unicorn-rainbow-mane': 'fvdANfncTw5aDF8GBq20kHicN5rMVoCMTM3FY8MQbZH9sZXvHy5o48yvHZWN4No5rz8b7-0',
+        'pride-people-embracing-two': 'h1zJqFv2R4LzS3ZUpVyHhprCHQTIhbSecqu2Lid23byl5hD5cJdnshluOCyRdldYkWCUNg',
+        'pride-face-green-tears': '2BNf4_qBG7mqt1sN-JwThp1srHlDr03xoya9hpIvbgS65HwLaaDz46r3A6dy8JnO2GtLNag',
+        'pride-megaphone-rainbow-handle': 'cop1MU9YkEuUxbe8d1NhPl1S9uJ60YSVTMM1gelP7Cy0BICa6Ey_TpxEFFdYITtsUK1cSg',
+        'pride-hand-yellow-nails': '1dEPlxkQ1RdZkPo5CLgYvneMQ-BBo63b3nnASEAXoccnVktMjgviKqMj1pjPiK2zTPTc7g',
+        'pride-face-orange-flowing': 'RuhTeU8YiT0_NaOYjMmXv77eEw5eO5Bdzfr7ouS0u3ZAK2J4coKGe5g4fN8mJV85jC63hw',
+        'yt': 'IkpeJf1g9Lq0WNjvSa4XFq4LVNZ9IP5FKW8yywXb12djo1OGdJtziejNASITyq4L0itkMNw',
+        'oops': 'PFoVIqIiFRS3aFf5-bt_tTC0WrDm_ylhF4BKKwgqAASNb7hVgx_adFP-XVhFiJLXdRK0EQ',
+        'buffering': '5gfMEfdqO9CiLwhN9Mq7VI6--T2QFp8AXNNy5Fo7btfY6fRKkThWq35SCZ6SPMVCjg-sUA',
+        'stayhome': '_1FGHypiub51kuTiNBX1a0H3NyFih3TnHX7bHU06j_ajTzT0OQfMLl9RI1SiQoxtgA2Grg',
+        'dothefive': '-nM0DOd49969h3GNcl705Ti1fIf1ZG_E3JxcOUVV-qPfCW6jY8xZ98caNLHkVSGRTSEb7Y9y',
+        'elbowbump': '2ou58X5XuhTrxjtIM2wew1f-HKRhN_T5SILQgHE-WD9dySzzJdGwL4R1gpKiJXcbtq6sjQ',
+        'goodvibes': '2CvFOwgKpL29mW_C51XvaWa7Eixtv-3tD1XvZa1_WemaDDL2AqevKbTZ1rdV0OWcnOZRag',
+        'thanksdoc': 'bUnO_VwXW2hDf-Da8D64KKv6nBJDYUBuo13RrOg141g2da8pi9-KClJYlUDuqIwyPBfvOO8',
+        'videocall': 'k5v_oxUzRWmTOXP0V6WJver6xdS1lyHMPcMTfxn23Md6rmixoR5RZUusFbZi1uZwjF__pv4',
+        'virtualhug': 'U1TjOZlqtS58NGqQhE8VWDptPSrmJNkrbVRp_8jI4f84QqIGflq2Ibu7YmuOg5MmVYnpevc',
+        'yougotthis': 's3uOe4lUx3iPIt1h901SlMp_sKCTp3oOVj1JV8izBw_vDVLxFqk5dq-3NX-nK_gnUwVEXld3',
+        'sanitizer': 'EJ_8vc4Gl-WxCWBurHwwWROAHrPzxgePodoNfkRY1U_I8L1O2zlqf7-wfUtTeyzq2qHNnocZ',
+        'takeout': 'FizHI5IYMoNql9XeP7TV3E0ffOaNKTUSXbjtJe90e1OUODJfZbWU37VqBbTh-vpyFHlFIS0',
+        'hydrate': 'tpgZgmhX8snKniye36mnrDVfTnlc44EK92EPeZ0m9M2EPizn1vKEGJzNYdp7KQy6iNZlYDc1',
+        'chillwcat': 'y03dFcPc1B7CO20zgQYzhcRPka5Bhs6iSg57MaxJdhaLidFvvXBLf_i4_SHG7zJ_2VpBMNs',
+        'chillwdog': 'Ir9mDxzUi0mbqyYdJ3N9Lq7bN5Xdt0Q7fEYFngN3GYAcJT_tccH1as1PKmInnpt2cbWOam4',
+        'elbowcough': 'DTR9bZd1HOqpRJyz9TKiLb0cqe5Hb84Yi_79A6LWlN1tY-5kXqLDXRmtYVKE9rcqzEghmw',
+        'learning': 'ZuBuz8GAQ6IEcQc7CoJL8IEBTYbXEvzhBeqy1AiytmhuAT0VHjpXEjd-A5GfR4zDin1L53Q',
+        'washhands': 'qXUeUW0KpKBc9Z3AqUqr_0B7HbW1unAv4qmt7-LJGUK_gsFBIaHISWJNt4n3yvmAnQNZHE-u',
+        'socialdist': 'igBNi55-TACUi1xQkqMAor-IEXmt8He56K7pDTG5XoTsbM-rVswNzUfC5iwnfrpunWihrg',
+        'shelterin': 'gjC5x98J4BoVSEPfFJaoLtc4tSBGSEdIlfL2FV4iJG9uGNykDP9oJC_QxAuBTJy6dakPxVeC',
+        ':hand-pink-waving:': 'KOxdr_z3A5h1Gb7kqnxqOCnbZrBmxI2B_tRQ453BhTWUhYAlpg5ZP8IKEBkcvRoY8grY91Q',
+        'face-blue-smiling': 'cktIaPxFwnrPwn-alHvnvedHLUJwbHi8HCK3AgbHpphrMAW99qw0bDfxuZagSY5ieE9BBrA',
+        'face-red-droopy-eyes': 'oih9s26MOYPWC_uL6tgaeOlXSGBv8MMoDrWzBt-80nEiVSL9nClgnuzUAKqkU9_TWygF6CI',
+        'face-purple-crying': 'g6_km98AfdHbN43gvEuNdZ2I07MmzVpArLwEvNBwwPqpZYzszqhRzU_DXALl11TchX5_xFE',
+        'text-green-game-over': 'cr36FHhSiMAJUSpO9XzjbOgxhtrdJNTVJUlMJeOOfLOFzKleAKT2SEkZwbqihBqfTXYCIg',
+        'person-turqouise-waving': 'uNSzQ2M106OC1L3VGzrOsGNjopboOv-m1bnZKFGuh0DxcceSpYHhYbuyggcgnYyaF3o-AQ',
+        'face-green-smiling': 'G061SAfXg2bmG1ZXbJsJzQJpN8qEf_W3f5cb5nwzBYIV58IpPf6H90lElDl85iti3HgoL3o',
+        'face-orange-frowning': 'Ar8jaEIxzfiyYmB7ejDOHba2kUMdR37MHn_R39mtxqO5CD4aYGvjDFL22DW_Cka6LKzhGDk',
+        'eyes-purple-crying': 'FrYgdeZPpvXs-6Mp305ZiimWJ0wV5bcVZctaUy80mnIdwe-P8HRGYAm0OyBtVx8EB9_Dxkc',
+        'face-fuchsia-wide-eyes': 'zdcOC1SMmyXJOAddl9DYeEFN9YYcn5mHemJCdRFQMtDuS0V-IyE-5YjNUL1tduX1zs17tQ',
+        'cat-orange-whistling': '0ocqEmuhrKCK87_J21lBkvjW70wRGC32-Buwk6TP4352CgcNjL6ug8zcsel6JiPbE58xhq5g',
+        'face-blue-wide-eyes': '2Ht4KImoWDlCddiDQVuzSJwpEb59nZJ576ckfaMh57oqz2pUkkgVTXV8osqUOgFHZdUISJM',
+        'face-orange-raised-eyebrow': 'JbCfmOgYI-mO17LPw8e_ycqbBGESL8AVP6i7ZsBOVLd3PEpgrfEuJ9rEGpP_unDcqgWSCg',
+        'face-fuchsia-tongue-out': 'EURfJZi_heNulV3mfHzXBk8PIs9XmZ9lOOYi5za6wFMCGrps4i2BJX9j-H2gK6LIhW6h7sY',
+        'face-orange-biting-nails': 'HmsXEgqUogkQOnL5LP_FdPit9Z909RJxby-uYcPxBLNhaPyqPTcGwvGaGPk2hzB_cC0hs_pV',
+        'face-red-heart-shape': 'I0Mem9dU_IZ4a9cQPzR0pUJ8bH-882Eg0sDQjBmPcHA6Oq0uXOZcsjPvPbtormx91Ha2eRA',
+        'face-fuchsia-poop-shape': '_xlyzvSimqMzhdhODyqUBLXIGA6F_d5en2bq-AIfc6fc3M7tw2jucuXRIo5igcW3g9VVe3A',
+        'face-purple-wide-eyes': '5RDrtjmzRQKuVYE_FKPUHiGh7TNtX5eSNe6XzcSytMsHirXYKunxpyAsVacTFMg0jmUGhQ',
+        'glasses-purple-yellow-diamond': 'EnDBiuksboKsLkxp_CqMWlTcZtlL77QBkbjz_rLedMSDzrHmy_6k44YWFy2rk4I0LG6K2KI',
+        'face-pink-tears': 'RL5QHCNcO_Mc98SxFEblXZt9FNoh3bIgsjm0Kj8kmeQJWMeTu7JX_NpICJ6KKwKT0oVHhAA',
+        'body-blue-raised-arms': '2Jds3I9UKOfgjid97b_nlDU4X2t5MgjTof8yseCp7M-6ZhOhRkPGSPfYwmE9HjCibsfA1Uzo',
+        'hand-orange-covering-eyes': 'y8ppa6GcJoRUdw7GwmjDmTAnSkeIkUptZMVQuFmFaTlF_CVIL7YP7hH7hd0TJbd8p9w67IM',
+        'trophy-yellow-smiling': '7tf3A_D48gBg9g2N0Rm6HWs2aqzshHU4CuVubTXVxh1BP7YDBRC6pLBoC-ibvr-zCl_Lgg',
+        'eyes-pink-heart-shape': '5vzlCQfQQdzsG7nlQzD8eNjtyLlnATwFwGvrMpC8dgLcosNhWLXu8NN9qIS3HZjJYd872dM',
+        'face-turquoise-covering-eyes': 'H2HNPRO8f4SjMmPNh5fl10okSETW7dLTZtuE4jh9D6pSmaUiLfoZJ2oiY-qWU3Owfm1IsXg',
+        'hand-green-crystal-ball': 'qZfJrWDEmR03FIak7PMNRNpMjNsCnOzD9PqK8mOpAp4Kacn_uXRNJNb99tE_1uyEbvgJReF2',
+        'face-turquoise-drinking-coffee': 'myqoI1MgFUXQr5fuWTC9mz0BCfgf3F8GSDp06o1G7w6pTz48lwARjdG8vj0vMxADvbwA1dA',
+        'body-green-covering-eyes': 'UR8ydcU3gz360bzDsprB6d1klFSQyVzgn-Fkgu13dIKPj3iS8OtG1bhBUXPdj9pMwtM00ro',
+        'goat-turquoise-white-horns': 'jMnX4lu5GnjBRgiPtX5FwFmEyKTlWFrr5voz-Auko35oP0t3-zhPxR3PQMYa-7KhDeDtrv4',
+        'hand-purple-blue-peace': '-sC8wj6pThd7FNdslEoJlG4nB9SIbrJG3CRGh7-bNV0RVfcrJuwiWHoUZ6UmcVs7sQjxTg4',
+        'face-blue-question-mark': 'Wx4PMqTwG3f4gtR7J9Go1s8uozzByGWLSXHzrh3166ixaYRinkH_F05lslfsRUsKRvHXrDk',
+        'face-blue-covering-eyes': 'kj3IgbbR6u-mifDkBNWVcdOXC-ut-tiFbDpBMGVeW79c2c54n5vI-HNYCOC6XZ9Bzgupc10',
+        'face-purple-smiling-fangs': 'k1vqi6xoHakGUfa0XuZYWHOv035807ARP-ZLwFmA-_NxENJMxsisb-kUgkSr96fj5baBOZE',
+        'face-purple-sweating': 'tRnrCQtEKlTM9YLPo0vaxq9mDvlT0mhDld2KI7e_nDRbhta3ULKSoPVHZ1-bNlzQRANmH90',
+        'face-purple-smiling-tears': 'MJV1k3J5s0hcUfuo78Y6MKi-apDY5NVDjO9Q7hL8fU4i0cIBgU-cU4rq4sHessJuvuGpDOjJ',
+        'face-blue-star-eyes': 'm_ANavMhp6cQ1HzX0HCTgp_er_yO2UA28JPbi-0HElQgnQ4_q5RUhgwueTpH-st8L3MyTA',
+        'face-blue-heart-eyes': 'M9tzKd64_r3hvgpTSgca7K3eBlGuyiqdzzhYPp7ullFAHMgeFoNLA0uQ1dGxj3fXgfcHW4w',
+        'face-blue-three-eyes': 'nSQHitVplLe5uZC404dyAwv1f58S3PN-U_799fvFzq-6b3bv-MwENO-Zs1qQI4oEXCbOJg',
+        'face-blue-droopy-eyes': 'hGPqMUCiXGt6zuX4dHy0HRZtQ-vZmOY8FM7NOHrJTta3UEJksBKjOcoE6ZUAW9sz7gIF_nk',
+        'planet-orange-purple-ring': 'xkaLigm3P4_1g4X1JOtkymcC7snuJu_C5YwIFAyQlAXK093X0IUjaSTinMTLKeRZ6280jXg',
+        'person-yellow-podium-blue': 'N28nFDm82F8kLPAa-jY_OySFsn3Ezs_2Bl5kdxC8Yxau5abkj_XZHYsS3uYKojs8qy8N-9w',
+        'baseball-white-cap-out': '8DaGaXfaBN0c-ZsZ-1WqPJ6H9TsJOlUUQQEoXvmdROphZE9vdRtN0867Gb2YZcm2x38E9Q',
+        'whistle-red-blow': 'DBu1ZfPJTnX9S1RyKKdBY-X_CEmj7eF6Uzl71j5jVBz5y4k9JcKnoiFtImAbeu4u8M2X8tU',
+        'person-turquoise-crowd-surf': 'Q0wFvHZ5h54xGSTo-JeGst6InRU3yR6NdBRoyowaqGY66LPzdcrV2t-wBN21kBIdb2TeNA',
+        'finger-red-number-one': 'Hbk0wxBzPTBCDvD_y4qdcHL5_uu7SeOnaT2B7gl9GLB4u8Ecm9OaXCGSMMUBFeNGl5Q3fHJ2',
+        'text-yellow-goal': 'tnHp8rHjXecGbGrWNcs7xss_aVReaYE6H-QWRCXYg_aaYszHXnbP_pVADnibUiimspLvgX0L',
+        'medal-yellow-first-red': 'EEHiiIalCBKuWDPtNOjjvmEZ-KRkf5dlgmhe5rbLn8aZQl-pNz_paq5UjxNhCrI019TWOQ',
+        'person-blue-wheelchair-race': 'ZepxPGk5TwzrKAP9LUkzmKmEkbaF5OttNyybwok6mJENw3p0lxDXkD1X2_rAwGcUM0L-D04',
+        'card-red-penalty': 'uRDUMIeAHnNsaIaShtRkQ6hO0vycbNH_BQT7i3PWetFJb09q88RTjxwzToBy9Cez20D7hA',
+        'stopwatch-blue-hand-timer': 'DCvefDAiskRfACgolTlvV1kMfiZVcG50UrmpnRrg3k0udFWG2Uo9zFMaJrJMSJYwcx6fMgk',
+        'face-turquoise-speaker-shape': 'WTFFqm70DuMxSC6ezQ5Zs45GaWD85Xwrd9Sullxt54vErPUKb_o0NJQ4kna5m7rvjbRMgr3A',
+        'octopus-red-waving': 'L9Wo5tLT_lRQX36iZO_fJqLJR4U74J77tJ6Dg-QmPmSC_zhVQ-NodMRc9T0ozwvRXRaT43o',
+        'pillow-turquoise-hot-chocolate': 'cAR4cehRxbn6dPbxKIb-7ShDdWnMxbaBqy2CXzBW4aRL3IqXs3rxG0UdS7IU71OEU7LSd20q',
+        'hourglass-purple-sand-orange': 'MFDLjasPt5cuSM_tK5Fnjaz_k08lKHdX_Mf7JkI6awaHriC3rGL7J_wHxyG6PPhJ8CJ6vsQ',
+        'fish-orange-wide-eyes': 'iQLKgKs7qL3091VHgVgpaezc62uPewy50G_DoI0dMtVGmQEX5pflZrUxWfYGmRfzfUOOgJs',
+        'popcorn-yellow-striped-smile': 'TW_GktV5uVYviPDtkCRCKRDrGlUc3sJ5OHO81uqdMaaHrIQ5-sXXwJfDI3FKPyv4xtGpOlg',
+        'penguin-blue-waving-tear': 'p2u7dcfZau4_bMOMtN7Ma8mjHX_43jOjDwITf4U9adT44I-y-PT7ddwPKkfbW6Wx02BTpNoC',
+        'clock-turquoise-looking-up': 'tDnDkDZykkJTrsWEJPlRF30rmbek2wcDcAIymruOvSLTsUFIZHoAiYTRe9OtO-80lDfFGvo',
+        'face-red-smiling-live': '14Pb--7rVcqnHvM7UlrYnV9Rm4J-uojX1B1kiXYvv1my-eyu77pIoPR5sH28-eNIFyLaQHs',
+        'hands-yellow-heart-red': 'qWSu2zrgOKLKgt_E-XUP9e30aydT5aF3TnNjvfBL55cTu1clP8Eoh5exN3NDPEVPYmasmoA',
+        'volcano-green-lava-orange': '_IWOdMxapt6IBY5Cb6LFVkA3J77dGQ7P2fuvYYv1-ahigpVfBvkubOuGLSCyFJ7jvis-X8I',
+        'person-turquoise-waving-speech': 'gafhCE49PH_9q-PuigZaDdU6zOKD6grfwEh1MM7fYVs7smAS_yhYCBipq8gEiW73E0apKTzi',
+        'face-orange-tv-shape': 'EVK0ik6dL5mngojX9I9Juw4iFh053emP0wcUjZH0whC_LabPq-DZxN4Jg-tpMcEVfJ0QpcJ4',
+        'face-blue-spam-shape': 'hpwvR5UgJtf0bGkUf8Rn-jTlD6DYZ8FPOFY7rhZZL-JHj_7OPDr7XUOesilRPxlf-aW42Zg',
+        'face-fuchsia-flower-shape': 'o9kq4LQ0fE_x8yxj29ZeLFZiUFpHpL_k2OivHbjZbttzgQytU49Y8-VRhkOP18jgH1dQNSVz',
+        'person-blue-holding-pencil': 'TKgph5IHIHL-A3fgkrGzmiNXzxJkibB4QWRcf_kcjIofhwcUK_pWGUFC4xPXoimmne3h8eQ',
+        'body-turquoise-yoga-pose': 'GW3otW7CmWpuayb7Ddo0ux5c-OvmPZ2K3vaytJi8bHFjcn-ulT8vcHMNcqVqMp1j2lit2Vw',
+        'location-yellow-teal-bars': 'YgeWJsRspSlAp3BIS5HMmwtpWtMi8DqLg9fH7DwUZaf5kG4yABfE1mObAvjCh0xKX_HoIR23',
+        'person-turquoise-writing-headphones': 'DC4KrwzNkVxLZa2_KbKyjZTUyB9oIvH5JuEWAshsMv9Ctz4lEUVK0yX5PaMsTK3gGS-r9w',
+        'person-turquoise-wizard-wand': 'OiZeNvmELg2PQKbT5UCS0xbmsGbqRBSbaRVSsKnRS9gvJPw7AzPp-3ysVffHFbSMqlWKeQ',
+        'person-blue-eating-spaghetti': 'AXZ8POmCHoxXuBaRxX6-xlT5M-nJZmO1AeUNo0t4o7xxT2Da2oGy347sHpMM8shtUs7Xxh0',
+        'face-turquoise-music-note': '-K6oRITFKVU8V4FedrqXGkV_vTqUufVCQpBpyLK6w3chF4AS1kzT0JVfJxhtlfIAw5jrNco',
+        'person-pink-swaying-hair': 'L8cwo8hEoVhB1k1TopQaeR7oPTn7Ypn5IOae5NACgQT0E9PNYkmuENzVqS7dk2bYRthNAkQ',
+        'person-blue-speaking-microphone': 'FMaw3drKKGyc6dk3DvtHbkJ1Ki2uD0FLqSIiFDyuChc1lWcA9leahX3mCFMBIWviN2o8eyc',
+        'rocket-red-countdown-liftoff': 'lQZFYAeWe5-SJ_fz6dCAFYz1MjBnEek8DvioGxhlj395UFTSSHqYAmfhJN2i0rz3fDD5DQ',
+        'face-purple-rain-drops': 'woHW5Jl2RD0qxijnl_4vx4ZhP0Zp65D4Ve1DM_HrwJW-Kh6bQZoRjesGnEwjde8F4LynrQ',
+        'face-pink-drinking-tea': 'WRLIgKpnClgYOZyAwnqP-Edrdxu6_N19qa8gsB9P_6snZJYIMu5YBJX8dlM81YG6H307KA',
+        'person-purple-stage-event': 'YeVVscOyRcDJAhKo2bMwMz_B6127_7lojqafTZECTR9NSEunYO5zEi7R7RqxBD7LYLxfNnXe',
+        'face-purple-open-box': '7lJM2sLrozPtNLagPTcN0xlcStWpAuZEmO2f4Ej5kYgSp3woGdq3tWFrTH30S3mD2PyjlQ',
+        'awesome': 'xqqFxk7nC5nYnjy0oiSPpeWX4yu4I-ysb3QJMOuVml8dHWz82FvF8bhGVjlosZRIG_XxHA',
+        'gar': 'pxQTF9D-uxlSIgoopRcS8zAZnBBEPp2R9bwo5qIc3kc7PF2k18so72-ohINWPa6OvWudEcsC',
+        'jakepeter': 'iq0g14tKRcLwmfdpHULRMeUGfpWUlUyJWr0adf1K1-dStgPOguOe8eo5bKrxmCqIOlu-J18',
+        'wormRedBlue': 'QrjYSGexvrRfCVpWrgctyB3shVRAgKmXtctM1vUnA78taji1zYNWwrHs1GKBpdpG5A6yK_k',
+        'wormOrangeGreen': 'S-L8lYTuP13Ds9TJZ2UlxdjDiwNRFPnj0o4x6DAecyJLXDdQ941upYRhxalbjzpJn5USU_k',
+        'wormYellowRed': 'L9TQqjca5x7TE8ZB-ifFyU51xWXArz47rJFU7Pg2KgWMut5th9qsU-pCu1zIF98szO5wNXE',
+        'ytg': '7PgbidnZLTC-38qeoqYensfXg7s7EC1Dudv9q9l8aIjqLgnfvpfhnEBH_7toCmVmqhIe4I45',
     };
 
-    message.emotes.forEach((yt_emotes) => {
+
+    Object.keys(yt_emotes).forEach((emoteID) => {
+        const emoteURL = `${baseEmoteURL}${yt_emotes[emoteID]}${suffix}`;
         message.message = message.message.replace(
-            yt_emotes,
-            `<img class="emote" src="${emote.imageUrl}">`
+            emoteID,
+            `<img class="emote" src="${emoteURL}">`
         );
     });
 
@@ -526,147 +670,6 @@ function delay(t, v) {
     });
 }
 
-/**
- * # Debug Mode
- * This will constantly generate new messages with random values
- * Name and profile picture are combined but color,message and role will be random
- *
- * The debug mode is for longtime test and themeing.
- *
- */
-function debugMessages() {
-
-    const badges = [
-        [{
-            "name": "vip",
-            "version": "1",
-            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/b817aba4-fad8-49e2-b88a-7cc744dfa6ec/3"
-        },
-        {
-            "name": "subscriber",
-            "version": "0",
-            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/5d9f2208-5dd8-11e7-8513-2ff4adfae661/3"
-        }
-        ],
-        [{
-            "name": "premium",
-            "version": "1",
-            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/bbbe0db0-a598-423e-86d0-f9fb98ca1933/3"
-        }],
-        [{
-            "name": "broadcaster",
-            "version": "1",
-            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/5527c58c-fb7d-422d-b71b-f309dcb85cc1/3"
-        },
-        {
-            "name": "subscriber",
-            "version": "0",
-            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/5d9f2208-5dd8-11e7-8513-2ff4adfae661/3"
-        },
-        {
-            "name": "glhf-pledge",
-            "version": "1",
-            "imageUrl": "https://static-cdn.jtvnw.net/badges/v1/3158e758-3cb4-43c5-94b3-7639810451c5/3"
-        }
-        ]
-    ];
-    const names = [
-        { name: "stormen", displayName: "Stormen" },
-        { name: "pestily", displayName: "Pestily" },
-        { name: "shivfps", displayName: "ShivFPS" },
-        { name: "faide", displayName: "Faide" },
-        { name: "toastracktv", displayName: "Toastracktv" },
-        { name: "esl_csgo", displayName: "ESL_CSGO" },
-        { name: "stodeh", displayName: "Stodeh" },
-        { name: "spatzetiger", displayName: "Spatzetiger" },
-        { name: "burritodyson", displayName: "BurritoDyson" },
-        { name: "nerdl1ft", displayName: "NerdL1ft" },
-    ];
-    const msgs = [
-        "Welcome",
-        "If you ate pasta and antipasta, would you still be hungry?",
-        "go on",
-        "Oh goodness bunch of sensitive cry babies on twitter!",
-        "tell me more",
-        "you will be part of it all",
-        "Would be, cause Im asking",
-        "ask and I will tell",
-        "meaning?",
-        "Now I am interested, go on",
-        "you will be next week",
-        "I see you find yourself very interesting",
-        "Hi how are you?",
-        "I am fantastic and feeling astonishingly glorious",
-        "What did you want to be when you grew up?",
-        "I feel like I am taking crazy pills!",
-        "maybe you are",
-        "Sometimes I am",
-        "Go on",
-        "I drink diced kitten to make other people more interesting",
-        "Go on",
-        "Is there a spell to become a mermaid that actually works?",
-        "Love Spell - To write a successful love letter, rub the entire sheet of stationary with lavender before you start writing",
-        "Greetings",
-        "hello",
-        "wazzup",
-        "Which common saying or phrase describes you?",
-        "the one on the left",
-        "Is the game really over?",
-        "Not that there's anything wrong with that",
-        "You smell different when you're awake",
-        "When a clock is hungry it goes back four seconds",
-        "tommorow",
-        "Would you rather have one real get out of jail free card or a key that opens any door?",
-        "you like yourself alot right",
-        "Are you a robot?",
-        "How are you?",
-        "Happy birthday!",
-    ];
-    const colors = [
-        "#a5cc64",
-        "#25c532",
-        "#a2c014",
-        "#01314f",
-        "#4ad4d4",
-        "#B33B19",
-        "#20dd24",
-        "#c859f7",
-    ];
-
-    dev = setInterval(() => {
-        // Generatin random role
-        let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
-
-        let n = names[Math.floor(Math.random() * names.length)];
-
-        let message = {
-            bits: 0,
-            badges: badges[Math.floor(Math.random() * badges.length)],
-            emotes: [],
-            channel: n.name,
-            color: colors[Math.floor(Math.random() * colors.length)],
-            displayName: n.displayName,
-            firstMessage: Math.random() < 0.5,
-            hasBits: Math.random() < 0.5,
-            internal: Math.random() < 0.5,
-            isAnonymous: Math.random() < 0.5,
-            isCustomReward: false,
-            isHighlighted: Math.random() < 0.5,
-            isMe: Math.random() < 0.5,
-            isReply: Math.random() < 0.5,
-            message: msgs[Math.floor(Math.random() * msgs.length)],
-            monthsSubscribed: 57,
-            msgId: makeid(12),
-            role: r,
-            subscriber: Math.random() < 0.5,
-            userId: 27638012,
-            username: n.name,
-            time: "19:36",
-        };
-
-        pushMessage('chatmessage', message);
-    }, 4000);
-}
 
 function makeid(length) {
     var result = "";
