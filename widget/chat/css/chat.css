@@ -83,7 +83,7 @@ body {
 
 
 
-.avatar{
+.avatar {
   aspect-ratio: 1/1;
 }
 
@@ -142,11 +142,24 @@ body {
 body.dev {
   background-color: #333333;
   color: #fff;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  width: 100%;
+}
+
+.dev:has(ul.ticker) {
+  flex-direction: column;
+}
+
+.dev .settings,
+.dev #chat {
+  flex: 1;
 }
 
 /* Chat Styles */
 .dev #chat {
-  height: 50%;
+  position: relative;
   padding: 1%;
 
   box-sizing: border-box;
@@ -159,6 +172,10 @@ body.dev {
 }
 
 /* Forms */
+
+.settings {
+  padding: 1%;
+}
 
 .settings form {
   display: flex;
@@ -193,6 +210,13 @@ body.dev {
   opacity: 0;
   width: 0;
   height: 0;
+}
+
+
+label.description {
+  margin-top: 5px;
+  color: gray;
+  font-size: small;
 }
 
 /* The slider */
