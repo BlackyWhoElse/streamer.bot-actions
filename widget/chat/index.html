@@ -20,9 +20,11 @@
 
         var settings = {
             websocketURL: "ws://localhost:8080/",
-            debug: false,
+            debug: true,
+            debugConsole: false,
+            debugMessagSpeed: 1000,
             template: "default",
-            ticker: true,
+            ticker: false,
             blacklist: {
                 user: [],
                 words: [],
@@ -51,7 +53,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="css/chat.css" />
     <link rel="stylesheet" href="css/ffz.css" />
-    <link id="template_css" rel="stylesheet"/>
+    <link id="template_css" rel="stylesheet" />
 </head>
 
 <body>

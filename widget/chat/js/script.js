@@ -27,14 +27,13 @@ window.addEventListener("load", (event) => {
 
     chat = document.getElementById("chat");
     template_css = document.getElementById("template_css");
+
+    // Check for ticker
+    if (settings.ticker) {
+        chat.classList.add("ticker");
+    }
     loadTemplates();
     connectws();
-
-    if (settings.debug) {
-        console.debug("Debug mode is enabled");
-
-        debugMessages();
-    }
 });
 
 /**
@@ -213,10 +212,10 @@ async function pushMessage(type, message) {
         .then((badges) => {
             message.badges = badges;
 
-            if(message.type == 'twitch'){
+            if (message.type == 'twitch') {
                 return renderEmotes(message);
             }
-            if(message.type = 'youtube'){
+            if (message.type = 'youtube') {
                 return renderYTEmotes(message);
             }
 
