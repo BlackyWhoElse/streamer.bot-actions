@@ -31,6 +31,10 @@ $('document').ready(function () {
   // Get all checkboxes and the ul element by their IDs
   const checkboxes = document.querySelectorAll('.checkbox');
 
+  if(settings.debug){
+    debugMessages();
+  }
+
   /**
    * Settings Switch
    */
