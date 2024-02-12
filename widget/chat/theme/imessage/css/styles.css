@@ -21,6 +21,8 @@
     --spacing-right: 25px;
     --animate-duration: .3s;
     --animate-delay: 0;
+
+    --bubble-path: polygon(0 100%, 30% 82%, 49% 68%, 77% 45%, 100% 69%, 65% 88%, 44% 95%)
 }
 
 #chat li {
@@ -91,46 +93,33 @@
 .message::after {
     bottom: -0.1rem;
     content: "";
-    height: 1rem;
     position: absolute;
 }
 
 .message::before {
-    border-bottom-right-radius: 0.8rem 0.7rem;
-    border-left: 1rem solid var(--_background-color);
-    left: -0.35rem;
-    transform: translate(0, -0.1rem);
+    background-color: var(--_background-color);
+    left: -10px;
+    width: 25px;
+    height: 25px;
+    clip-path: var(--bubble-path);
 }
 
-.message::after {
-    background-color: #fff;
-    border-bottom-right-radius: 0.5rem;
-    left: 20px;
-    transform: translate(-30px, -2px);
-    width: 10px;
-}
 
 
 .broadcaster .message::before,
 .moderator .message::before {
-    border-bottom-left-radius: 0.8rem 0.7rem;
-    border-right: 1rem solid var(--_background-color);
-    right: -0.35rem;
-    transform: translate(0, -0.1rem);
-    left: auto;
-    border-left: none;
-    border-bottom-right-radius: 0;
+    content: unset;
 }
 
 .broadcaster .message::after,
 .moderator .message::after {
-    background-color: #fff;
-    border-bottom-left-radius: 0.5rem;
-    right: -40px;
-    transform: translate(-30px, -2px);
-    width: 10px;
-    left: auto;
+    background-color: var(--_background-color);
+    transform: scaleX(-1);
+    width: 25px;
+    height: 25px;
+    clip-path: var(--bubble-path);
 }
+
 
 .message .emote {
     height: var(--emote-size);
