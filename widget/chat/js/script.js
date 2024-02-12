@@ -69,6 +69,9 @@ function loadTemplates() {
  */
 function changeTheme(template) {
 
+    if (template == 'custom' ){
+        template = document.getElementById('customTheme').value;
+    }
     // Clear Chat
     chat.innerHTML = "";
 

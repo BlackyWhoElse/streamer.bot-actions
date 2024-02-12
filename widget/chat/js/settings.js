@@ -76,7 +76,7 @@ function handleSettingsChange(event) {
 
 /**
  * Gets the Theme name from a Form Element
- * @param {FormData} selectElement 
+ * @param {FormData} selectElement
  */
 function handleThemeChange(selectElement) {
   const textFieldContainer = document.getElementById('customThemeContainer');
@@ -90,7 +90,6 @@ function handleThemeChange(selectElement) {
     // Show the text field
     textFieldContainer.style.display = 'block';
   } else {
-    // Todo: Load theme
     changeTheme(selectElement.value);
     console.log("Load new theme " + selectElement.value)
   }
