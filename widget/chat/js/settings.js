@@ -1,29 +1,3 @@
-var settings = {
-  websocketURL: "ws://localhost:8080/",
-  debug: true,
-  debugConsole: false,
-  debugMessagSpeed:1000,
-  template: "box",
-  ticker: false,
-  blacklist: {
-    user: [],
-    words: [],
-    commands: false,
-  },
-  animations: {
-    animation: true,
-    hidedelay: 0,
-    hideAnimation: "fadeOut",
-    showAnimation: "bounceInRight",
-  },
-  YouTube: {
-    defaultChatColor: "#f20000",
-  },
-  Twitch: {
-    defaultChatColor: "#9147ff",
-  },
-};
-
 var dev;
 
 $('document').ready(function () {

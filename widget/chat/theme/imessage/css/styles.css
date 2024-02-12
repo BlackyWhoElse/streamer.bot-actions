@@ -31,6 +31,10 @@
  */
 
 
+#settings_json {
+    display: none;
+}
+
 #chat li {
     background-color: transparent;
     --_background-color: var(--imessage-color-gray);

@@ -41,6 +41,10 @@ body {
   padding: 0;
 }
 
+#settings_json {
+  display: none;
+}
+
 #chat {
   --_message-gap: var(--message-gap);
   position: absolute;

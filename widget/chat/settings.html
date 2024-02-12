@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chatbox</title>
+
+    <script>
+        var settings = {};
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="js/settings.js"></script>
     <script src="js/streamer.bot.js"></script>
@@ -19,8 +24,7 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="css/chat.css" />
     <link rel="stylesheet" href="css/ffz.css" />
-    <link id="template_css" rel="stylesheet"
-        href="" type="text/css" />
+    <link id="template_css" rel="stylesheet" href="" type="text/css" />
 </head>
 
 <body class="dev">
@@ -34,7 +38,8 @@
                         data-settings-name="debug" data-settings-value="true">
                     <span class="slider"></span>
                 </label>
-                <label class="description">Add debug messages evey 4 sec to the preview</label>
+                <label class="description">Add debug messages evey 4 sec to the
+                    preview</label>
             </div>
 
             <div class="setting">
@@ -45,7 +50,8 @@
                         data-settings-value="false">
                     <span class="slider"></span>
                 </label>
-                <label class="description">Add consle.debug for evey message</label>
+                <label class="description">Add consle.debug for evey
+                    message</label>
             </div>
 
             <div class="setting">
@@ -66,10 +72,12 @@
                 <div id="customThemeContainer" style="display: none;">
                     <label for="customTheme">Enter custom theme:</label>
                     <input type="text" id="customTheme">
-                    <button  type='button' id="custom" onclick="changeTheme(this.id)">Change</button>
+                    <button type='button' id="custom"
+                        onclick="changeTheme(this.id)">Change</button>
                 </div>
 
-                <label class="description">Select your theme that will be used in preview</label>
+                <label class="description">Select your theme that will be used
+                    in preview</label>
             </div>
 
             <div class="setting">
@@ -79,15 +87,23 @@
                         data-settings-name="ticker" data-settings-value="false">
                     <span class="slider"></span>
                 </label>
-                <label class="description">Switch between a normal and ticker style chat</label>
+                <label class="description">Switch between a normal and ticker
+                    style chat</label>
             </div>
 
 
+            <div class="setting">
+                <h4>Settings Json</h4>
+                   <input type="text" name="json" id="json">
+
+                <label class="description">This will overwrite the default settings.json </label>
+            </div>
 
         </form>
     </div>
     <ul id="chat" class=""></ul>
     <div id="templates"></div>
+    <div id="settings_json"></div>
 
 </body>
 

@@ -24,16 +24,31 @@ var avatars = new Map();
 
 window.addEventListener("load", (event) => {
 
+    $("#settings_json").load(
+        `settings.json`,
+        function (response, status, xhr) {
+            if (status == "error") {
+                var msg = "No theme settings loaded: ";
+                console.info(msg + xhr.status + " " + xhr.statusText);
+            }
+            if (status === "success") {
+                Object.assign(settings, JSON.parse(response));
+                console.info("Settings Loaded")
 
-    chat = document.getElementById("chat");
-    template_css = document.getElementById("template_css");
 
-    // Check for ticker
-    if (settings.ticker) {
-        chat.classList.add("ticker");
-    }
-    loadTemplates();
-    connectws();
+                chat = document.getElementById("chat");
+                template_css = document.getElementById("template_css");
+
+                // Check for ticker
+                if (settings.ticker) {
+                    chat.classList.add("ticker");
+                }
+
+                loadTemplates();
+                connectws();
+            }
+        }
+    );
 });
 
 /**
@@ -42,6 +57,21 @@ window.addEventListener("load", (event) => {
  */
 function loadTemplates() {
     //  Loading message templates
+
+    $("#settings_json").load(
+        `theme/${settings.template}/settings.json`,
+        function (response, status, xhr) {
+            if (status == "error") {
+                var msg = "No theme settings loaded: ";
+                console.info(msg + xhr.status + " " + xhr.statusText);
+            }
+            if (status === "success") {
+                Object.assign(settings, JSON.parse(response));
+                console.debug(settings);
+            }
+        }
+    );
+
     $("#templates").load(
         `theme/${settings.template}/template.html`,
         function (response, status, xhr) {
@@ -69,7 +99,7 @@ function loadTemplates() {
  */
 function changeTheme(template) {
 
-    if (template == 'custom' ){
+    if (template == 'custom') {
         template = document.getElementById('customTheme').value;
     }
     // Clear Chat
