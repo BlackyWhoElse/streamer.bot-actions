@@ -25,27 +25,41 @@
     --bubble-path: polygon(0 100%, 26% 85%, 44% 71%, 60% 51%, 73% 28%, 84% 0, 100% 100%);
 }
 
+
+/**
+ * Chat Colors
+ */
+
+
 #chat li {
     background-color: transparent;
-
     --_background-color: var(--imessage-color-gray);
 }
 
-#chat li.broadcaster,
+#chat li.broadcaster {
+    --_background-color: var(--imessage-color-blue) !important;
+    --_font-color: var(--font-color-white) !important;
+}
+
 #chat li.moderator {
-
-    --_background-color: var(--imessage-color-blue);
-    --_font-color: var(--font-color-white);
-
-    margin-left: auto;
-    justify-content: flex-end;
-    flex-direction: row-reverse;
+    --_background-color: var(--imessage-color-green) !important;
+    --_font-color: var(--font-color) !important;
 }
 
 #chat li.subscriber {
     --_background-color: var(--imessage-color-gray);
     --_font-color: var(--font-color);
 }
+
+
+#chat li.broadcaster,
+#chat li.moderator {
+
+    margin-left: auto;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+}
+
 
 #chat li.broadcaster .container,
 #chat li.moderator .container {
@@ -104,6 +118,7 @@
     left: -5px;
     clip-path: var(--bubble-path);
 }
+
 
 
 .broadcaster .message::before,
