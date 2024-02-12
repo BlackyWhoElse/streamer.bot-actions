@@ -153,17 +153,15 @@ body.dev {
 }
 
 .dev .settings,
-.dev #chat {
-  flex: 1;
-}
+.dev #chat {}
 
 /* Chat Styles */
 .dev #chat {
   position: relative;
   padding: 1%;
-
   box-sizing: border-box;
   background-color: darkslategray;
+  flex-basis: 100%;
 }
 
 .dev #chat.ticker {
@@ -175,6 +173,7 @@ body.dev {
 
 .settings {
   padding: 1%;
+  flex-basis: 10%;
 }
 
 .settings form {
