@@ -22,7 +22,7 @@
     --animate-duration: .3s;
     --animate-delay: 0;
 
-    --bubble-path: polygon(0 100%, 30% 82%, 49% 68%, 77% 45%, 100% 69%, 65% 88%, 44% 95%)
+    --bubble-path: polygon(0 100%, 26% 85%, 44% 71%, 60% 51%, 73% 28%, 84% 0, 100% 100%);
 }
 
 #chat li {
@@ -94,16 +94,16 @@
     bottom: -0.1rem;
     content: "";
     position: absolute;
+    width: 20px;
+    height: 25px;
+    border-radius: 0px 0px 25px 0px;
 }
 
 .message::before {
     background-color: var(--_background-color);
-    left: -10px;
-    width: 25px;
-    height: 25px;
+    left: -5px;
     clip-path: var(--bubble-path);
 }
-
 
 
 .broadcaster .message::before,
@@ -115,8 +115,6 @@
 .moderator .message::after {
     background-color: var(--_background-color);
     transform: scaleX(-1);
-    width: 25px;
-    height: 25px;
     clip-path: var(--bubble-path);
 }
 
