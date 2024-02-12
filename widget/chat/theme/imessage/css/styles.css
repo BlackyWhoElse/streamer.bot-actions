@@ -42,12 +42,12 @@
 }
 
 #chat li.moderator {
-    --_background-color: var(--imessage-color-green) !important;
-    --_font-color: var(--font-color) !important;
+    --_background-color: var(--imessage-color-blue) !important;
+    --_font-color: var(--font-color-white) !important;
 }
 
 #chat li.subscriber {
-    --_background-color: var(--imessage-color-gray);
+    --_background-color: var(--imessage-color-green);
     --_font-color: var(--font-color);
 }
 
