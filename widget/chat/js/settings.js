@@ -5,13 +5,6 @@ $('document').ready(function () {
   // Get all checkboxes and the ul element by their IDs
   const checkboxes = document.querySelectorAll('.checkbox');
 
-  if(settings.debug){
-    debugMessages();
-  }
-
-  /**
-   * Settings Switch
-   */
   // Add a change event listener to each checkbox
   checkboxes.forEach(function (checkbox) {
     checkbox.addEventListener('change', function (event) {
@@ -38,12 +31,9 @@ function handleSettingsChange(event) {
       case "ticker":
         chat.classList.toggle("ticker");
         break;
-
       default:
         break;
     }
-
-
   } else {
     console.debug(`${propertyName} is not a valid property in the settings object`);
   }
@@ -180,42 +170,45 @@ function debugMessages() {
     "#c859f7",
   ];
 
-  dev = setInterval(() => {
+  if (!dev) {
 
-    if (!settings.debug) return;
+    dev = setInterval(() => {
 
-    // Generatin random role
-    let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
+      if (!settings.debug) return;
 
-    let n = names[Math.floor(Math.random() * names.length)];
+      // Generatin random role
+      let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
 
-    let message = {
-      bits: 0,
-      badges: badges[Math.floor(Math.random() * badges.length)],
-      emotes: [],
-      channel: n.name,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      displayName: n.displayName,
-      firstMessage: Math.random() < 0.5,
-      hasBits: Math.random() < 0.5,
-      internal: Math.random() < 0.5,
-      isAnonymous: Math.random() < 0.5,
-      isCustomReward: false,
-      isHighlighted: Math.random() < 0.5,
-      isMe: Math.random() < 0.5,
-      isReply: Math.random() < 0.5,
-      message: msgs[Math.floor(Math.random() * msgs.length)],
-      monthsSubscribed: 57,
-      msgId: makeid(12),
-      role: r,
-      subscriber: Math.random() < 0.5,
-      userId: 27638012,
-      username: n.name,
-      time: "19:36",
-    };
+      let n = names[Math.floor(Math.random() * names.length)];
 
-    pushMessage('chatmessage', message);
-  }, settings.debugMessagSpeed);
+      let message = {
+        bits: 0,
+        badges: badges[Math.floor(Math.random() * badges.length)],
+        emotes: [],
+        channel: n.name,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        displayName: n.displayName,
+        firstMessage: Math.random() < 0.5,
+        hasBits: Math.random() < 0.5,
+        internal: Math.random() < 0.5,
+        isAnonymous: Math.random() < 0.5,
+        isCustomReward: false,
+        isHighlighted: Math.random() < 0.5,
+        isMe: Math.random() < 0.5,
+        isReply: Math.random() < 0.5,
+        message: msgs[Math.floor(Math.random() * msgs.length)],
+        monthsSubscribed: 57,
+        msgId: makeid(12),
+        role: r,
+        subscriber: Math.random() < 0.5,
+        userId: 27638012,
+        username: n.name,
+        time: "19:36",
+      };
+
+      pushMessage('chatmessage', message);
+    }, settings.debugMessagSpeed);
+  }
 }
 
 function makeid(length) {
