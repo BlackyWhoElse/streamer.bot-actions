@@ -24,6 +24,8 @@ var avatars = new Map();
 
 window.addEventListener("load", (event) => {
 
+
+    // Init Page by loading settings and more
     $("#settings_json").load(
         `settings.json`,
         function (response, status, xhr) {
@@ -33,8 +35,7 @@ window.addEventListener("load", (event) => {
             }
             if (status === "success") {
                 Object.assign(settings, JSON.parse(response));
-                console.info("Settings Loaded")
-
+                console.info("Default settings loaded")
 
                 chat = document.getElementById("chat");
                 template_css = document.getElementById("template_css");
@@ -62,12 +63,11 @@ function loadTemplates() {
         `theme/${settings.template}/settings.json`,
         function (response, status, xhr) {
             if (status == "error") {
-                var msg = "No theme settings loaded: ";
-                console.info(msg + xhr.status + " " + xhr.statusText);
+                var msg = `No theme settings loaded for theme: ${settings.template} `;
+                console.info(msg);
             }
             if (status === "success") {
                 Object.assign(settings, JSON.parse(response));
-                console.debug(settings);
             }
         }
     );
