@@ -1,0 +1,15 @@
+{
+  "ticker": false,
+  "animations": {
+    "animation": true,
+    "hidedelay": 0,
+    "hideAnimation": "fadeOut",
+    "showAnimation": "bounceInRight"
+  },
+  "YouTube": {
+    "defaultChatColor": "#f20000"
+  },
+  "Twitch": {
+    "defaultChatColor": "#9147ff"
+  }
+}
