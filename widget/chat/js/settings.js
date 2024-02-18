@@ -1,18 +1,15 @@
-var dev;
+
 
 $('document').ready(function () {
 
   // Get all checkboxes and the ul element by their IDs
   const checkboxes = document.querySelectorAll('.checkbox');
-
   // Add a change event listener to each checkbox
   checkboxes.forEach(function (checkbox) {
     checkbox.addEventListener('change', function (event) {
       handleSettingsChange(event);
     });
   });
-
-
 });
 
 function handleSettingsChange(event) {
@@ -71,6 +68,9 @@ function handleThemeChange(selectElement) {
  * The debug mode is for longtime test and themeing.
  *
  */
+
+var dev = false;
+
 function debugMessages() {
 
   const badges = [
@@ -171,9 +171,8 @@ function debugMessages() {
   ];
 
   if (!dev) {
-
+    console.debug('debugmessage')
     dev = setInterval(() => {
-
       if (!settings.debug) return;
 
       // Generatin random role
@@ -221,3 +220,5 @@ function makeid(length) {
   }
   return result;
 }
+
+debugMessages();
