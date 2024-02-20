@@ -172,7 +172,8 @@ function debugMessages() {
     dev = setInterval(() => {
       console.info("Debug Message");
       if (!settings.debug) {
-        clearInterval(dev)
+        clearInterval(dev);
+        dev = false;
         return;
       }
 

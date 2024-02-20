@@ -19,7 +19,7 @@
     --font-size: 16px;
     --font-family: 'Roboto', sans-serif;
     --spacing-right: 25px;
-    --animate-duration: .3s;
+    --animate-duration: .5s;
     --animate-delay: 0;
 
     --bubble-path: polygon(0 100%, 26% 85%, 44% 71%, 60% 51%, 73% 28%, 84% 0, 100% 100%);
