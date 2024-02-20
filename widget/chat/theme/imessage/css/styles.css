@@ -55,16 +55,20 @@
     --_font-color: var(--font-color);
 }
 
-
+/**
+ * Add classes for right display here
+ */
 #chat li.broadcaster,
 #chat li.moderator {
-
     margin-left: auto;
     justify-content: flex-end;
     flex-direction: row-reverse;
 }
 
 
+/**
+ * Add classes for right display here
+ */
 #chat li.broadcaster .container,
 #chat li.moderator .container {
     display: flex;
