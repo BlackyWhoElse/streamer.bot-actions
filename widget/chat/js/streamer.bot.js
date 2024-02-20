@@ -24,7 +24,7 @@ function bindEvents() {
     ws.onmessage = async (event) => {
         const wsdata = JSON.parse(event.data);
 
-        if (wsdata.status == "ok" || wsdata.event.source == null) {
+        if (wsdata.status === "ok" || wsdata.event.source == null) {
             return;
         }
 
@@ -33,17 +33,17 @@ function bindEvents() {
         }
 
         // Streamer.Bot Custom Commands
-        if (wsdata.data.name == "ClearChat") {
+        if (wsdata.data.name === "ClearChat") {
             ClearChat();
         }
 
         // Blacklists
-        if (wsdata.event.type == "ChatMessage" && settings.blacklist.user.includes(wsdata.data.message.displayName) || wsdata.event.source == "RewardRedemption" && settings.blacklist.user.includes(wsdata.data.displayName)) {
+        if (wsdata.event.type === "ChatMessage" && settings.blacklist.user.includes(wsdata.data.message.displayName) || wsdata.event.source === "RewardRedemption" && settings.blacklist.user.includes(wsdata.data.displayName)) {
             console.info("Blocked message because display name is on blacklist!");
             return;
         }
 
-        if (wsdata.event.type == "ChatMessage" && settings.blacklist.commands == true && wsdata.data.message.message.charAt(0) == "!") {
+        if (wsdata.event.type === "ChatMessage" && settings.blacklist.commands === true && wsdata.data.message.message.charAt(0) === "!") {
             console.info("Blocked message because it was a command");
             return;
         }

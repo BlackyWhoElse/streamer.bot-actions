@@ -2,7 +2,7 @@
   "websocketURL": "ws://localhost:8080/",
   "debug": false,
   "debugConsole": false,
-  "debugMessagSpeed": 1000,
+  "debugMessageSpeed": 1000,
   "template": "default",
   "ticker": false,
   "blacklist": {

@@ -1,22 +1,17 @@
-
-
 $('document').ready(function () {
 
   // Get all checkboxes and the ul element by their IDs
-  const checkboxes = document.querySelectorAll('.checkbox');
+  const checkboxes = $('.checkbox');
   // Add a change event listener to each checkbox
-  checkboxes.forEach(function (checkbox) {
-    checkbox.addEventListener('change', function (event) {
-      handleSettingsChange(event);
-    });
+  checkboxes.each(function () {
+    $(this).on('change', handleSettingsChange);
   });
 });
 
 function handleSettingsChange(event) {
   const switch_data = event.target.dataset;
-
-  propertyName = event.target.dataset.settingsName;
-  value = event.target.checked;;
+  let propertyName = event.target.dataset.settingsName;
+  let value = event.target.checked;
 
   console.debug('Checkbox info:', switch_data);
 
@@ -27,6 +22,9 @@ function handleSettingsChange(event) {
     switch (propertyName) {
       case "ticker":
         chat.classList.toggle("ticker");
+        break;
+      case "debug":
+        debugMessages();
         break;
       default:
         break;
@@ -68,8 +66,7 @@ function handleThemeChange(selectElement) {
  * The debug mode is for longtime test and themeing.
  *
  */
-
-var dev = false;
+let dev = false;
 
 function debugMessages() {
 
@@ -171,11 +168,15 @@ function debugMessages() {
   ];
 
   if (!dev) {
-    console.debug('debugmessage')
+    console.debug('Init debug message');
     dev = setInterval(() => {
-      if (!settings.debug) return;
+      console.info("Debug Message");
+      if (!settings.debug) {
+        clearInterval(dev)
+        return;
+      }
 
-      // Generatin random role
+      // Generating random role
       let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
 
       let n = names[Math.floor(Math.random() * names.length)];
@@ -206,7 +207,7 @@ function debugMessages() {
       };
 
       pushMessage('chatmessage', message);
-    }, settings.debugMessagSpeed);
+    }, settings.debugMessageSpeed);
   }
 }
 
@@ -220,5 +221,3 @@ function makeid(length) {
   }
   return result;
 }
-
-debugMessages();
