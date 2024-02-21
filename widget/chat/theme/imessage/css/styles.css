@@ -19,32 +19,56 @@
     --font-size: 16px;
     --font-family: 'Roboto', sans-serif;
     --spacing-right: 25px;
-    --animate-duration: .3s;
+    --animate-duration: .5s;
     --animate-delay: 0;
+
+    --bubble-path: polygon(0 100%, 26% 85%, 44% 71%, 60% 51%, 73% 28%, 84% 0, 100% 100%);
+}
+
+
+/**
+ * Chat Colors
+ */
+
+
+#settings_json {
+    display: none;
 }
 
 #chat li {
     background-color: transparent;
-
     --_background-color: var(--imessage-color-gray);
 }
 
+#chat li.broadcaster {
+    --_background-color: var(--imessage-color-blue) !important;
+    --_font-color: var(--font-color-white) !important;
+}
+
+#chat li.moderator {
+    --_background-color: var(--imessage-color-blue) !important;
+    --_font-color: var(--font-color-white) !important;
+}
+
+#chat li.subscriber {
+    --_background-color: var(--imessage-color-green);
+    --_font-color: var(--font-color);
+}
+
+/**
+ * Add classes for right display here
+ */
 #chat li.broadcaster,
 #chat li.moderator {
-
-    --_background-color: var(--imessage-color-blue);
-    --_font-color: var(--font-color-white);
-
     margin-left: auto;
     justify-content: flex-end;
     flex-direction: row-reverse;
 }
 
-#chat li.subscriber {
-    --_background-color: var(--imessage-color-gray);
-    --_font-color: var(--font-color);
-}
 
+/**
+ * Add classes for right display here
+ */
 #chat li.broadcaster .container,
 #chat li.moderator .container {
     display: flex;
@@ -91,46 +115,32 @@
 .message::after {
     bottom: -0.1rem;
     content: "";
-    height: 1rem;
     position: absolute;
+    width: 20px;
+    height: 25px;
+    border-radius: 0px 0px 25px 0px;
 }
 
 .message::before {
-    border-bottom-right-radius: 0.8rem 0.7rem;
-    border-left: 1rem solid var(--_background-color);
-    left: -0.35rem;
-    transform: translate(0, -0.1rem);
+    background-color: var(--_background-color);
+    left: -5px;
+    clip-path: var(--bubble-path);
 }
 
-.message::after {
-    background-color: #fff;
-    border-bottom-right-radius: 0.5rem;
-    left: 20px;
-    transform: translate(-30px, -2px);
-    width: 10px;
-}
 
 
 .broadcaster .message::before,
 .moderator .message::before {
-    border-bottom-left-radius: 0.8rem 0.7rem;
-    border-right: 1rem solid var(--_background-color);
-    right: -0.35rem;
-    transform: translate(0, -0.1rem);
-    left: auto;
-    border-left: none;
-    border-bottom-right-radius: 0;
+    content: unset;
 }
 
 .broadcaster .message::after,
 .moderator .message::after {
-    background-color: #fff;
-    border-bottom-left-radius: 0.5rem;
-    right: -40px;
-    transform: translate(-30px, -2px);
-    width: 10px;
-    left: auto;
+    background-color: var(--_background-color);
+    transform: scaleX(-1);
+    clip-path: var(--bubble-path);
 }
+
 
 .message .emote {
     height: var(--emote-size);

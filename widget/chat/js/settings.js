@@ -1,54 +1,17 @@
-var settings = {
-  websocketURL: "ws://localhost:8080/",
-  debug: true,
-  debugConsole: false,
-  debugMessagSpeed:1000,
-  template: "box",
-  ticker: false,
-  blacklist: {
-    user: [],
-    words: [],
-    commands: false,
-  },
-  animations: {
-    animation: true,
-    hidedelay: 0,
-    hideAnimation: "fadeOut",
-    showAnimation: "bounceInRight",
-  },
-  YouTube: {
-    defaultChatColor: "#f20000",
-  },
-  Twitch: {
-    defaultChatColor: "#9147ff",
-  },
-};
-
-var dev;
-
 $('document').ready(function () {
 
   // Get all checkboxes and the ul element by their IDs
-  const checkboxes = document.querySelectorAll('.checkbox');
-
-  /**
-   * Settings Switch
-   */
+  const checkboxes = $('.checkbox');
   // Add a change event listener to each checkbox
-  checkboxes.forEach(function (checkbox) {
-    checkbox.addEventListener('change', function (event) {
-      handleSettingsChange(event);
-    });
+  checkboxes.each(function () {
+    $(this).on('change', handleSettingsChange);
   });
-
-
 });
 
 function handleSettingsChange(event) {
   const switch_data = event.target.dataset;
-
-  propertyName = event.target.dataset.settingsName;
-  value = event.target.checked;;
+  let propertyName = event.target.dataset.settingsName;
+  let value = event.target.checked;
 
   console.debug('Checkbox info:', switch_data);
 
@@ -60,12 +23,12 @@ function handleSettingsChange(event) {
       case "ticker":
         chat.classList.toggle("ticker");
         break;
-
+      case "debug":
+        debugMessages();
+        break;
       default:
         break;
     }
-
-
   } else {
     console.debug(`${propertyName} is not a valid property in the settings object`);
   }
@@ -76,7 +39,7 @@ function handleSettingsChange(event) {
 
 /**
  * Gets the Theme name from a Form Element
- * @param {FormData} selectElement 
+ * @param {FormData} selectElement
  */
 function handleThemeChange(selectElement) {
   const textFieldContainer = document.getElementById('customThemeContainer');
@@ -90,7 +53,6 @@ function handleThemeChange(selectElement) {
     // Show the text field
     textFieldContainer.style.display = 'block';
   } else {
-    // Todo: Load theme
     changeTheme(selectElement.value);
     console.log("Load new theme " + selectElement.value)
   }
@@ -104,6 +66,8 @@ function handleThemeChange(selectElement) {
  * The debug mode is for longtime test and themeing.
  *
  */
+let dev = false;
+
 function debugMessages() {
 
   const badges = [
@@ -203,42 +167,49 @@ function debugMessages() {
     "#c859f7",
   ];
 
-  dev = setInterval(() => {
+  if (!dev) {
+    console.debug('Init debug message');
+    dev = setInterval(() => {
+      console.info("Debug Message");
+      if (!settings.debug) {
+        clearInterval(dev);
+        dev = false;
+        return;
+      }
 
-    if (!settings.debug) return;
+      // Generating random role
+      let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
 
-    // Generatin random role
-    let r = Math.floor(Math.random() * (4 - 1 + 1) + 1)
+      let n = names[Math.floor(Math.random() * names.length)];
 
-    let n = names[Math.floor(Math.random() * names.length)];
+      let message = {
+        bits: 0,
+        badges: badges[Math.floor(Math.random() * badges.length)],
+        emotes: [],
+        channel: n.name,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        displayName: n.displayName,
+        firstMessage: Math.random() < 0.5,
+        hasBits: Math.random() < 0.5,
+        internal: Math.random() < 0.5,
+        isAnonymous: Math.random() < 0.5,
+        isCustomReward: false,
+        isHighlighted: Math.random() < 0.5,
+        isMe: Math.random() < 0.5,
+        isReply: Math.random() < 0.5,
+        message: msgs[Math.floor(Math.random() * msgs.length)],
+        monthsSubscribed: 57,
+        msgId: makeid(12),
+        role: r,
+        subscriber: Math.random() < 0.5,
+        userId: 27638012,
+        username: n.name,
+        time: "19:36",
+      };
 
-    let message = {
-      bits: 0,
-      badges: badges[Math.floor(Math.random() * badges.length)],
-      emotes: [],
-      channel: n.name,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      displayName: n.displayName,
-      firstMessage: Math.random() < 0.5,
-      hasBits: Math.random() < 0.5,
-      internal: Math.random() < 0.5,
-      isAnonymous: Math.random() < 0.5,
-      isCustomReward: false,
-      isHighlighted: Math.random() < 0.5,
-      isMe: Math.random() < 0.5,
-      isReply: Math.random() < 0.5,
-      message: msgs[Math.floor(Math.random() * msgs.length)],
-      monthsSubscribed: 57,
-      msgId: makeid(12),
-      role: r,
-      subscriber: Math.random() < 0.5,
-      userId: 27638012,
-      username: n.name,
-      time: "19:36",
-    };
-
-    pushMessage('chatmessage', message);
-  }, settings.debugMessagSpeed);
+      pushMessage('chatmessage', message);
+    }, settings.debugMessageSpeed);
+  }
 }
 
 function makeid(length) {

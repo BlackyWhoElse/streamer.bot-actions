@@ -11,38 +11,7 @@
     <script src="js/script.js"></script>
 
     <script>
-        /**
-         * # Chat Widget Settings
-         * | Alter these settings to your liking.
-         * | If you want multiple chat widgets with different
-         * | looks then copy this file and alter this variable
-         */
-
-        var settings = {
-            websocketURL: "ws://localhost:8080/",
-            debug: true,
-            debugConsole: false,
-            debugMessagSpeed: 1000,
-            template: "default",
-            ticker: false,
-            blacklist: {
-                user: [],
-                words: [],
-                commands: false,
-            },
-            animations: {
-                animation: true,
-                hidedelay: 0,
-                hideAnimation: "fadeOut",
-                showAnimation: "bounceInRight",
-            },
-            YouTube: {
-                defaultChatColor: "#f20000",
-            },
-            Twitch: {
-                defaultChatColor: "#9147ff",
-            },
-        };
+        var settings = {};
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -59,6 +28,7 @@
 <body>
     <ul id="chat"></ul>
     <div id="templates"></div>
+    <div id="settings_json"></div>
 </body>
 
 </html>

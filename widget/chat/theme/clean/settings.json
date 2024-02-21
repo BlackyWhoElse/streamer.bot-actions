@@ -1,15 +1,5 @@
 {
-  "websocketURL": "ws://localhost:8080/",
-  "debug": false,
-  "debugConsole": false,
-  "debugMessageSpeed": 1000,
-  "template": "default",
   "ticker": false,
-  "blacklist": {
-    "user": [],
-    "words": [],
-    "commands": false
-  },
   "animations": {
     "animation": true,
     "hidedelay": 0,

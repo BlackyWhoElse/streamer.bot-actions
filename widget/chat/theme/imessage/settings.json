@@ -1,0 +1,13 @@
+{
+  "blacklist": {
+    "user": [],
+    "words": [],
+    "commands": false
+  },
+  "animations": {
+    "animation": true,
+    "hidedelay": 0,
+    "hideAnimation": "fadeOut",
+    "showAnimation": "bounceInUp"
+  }
+}
