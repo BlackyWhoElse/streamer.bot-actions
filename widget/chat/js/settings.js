@@ -168,9 +168,7 @@ function debugMessages() {
   ];
 
   if (!dev) {
-    console.debug('Init debug message');
     dev = setInterval(() => {
-      console.info("Debug Message");
       if (!settings.debug) {
         clearInterval(dev);
         dev = false;
@@ -182,9 +180,11 @@ function debugMessages() {
 
       let n = names[Math.floor(Math.random() * names.length)];
 
+      let message_type = Math.floor(Math.random() * badges.length);
+
       let message = {
         bits: 0,
-        badges: badges[Math.floor(Math.random() * badges.length)],
+        badges: badges[message_type],
         emotes: [],
         channel: n.name,
         color: colors[Math.floor(Math.random() * colors.length)],
@@ -201,10 +201,10 @@ function debugMessages() {
         monthsSubscribed: 57,
         msgId: makeid(12),
         role: r,
-        subscriber: Math.random() < 0.5,
+        subscriber: badges[message_type].name === 'subscriber' ? 1 : 0,
         userId: 27638012,
         username: n.name,
-        time: "19:36",
+        time: Date.now(),
       };
 
       pushMessage('chatmessage', message);

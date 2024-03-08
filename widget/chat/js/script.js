@@ -126,6 +126,7 @@ function changeTheme(template) {
  * - message.avatar
  * - message.time
  * - message.classes
+ * @param type
  * @param {*} message
  */
 async function pushMessage(type, message) {
@@ -134,9 +135,9 @@ async function pushMessage(type, message) {
     var today = new Date();
     message.time = today.getHours() + ":" + String(today.getMinutes()).padStart(2, "0");
 
+    console.debug(message.badges);
     // Mapping for special types
     switch (type) {
-
         // Chat message from Twitch
         case "chatmessage":
 
@@ -194,7 +195,7 @@ async function pushMessage(type, message) {
 
             break;
 
-        // Message from Youtube
+        // Message from YouTube
         case "message":
 
 
@@ -305,6 +306,9 @@ function renderMessage(platform, message = {}) {
         console.debug("Message Data at the end", message);
     }
 
+    if (settings.platformBadge) {
+        message.badges = `<div class="platform ${message.type}" title="${message.type}"></div>${message.badges}`;
+    }
 
 
     switch (platform) {
@@ -385,8 +389,21 @@ function removeMessage(msgId) {
     });
 }
 
+
+function addPlatformBadge(message) {
+    if (settings.platformBadge) {
+        message.badges.unshift({
+            name: message.type,
+            imageUrl: `./images/platform/${message.type}.png`,
+            version: 1
+        });
+    }
+
+    return message;
+}
+
 /**
- * Creates a markup of all Badges so it can be renderd as one
+ * Creates a markup of all Badges, so it can be rendered as one
  * @param {object} message
  * @returns
  */
