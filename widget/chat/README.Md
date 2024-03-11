@@ -43,6 +43,9 @@ TlM0RR+LCAAAAAAABACdVV1zojoYvt+Z/Q8erw8OAn6wd0orq916qlWQHnsRklekBsLhQ0t3+t9PAnUF
 
 ## **Settings**
 
+> [!CAUTION]
+> This is out of date and needs to be updated
+
 A settings object can be found in index.html. This can be used to alter animations and core settings.
 
 Note: If you want to use other animations check [here](https://animate.style/)
@@ -117,10 +120,10 @@ For an easier time customizing your widget open index.html inside a browser and 
 ### Default Example
 ![Message Example](https://i.imgur.com/lxdTTeF.png)
 
-Inside the the theme folder you can find the template.hmtl.  
-This file will define the structure of your message.   
-To create your own just copy one theme and pasted it with your theme name as folder name.  
-If you want to customise your template you can use the following variables inside the template.  
+Inside the the theme folder you can find the template.hmtl.
+This file will define the structure of your message.
+To create your own just copy one theme and pasted it with your theme name as folder name.
+If you want to customise your template you can use the following variables inside the template.
 
 ```html
 <template id="message_twitch">
