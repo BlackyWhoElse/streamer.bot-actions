@@ -43,6 +43,9 @@ TlM0RR+LCAAAAAAABACdVV1zojoYvt+Z/Q8erw8OAn6wd0orq916qlWQHnsRklekBsLhQ0t3+t9PAnUF
 
 ## **Settings**
 
+> [!CAUTION]
+> Settings are now stored in settings.json and can be overwritten by themes. I will update this doc in the near future.
+  
 A settings object can be found in index.html. This can be used to alter animations and core settings.
 
 Note: If you want to use other animations check [here](https://animate.style/)
