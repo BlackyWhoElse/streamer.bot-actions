@@ -8,6 +8,7 @@ var settings = {
 /**
  * Set all events to true that will be used in theme
  * if a template is not defined it will use the default.html theme
+ * Todo: add settings.json
  */
 const subscribeToEvents = {
     "twitch": {
@@ -42,7 +43,7 @@ const subscribeToEvents = {
         "merch": false
     },
     "streamlabs": {
-        "donation": false,
+        "donation": true,
         "Merchandise": false,
     }
 };
@@ -75,6 +76,10 @@ const defaultMessages = {
         "membershipgift": "",
         "giftmembershipreceived": "",
         "newsubscriber": "",
+    },
+    "streamlabs": {
+        "donation": "{{username}} donated {{donationFormattedAmount}}",
+        "Merchandise": "{{username}} brought awesome stuff",
     }
 };
 
@@ -268,8 +273,12 @@ function selectVariant(type, msg) {
         case 'giftbomb':
             return msg.gifts;
             break;
+        case 'donation':
+            return msg.donationAmount;
+            break;
         default:
             console.info(`There is no variant defined for ${type}.`)
+            return '';
             break;
     }
 
