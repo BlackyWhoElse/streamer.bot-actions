@@ -5,6 +5,7 @@
   "debugMessageSpeed": 1000,
   "template": "default",
   "ticker": false,
+  "platformBadge": true,
   "blacklist": {
     "user": [],
     "words": [],

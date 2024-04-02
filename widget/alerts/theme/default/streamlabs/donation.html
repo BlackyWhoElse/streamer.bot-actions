@@ -1,0 +1,15 @@
+<template id="default_streamlabs_donation">
+  <div data-variant="default">
+    <div class="alert alert-{{event}} {{classes}}" data-duration="5000">
+      <div class="alert-image">
+        <video playsinline autoplay loop poster="">
+          <source src="theme/default/img/{{event}}.webm" type="video/webm">
+          Your browser does not support the video tag.
+        </video>
+        <audio autoplay src="theme/default/audio/chirp.wav">
+        </audio>
+      </div>
+      <div class="message">{{username}} donated {{donationFormattedAmount}} <br> {{donationMessage}}</div>
+    </div>
+  </div>
+</template>

@@ -96,11 +96,22 @@ body {
   width: var(--avatar-size);
 }
 
-.badges img {
+.badges > img,
+.badges .platform {
   width: var(--badge-size);
+  height: var(--badge-size);
   margin-left: var(--badge-spacing);
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+.badges .twitch{
+  background-image: url("../images/platform/twitch.png");
 }
 
+.badges .youtube{
+  background-image: url("../images/platform/youtube.png");
+}
 
 #chat .content {
   display: flex;
