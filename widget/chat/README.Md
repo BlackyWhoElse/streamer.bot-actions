@@ -42,37 +42,40 @@ TlM0RR+LCAAAAAAABACdVV1zojoYvt+Z/Q8erw8OAn6wd0orq916qlWQHnsRklekBsLhQ0t3+t9PAnUF
 # 🎨 Customize
 
 ## **Settings**
-
-> [!CAUTION]
-> This is out of date and needs to be updated
-
-A settings object can be found in index.html. This can be used to alter animations and core settings.
+All settings can be found in settings.json. These will act as default settings that can be overwritten by a theme.
 
 Note: If you want to use other animations check [here](https://animate.style/)
 
-```javascript
-var settings = {
-    "websocketURL": "ws://localhost:8080/",
-    "debug": false,
-    "template": "default",
-    "blacklist": {
-        "user": ["Nightbot",],
-        "words": [],
-        commands:false,
-    },
-    "animations": {
-        "animation": true,
-        "hidedelay": 0,
-        "hideAnimation": "fadeOut",
-        "showAnimation": "bounceInLeft"
-    },
-    "YouTube": {
-        "defaultChatColor": "#f20000",
-    },
-    "Twitch": {
-        "defaultChatColor": "#9147ff",
-    },
-};
+```json
+
+// Default Settings
+
+{
+  "websocketURL": "ws://localhost:8080/",
+  "debug": false,
+  "debugConsole": false,
+  "debugMessageSpeed": 1000,
+  "template": "default",
+  "ticker": false,
+  "platformBadge": true,
+  "blacklist": {
+    "user": [],
+    "words": [],
+    "commands": false
+  },
+  "animations": {
+    "animation": true,
+    "hidedelay": 0,
+    "hideAnimation": "fadeOut",
+    "showAnimation": "bounceInRight"
+  },
+  "YouTube": {
+    "defaultChatColor": "#f20000"
+  },
+  "Twitch": {
+    "defaultChatColor": "#9147ff"
+  }
+}
 ```
 
 | Variable        | Default                       | Description                                                                                                                |
@@ -88,31 +91,36 @@ var settings = {
 | hideAnimation   | fadeOut                       | Animation name to hide a message                                                                                           |
 | showAnimation   | bounceInLeft                  | Animation name to show a message                                                                                           |
 
+## Theme Settings
+Themes also include a settings.json that will overwrite but not replace these settings.
+``` json
+// Example Theme Settings
+
+{
+  "ticker": false,
+  "animations": {
+    "animation": true,
+    "hidedelay": 0,
+    "hideAnimation": "fadeOut",
+    "showAnimation": "bounceInRight"
+  },
+  "YouTube": {
+    "defaultChatColor": "#f20000"
+  },
+  "Twitch": {
+    "defaultChatColor": "#9147ff"
+  }
+}
+```
+
 ## **CSS**
-You can change the appearance of this widget via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and paste this CSS there and make your adjustment.
 
-For an easier time customizing your widget open index.html inside a browser and press F12 to open up the Developer console.
+Inside the :root class are variables that alter the formating of each theme.
 
-
-### Default Example
+You can change the appearance without altering the code via the '**Custom CSS**' Field inside the '**Browser Source**'. Just copy and paste the :root class of the theme and make your adjustment.
 ```css
 :root {
-    /** Left: row Right: row-reverse */
-    --chat-align: row;
-    --avatar-size: 80px;
-    --avatar-gap: 16px;
-    --message-padding: 16px;
-    --message-gap-bottom: 16px;
-    --message-background-color: #18181b;
-    --badge-size: 15px;
-    --badge-spacing: 2px;
-    --emote-size: 16px;
-    --emote-only-size: 32px;
-    --font-color: #fff;
-    --font-size: 16px;
-    --font-family: 'Roboto', sans-serif;
-    --time-size: 12px;
-    --time-align: right;
+    ...
 }
 ```
 
@@ -120,37 +128,49 @@ For an easier time customizing your widget open index.html inside a browser and 
 ### Default Example
 ![Message Example](https://i.imgur.com/lxdTTeF.png)
 
-Inside the the theme folder you can find the template.hmtl.
-This file will define the structure of your message.
-To create your own just copy one theme and pasted it with your theme name as folder name.
-If you want to customise your template you can use the following variables inside the template.
+Inside the the theme folder you can find the template.hmtl.  
+This file will define the structure of your message.   
+To create your own just copy one theme and pasted it with your theme name as folder name.  
+If you want to customise your template you can use the following variables inside the template.  
 
 ```html
 <template id="message_twitch">
-    <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
-        <div class="avatar">
-            {{avatar}}
-        </div>
-        <div class="message ">
-            <span class="badges">{{badges}}</span>
-            <span class="name">{{displayName}}</span>
-            <div class="content">{{message}}</div>
-            <div class="time">{{time}}</div>
-        </div>
-    </li>
+  <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
+    <div class="avatar">
+      <img src="{{avatar}}" />
+    </div>
+    <div class="message">
+      <span class="badges">{{badges}}</span>
+      <span class="name">{{displayName}}</span>
+      <div class="content">{{message}}</div>
+      <div class="time">{{time}}</div>
+    </div>
+  </li>
 </template>
 
 <template id="message_youtube">
-    <li id="{{eventId}}" class="{{classes}}" style="--userColor:{{color}}">
-        <div class="avatar">
-            {{avatar}}
-        </div>
-        <div class="message ">
-            <span class="name">{{displayName}}</span>
-            <div class="content">{{message}}</div>
-            <div class="time">{{time}}</div>
-        </div>
-    </li>
+  <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
+    <div class="avatar">
+      <img class="avatar" src="{{avatar}}" />
+    </div>
+    <div class="message">
+      <span class="name">{{displayName}}</span>
+      <div class="content">{{message}}</div>
+      <div class="time">{{time}}</div>
+    </div>
+  </li>
+</template>
+
+
+<template id="reward">
+  <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
+    <div class="message">
+      <span class="name">{{displayName}}</span>
+      redeemed
+      <span class="content">{{title}}</span>
+      <div class="userInput">{{message}}</div>
+    </div>
+  </li>
 </template>
 ```
 
@@ -166,213 +186,17 @@ If you want to customise your template you can use the following variables insid
 | monthsSubscribed | 57                                                     | Twitch   | How long the user is subed to the channel                                             |
 | msgId            | MessageID                                              | General  |                                                                                       |
 | role             | 4                                                      | General  | Role of the user provided by Streamer.bot                                             |
-| userId           | 27638012                                               | General  | User id provided by twitch/Youtube                                                    |
 | time             | 19:36                                                  | General  | Time when the message was send                                                        |
+| userId           | 27638012                                               | General  | User id provided by twitch/Youtube                                                    |
+
+## Your own Theme
+To make sure that your changes are not afected by any updates consider dublicating the theme folder you like (for example tarkov) and rename it the way you want.
+
+You will be able to just use that new name inside the settings.json
+
 
 ## Themes
 Here is a list of themes that can be used out of the box. You can use the default settings inside index.html but we recommend some changes depending on the theme.
 
 
-### box
-| Variable      | Example |
-|---------------|---------|
-| hideAnimation | ""      |
-| showAnimation | ""      |
-
-**CSS Variables**
-```css
-:root {
-    --message-background-color: transparent;
-    --badge-spacing: 2px;
-    --emote-spacing: 2px;
-    --font-size: 16px;
-    --font-color: #fff;
-    --font-family: 'Roboto', sans-serif;
-    --animate-duration: .3s;
-    --animate-delay: 0;
-}
-```
-
-### bubble *based on [whitep4nth3r](https://www.twitch.tv/whitep4nth3r)*
-| Variable      | Example         |
-|---------------|-----------------|
-| hideAnimation | "bounceOutLeft" |
-| showAnimation | "bounceInLeft"  |
-**CSS Variables**
-```css
-:root {
-    /** Left: row Right: row-reverse */
-    --chat-align: row;
-    --avatar-size: 50px;
-    --avatar-gap: 16px;
-    --message-gap-bottom: 16px;
-    --message-background-color: #18181b;
-    --badge-size: 15px;
-    --badge-spacing: 2px;
-    --emote-size: 16px;
-    --emote-only-size: 32px;
-    --time-size: 12px;
-    --font-color: #fff;
-    --font-size: 16px;
-    --font-family: 'Roboto', sans-serif;
-    --spacing-right: 25px;
-    --animate-duration: .3s;
-    --animate-delay: 0;
-}
-```
-
-### bubble_ticker *based on [whitep4nth3r](https://www.twitch.tv/whitep4nth3r)*
-| Variable      | Example         |
-|---------------|-----------------|
-| hideAnimation | "bounceOutLeft" |
-| showAnimation | "bounceInRight" |
-
-**CSS Variables**
-```css
-:root {
-    /** Left: row Right: row-reverse */
-    --chat-align: row;
-    --avatar-size: 50px;
-    --avatar-gap: 16px;
-    --message-gap-bottom: 16px;
-    --message-background-color: #18181b;
-    --broadcaster-background-color: #18181b;
-    --subscriber-background-color: #18181b;
-    --moderator-background-color: #18181b;
-    --highlight-background-color: #18181b;
-    --badge-size: 15px;
-    --badge-spacing: 2px;
-    --emote-size: 16px;
-    --emote-only-size: 32px;
-    --time-size: 12px;
-    --font-color: #fff;
-    --font-size: 1em;
-    --font-family: 'Roboto', sans-serif;
-    --spacing-right: 25px;
-}
-```
-### clean
-| Variable      | Example |
-|---------------|---------|
-| hideAnimation | ""      |
-| showAnimation | ""      |
-
-**CSS Variables**
-```css
-:root {
-    --message-background-color: transparent;
-    --badge-spacing: 2px;
-    --emote-spacing: 2px;
-    --font-size: 16px;
-    --font-color: #fff;
-    --font-family: 'Roboto', sans-serif;
-    --animate-duration: .3s;
-    --animate-delay: 0;
-}
-
-```
-### crossing
-| Variable      | Example   |
-|---------------|-----------|
-| hideAnimation | "fadeOut" |
-| showAnimation | "fadeIn"  |
-
-**CSS Variables**
-```css
-:root {
-    /** Left: row Right: row-reverse */
-    --chat-align: row;
-    --message-gap-bottom: 5px;
-    --name-background-color: #db559b;
-    --message-background-color: #fdfae2;
-    --badge-size: 15px;
-    --badge-spacing: 2px;
-    --emote-size: 16px;
-    --emote-only-size: 32px;
-    --font-color: #3c3a2d;
-    --font-size: 16px;
-    --font-family: 'Roboto', sans-serif;
-    --time-size: 12px;
-    --time-align: right;
-    --animate-duration: .3s;
-    --animate-delay: 0;
-}
-```
-### default
-| Variable      | Example         |
-|---------------|-----------------|
-| hideAnimation | "fadeOut"       |
-| showAnimation | "bounceInRight" |
-
-**CSS Variables**
-```css
-:root {
-    /** Left: row Right: row-reverse */
-    --chat-align: row;
-    --avatar-size: 80px;
-    --avatar-gap: 16px;
-    --message-padding: 16px;
-    --message-gap-bottom: 16px;
-    --message-background-color: #18181b;
-    --rewardColor: purple;
-    --badge-size: 15px;
-    --badge-spacing: 2px;
-    --emote-size: 16px;
-    --emote-only-size: 32px;
-    --font-color: #fff;
-    --font-size: 16px;
-    --font-family: 'Roboto', sans-serif;
-    --time-size: 12px;
-    --time-align: right;
-    --animate-duration: .3s;
-    --animate-delay: 0;
-
-}
-```
-### tarkov
-| Variable      | Example |
-|---------------|---------|
-| hideAnimation | ""      |
-| showAnimation | ""      |
-
-**CSS Variables**
-```css
-:root {
-    --avatar-size: 45px;
-    --avatar-gap: 15px 10px;
-    --message-gap-bottom: 10px;
-    --message-background-color: #191b1b;
-    --message-boarder-color: #c0cad0;
-    --badge-size: 15px;
-    --badge-spacing: 2px;
-    --emote-size: 16px;
-    --emote-only-size: 32px;
-    --font-color: #b5bec4;
-    --font-size: 16px;
-    --font-family: 'Roboto', sans-serif;
-    --time-size: 12px;
-    --time-align: right;
-    --animate-duration: .3s;
-    --animate-delay: 0;
-}
-```
-### ticker
-| Variable      | Example         |
-|---------------|-----------------|
-| hideAnimation | "bounceOutLeft" |
-| showAnimation | "bounceInRight" |
-
-**CSS Variables**
-```css
-:root {
-    --message-background-color: #18181b18;
-    --badge-spacing: 2px;
-    --emote-spacing: 2px;
-    --font-size: 16px;
-    --font-color: #fff;
-    --font-family: 'Roboto', sans-serif;
-    --animate-duration: .3s;
-    --animate-delay: 0;
-}
-```
-
+## Settings.html
