@@ -78,18 +78,22 @@ Note: If you want to use other animations check [here](https://animate.style/)
 }
 ```
 
-| Variable        | Default                       | Description                                                                                                                |
-|-----------------|-------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| websocketURL    | ws://localhost:8080/          | The url to your streamer.bot instance. If you run streamer bot out of the box on the same pc you dont have to change that. |
-| debug           | false                         | This is for styling and debuging only. if true it will endlessly add a message to your chat overlay.                       |
-| theme           | default                       | This sets which theme your chat widget will use. Select an existing theme or create your own.                              |
-| blacklist user  | ["Nightbot","Jarwiswersonst"] | A list of users who will not be displayed in the chatbox.                                                                  |
-| blacklist words | []                            | A list of words who will not be displayed in the chatbox.                                                                  |
-|commands| false| If set to true all messages starting with ! will not be displayed |
-| animation       | true                          | Use animations for message.                                                                                                |
-| hidedelay       | 0                             | Delay in ms when the message should be hidden. (if 0 the message will stay for ever)                                       |
-| hideAnimation   | fadeOut                       | Animation name to hide a message                                                                                           |
-| showAnimation   | bounceInLeft                  | Animation name to show a message                                                                                           |
+| Variable                   | Default                       | Description                                                                                                                |
+|----------------------------|-------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| websocketURL               | ws://localhost:8080/          | The url to your streamer.bot instance. If you run streamer bot out of the box on the same pc you dont have to change that. |
+| debug                      | false                         | This is for styling and debuging only. if true it will endlessly add a message to your chat overlay.                       |
+| debugConsole               |                               | Toggles console debug on or off                                                                                            |
+| debugMessageSpeed          |                               | The speed of how fast messages will be send in debug mode                                                                  |
+| template                   | default                       | This sets which theme your chat widget will use. Select an existing theme or create your own.                              |
+| ticker                     |                               | Switches themes from normal to ticker mode if supported                                                                    |
+| platformBadge              |                               | Shows from what platform the message was send                                                                              |
+| blacklist > commands       | false                         | If set to true all messages starting with ! will not be displayed                                                          |
+| blacklist > words          | []                            | A list of words who will not be displayed in the chatbox.                                                                  |
+| blacklist > user           | ["Nightbot","Jarwiswersonst"] | A list of users who will not be displayed in the chatbox.                                                                  |
+| animations > showAnimation | bounceInLeft                  | Animation name to show a message                                                                                           |
+| animations > hidedelay     | 0                             | Delay in ms when the message should be hidden. (if 0 the message will stay for ever)                                       |
+| animations > hideAnimation | fadeOut                       | Animation name to hide a message                                                                                           |
+| animations > animation     | true                          | Use animations for message.                                                                                                |
 
 ## Theme Settings
 Themes also include a settings.json that will overwrite but not replace these settings.
@@ -128,10 +132,10 @@ You can change the appearance without altering the code via the '**Custom CSS**'
 ### Default Example
 ![Message Example](https://i.imgur.com/lxdTTeF.png)
 
-Inside the the theme folder you can find the template.hmtl.  
-This file will define the structure of your message.   
-To create your own just copy one theme and pasted it with your theme name as folder name.  
-If you want to customise your template you can use the following variables inside the template.  
+Inside the the theme folder you can find the template.hmtl.
+This file will define the structure of your message.
+To create your own just copy one theme and pasted it with your theme name as folder name.
+If you want to customise your template you can use the following variables inside the template.
 
 ```html
 <template id="message_twitch">
@@ -198,5 +202,15 @@ You will be able to just use that new name inside the settings.json
 ## Themes
 Here is a list of themes that can be used out of the box. You can use the default settings inside index.html but we recommend some changes depending on the theme.
 
+- Box
+- bubble
+- clean
+- crossing
+- default
+- imessage
+- tarkov
 
-## Settings.html
+## Development / settings.html
+If you want to develop a theme or use the settings.html you should use a Addon like [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) from VSCode.
+
+The code is got more and more complicated so normal browser will nolonger support them wihtout a server in the back.
