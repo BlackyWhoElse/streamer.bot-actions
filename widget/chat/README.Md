@@ -202,13 +202,13 @@ You will be able to just use that new name inside the settings.json
 ## Themes
 Here is a list of themes that can be used out of the box. You can use the default settings inside index.html but we recommend some changes depending on the theme.
 
-- Box
-- bubble
-- clean
-- crossing
-- default
-- imessage
-- tarkov
+- ![Box](../../.github/docs/chat/images/box.png)
+- ![bubble](../../.github/docs/chat/images/bubble.png)
+- ![clean](../../.github/docs/chat/images/clean.png)
+- ![crossing](../../.github/docs/chat/images/crossing.png)
+- ![default](../../.github/docs/chat/images/default.png)
+- ![imessage](../../.github/docs/chat/images/imessage.png)
+- ![tarkov](../../.github/docs/chat/images/tarkov.png)
 
 ## Development / settings.html
 If you want to develop a theme or use the settings.html you should use a Addon like [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) from VSCode.
