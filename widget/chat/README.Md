@@ -198,7 +198,6 @@ To make sure that your changes are not afected by any updates consider dublicati
 
 You will be able to just use that new name inside the settings.json
 
-
 ## Themes
 Here is a list of themes that can be used out of the box. You can use the default settings inside index.html but we recommend some changes depending on the theme.
 

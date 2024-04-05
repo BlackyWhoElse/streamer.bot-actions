@@ -12,7 +12,7 @@ let template_twitch;
 let template_youtube;
 let template_reward;
 let template_css;
-
+let settings = {};
 
 /**
  * Storing avatars that have been called to save api calls
@@ -31,15 +31,27 @@ window.addEventListener("load", () => {
                 console.info(msg + xhr.status + " " + xhr.statusText);
             }
             if (status === "success") {
+
+                // Loading Default Settings Json
                 Object.assign(settings, JSON.parse(response));
                 console.info("Default settings loaded")
 
+
+                // Loading settings overwirte of the HTML file
+                if (typeof settings_overwrite !== 'undefined') {
+                    Object.assign(settings, settings_overwrite);
+                    console.info("Settings overwirte loaded")
+                }
                 chat = document.getElementById("chat");
                 template_css = document.getElementById("template_css");
 
                 // Check for ticker
                 if (settings.ticker) {
                     chat.classList.add("ticker");
+                }
+
+                if(settings.debug){
+                    debugMessages();
                 }
 
                 loadTemplates();
