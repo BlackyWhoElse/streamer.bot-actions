@@ -4,6 +4,7 @@
     "words": [],
     "commands": false
   },
+  "ticker": false,
   "animations": {
     "animation": true,
     "hidedelay": 0,
