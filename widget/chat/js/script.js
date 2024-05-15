@@ -367,7 +367,7 @@ function renderMessage(platform, message = {}) {
     // Render reply to HTML so it can be renderd 
     if(message.isReply) {
         var replytpl = template_reply;
-        message.reply = replytpl.innerHTML.replace(pattern, (_, token) => message[token] || "")
+        message.reply = replytpl.innerHTML.replace(pattern, (_, token) => message.reply[token] || "")
     }
 
     // Add animations
