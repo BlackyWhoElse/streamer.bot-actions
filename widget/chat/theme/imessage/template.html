@@ -22,15 +22,14 @@
     </div>
     <div class="name">@{{displayName}} </div>
     <div class="message">
-        {{message}}
+      {{message}}
     </div>
     <div class="time">{{time}}</div>
   </li>
 </template>
 
 <template id="reward">
-  <li id="{{msgId}}" class="{{classes}}"
-    style="--rewardColor:{{backgroundColor}}">
+  <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
     <div class="message">
       <span class="name">{{displayName}}</span>
       redeemed
@@ -38,4 +37,13 @@
       <div class="userInput">{{message}}</div>
     </div>
   </li>
+</template>
+
+
+<template id="reply">
+  <div class="reply">
+    <span class="name">{{displayName}}</span>
+    asked:
+    <div class="userInput">{{message}}</div>
+  </div>
 </template>

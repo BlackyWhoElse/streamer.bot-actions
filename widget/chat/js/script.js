@@ -11,8 +11,9 @@ let messages = [];
 let template_twitch;
 let template_youtube;
 let template_reward;
+let template_reply;
 let template_css;
-let settings = {};
+var settings = {};
 
 /**
  * Storing avatars that have been called to save api calls
@@ -50,7 +51,7 @@ window.addEventListener("load", () => {
                     chat.classList.add("ticker");
                 }
 
-                if(settings.debug){
+                if (settings.debug) {
                     debugMessages();
                 }
 
@@ -96,6 +97,7 @@ function loadTemplates() {
                 template_twitch = document.querySelector("#message_twitch");
                 template_youtube = document.querySelector("#message_youtube");
                 template_reward = document.querySelector("#reward");
+                template_reply = document.querySelector("#reply");
             }
         }
     );
@@ -147,7 +149,6 @@ async function pushMessage(type, message) {
     var today = new Date();
     message.time = today.getHours() + ":" + String(today.getMinutes()).padStart(2, "0");
 
-    console.debug(message.badges);
     // Mapping for special types
     switch (type) {
         // Chat message from Twitch
@@ -238,6 +239,26 @@ async function pushMessage(type, message) {
 
     }
 
+    // Setup for sentance type check
+    if (message.message.length != 0) {
+        messageType = message.message.slice(-1);
+
+        switch (messageType) {
+            case "!":
+                    message.classes.push("exclamatory");
+                break;
+
+            case "?":
+                    message.classes.push("interrogative");
+                break;
+
+            default:
+                break;
+        }
+
+
+    }
+
     const msg = new Promise((resolve, reject) => {
         // Note: This is to prevent a streamer.bot message to not disappear.
         // - This could be a bug and will maybe be removed on a later date.
@@ -314,6 +335,9 @@ async function pushMessage(type, message) {
  */
 function renderMessage(platform, message = {}) {
 
+
+    const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
+
     if (settings.debugConsole) {
         console.debug("Message Data at the end", message);
     }
@@ -340,6 +364,13 @@ function renderMessage(platform, message = {}) {
             break;
     }
 
+    // Render reply to HTML so it can be renderd 
+    if(message.isReply) {
+        var replytpl = template_reply;
+        message.reply = replytpl.innerHTML.replace(pattern, (_, token) => message[token] || "")
+    }
+
+    // Add animations
     if (settings.animations.animation) {
         message.classes.push("animate__animated");
 
@@ -360,8 +391,6 @@ function renderMessage(platform, message = {}) {
 
     chatHistory(message);
 
-    const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
-
     result = tpl.innerHTML.replace(pattern, (_, token) => message[token] || "");
 
 
@@ -379,6 +408,10 @@ function chatHistory(message) {
     }
 
     messages.push(message);
+}
+
+function getChatMessage(msgId) {
+    return messages.find(x => x.msgId == msgId);
 }
 
 /**
@@ -432,7 +465,7 @@ async function renderBadges(message) {
 }
 
 /**
- * Swaping Emote names for emote images
+ * Swapping Emote names for emote images
  * Todo: Add a new way to get image url if its unknown
  * https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_5313d0941014484f9995197017132c33/static/light/3.0
  * @param {object} message
@@ -526,13 +559,12 @@ async function renderEmotes(message) {
 }
 
 /**
- * Swaping Emote names for emote images
+ * Swapping Emote names for emote images
  * @param {object} message
  * @returns
  */
 async function renderYTEmotes(message) {
-    // Todo: Find a way to get Emotes https://github.com/BlackyWhoElse/streamer.bot-actions/issues/56
-    // Todo: Add it back into renderMessage
+
     const baseEmoteURL = 'https://yt3.ggpht.com/';
     const suffix = '=w24-h24-c-k-nd';
 
