@@ -1,0 +1,73 @@
+:root {
+    --message-background-color: transparent;
+    --message-gap: 0px;
+    --badge-spacing: 2px;
+    --emote-spacing: 2px;
+    --font-size: 16px;
+    --font-color: #fff;
+    --font-family: 'Roboto', sans-serif;
+    --animate-duration: .3s;
+    --animate-delay: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+}
+
+
+.msg,
+.badges,
+.content,
+.time {
+    display: inline-block;
+}
+
+#chat li {
+    bottom: 0;
+    right: 0;
+    padding: 4px 4px;
+}
+
+.reward {
+    border-left: 5px solid var(--rewardColor);
+}
+
+.message {
+    color: var(--font-color);
+    font-size: var(--font-size);
+    overflow-wrap: anywhere;
+}
+
+.badges img {
+    width: var(--font-size);
+    margin-left: var(--badge-spacing);
+    vertical-align: middle;
+}
+
+.name {
+    color: var(--userColor);
+    font-weight: bold;
+}
+
+.emote {
+    vertical-align: middle;
+    height: var(--font-size);
+}
+
+.time {
+    font-size: var(--time-size);
+    float: var(--time-align);
+}
+
+
+.broadcaster {}
+
+.subcriber {}
+
+.reply {}
+
+.highlight {}
+
+.me {}
