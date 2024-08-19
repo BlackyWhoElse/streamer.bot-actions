@@ -96,7 +96,7 @@ body {
   width: var(--avatar-size);
 }
 
-.badges > img,
+.badges>img,
 .badges .platform {
   width: var(--badge-size);
   height: var(--badge-size);
@@ -105,18 +105,18 @@ body {
   background-size: contain;
   background-repeat: no-repeat;
 }
-.badges .twitch{
+
+.badges .twitch {
   background-image: url("../images/platform/twitch.png");
 }
 
-.badges .youtube{
+.badges .youtube {
   background-image: url("../images/platform/youtube.png");
 }
 
 #chat .content {
   display: flex;
   text-overflow: ellipsis;
-  max-height: 2em;
   overflow: hidden;
   line-height: 1em;
   align-items: start;
@@ -127,7 +127,7 @@ body {
 #chat.ticker .content {
   width: max-content;
   max-width: 100vw;
-
+  max-height: 2em;
 }
 
 
