@@ -16,18 +16,18 @@ body {
     padding: 0;
 }
 
+
 .msg,
 .badges,
 .content,
 .time {
-    display: inline-block;
+    display: contents;
 }
 
 #chat li {
     bottom: 0;
     right: 0;
     padding: 4px 4px;
-    text-shadow: 1px 1px black;
 }
 
 .reward {
@@ -49,10 +49,7 @@ body {
 .name {
     color: var(--userColor);
     font-weight: bold;
-}
-
-.content {
-    text-shadow: 1px 1px #000000c7;
+    display: contents;
 }
 
 .emote {
