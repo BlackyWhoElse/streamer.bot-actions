@@ -3,7 +3,7 @@
   "debug": false,
   "debugConsole": false,
   "debugMessageSpeed": 1000,
-  "template": "docks",
+  "template": "default",
   "ticker": false,
   "platformBadge": true,
   "blacklist": {
