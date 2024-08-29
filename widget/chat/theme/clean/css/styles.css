@@ -21,7 +21,9 @@ body {
 .badges,
 .content,
 .time {
-    display: contents;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 #chat li {
@@ -49,7 +51,6 @@ body {
 .name {
     color: var(--userColor);
     font-weight: bold;
-    display: contents;
 }
 
 .emote {
