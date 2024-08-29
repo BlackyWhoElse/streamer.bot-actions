@@ -20,9 +20,12 @@
     <div class="avatar">
       <img src="{{avatar}}" />
     </div>
-    <div class="name">@{{displayName}} </div>
-    <div class="message">
-      {{message}}
+    <div class="container">
+      <div class="name"><span class="badges">{{badges}}</span>@{{displayName}}</div>
+      <div class="message">
+        {{message}}
+      </div>
+      <div class="time">{{time}}</div>
     </div>
     <div class="time">{{time}}</div>
   </li>
@@ -43,7 +46,7 @@
 <template id="reply">
   <div class="reply">
       <span class="name">{{userName}}</span>
-      asked: 
+      asked:
       <div class="userInput">{{msgBody}}</div>
   </div>
 </template>

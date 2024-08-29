@@ -19,6 +19,7 @@
   <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
     <div class="message">
       <div class="name">
+        <span class="badges">{{badges}}</span>
         {{displayName}}
       </div>
       <div class="content">
@@ -30,7 +31,8 @@
 </template>
 
 <template id="reward">
-  <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
+  <li id="{{msgId}}" class="{{classes}}"
+    style="--rewardColor:{{backgroundColor}}">
     <div class="message">
       <div class="name">{{displayName}}</div>
       <div class="content">

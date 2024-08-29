@@ -13,6 +13,7 @@
 <template id="message_youtube">
     <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
         <div class="message ">
+            <span class="badges">{{badges}}</span>
             <span class="name">{{displayName}}</span>
             {{message}}
         </div>
@@ -33,7 +34,7 @@
 <template id="reply">
     <div class="reply">
         <span class="name">{{userName}}</span>
-        asked: 
+        asked:
         <div class="userInput">{{msgBody}}</div>
     </div>
   </template>

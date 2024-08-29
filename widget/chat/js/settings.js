@@ -189,6 +189,12 @@ function debugMessages() {
         channel: n.name,
         color: colors[Math.floor(Math.random() * colors.length)],
         displayName: n.displayName,
+        userName: n.displayName,
+        user:{
+          name: n.displayName,
+          id: 27638012,
+          profileImageUrl: "https://picsum.photos/200/200"
+        },
         firstMessage: Math.random() < 0.5,
         hasBits: Math.random() < 0.5,
         internal: Math.random() < 0.5,
@@ -200,6 +206,7 @@ function debugMessages() {
         message: msgs[Math.floor(Math.random() * msgs.length)],
         monthsSubscribed: 57,
         msgId: makeid(12),
+        messageId: makeid(12),
         role: r,
         subscriber: badges[message_type].name === 'subscriber' ? 1 : 0,
         userId: 27638012,
@@ -207,7 +214,9 @@ function debugMessages() {
         time: Date.now(),
       };
 
-      pushMessage('chatmessage', message);
+      type = Math.random() < 0.5 ? "chatmessage" : "message";
+
+      pushMessage(type, message);
     }, settings.debugMessageSpeed);
   }
 }
