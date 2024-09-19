@@ -14,59 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <title>Who's that pokemon</title>
 
-    <script>
-        var settings = {
-            // The URL to your streamer.bot ws server
-            websocketURL: "ws://localhost:8080/",
-            // Switch between diffrent gamemodes direct,poll,auto
-            // The mode poll only works on Twitch
-            mode: "direct",
-            // Show 4 choices on screen so it's easier to guess correctly (Recommended false if mode is auto)
-            showChoices: true,
-            /* Select one of the languages in the comment for name displaying 1-12
-                1 : ja-Hrkt
-                2 : roomaji
-                3 : zh-Hant
-                4 : fr
-                5 : de
-                6 : es
-                7 : it
-                8 : en
-                9 : cs
-                10 : ja
-                11 : zu-Hans
-                12 : pt-BR
-              */
-            language: 5,
-            pokemon: {
-                // Select pokemons form pokeid X
-                from: 1,
-                // Select pokemons till id Y
-                to: 151,
-            },
-            animations: {
-                // Reveal animation for choices
-                revealChoices: "animate__fadeIn",
-                // Reveal animation for pokemon
-                revealPokemon: "animate__tada",
-
-                // How long the pokemon will be hidden
-                revealAfter: 20000,
-                // How long the pokemon will be revealed 
-                hideAfter: 10000,
-
-            },
-            // Poll related settings
-            poll: {
-                // How long for the users to vote
-                voteTime: 60000,
-            },
-            // Audio clip playing on game start
-            intro: new Audio("assets/whos-that-pokemon.mp3"),
-            //Audio clip when a user guessed correctly
-            end: new Audio("assets/correct.mp3"),
-        };
-    </script>
 
 </head>
 

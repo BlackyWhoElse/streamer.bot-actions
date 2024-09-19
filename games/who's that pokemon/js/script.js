@@ -20,7 +20,7 @@ var settings = {
         11 : zu-Hans
         12 : pt-BR
       */
-    language: 5,
+    language: 8,
     pokemon: {
         // Select pokemons form pokeid X
         from: 1,
