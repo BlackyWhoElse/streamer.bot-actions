@@ -16,14 +16,13 @@ It includes:
 - Add index.html to OBS as Browser Source
 - Add Show and Hide Transition to your Source
 
-## Streamer.Bot (optional)
+## Streamer.Bot
+> **You can find the newest version inside the file streamer.bot**
+
 These actions are just placeholders and will not add any function out of the box. They are only for convenience so you don't have to create your own. All logic is working independently and these are only for additional actions like playing sound or showing poll. 
 
 **Note**: If you plan to show and hide the Browser source keep in mind that you have to match the showWinnerTime so it doesn't look bad.
 
-```
-TlM0RR+LCAAAAAAABADlVblu3DAQ7QPkHwjVZkCKIim5M4wcZRAgSBG4IDmjtQDqiI61F8b+e0gJC2sPp3SxqSjOezMcvnmgXj5+ICTZYj9UbZPckvRmDjSmxrBLkmVr3BjgIUR+xz0hL8sSoAoiT2RcGWSCMs4YzVxmqc1zRQW6QkibFVzLpdac9GfCKdZvJu9fo9gY6zHWG/sJV/Fn5yfAL31bf6uGse13gVIaP6w4h4bv27rzOCKQ7633qyM3fTt1kfGrgg2OhJ4SjH8yu+HH1JwX700DbX03i3COurZxU99jM55jZ8IdiTdTtsbPWiR3AGR8rAYytmFF8nkbSpK3LrQSv5DSKeY45SmzNMtNGcSXkhrNtBOpUk6mJ4lPWG0eY7/sEztGxl0XuwljLI6Bg4BHM/vX3JYOG8DneM5rdH/4fDjV6Ws8YhbrYS2v96YbEFboAu5vLpvRmQKMTAVNnQ5mNGCpYUVJi2BQxkCoHMX7mLFHc01WvHidlfBlIbhWmFGpZBCeo6ImtUCdyB2zwJlh/H8yonUp5rnQtEiDBzODOc1doSkrUQV1NGgH72LEnx1ckxEvX2clPHAAwZWgLj4DGQ8/Jqt0SRE5VzYX4WWEqzRiXBbm4qZVakir6zC0A3//F+n2Tfr7BwAA
-```
 - Make sure that Streamer Bot is running while using it and Websocket Server is running on port 8080
   - If it is not possible to run port 8080 switch the port in script.js
 

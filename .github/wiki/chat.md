@@ -26,14 +26,9 @@ It includes:
 - (optional) If you want to change any CSS variables you can copy-paste the [CSS](https://github.com/BlackyWhoElse/streamer.bot-actions/wiki/Advanced-Chat#css) into the browser source directly.
 
 ## Streamer.Bot
-### Actions  (optional)
-**Widget - Advanced Chat**
-- Clear Chat
-This action will delete all messages from the widget. It is not needed but a nice to have.
-
-```
-TlM0RR+LCAAAAAAABACdVV1zojoYvt+Z/Q8erw8OAn6wd0orq916qlWQHnsRklekBsLhQ0t3+t9PAnUFtbMz60wG8z7J834ked6fX780Gs09xInPwua3hvJ3YQhRAHzWbJZThFMOJ9zyr5g3Gj/LD4d8ItZppK0T6CKp7SodSVMIltyei6SestkgjKGnE1xyFZv+yyAT/GFG6ckKIXIpCL40zuBkPwZjUEBxw9ii1GWvFTYvZlkkFtg+8SBtSFfWIHpAeTLPRI4bRJMKfYxCwoJBkeIlilmIsziGML3ELspSK00t9lMohZlAgmM/+nB5ju4AogH193DhsgwYNsADwnDmuQCNb+u17fOMDsl6fe/jmCVsk7amt4v1ehTzaA4s3nW19XqvteSWKqttfb0OEsxi6rstQmmzSvhc9+zmKRiMFBmR1TRyA+wtVfpGTCv95yDfndt+7OhD1b4ILJWYeoYVPSBG545/M4HfzNjUCIdtJ3iNnHz44pqjN5wPb5a324nLbW6w5HgyNTx6IPYkQfa95wT63jWGIzCtF7Ka0ztjJ/BeweXtJlid58juhGNzviXmrffwOCz8zfgggZVz/4un1SRy7NcIAuvBCSLqqDPm8hg5hzc2BuX4zv36g9NcDLOzde0l5xz4M+WVOqvJDTJH8tg/FL4Ne5Q/qVb6ZHdknA90vp4SnmeNgw+4YtvMqrahfrcQeddsvC5eZimWz/N5QYolz8LJ3rHnL85qKj+G073rb3fOar497jVmu/2PfNhxVSsfm+0tsjXPUfTd0+MwdBXrbWxuKRY1FnULLJmsJtn4+zwn9lLUcyJiEuPsnkYxYBZEPv3kohKgKH9MUXz5dira0W9vkKJuutJG6XQlDTRF6hPSlVAXdXW53wNd35w5PoDvbQWp3JLrSJpHIhhd/OrIUSVqmlMgn+hOGWJI4FU4Olnfj3+fz5XAFC6KR/lcFRBKUZQAqaAlWBCVK0tFrGzl24KAC9NVzU1YFl+8fvlKWBHEgZ+mQJYJV/izwH6BV8P+0PWe3lWASzoBTZW0dh+kvqsrktYn/FhA15DWbv5ewf0Q06yQjbo9KLVErlarSFv4/gsLvcdcypvnhR7/SdPBjFEui+HgRFHvP5Rh9KHIlYh8L2QxDFk6wJhlRRuoJxGJ5pmkhgAhvtZBjoBysUmcy6cbsxMoTqfSWJpKr6v25bYiSI/m94pLlMAjhImfXmsiTY8yF1Hjox71dEun15BfbfYehciDQLTEKorCdFG+Prl6v79+ef8fnm3Oo2UIAAA=
-```
+> **You can find the newest version inside the file streamer.bot**
+> 
+> NOTE: To run these actions you need to add a Command/Trigger or a Channel Point Reward
 
 - This Widget requiers Streamer.Bot 0.18+
 - Start Websocket Server under 8080

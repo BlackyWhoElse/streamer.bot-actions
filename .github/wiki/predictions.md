@@ -15,9 +15,6 @@ These actions are just placeholders and will not add any function out of the box
 
 Note: If you plan to show and hide the Browser source keep in mind that you have to match the showWinnersTime so it doesn't look bad.
 
-```
-TlM0RR+LCAAAAAAABADlVUuL1EAQvgv+h5DzlvS7095EUA8eZEE8iId+VMZgHmMeszss89/tJITJzCxeZIcBIdDp+r56UF9199PrV0mS7rDtiqZO3ybsbjLUtsK4S9N5a30f4S5avo/7JHmalwgVYeRJzzzjJgAyGkB4T8BlwgD1jkollaNCzrEmp98DDmP8eijLoxVr60oc4/XtgCv7oy+HgB/apvpUdH3T7iMlt2W34iwFv7e1xxgk+dJiKKayV3k3bTNsR9q3ImywT+B5mi0f7L67H+rLPK2tQ1O9mz0uUN/UfmhbrPtLbNXDH+fWj2Nd55BvytJuOwwrdAYPd8+rkFvKiUEJzmQMhOMaMmNysC4wSoRhjqnrqNCi7W9chMW2auNE2dly6kpquxC/Y0WrRisTdKa9AOmoB0GUABtbDFJlVCvNjRXuzPEBi83PsSLyhpwi/X475qOEmFNgadSJPn/TaK6wDvg45jlaD8vvSw2eocIaRhlwGqdP5IyDtZyDzrzSlAkuJF5l8D43/teNz91LaYAmw0xpDUIaHq9gZ8CpLAMkWlqhmOPkOof/Hrum3P2vKhAMRDAG8QmMD6GWGgzLc/ACNUfqhNLiKip83Yabv4L/WYRxmZlzJ1eu0a2qYpEL//AH2KEe5uoIAAA=
-```
 - Make sure that Streamer Bot is running while using it and Websocket Server is running on port 8080
   - If it is not possible to run port 8080 switch the port in script.js
 
