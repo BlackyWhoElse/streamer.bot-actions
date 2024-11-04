@@ -34,7 +34,7 @@ var settings = {
         revealPokemon: "animate__tada",
 
         // How long the pokemon will be hidden
-        revealAfter: 5000,
+        revealAfter: 15000,
         // How long the pokemon will be revealed
         hideAfter: 10000,
 
