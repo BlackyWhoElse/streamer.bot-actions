@@ -13,7 +13,7 @@
   },
   "animations": {
     "animation": true,
-    "hidedelay": 2500,
+    "hidedelay": 0,
     "hideAnimation": "fadeOut",
     "showAnimation": "bounceInRight"
   },
