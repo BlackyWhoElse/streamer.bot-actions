@@ -57,7 +57,7 @@ function bindEvents() {
                         await pushMessage("chatmessage", wsdata.data.message);
                         break;
                     case "ChatMessageDeleted":
-                        removeMessage(message.targetMessageId);
+                        removeMessage(wsdata.data.targetMessageId);
                         break;
                     case "RewardRedemption":
                         if (template_reward) {
