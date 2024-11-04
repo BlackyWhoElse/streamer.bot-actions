@@ -13,7 +13,7 @@ let template_youtube;
 let template_reward;
 let template_reply;
 let template_css;
-var settings = {};
+let settings = {};
 
 /**
  * Storing avatars that have been called to save api calls
@@ -35,7 +35,7 @@ window.addEventListener("load", () => {
 
                 // Loading Default Settings Json
                 Object.assign(settings, JSON.parse(response));
-                console.info("Default settings loaded")
+                console.info("Init Settings")
 
 
                 // Loading settings overwirte of the HTML file
@@ -77,7 +77,9 @@ function loadTemplates() {
                 console.info(msg);
             }
             if (status === "success") {
-                Object.assign(settings, JSON.parse(response));
+                deepMerge(settings, JSON.parse(response));
+                console.info(settings.template+' theme settings loaded');
+                document.getElementById('settings_json').textContent = JSON.stringify(settings, null, 2);
             }
         }
     );
@@ -364,7 +366,7 @@ function renderMessage(platform, message = {}) {
             break;
     }
 
-    // Render reply to HTML so it can be renderd 
+    // Render reply to HTML so it can be renderd
     if(message.isReply) {
         var replytpl = template_reply;
         message.reply = replytpl.innerHTML.replace(pattern, (_, token) => message.reply[token] || "")
@@ -772,4 +774,19 @@ function makeid(length) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
+}
+
+
+function deepMerge(target, source) {
+    for (const key in source) {
+        // If the value is an object, recursively merge
+        if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+            if (!target[key]) target[key] = {};  // Ensure the target has a matching object to merge into
+            deepMerge(target[key], source[key]);
+        } else {
+            // Otherwise, directly assign the value
+            target[key] = source[key];
+        }
+    }
+    return target;
 }
