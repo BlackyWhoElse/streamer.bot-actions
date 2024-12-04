@@ -1,7 +1,7 @@
 <!-- Message template - All variables can be found here: https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/chat -->
 
 <template id="message_twitch">
-  <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
+  <li id="{{msgId}}" class="{{classes}}" data-user-id="{{userId}}" style="--userColor:{{color}}">
     {{reply}}
     <div class="avatar">
       <img src="{{avatar}}" />
@@ -16,7 +16,7 @@
 </template>
 
 <template id="message_youtube">
-  <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
+  <li id="{{msgId}}" class="{{classes}}" data-user-id="{{userId}}" style="--userColor:{{color}}">
     {{reply}}
     <div class="avatar">
       <img class="avatar" src="{{avatar}}" />
@@ -32,7 +32,7 @@
 
 
 <template id="reward">
-  <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
+  <li id="{{msgId}}" class="{{classes}}" data-user-id="{{userId}}" style="--rewardColor:{{backgroundColor}}">
     <div class="message">
       <span class="name">{{displayName}}</span>
       redeemed
@@ -43,7 +43,7 @@
 </template>
 
 <template id="reply">
-  <div class="reply">
+  <div class="reply" data-user-id="{{userId}}">
       <span class="name">{{userName}}</span>
       asked:
       <div class="userInput">{{msgBody}}</div>

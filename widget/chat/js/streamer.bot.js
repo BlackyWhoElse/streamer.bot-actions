@@ -14,8 +14,8 @@ function bindEvents() {
                 id: "obs-chat",
                 events: {
                     general: ["Custom"],
-                    Twitch: ["ChatMessage", "ChatMessageDeleted", "RewardRedemption"],
-                    YouTube: ["Message", "MessageDeleted", "SuperChat"],
+                    Twitch: ["ChatMessage", "ChatMessageDeleted", "RewardRedemption", "UserTimedOut", "UserBanned"],
+                    YouTube: ["Message", "MessageDeleted", "SuperChat", "UserBanned"],
                 },
             })
         );
@@ -61,8 +61,12 @@ function bindEvents() {
                         break;
                     case "RewardRedemption":
                         if (template_reward) {
-                            pushMessage("reward", wsdata.data);
+                            pushMessage("reward", wsdata.data.message);
                         }
+                        break;
+                    case "UserTimedOut":
+                    case "UserBanned":
+                        removeMessagesbyUser(wsdata.data.userId);
                         break;
                     default:
                         break;
@@ -76,6 +80,9 @@ function bindEvents() {
                         break;
                     case "MessageDeleted":
                         removeMessage(wsdata.data.targetMessageId);
+                        break;
+                    case "UserBanned":
+                        removeMessagesbyUser(wsdata.data.userId);
                         break;
                     default:
                         break;
