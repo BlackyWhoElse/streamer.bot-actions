@@ -241,8 +241,8 @@ async function pushMessage(type, message) {
 
     }
 
-    // Setup for sentance type check
-    if (message.message.length != 0) {
+    // Setup for sentence type check
+    if (message.message.length !== 0) {
         messageType = message.message.slice(-1);
 
         switch (messageType) {
@@ -330,7 +330,7 @@ async function pushMessage(type, message) {
 }
 
 /**
- * Render a message with template
+ * Render a message with a template
  * @param platform
  * @param {object} message
  * @returns

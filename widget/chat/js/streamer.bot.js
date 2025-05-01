@@ -74,7 +74,7 @@ function bindEvents() {
                         break;
                     case "RewardRedemption":
                         if (template_reward) {
-                            pushMessage("reward", wsdata.data);
+                            await pushMessage("reward", wsdata.data);
                         }
                         break;
                 }
@@ -83,7 +83,7 @@ function bindEvents() {
             case "YouTube":
                 switch (eventType) {
                     case "Message":
-                        pushMessage("message", wsdata.data);
+                        await pushMessage("message", wsdata.data);
                         break;
                     case "MessageDeleted":
                         removeMessage(wsdata.data.targetMessageId);
