@@ -4,6 +4,7 @@
   "debugConsole": false,
   "debugMessageSpeed": 1000,
   "template": "default",
+  "reverse": false,
   "ticker": false,
   "platformBadge": true,
   "blacklist": {
