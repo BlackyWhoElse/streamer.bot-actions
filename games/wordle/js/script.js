@@ -1,7 +1,7 @@
 /**
   Wordle Clone by Peter Butcher
 
-  Based on Wordle, the popular 5 letter word guessing game:
+  Based on Wordle, the popular 5-letter word guessing game:
   https://www.powerlanguage.co.uk/wordle
 
   Uses Donald Knuth's GraphBase list of five-letter words:
