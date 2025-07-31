@@ -147,7 +147,9 @@ function loadTemplates(theme = "default", type, platform = "") {
                 templates[theme][type] = data;
             }
 
-            $("#templates").append(data);
+            // Sanitize the data before appending it to the DOM
+            var sanitizedData = $('<div>').text(data).html();
+            $("#templates").append(sanitizedData);
         }
     );
 }
