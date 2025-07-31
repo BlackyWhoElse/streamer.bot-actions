@@ -60,6 +60,10 @@ body {
   padding: 0;
 }
 
+#chat.reverse {
+  justify-content: flex-start;
+}
+
 #chat li {
   --_background-color: var(--message-background-color);
   --_font-color: var(--font-color);

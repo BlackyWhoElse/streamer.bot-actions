@@ -51,6 +51,12 @@ window.addEventListener("load", () => {
                     chat.classList.add("ticker");
                 }
 
+                // Check for ticker
+                if (settings.reverse) {
+                    chat.classList.add("reverse");
+                }
+
+
                 if (settings.debug) {
                     debugMessages();
                 }
