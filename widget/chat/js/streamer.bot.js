@@ -23,68 +23,76 @@ function bindEvents() {
 
     ws.onmessage = async (event) => {
         const wsdata = JSON.parse(event.data);
-
-        if (wsdata.status === "ok" || wsdata.event.source == null) {
+    
+        if (wsdata.status === "ok" || !wsdata.event?.source) {
             return;
         }
-
+    
         if (settings.debug) {
             console.debug("Streamer.Bot Event Data", wsdata.data);
         }
-
+    
+        const eventType = wsdata.event.type;
+        const eventSource = wsdata.event.source;
+        const message = wsdata.data?.message;
+        const displayName = message?.displayName || wsdata.data?.displayName || "";
+        const msgText = message?.message || "";
+    
+        const isChatOrMessage = eventType === "ChatMessage" || eventType === "Message";
+        const isRewardRedemption = eventSource === "RewardRedemption";
+        const isBlacklistedUser = settings.blacklist.user.includes(displayName);
+        const isCommand = msgText.startsWith("!");
+    
+        // Block blacklisted users
+        if ((isChatOrMessage && isBlacklistedUser) || (isRewardRedemption && isBlacklistedUser)) {
+            console.info(`Blocked message from blacklisted user: ${displayName}`);
+            return;
+        }
+    
+        // Block commands
+        if (isCommand && settings.blacklist.commands) {
+            console.info(`Blocked command message: ${msgText}`);
+            return;
+        }
+    
         // Streamer.Bot Custom Commands
         if (wsdata.data.name === "ClearChat") {
             ClearChat();
-        }
-
-        // Blacklists
-        if (wsdata.event.type === "ChatMessage" && settings.blacklist.user.includes(wsdata.data.message.displayName) || wsdata.event.source === "RewardRedemption" && settings.blacklist.user.includes(wsdata.data.displayName)) {
-            console.info("Blocked message because display name is on blacklist!");
             return;
         }
-
-        if (wsdata.event.type === "ChatMessage" && settings.blacklist.commands === true && wsdata.data.message.message.charAt(0) === "!") {
-            console.info("Blocked message because it was a command");
-            return;
-        }
-
-
-
-        switch (wsdata.event.source) {
+    
+        // Handle platforms and events
+        // Todo: Normalize message structure to simplify this logic
+        switch (eventSource) {
             case "Twitch":
-                switch (wsdata.event.type) {
+                switch (eventType) {
                     case "ChatMessage":
-                        await pushMessage("chatmessage", wsdata.data.message);
+                        await pushMessage("chatmessage", message);
                         break;
                     case "ChatMessageDeleted":
                         removeMessage(wsdata.data.targetMessageId);
                         break;
                     case "RewardRedemption":
                         if (template_reward) {
-                            pushMessage("reward", wsdata.data);
+                            await pushMessage("reward", wsdata.data);
                         }
-                        break;
-                    default:
                         break;
                 }
                 break;
-
+    
             case "YouTube":
-                switch (wsdata.event.type) {
+                switch (eventType) {
                     case "Message":
-                        pushMessage("message", wsdata.data);
+                        await pushMessage("message", wsdata.data);
                         break;
                     case "MessageDeleted":
                         removeMessage(wsdata.data.targetMessageId);
                         break;
-                    default:
-                        break;
                 }
                 break;
-
+    
             default:
-                console.error("Could not find Platform: " + wsdata.event.source)
-                break;
+                console.error("Unknown platform source:", eventSource);
         }
     };
 
