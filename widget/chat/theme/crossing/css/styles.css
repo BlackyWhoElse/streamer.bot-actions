@@ -61,7 +61,7 @@ body {
 }
 
 .message div {
-    padding: 6px;
+    padding: 10px 6px 6px;
     position: relative;
 }
 
@@ -89,15 +89,16 @@ body {
     background-color: var(--message-background-color);
     border-radius: 15px;
     left: 15px;
-    margin-right: 15px;
+    width: calc(100% - 30px) !important;
 }
 
 .time {
     font-size: var(--time-size);
-    margin-top: -6px;
-    right: 0px;
+    right: 10px;
+    top: 5px;
     padding: 0 !important;
     text-align: right;
+    position: absolute !important;
 }
 
 .broadcaster {}
@@ -111,3 +112,4 @@ body {
 .highlight {}
 
 .me {}
+

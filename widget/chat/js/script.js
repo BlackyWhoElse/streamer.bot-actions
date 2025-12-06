@@ -51,6 +51,12 @@ window.addEventListener("load", () => {
                     chat.classList.add("ticker");
                 }
 
+                // Check for ticker
+                if (settings.reverse) {
+                    chat.classList.add("reverse");
+                }
+
+
                 if (settings.debug) {
                     debugMessages();
                 }
@@ -264,7 +270,7 @@ async function pushMessage(type, message) {
 }
 
 /**
- * Render a message with template
+ * Render a message with a template
  * @param platform
  * @param {object} message
  * @returns
