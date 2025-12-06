@@ -24,7 +24,9 @@ function bindEvents() {
     ws.onmessage = async (event) => {
         const wsdata = JSON.parse(event.data);
 
-        if (wsdata.status === "ok" || wsdata.event.source == null) {
+
+        // First-time connection detection
+        if (wsdata.status === "ok" || wsdata.request === "Hello") {
             return;
         }
 
@@ -37,13 +39,16 @@ function bindEvents() {
             ClearChat();
         }
 
+        // Normalize Message data
+        let message = normalizeChatData(wsdata.data, wsdata.event.source);
+
         // Blacklists
-        if (wsdata.event.type === "ChatMessage" && settings.blacklist.user.includes(wsdata.data.message.displayName) || wsdata.event.source === "RewardRedemption" && settings.blacklist.user.includes(wsdata.data.displayName)) {
+        if (settings.blacklist.user.includes(message.displayName)) {
             console.info("Blocked message because display name is on blacklist!");
             return;
         }
 
-        if (wsdata.event.type === "ChatMessage" && settings.blacklist.commands === true && wsdata.data.message.message.charAt(0) === "!") {
+        if (wsdata.event.type === "ChatMessage" && settings.blacklist.commands === true && message.messageText.charAt(0) === "!") {
             console.info("Blocked message because it was a command");
             return;
         }
@@ -54,10 +59,10 @@ function bindEvents() {
             case "Twitch":
                 switch (wsdata.event.type) {
                     case "ChatMessage":
-                        await pushMessage("chatmessage", wsdata.data.message);
+                        await pushMessage("chatmessage", message);
                         break;
                     case "ChatMessageDeleted":
-                        removeMessage(wsdata.data.targetMessageId);
+                        removeMessage(message.messageId);
                         break;
                     case "RewardRedemption":
                         if (template_reward) {

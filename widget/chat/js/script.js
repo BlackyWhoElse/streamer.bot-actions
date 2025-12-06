@@ -153,43 +153,6 @@ async function pushMessage(type, message) {
 
     // Mapping for special types
     switch (type) {
-        // Chat message from Twitch
-        case "chatmessage":
-
-            message.type = 'twitch';
-            // Adding default classes
-            message.classes = ["msg"];
-
-            if (!message.color) {
-                message.color = settings.Twitch.defaultChatColor;
-            }
-            if (message.isHighlighted) {
-                message.classes.push("highlight");
-            }
-            if (message.isReply) {
-                message.classes.push("reply");
-            }
-            if (message.isCustomReward) {
-                message.classes.push("reward");
-            }
-            if (message.isMe) {
-                message.classes.push("me");
-            }
-            if (message.subscriber) {
-                message.classes.push("subscriber");
-            }
-            if (message.role === 4) {
-                message.classes.push("broadcaster");
-            }
-            if (message.role === 3) {
-                message.classes.push("moderator");
-            }
-            if (message.role === 2) {
-                message.classes.push("vip");
-            }
-
-            break;
-
         // Reward message from Twitch
         case "reward":
             message.type = 'reward';
@@ -210,40 +173,11 @@ async function pushMessage(type, message) {
 
             break;
 
-        // Message from YouTube
-        case "message":
-
-
-            message.type = 'youtube';
-            // Adding default classes
-            message.classes = ["msg"];
-
-            message.msgId = message.messageId;
-            message.displayName = message.user.name;
-            message.userId = message.user.id;
-
-            message.color = settings.YouTube.defaultChatColor;
-
-            if (message.user.isOwner === true) {
-                message.classes.push("owner");
-            }
-            if (message.user.isModerator === true) {
-                message.classes.push("moderator");
-            }
-            if (message.user.isSponsor === true) {
-                message.classes.push("sponsor");
-            }
-            if (message.user.isVerified === true) {
-                message.classes.push("verified");
-            }
-
-            break;
-
     }
 
-    // Setup for sentance type check
-    if (message.message.length != 0) {
-        messageType = message.message.slice(-1);
+    // Setup for sentence type check
+    if (message.messageText.length != 0) {
+        messageType = message.messageText.slice(-1);
 
         switch (messageType) {
             case "!":
@@ -264,9 +198,9 @@ async function pushMessage(type, message) {
     const msg = new Promise((resolve, reject) => {
         // Note: This is to prevent a streamer.bot message to not disappear.
         // - This could be a bug and will maybe be removed on a later date.
-        if (message.msgId === undefined) {
+        if (message.messageId === undefined) {
             console.debug("Message has no ID");
-            message.msgId = makeid(6);
+            message.messageId = makeid(6);
         }
 
         resolve(getProfileImage(type, message));
@@ -278,10 +212,10 @@ async function pushMessage(type, message) {
         .then((badges) => {
             message.badges = badges;
 
-            if (message.type === 'twitch') {
+            if (message.platform === 'twitch') {
                 return renderEmotes(message);
             }
-            if (message.type === 'youtube') {
+            if (message.platform === 'youtube') {
                 return renderYTEmotes(message);
             }
 
@@ -343,11 +277,6 @@ function renderMessage(platform, message = {}) {
     if (settings.debugConsole) {
         console.debug("Message Data at the end", message);
     }
-
-    if (settings.platformBadge) {
-        message.badges = `<div class="platform ${message.type}" title="${message.type}"></div>${message.badges}`;
-    }
-
 
     switch (platform) {
         case "chatmessage":
@@ -440,8 +369,8 @@ function removeMessage(msgId) {
 function addPlatformBadge(message) {
     if (settings.platformBadge) {
         message.badges.unshift({
-            name: message.type,
-            imageUrl: `./images/platform/${message.type}.png`,
+            name: message.platform,
+            imageUrl: `./images/platform/${message.platform}.png`,
             version: 1
         });
     }
@@ -715,12 +644,10 @@ async function renderYTEmotes(message) {
  */
 async function getProfileImage(type, message) {
 
-    username = "";
+    username = message.userName;
 
     switch (type) {
         case "chatmessage":
-
-            username = message.username;
 
             // Check if avatar is already stored
             if (avatars.get(username)) {
@@ -735,10 +662,8 @@ async function getProfileImage(type, message) {
                     avatars.set(username, avatar);
                     return avatar;
                 });
-            break;
 
         case "message":
-            username = message.user.name;
 
             // Check if avatar is already stored
             if (avatars.get(username)) {
@@ -747,7 +672,6 @@ async function getProfileImage(type, message) {
 
             avatars.set(username, message.user.profileImageUrl);
             return message.user.profileImageUrl;
-            break;
     }
 
 }
@@ -789,4 +713,93 @@ function deepMerge(target, source) {
         }
     }
     return target;
+}
+
+
+/**
+ * Normalisiert Chat-Daten von Twitch oder YouTube in ein einheitliches Format.
+ * @param {Object} data - Das rohe JSON-Objekt der Nachricht.
+ * @param {string} platform - 'Twitch' oder 'YouTube'.
+ * @returns {Object} - Normalisiertes Objekt mit einheitlichen Feldern.
+ */
+function normalizeChatData(data, platform) {
+    let normalized = {
+        platform: platform,
+        messageId: '',
+        userId: '',
+        userName: '',
+        displayName: '',
+        messageText: '',
+        color: '#000000',
+        classes:[],
+        badges: [],
+        avatar: '',
+        roles: [],
+        isSubscriber: false,
+        subscriptionTier: '',
+        emotes: [],
+        timestamp: new Date().toISOString(),
+        isHighlighted: false,
+        isReply: false,
+        additional: {} // Plattformspezifische Extra-Daten
+    };
+
+    if (platform === 'Twitch') {
+        const msg = data.message || {};
+        normalized.messageId = msg.msgId || data.messageId || '';
+        normalized.userId = msg.userId || '';
+        normalized.userName = msg.username || '';
+        normalized.displayName = msg.displayName || normalized.userName;
+        normalized.messageText = msg.message || '';
+        normalized.color = msg.color || normalized.color;
+        normalized.badges = msg.badges || [];
+        normalized.avatar = '';
+        if (msg.role === 4) normalized.roles.push('broadcaster');
+        if (msg.role === 3) normalized.roles.push('moderator');
+        if (msg.role === 2) normalized.roles.push('vip');
+        if (msg.subscriber) normalized.roles.push('subscriber');
+
+        normalized.isSubscriber = msg.subscriber || false;
+        normalized.subscriptionTier = msg.subscriptionTier || '';
+        normalized.emotes = msg.emotes || [];
+        normalized.timestamp = data.timeStamp || normalized.timestamp;
+        normalized.isHighlighted = msg.isHighlighted || false;
+        normalized.isReply = msg.isReply || false;
+        normalized.additional = {
+            bits: msg.bits || 0,
+            monthsSubscribed: msg.monthsSubscribed || 0,
+            channel: msg.channel || ''
+        };
+    } else if (platform === 'YouTube') {
+        const msgData = data.data || {};
+        const user = msgData.user || {};
+        normalized.messageId = msgData.eventId || '';
+        normalized.userId = user.id || '';
+        normalized.userName = user.name || '';
+        normalized.displayName = user.name || normalized.userName;
+        normalized.messageText = msgData.message || '';
+        normalized.badges = []; // Badges basierend auf Rollen erstellen
+        if (user.isOwner) normalized.badges.push({ name: 'owner' });
+        if (user.isModerator) normalized.badges.push({ name: 'moderator' });
+        if (user.isSponsor) normalized.badges.push({ name: 'sponsor' });
+        if (user.isVerified) normalized.badges.push({ name: 'verified' });
+        normalized.avatar = user.profileImageUrl || '';
+        normalized.role = user.isOwner ? 4 : (user.isModerator ? 3 : 0);
+        normalized.isSubscriber = user.isSponsor || false;
+        normalized.subscriptionTier = user.isSponsor ? 'sponsor' : '';
+        normalized.emotes = msgData.emotes || [];
+        normalized.timestamp = msgData.publishedAt || data.timeStamp || normalized.timestamp;
+        normalized.isHighlighted = false; // YouTube-spezifisch, falls erweitert
+        normalized.isReply = false; // YouTube-spezifisch, falls erweitert
+        normalized.additional = {
+            broadcast: msgData.broadcast || {},
+            liveChatId: msgData.broadcast ? msgData.broadcast.liveChatId : ''
+        };
+    }
+
+    if (settings.platformBadge) {
+        addPlatformBadge(normalized);
+    }
+
+    return normalized;
 }
