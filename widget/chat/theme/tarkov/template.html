@@ -1,52 +1,55 @@
 <!-- Message template - All variables can be found here: https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/chat -->
 
 <template id="message_twitch">
-  <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
-    <span class="badges">{{badges}}</span>
-    <div class="message">
-      <div class="row">
-        <span class="name">{{displayName}}</span>
-        <span class="time">{{time}}</span>
-      </div>
-      <div class="content">{{message}}</div>
-    </div>
-  </li>
+    <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
+        <span class="badges">{{badges}}</span>
+        <div class="message">
+            <div class="row">
+                <span class="name">{{displayName}}</span>
+                <span class="time">{{time}}</span>
+            </div>
+            <div class="content">{{messageText}}</div>
+        </div>
+    </li>
 </template>
 
 <template id="message_youtube">
-  <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
-    <span class="badges">{{badges}}</span>
-    <div class="message">
-      <div class="row">
-        <span class="name">{{displayName}}</span>
-        <span class="time">{{time}}</span>
-      </div>
-      <div class="content">{{message}}</div>
-    </div>
-  </li>
+    <li id="{{msgId}}" class="{{classes}}" style="--userColor:{{color}}">
+        <span class="badges">{{badges}}</span>
+        <div class="message">
+            <div class="row">
+                <span class="name">{{displayName}}</span>
+                <span class="time">{{time}}</span>
+            </div>
+            <div class="content">{{messageText}}</div>
+        </div>
+    </li>
 </template>
 
 
 <template id="reward">
-  <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
-    <div class="message">
-      <div class="row">
-        <span class="name">{{displayName}}</span>
-        <span class="time">{{time}}</span>
-      </div>
+    <li id="{{msgId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
+        <div class="message">
+            <div class="row">
+                <span class="name">{{displayName}}</span>
+                <span class="time">{{time}}</span>
+            </div>
 
-      <div class="title">Oi, nerf gunner! Yeah you. I had a feeling it's one of those day where you need a little
-        somesthing so i redeemed <strong>{{title}}</strong></div>
-      <div class="userInput">{{message}}</div>
-      <div class="prompt">{{prompt}}</span>
-      </div>
-  </li>
+            <div class="title">Oi, nerf gunner! Yeah, you. I had a feeling it's one of those days when you need a little
+                something, so I redeemed: <strong>{{title}}</strong></div>
+            <div class="prompt">
+                {{prompt}}
+                <div class="userInput">{{messageText}}</div>
+            </div>
+
+        </div>
+    </li>
 </template>
 
 <template id="reply">
-  <div class="reply">
-      <span class="name">{{userName}}</span>
-      asked:
-      <div class="userInput">{{msgBody}}</div>
-  </div>
+    <div class="reply">
+        <span class="name">{{userName}}</span>
+        asked:
+        <div class="userInput">{{msgBody}}</div>
+    </div>
 </template>

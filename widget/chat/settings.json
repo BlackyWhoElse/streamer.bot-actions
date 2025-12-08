@@ -3,7 +3,7 @@
   "debug": false,
   "debugConsole": false,
   "debugMessageSpeed": 1000,
-  "template": "default",
+  "template": "tarkov",
   "reverse": false,
   "ticker": false,
   "platformBadge": true,
