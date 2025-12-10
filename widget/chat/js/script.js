@@ -214,7 +214,7 @@ async function pushMessage(type, message) {
             if (message.platform === 'Twitch') {
                 return renderEmotes(message);
             }
-            if (message.platform === 'Youtube') {
+            if (message.platform === 'YouTube') {
                 return renderYTEmotes(message);
             }
 
@@ -621,7 +621,7 @@ async function renderYTEmotes(message) {
     Object.keys(yt_emotes).forEach((emoteID) => {
         const emoteURL = `${baseEmoteURL}${yt_emotes[emoteID]}${suffix}`;
         const regex = new RegExp(emoteID, 'g');
-        message.message = message.message.replace(
+        message.messageText = message.messageText.replace(
             regex,
             `<img class="emote" src="${emoteURL}">`
         );
@@ -656,15 +656,15 @@ async function getProfileImage(platform, message) {
                     return avatar;
                 });
 
-        case "Youtube":
+        case "YouTube":
 
             // Check if avatar is already stored
             if (avatars.get(username)) {
                 return avatars.get(username);
             }
 
-            avatars.set(username, message.user.profileImageUrl);
-            return message.user.profileImageUrl;
+            avatars.set(username, message.avatar);
+            return message.avatar;
     }
 
 }
@@ -744,6 +744,7 @@ function normalizeChatData(data, platform) {
         normalized.type = "Reward";
     }
     if (normalized.type === "Message") {
+        console.debug(platform);
         switch (platform) {
             case 'Twitch':
                 // Standard-Twitch-Chat-Nachricht
@@ -773,8 +774,8 @@ function normalizeChatData(data, platform) {
                     channel: msg.channel || ''
                 };
                 break;
-            case 'Youtube':
-                const msgData = data.data || {};
+            case 'YouTube':
+                const msgData = data || {};
                 const user = msgData.user || {};
                 normalized.messageId = msgData.eventId || '';
                 normalized.userId = user.id || '';
@@ -782,10 +783,10 @@ function normalizeChatData(data, platform) {
                 normalized.displayName = user.name || normalized.userName;
                 normalized.messageText = msgData.message || '';
                 normalized.badges = []; // Badges basierend auf Rollen erstellen
-                if (user.isOwner) normalized.badges.push({name: 'owner'});
-                if (user.isModerator) normalized.badges.push({name: 'moderator'});
-                if (user.isSponsor) normalized.badges.push({name: 'sponsor'});
-                if (user.isVerified) normalized.badges.push({name: 'verified'});
+                if (user.isOwner) normalized.roles.push({name: 'owner'});
+                if (user.isModerator) normalized.roles.push({name: 'moderator'});
+                if (user.isSponsor) normalized.roles.push({name: 'sponsor'});
+                if (user.isVerified) normalized.roles.push({name: 'verified'});
                 normalized.avatar = user.profileImageUrl || '';
                 normalized.role = user.isOwner ? 4 : (user.isModerator ? 3 : 0);
                 normalized.isSubscriber = user.isSponsor || false;
