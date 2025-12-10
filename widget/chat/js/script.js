@@ -426,7 +426,7 @@ async function renderEmotes(message) {
     message.emotes = sortEmotes(message.emotes);
 
     // Check if Message is emote only
-    if (message.message.split(" ").length == message.emotes.length) {
+    if (message.messageText.split(" ").length == message.emotes.length) {
         message.classes.push("emoteonly");
     }
 
@@ -440,7 +440,7 @@ async function renderEmotes(message) {
         if (emote.type == "FFZGlobal" && FFZEffects.includes(emote.name)) {
 
             message.emotes[emote_key]["classes"].push(emote.name);
-            message.message = message.message.replace(
+            message.messageText = message.messageText.replace(
                 emote.name,
                 ``
             );
@@ -457,7 +457,7 @@ async function renderEmotes(message) {
     // Render
     message.emotes.forEach((emote) => {
 
-        let searchStr = message.message.substring(emoteSearchPointer);
+        let searchStr = message.messageText.substring(emoteSearchPointer);
         let emoteLocation = searchStr.indexOf(emote.name);
 
         console.log(emoteSearchPointer, searchStr);
@@ -476,7 +476,7 @@ async function renderEmotes(message) {
     });
 
     if (formattedMessage) {
-        message.message = formattedMessage + message.message.substring(emoteSearchPointer);
+        message.messageText = formattedMessage + message.messageText.substring(emoteSearchPointer);
     }
 
     return message;
