@@ -224,7 +224,7 @@ async function pushMessage(type, message) {
             $("#chat").append(renderMessage(type, msg));
 
             if (settings.animations.hidedelay > 0) {
-                removeMessage(message.msgId);
+                removeMessage(message.messageId);
             }
         })
         .then(() => {
@@ -335,22 +335,22 @@ function chatHistory(message) {
     messages.push(message);
 }
 
-function getChatMessage(msgId) {
-    return messages.find(x => x.msgId === msgId);
+function getChatMessage(messageId) {
+    return messages.find(x => x.messageId === messageId);
 }
 
 /**
  * Hides a message after an amount of time and deletes it aferwards
- * @param {string} msgId
+ * @param {string} messageId
  */
-function removeMessage(msgId) {
-    console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
+function removeMessage(messageId) {
+    console.log("Hide ID " + messageId + "in " + settings.animations.hidedelay);
 
     const msg = new Promise((resolve, reject) => {
         delay(settings.animations.hidedelay).then(function () {
-            $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
-            $("#" + msgId).bind("animationend", function () {
-                $("#" + msgId).remove();
+            $("#" + messageId).addClass("animate__" + settings.animations.hideAnimation);
+            $("#" + messageId).bind("animationend", function () {
+                $("#" + messageId).remove();
             });
             resolve();
         });
@@ -749,7 +749,7 @@ function normalizeChatData(data, platform) {
             case 'Twitch':
                 // Standard-Twitch-Chat-Nachricht
                 const msg = data.message || {};
-                normalized.messageId = msg.msgId;
+                normalized.messageId = msg.messageId;
                 normalized.userId = msg.userId;
                 normalized.userName = msg.username;
                 normalized.displayName = msg.displayName;
@@ -803,7 +803,7 @@ function normalizeChatData(data, platform) {
         }
     } else {
         // Spezieller Fall für Rewards
-        normalized.messageId = data.msgId || data.id || '';
+        normalized.messageId = data.messageId || data.id || '';
         normalized.userId = data.user_id || '';
         normalized.userName = data.user_login || '';
         normalized.displayName = data.user_name;
