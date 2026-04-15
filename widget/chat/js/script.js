@@ -47,7 +47,7 @@ let settings = {
  * Storing avatars that have been called to save api calls
  * username: imageURL
  */
-var avatars = new Map();
+const avatars = new Map();
 
 window.addEventListener("load", () => {
 
@@ -279,7 +279,7 @@ function renderMessage(platform, message = {}) {
 
     switch (message.type) {
         case "Message":
-            if (platform == "Twich") {
+            if (platform === "Twich") {
                 tpl = template_twitch;
             } else {
                 tpl = template_youtube;
@@ -346,7 +346,7 @@ function getChatMessage(msgId) {
 function removeMessage(msgId) {
     console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
 
-    const msg = new Promise((resolve, reject) => {
+    new Promise((resolve) => {
         delay(settings.animations.hidedelay).then(function () {
             $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
             $("#" + msgId).bind("animationend", function () {
@@ -383,7 +383,7 @@ async function renderBadges(message) {
     if (!message.badges) return badges;
 
     message.badges.forEach((badge) => {
-        badges += `<img class="${badge.name}" title="${badge.name}" src="${badge.imageUrl}">`;
+        badges += `<img alt="Emote" class="${badge.name}" title="${badge.name}" src="${badge.imageUrl}">`;
     });
 
     return badges;
@@ -420,13 +420,13 @@ function sortEmotes(emotes) {
 
 
 async function renderEmotes(message) {
-    if (!message.emotes || message.emotes.length == 0) return message;
+    if (!message.emotes || message.emotes.length === 0) return message;
 
     // Make sure the Emotes are in order
     message.emotes = sortEmotes(message.emotes);
 
-    // Check if Message is emote only
-    if (message.messageText.split(" ").length == message.emotes.length) {
+    // Check if the Message is emote only
+    if (message.messageText.split(" ").length === message.emotes.length) {
         message.classes.push("emoteonly");
     }
 
@@ -437,7 +437,7 @@ async function renderEmotes(message) {
         const [key, emote] = e;
         message.emotes[key]['classes'] = ["emote"];
 
-        if (emote.type == "FFZGlobal" && FFZEffects.includes(emote.name)) {
+        if (emote.type === "FFZGlobal" && FFZEffects.includes(emote.name)) {
 
             message.emotes[emote_key]["classes"].push(emote.name);
             message.messageText = message.messageText.replace(
@@ -468,7 +468,7 @@ async function renderEmotes(message) {
             replacement = `<div class="${emote.classes.join(" ")}" style="background-image:url(${emote.imageUrl})"><div>`;
 
         } else {
-            replacement = `<img class="${emote.classes.join(" ")}" src="${emote.imageUrl}">`
+            replacement = `<img alt="Emote" class="${emote.classes.join(" ")}" src="${emote.imageUrl}">`
         }
 
         formattedMessage += searchStr.substring(0, emoteLocation) + replacement + " ";
@@ -623,7 +623,7 @@ async function renderYTEmotes(message) {
         const regex = new RegExp(emoteID, 'g');
         message.messageText = message.messageText.replace(
             regex,
-            `<img class="emote" src="${emoteURL}">`
+            `<img alt="Emote" class="emote" src="${emoteURL}">`
         );
     });
 
@@ -632,7 +632,6 @@ async function renderYTEmotes(message) {
 
 /**
  * Calling decapi.me to recive avatar link as string
- * @param {string} username
  * @returns
  */
 async function getProfileImage(platform, message) {
@@ -745,24 +744,26 @@ function normalizeChatData(data, platform) {
     }
     if (normalized.type === "Message") {
         console.debug(platform);
+        const msg = data || {};
+        const user = msg.user || {};
+
         switch (platform) {
             case 'Twitch':
                 // Standard-Twitch-Chat-Nachricht
-                const msg = data.message || {};
-                normalized.messageId = msg.msgId;
-                normalized.userId = msg.userId;
-                normalized.userName = msg.username;
-                normalized.displayName = msg.displayName;
-                normalized.messageText = msg.message || '';
-                normalized.color = msg.color || normalized.color;
-                normalized.badges = msg.badges || [];
+                normalized.messageId = msg.messageId;
+                normalized.userId = user.id;
+                normalized.userName = user.login;
+                normalized.displayName = user.name;
+                normalized.messageText = msg.text || '';
+                normalized.color = user.color || normalized.color;
+                normalized.badges = user.badges || [];
                 normalized.avatar = '';
-                if (msg.role === 4) normalized.roles.push('broadcaster');
-                if (msg.role === 3) normalized.roles.push('moderator');
-                if (msg.role === 2) normalized.roles.push('vip');
-                if (msg.subscriber) normalized.roles.push('subscriber');
+                if (user.role === 4) normalized.roles.push('broadcaster');
+                if (user.role === 3) normalized.roles.push('moderator');
+                if (user.role === 2) normalized.roles.push('vip');
+                if (user.subscribed) normalized.roles.push('subscriber');
 
-                normalized.isSubscriber = msg.subscriber || false;
+                normalized.isSubscriber = msg.user.subscribed || false;
                 normalized.subscriptionTier = msg.subscriptionTier || '';
                 normalized.emotes = msg.emotes || [];
                 normalized.timestamp = data.timeStamp || normalized.timestamp;
@@ -775,13 +776,11 @@ function normalizeChatData(data, platform) {
                 };
                 break;
             case 'YouTube':
-                const msgData = data || {};
-                const user = msgData.user || {};
-                normalized.messageId = msgData.eventId || '';
+                normalized.messageId = msg.eventId || '';
                 normalized.userId = user.id || '';
                 normalized.userName = user.name || '';
                 normalized.displayName = user.name || normalized.userName;
-                normalized.messageText = msgData.message || '';
+                normalized.messageText = msg.message || '';
                 normalized.badges = []; // Badges basierend auf Rollen erstellen
                 if (user.isOwner) normalized.roles.push({name: 'owner'});
                 if (user.isModerator) normalized.roles.push({name: 'moderator'});
@@ -791,13 +790,13 @@ function normalizeChatData(data, platform) {
                 normalized.role = user.isOwner ? 4 : (user.isModerator ? 3 : 0);
                 normalized.isSubscriber = user.isSponsor || false;
                 normalized.subscriptionTier = user.isSponsor ? 'sponsor' : '';
-                normalized.emotes = msgData.emotes || [];
-                normalized.timestamp = msgData.publishedAt || data.timeStamp || normalized.timestamp;
+                normalized.emotes = msg.emotes || [];
+                normalized.timestamp = msg.publishedAt || data.timeStamp || normalized.timestamp;
                 normalized.isHighlighted = false; // YouTube-spezifisch, falls erweitert
                 normalized.isReply = false; // YouTube-spezifisch, falls erweitert
                 normalized.additional = {
-                    broadcast: msgData.broadcast || {},
-                    liveChatId: msgData.broadcast ? msgData.broadcast.liveChatId : ''
+                    broadcast: msg.broadcast || {},
+                    liveChatId: msg.broadcast ? msg.broadcast.liveChatId : ''
                 };
                 break;
         }
