@@ -296,7 +296,7 @@ function renderMessage(platform, message = {}) {
 
     // Render reply to HTML so it can be renderd
     if (message.isReply) {
-        message.reply = template_reply.innerHTML.replace(pattern, (_, token) => message.reply[token] || "")
+        message.reply = template_reply.innerHTML.replace(pattern, (_, token) => message.answer[token] || "")
     }
 
     // Add animations
@@ -736,7 +736,7 @@ function normalizeChatData(data, platform) {
         timestamp: new Date().toISOString(),
         isHighlighted: false,
         isReply: false,
-        reply: {
+        answer: {
             messageId: '',
             threadMsgId: '',
             userName: '',
@@ -782,11 +782,11 @@ function normalizeChatData(data, platform) {
                 let reply = data.reply || {};
                 if (msg.isReply) {
                     //normalized.reply.userId = reply.userId;
-                    normalized.reply.messageId = reply.msgId;
-                    normalized.reply.threadMsgId = reply.threadMsgId;
-                    normalized.reply.userName = reply.userLogin || '';
-                    normalized.reply.displayName = reply.userName || '';
-                    normalized.reply.messageText = reply.msgBody || '';
+                    normalized.answer.messageId = reply.msgId;
+                    normalized.answer.threadMsgId = reply.threadMsgId;
+                    normalized.answer.userName = reply.userLogin || '';
+                    normalized.answer.displayName = reply.userName || '';
+                    normalized.answer.messageText = reply.msgBody || '';
                 }
 
                 normalized.additional = {
