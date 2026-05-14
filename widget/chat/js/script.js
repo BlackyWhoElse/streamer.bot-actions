@@ -736,6 +736,13 @@ function normalizeChatData(data, platform) {
         timestamp: new Date().toISOString(),
         isHighlighted: false,
         isReply: false,
+        reply: {
+            messageId: '',
+            threadMsgId: '',
+            userName: '',
+            displayName: '',
+            messageText: ''
+        },
         additional: {} // Plattformspezifische Extra-Daten
     };
 
@@ -769,6 +776,19 @@ function normalizeChatData(data, platform) {
                 normalized.timestamp = data.timeStamp || normalized.timestamp;
                 normalized.isHighlighted = msg.isHighlighted || false;
                 normalized.isReply = msg.isReply || false;
+
+                // Add Reply content to Message Object
+
+                let reply = data.reply || {};
+                if (msg.isReply) {
+                    //normalized.reply.userId = reply.userId;
+                    normalized.reply.messageId = reply.msgId;
+                    normalized.reply.threadMsgId = reply.threadMsgId;
+                    normalized.reply.userName = reply.userLogin || '';
+                    normalized.reply.displayName = reply.userName || '';
+                    normalized.reply.messageText = reply.msgBody || '';
+                }
+
                 normalized.additional = {
                     bits: msg.bits || 0,
                     monthsSubscribed: msg.monthsSubscribed || 0,

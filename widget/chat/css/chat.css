@@ -71,7 +71,7 @@ body {
   --_avatar-gap: var(--avatar-gap, 0);
   display: flex;
   background-color: var(--_background-color);
-  flex-direction: var(--_message-layout);
+  flex-direction: column;
   justify-content: left;
   align-items: center;
   height: fit-content;
@@ -89,7 +89,14 @@ body {
 
 #chat.ticker li {}
 
-
+.message-row {
+  display: flex;
+  flex-direction: var(--_message-layout);
+  align-items: center;
+  gap: var(--avatar-gap);
+  width: fit-content;
+  max-width: 100%;
+}
 
 .avatar {
   aspect-ratio: 1/1;
@@ -147,7 +154,10 @@ body {
 
 .vip {}
 
-.reply {}
+.reply {
+  width: 100%;
+  color: #fff;
+}
 
 .reward {}
 

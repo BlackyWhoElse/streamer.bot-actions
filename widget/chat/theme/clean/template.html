@@ -2,11 +2,14 @@
 
 <template id="message_twitch">
     <li id="{{messageId}}" class="{{classes}}" style="--userColor:{{color}}">
-        <div class="message ">
-            <div class="content">
-                <span class="badges">{{badges}}</span>
-                <span class="name">{{displayName}}</span>
-                {{messageText}}
+        {{reply}}
+        <div class="message-row">
+            <div class="message ">
+                <div class="content">
+                    <span class="badges">{{badges}}</span>
+                    <span class="name">{{displayName}}</span>
+                    {{messageText}}
+                </div>
             </div>
         </div>
     </li>
@@ -14,11 +17,14 @@
 
 <template id="message_youtube">
     <li id="{{messageId}}" class="{{classes}}" style="--userColor:{{color}}">
-        <div class="message ">
-            <div class="content">
-                <span class="badges">{{badges}}</span>
-                <span class="name">{{displayName}}</span>
-                {{messageText}}
+        {{reply}}
+        <div class="message-row">
+            <div class="message ">
+                <div class="content">
+                    <span class="badges">{{badges}}</span>
+                    <span class="name">{{displayName}}</span>
+                    {{messageText}}
+                </div>
             </div>
         </div>
     </li>

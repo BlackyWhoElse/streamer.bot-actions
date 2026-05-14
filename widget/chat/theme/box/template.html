@@ -1,32 +1,39 @@
 <!-- Message template - All variables can be found here: https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/chat -->
 
 <template id="message_twitch">
-    <li id="{{messageId}}" class="{{classes}}" style="--userColor:{{color}}">
-        <div class="message ">
-            <span class="badges">{{badges}}</span>
-            <span class="name">{{displayName}}</span>
-            {{messageText}}
-        </div>
+    <li id="{{messageId}}" class="{{classes}}" style="--userColor:{{color}}"> {{reply}}
+        <div class="message-row">
+            <div class="message ">
+                <span class="badges">{{badges}}</span>
+                <span class="name">{{displayName}}</span>
+                {{messageText}}
+            </div>
     </li>
 </template>
 
 <template id="message_youtube">
     <li id="{{messageId}}" class="{{classes}}" style="--userColor:{{color}}">
-        <div class="message ">
-            <span class="badges">{{badges}}</span>
-            <span class="name">{{displayName}}</span>
-            {{messageText}}
+        {{reply}}
+        <div class="message-row">
+            <div class="message ">
+                <span class="badges">{{badges}}</span>
+                <span class="name">{{displayName}}</span>
+                {{messageText}}
+            </div>
         </div>
     </li>
 </template>
 
 <template id="reward">
     <li id="{{messageId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
-        <div class="message">
-            <span class="name">{{displayName}}</span>
-            redeemed
-            <span class="content">{{title}}</span>
-            <div class="userInput">{{messageText}}</div>
+        {{reply}}
+        <div class="message-row">
+            <div class="message">
+                <span class="name">{{displayName}}</span>
+                redeemed
+                <span class="content">{{title}}</span>
+                <div class="userInput">{{messageText}}</div>
+            </div>
         </div>
     </li>
 </template>
@@ -37,4 +44,4 @@
         asked:
         <div class="userInput">{{msgBody}}</div>
     </div>
-  </template>
+</template>

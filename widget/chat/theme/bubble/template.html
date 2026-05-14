@@ -1,51 +1,59 @@
 <!-- Message template - All variables can be found here: https://github.com/BlackyWhoElse/streamer.bot-actions/tree/main/widget/chat -->
 
 <template id="message_twitch">
-  <li id="{{messageId}}" class="{{classes}}" style="--userColor:{{color}}">
-    <div class="avatar">
-      <img src="{{avatar}}" />
-    </div>
-    <div class="message">
-      <span class="badges">{{badges}}</span>
-      <div class="content"><span class="name">@{{displayName}} </span>
-        {{messageText}}</div>
-    </div>
-    <div class="time">{{time}}</div>
-  </li>
+    <li id="{{messageId}}" class="{{classes}}" style="--userColor:{{color}}">
+        {{reply}}
+        <div class="message-row">
+            <div class="avatar">
+                <img src="{{avatar}}"/>
+            </div>
+            <div class="message">
+                <span class="badges">{{badges}}</span>
+                <div class="content"><span class="name">@{{displayName}} </span>
+                    {{messageText}}
+                </div>
+            </div>
+        </div>
+        <div class="time">{{time}}</div>
+    </li>
 </template>
 
 <template id="message_youtube">
-  <li id="{{messageId}}" class="{{classes}}" style="--userColor:{{color}}">
-    <div class="avatar">
-      <img src="{{avatar}}" />
-    </div>
-    <div class="message">
-      <span class="badges">{{badges}}</span>
-      <div class="content"><span class="name">{{displayName}} </span>
-        {{messageText}}</div>
-    </div>
-    <div class="time">{{time}}</div>
-  </li>
+    <li id="{{messageId}}" class="{{classes}}" style="--userColor:{{color}}">
+        {{reply}}
+        <div class="message-row">
+            <div class="avatar">
+                <img src="{{avatar}}"/>
+            </div>
+            <div class="message">
+                <span class="badges">{{badges}}</span>
+                <div class="content"><span class="name">{{displayName}} </span>
+                    {{messageText}}
+                </div>
+            </div>
+        </div>
+        <div class="time">{{time}}</div>
+    </li>
 </template>
 
 <template id="reward">
-  <li id="{{messageId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
-    <div class="avatar">
-      <img src="{{avatar}}" />
-    </div>
-    <div class="message">
-      <span class="name">{{displayName}}</span>
-      redeemed
-      <span class="content">{{title}}</span>
-      <div class="userInput">{{messageText}}</div>
-    </div>
-  </li>
+    <li id="{{messageId}}" class="{{classes}}" style="--rewardColor:{{backgroundColor}}">
+        <div class="avatar">
+            <img src="{{avatar}}"/>
+        </div>
+        <div class="message">
+            <span class="name">{{displayName}}</span>
+            redeemed
+            <span class="content">{{title}}</span>
+            <div class="userInput">{{messageText}}</div>
+        </div>
+    </li>
 </template>
 
 <template id="reply">
-  <div class="reply">
-      <span class="name">{{userName}}</span>
-      asked:
-      <div class="userInput">{{msgBody}}</div>
-  </div>
+    <div class="reply">
+        <span class="name">{{userName}}</span>
+        asked:
+        <div class="userInput">{{msgBody}}</div>
+    </div>
 </template>
