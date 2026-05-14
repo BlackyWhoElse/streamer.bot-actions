@@ -1,3 +1,15 @@
+<<<<<<< Updated upstream
+=======
+/* global StreamerbotClient */
+const client = new StreamerbotClient({
+    host: '127.0.0.1',
+    port: 8080,
+    endpoint: '/'
+});
+
+const event_types = ["ChatMessage", "Message", "RewardRedemption"];
+connectws();
+>>>>>>> Stashed changes
 function connectws() {
     if ("WebSocket" in window) {
         console.info("Connecting to Streamer.Bot");
