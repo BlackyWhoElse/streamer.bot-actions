@@ -135,14 +135,14 @@ function bindEvents() {
                     if (voting && wsdata.event.type === "ChatMessage" || wsdata.event.type === "Message") {
 
                         // Check if message is only one word
-                        if (wsdata.data.message.message.split().length == 1) {
-                            checkAnswer(wsdata.data.message.displayName, wsdata.data.message.message);
+                        if (wsdata.data.text.split().length == 1) {
+                            checkAnswer(wsdata.data.user.name, wsdata.data.text);
                         }
                     }
 
                     break;
                 case "poll":
-                    // Checking if poll was run by script
+                    // Checking if script ran poll
                     if (poll) {
                         switch (wsdata.event.type) {
                             case "PollCompleted":
