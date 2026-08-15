@@ -13,6 +13,11 @@ let template_youtube;
 let template_reward;
 let template_reply;
 let template_css;
+/** @typedef {import("./chat-types").ChatMessage} ChatMessage */
+/** @typedef {import("./chat-types").ChatBadge} ChatBadge */
+/** @typedef {import("./chat-types").ChatEmote} ChatEmote */
+/** @typedef {import("./chat-types").ChatReply} ChatReply */
+/** @typedef {import("./chat-types").ChatReward} ChatReward */
 // Only used for Debuging
 // If you need to change any thin look into the settings.json
 let settings = {
@@ -165,7 +170,7 @@ function changeTheme(template) {
 
 /**
  * @param type
- * @param {*} message
+ * @param {ChatMessage} message
  */
 async function pushMessage(type, message) {
 
@@ -224,7 +229,7 @@ async function pushMessage(type, message) {
             $("#chat").append(renderMessage(type, msg));
 
             if (settings.animations.hidedelay > 0) {
-                removeMessage(message.msgId);
+                removeMessage(message.messageId);
             }
         })
         .then(() => {
@@ -265,10 +270,10 @@ async function pushMessage(type, message) {
 /**
  * Render a message with a template
  * @param platform
- * @param {object} message
+ * @param {ChatMessage} message
  * @returns
  */
-function renderMessage(platform, message = {}) {
+function renderMessage(platform, message) {
 
 
     const pattern = /{{\s*(\w+?)\s*}}/g; // {property}
@@ -324,7 +329,7 @@ function renderMessage(platform, message = {}) {
 }
 
 /**
- * @param {Object} message
+ * @param {ChatMessage} message
  */
 function chatHistory(message) {
 
@@ -335,22 +340,22 @@ function chatHistory(message) {
     messages.push(message);
 }
 
-function getChatMessage(msgId) {
-    return messages.find(x => x.msgId === msgId);
+function getChatMessage(messageId) {
+    return messages.find(x => x.messageId === messageId);
 }
 
 /**
  * Hides a message after an amount of time and deletes it aferwards
- * @param {string} msgId
+ * @param {string} messageId
  */
-function removeMessage(msgId) {
-    console.log("Hide ID " + msgId + "in " + settings.animations.hidedelay);
+function removeMessage(messageId) {
+    console.log("Hide ID " + messageId + "in " + settings.animations.hidedelay);
 
     new Promise((resolve) => {
         delay(settings.animations.hidedelay).then(function () {
-            $("#" + msgId).addClass("animate__" + settings.animations.hideAnimation);
-            $("#" + msgId).bind("animationend", function () {
-                $("#" + msgId).remove();
+            $("#" + messageId).addClass("animate__" + settings.animations.hideAnimation);
+            $("#" + messageId).bind("animationend", function () {
+                $("#" + messageId).remove();
             });
             resolve();
         });
@@ -374,7 +379,7 @@ function addPlatformBadge(message) {
 
 /**
  * Creates a markup of all Badges, so it can be rendered as one
- * @param {object} message
+ * @param {ChatMessage} message
  * @returns
  */
 async function renderBadges(message) {
@@ -393,7 +398,7 @@ async function renderBadges(message) {
  * Swapping Emote names for emote images
  * Todo: Add a new way to get image url if its unknown
  * https://static-cdn.jtvnw.net/emoticons/v2/emotesv2_5313d0941014484f9995197017132c33/static/light/3.0
- * @param {object} message
+ * @param {ChatMessage} message
  * @returns
  */
 
@@ -484,7 +489,7 @@ async function renderEmotes(message) {
 
 /**
  * Swapping Emote names for emote images
- * @param {object} message
+ * @param {ChatMessage} message
  * @returns
  */
 async function renderYTEmotes(message) {
@@ -632,6 +637,8 @@ async function renderYTEmotes(message) {
 
 /**
  * Calling decapi.me to recive avatar link as string
+ * @param {string} platform
+ * @param {ChatMessage} message
  * @returns
  */
 async function getProfileImage(platform, message) {
@@ -712,10 +719,11 @@ function deepMerge(target, source) {
  * Normalisiert Chat-Daten von Twitch oder YouTube in ein einheitliches Format.
  * @param {Object} data - Das rohe JSON-Objekt der Nachricht.
  * @param {string} platform - 'Twitch' oder 'YouTube'.
- * @returns {Object} - Normalisiertes Objekt mit einheitlichen Feldern.
+ * @returns {ChatMessage} - Normalisiertes Objekt mit einheitlichen Feldern.
  */
 function normalizeChatData(data, platform) {
 
+    /** @type {ChatMessage} */
     let normalized = {
         platform: platform,
         type: 'Message',

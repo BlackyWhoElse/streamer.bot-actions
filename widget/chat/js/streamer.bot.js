@@ -1,3 +1,5 @@
+/** @typedef {import("./chat-types").ChatMessage} ChatMessage */
+
 function connectws() {
     if ("WebSocket" in window) {
         console.info("Connecting to Streamer.Bot");
@@ -38,6 +40,7 @@ function bindEvents() {
 
 
         // Normalize Message data
+        /** @type {ChatMessage} */
         let message = normalizeChatData(wsdata.data, wsdata.event.source);
 
         const eventType = wsdata.event.type;
