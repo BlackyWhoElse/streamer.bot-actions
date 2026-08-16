@@ -1,0 +1,60 @@
+name: Package release zips
+
+on:
+  release:
+    types:
+      - published
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create zip files
+        shell: pwsh
+        run: |
+          $outputDir = Join-Path $env:GITHUB_WORKSPACE 'release-zips'
+          New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+
+          $roots = @('games', 'widget')
+          $seen = @{}
+
+          foreach ($root in $roots) {
+            if (-not (Test-Path $root)) {
+              continue
+            }
+
+            Get-ChildItem -Path $root -Directory | ForEach-Object {
+              $zipName = "$($_.Name).zip"
+              $source = $_.FullName
+              $zipPath = Join-Path $outputDir $zipName
+
+              if ($seen.ContainsKey($zipName)) {
+                throw "Duplicate zip name '$zipName' from '$source' and '$($seen[$zipName])'. Rename one of the folders or prefix the zip names."
+              }
+
+              $seen[$zipName] = $source
+
+              if (Test-Path $zipPath) {
+                Remove-Item $zipPath -Force
+              }
+
+              Compress-Archive -Path (Join-Path $source '*') -DestinationPath $zipPath
+            }
+          }
+
+          Get-ChildItem -Path $outputDir | Select-Object Name, Length
+
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: release-zips/*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
