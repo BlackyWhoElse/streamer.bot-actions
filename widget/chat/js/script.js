@@ -349,7 +349,7 @@ function getChatMessage(messageId) {
  * @param {string} messageId
  */
 function removeMessage(messageId) {
-    console.log("Hide ID " + messageId + "in " + settings.animations.hidedelay);
+    console.debug("Hide ID " + messageId + " in " + settings.animations.hidedelay + "ms");
 
     new Promise((resolve) => {
         delay(settings.animations.hidedelay).then(function () {
@@ -488,7 +488,7 @@ async function renderEmotes(message) {
 }
 
 /**
- * Swapping Emote names for emote images
+ * Mappings for Emote images
  * @param {ChatMessage} message
  * @returns
  */
@@ -689,11 +689,11 @@ function delay(t, v) {
 
 
 function makeid(length) {
-    var result = "";
-    var characters =
+    let result = "";
+    const characters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
